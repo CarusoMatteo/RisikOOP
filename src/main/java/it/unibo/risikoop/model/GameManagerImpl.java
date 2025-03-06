@@ -23,9 +23,9 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public List<Territory> getPlayerTerritory() {
+    public List<Player> getPlayers() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPlayerTerritory'");
+        throw new UnsupportedOperationException("Unimplemented method 'getPlayers'");
     }
 
 }

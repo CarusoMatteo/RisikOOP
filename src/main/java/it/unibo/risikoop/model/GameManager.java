@@ -12,8 +12,7 @@ public interface GameManager {
     public boolean addPlayer(String name);
 
     /**
-     * Spartisce equamente i territori tra i player e dà ad ognuno una carta
-     * obiettivo
+     * Equally gives territory to each player and a goal card
      */
     public void finishingInizialization();
 
@@ -25,6 +24,12 @@ public interface GameManager {
      */
     public void addUnits(Territory territory, int units);
 
-    public List<Territory> getPlayerTerritory();
+    /**
+     * 
+     * @return players list
+     */
+    public List<Player> getPlayers();
+    // TODO: Create active player
+    // TODO: Create player change
 
 }
