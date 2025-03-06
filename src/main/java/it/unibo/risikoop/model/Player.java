@@ -1,5 +1,5 @@
 package it.unibo.risikoop.model;
 
-public interface Risiko {
+public class Player {
 
 }

@@ -3,13 +3,13 @@ package it.unibo.risikoop.controller;
 import java.util.Arrays;
 import java.util.List;
 
-import it.unibo.risikoop.model.Risiko;
-import it.unibo.risikoop.model.RisikoImpl;
+import it.unibo.risikoop.model.GameManager;
+import it.unibo.risikoop.model.GameManagerImpl;
 import it.unibo.risikoop.view.RisikoView;
 import it.unibo.risikoop.view.RisikoViewImpl;
 
 public class RisikoApp {
-    private final Risiko model;
+    private final GameManager model;
     private final List<RisikoView> views;
 
     /**
@@ -26,7 +26,7 @@ public class RisikoApp {
             view.setObserver(this);
             view.start();
         }
-        this.model = new RisikoImpl();
+        this.model = new GameManagerImpl();
     }
 
     /**
