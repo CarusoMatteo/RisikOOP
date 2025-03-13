@@ -14,5 +14,4 @@ public interface TerritoryCard {
      * @return
      */
     public Territory getAssociatedTerritory();
-
 }
