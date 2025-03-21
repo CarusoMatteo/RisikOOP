@@ -27,6 +27,9 @@ dependencies {
     implementation("com.omertron:API-OMDB:1.5")
     implementation("org.jooq:jool:0.9.15")
 
+    // https://mvnrepository.com/artifact/org.graphstream/gs-core
+    implementation("org.graphstream:gs-core:2.0")
+
     /*
      * Simple Logging Facade for Java (SLF4J) with Apache Log4j
      * See: http://www.slf4j.org/
@@ -45,7 +48,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("it.unibo.sampleapp.RateAMovie")
+    mainClass.set("it.unibo.risikoop.controller.RisikoApp")
 }
 
 tasks.test {
