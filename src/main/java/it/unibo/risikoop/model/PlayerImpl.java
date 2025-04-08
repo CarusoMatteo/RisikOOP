@@ -43,4 +43,11 @@ public class PlayerImpl implements Player {
         return new Color(color.r(), color.g(), color.b());
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public boolean equals(Object obj) {
+        Player pl = (Player) obj;
+        return this.name.equals(pl.getName()) && this.color.equals(pl.getColor());
+    }
+
 }

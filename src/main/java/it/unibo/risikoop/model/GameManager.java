@@ -12,6 +12,14 @@ public interface GameManager {
     public boolean addPlayer(String name, Color col);
 
     /**
+     * remove a new player with a certain name if already present
+     * 
+     * @param name player's name
+     * @return true if the player has been removed succesfully
+     */
+    public boolean removePlayer(String name);
+
+    /**
      * Equally gives territory to each player and a goal card
      */
     public void finishingInizialization();

@@ -3,6 +3,7 @@ package it.unibo.risikoop.model;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class GameManagerImpl implements GameManager {
 
@@ -32,6 +33,16 @@ public class GameManagerImpl implements GameManager {
     @Override
     public List<Player> getPlayers() {
         return Collections.unmodifiableList(players);
+    }
+
+    @Override
+    public boolean removePlayer(String name) {
+        Optional<Player> remove = players.stream().filter(i -> i.getName().equals(name)).findAny();
+        if (remove.isPresent()) {
+            players.remove(remove.get());
+            return true;
+        }
+        return false;
     }
 
 }
