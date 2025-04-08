@@ -25,18 +25,18 @@ public interface Territory {
     /**
      * Add new units to the territory
      * 
-     * @param units
+     * @param addedUnits
      * @Throws IllegamArgumentException if the units are negative
      */
-    public void addUnits(int units);
+    public void addUnits(int addedUnits);
 
     /**
      * Add new units to the territory
      * 
-     * @param units
+     * @param removedUnits
      * @Throws IllegamArgumentException if the units are negative
      */
-    public void removeUnits(int units);
+    public void removeUnits(int removedUnits);
 
     /**
      * 
