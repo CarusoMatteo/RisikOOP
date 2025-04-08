@@ -22,6 +22,11 @@ public interface Player {
     public String getName();
 
     /**
+     * @return player's color
+     */
+    public Color getColor();
+
+    /**
      * @return the player's territories
      */
     List<Territory> getTerritories();

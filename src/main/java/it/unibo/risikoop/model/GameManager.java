@@ -9,7 +9,7 @@ public interface GameManager {
      * @param name new player's name
      * @return true if the player has been added succesfully
      */
-    public boolean addPlayer(String name);
+    public boolean addPlayer(String name, Color col);
 
     /**
      * Equally gives territory to each player and a goal card
