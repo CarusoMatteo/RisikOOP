@@ -1,4 +1,4 @@
-package it.unibo.risikoop.view;
+package it.unibo.risikoop.view.Interfaces;
 
 import it.unibo.risikoop.controller.RisikoApp;
 

@@ -15,3 +15,4 @@ bin/
 
 # Ignore mvc template project
 src/main/java/it/unibo/mvc
+.LCK*

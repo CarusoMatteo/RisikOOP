@@ -1,6 +1,7 @@
-package it.unibo.risikoop.view;
+package it.unibo.risikoop.view.Implementations;
 
 import it.unibo.risikoop.controller.RisikoApp;
+import it.unibo.risikoop.view.Interfaces.RisikoView;
 
 public class RisikoViewImpl implements RisikoView {
 
