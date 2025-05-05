@@ -1,4 +1,4 @@
-package it.unibo.risikoop.model;
+package it.unibo.risikoop.model.interfaces;
 
 public interface TerritoryCard {
     public enum CardType {

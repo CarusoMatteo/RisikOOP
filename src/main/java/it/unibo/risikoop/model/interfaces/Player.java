@@ -1,6 +1,8 @@
-package it.unibo.risikoop.model;
+package it.unibo.risikoop.model.interfaces;
 
 import java.util.List;
+
+import it.unibo.risikoop.model.classes.Color;
 
 public interface Player {
     /**
@@ -8,6 +10,12 @@ public interface Player {
      * @return
      */
     public Integer getTotalUnits();
+
+    /**
+     * 
+     * @param card
+     */
+    public void addTerritoryCard(TerritoryCard card);
 
     /**
      * 

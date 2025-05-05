@@ -1,6 +1,6 @@
-package it.unibo.risikoop.model;
+package it.unibo.risikoop.model.interfaces;
 
-import java.util.List;
+import java.util.Set;
 
 public interface Territory {
     /**
@@ -45,10 +45,15 @@ public interface Territory {
     public Integer getUnits();
 
     /**
+     * get the Neightbours list
      * 
      * @return
      */
-    public List<Territory> getNeightbours();
+    public Set<Territory> getNeightbours();
 
-    // TODO: Decidere come decidere i continenti e le appartenenze
+    /**
+     * set the neightboursList
+     * 
+     */
+
 }

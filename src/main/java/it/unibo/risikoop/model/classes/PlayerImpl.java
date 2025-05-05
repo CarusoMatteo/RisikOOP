@@ -1,11 +1,18 @@
-package it.unibo.risikoop.model;
+package it.unibo.risikoop.model.classes;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import it.unibo.risikoop.model.interfaces.Player;
+import it.unibo.risikoop.model.interfaces.Territory;
+import it.unibo.risikoop.model.interfaces.TerritoryCard;
 
 public class PlayerImpl implements Player {
     private final String name;
     private final Color color;
-    private List<Territory> territories;
+    private final List<Territory> territories;
+    private final List<TerritoryCard> territoryCards;
 
     /**
      * 
@@ -14,11 +21,14 @@ public class PlayerImpl implements Player {
     public PlayerImpl(String name, Color col) {
         this.name = name;
         this.color = new Color(col.r(), col.g(), col.b());
+        territories = new ArrayList<>();
+        territoryCards = new ArrayList<>();
+
     }
 
     @Override
     public List<Territory> getTerritories() {
-        return List.of();
+        return Collections.unmodifiableList(territories);
     }
 
     @Override
@@ -28,14 +38,12 @@ public class PlayerImpl implements Player {
 
     @Override
     public Integer getTotalUnits() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTotalUnits'");
+        return territories.stream().map(i -> i.getUnits()).reduce(0, Integer::sum);
     }
 
     @Override
     public List<TerritoryCard> getTerritoryCards() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTerritoryCards'");
+        return Collections.unmodifiableList(territoryCards);
     }
 
     @Override
@@ -48,6 +56,11 @@ public class PlayerImpl implements Player {
     public boolean equals(Object obj) {
         Player pl = (Player) obj;
         return this.name.equals(pl.getName()) && this.color.equals(pl.getColor());
+    }
+
+    @Override
+    public void addTerritoryCard(TerritoryCard card) {
+        territoryCards.add(card);
     }
 
 }
