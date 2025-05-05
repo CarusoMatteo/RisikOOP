@@ -1,4 +1,4 @@
-package it.unibo.risikoop.model.classes;
+package it.unibo.risikoop.model.Implementations;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -90,5 +90,4 @@ public class GameManagerImpl implements GameManager {
     public void removeUnits(String TerritoryName, int units) {
         getTerritory(TerritoryName).ifPresent(i -> i.removeUnits(units));
     }
-
 }

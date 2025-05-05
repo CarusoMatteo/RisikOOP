@@ -1,4 +1,4 @@
-package it.unibo.risikoop.model.classes;
+package it.unibo.risikoop.model.Implementations;
 
 import java.util.Set;
 import java.util.stream.Collectors;

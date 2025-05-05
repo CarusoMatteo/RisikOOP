@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.risikoop.model.classes.Color;
-import it.unibo.risikoop.model.classes.GameManagerImpl;
-import it.unibo.risikoop.model.classes.PlayerImpl;
+import it.unibo.risikoop.model.Implementations.Color;
+import it.unibo.risikoop.model.Implementations.GameManagerImpl;
+import it.unibo.risikoop.model.Implementations.PlayerImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 

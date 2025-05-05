@@ -2,7 +2,7 @@ package it.unibo.risikoop.model.interfaces;
 
 import java.util.List;
 
-import it.unibo.risikoop.model.classes.Color;
+import it.unibo.risikoop.model.Implementations.Color;
 
 public interface Player {
     /**

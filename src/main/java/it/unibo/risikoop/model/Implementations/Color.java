@@ -1,4 +1,4 @@
-package it.unibo.risikoop.model.classes;
+package it.unibo.risikoop.model.Implementations;
 
 public record Color(int r, int g, int b) {
     public final boolean equals(Color col) {

@@ -1,4 +1,4 @@
-package it.unibo.risikoop.model.classes;
+package it.unibo.risikoop.model.Implementations;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,11 +51,12 @@ public class PlayerImpl implements Player {
         return new Color(color.r(), color.g(), color.b());
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object obj) {
-        Player pl = (Player) obj;
-        return this.name.equals(pl.getName()) && this.color.equals(pl.getColor());
+        if (obj instanceof Player pl) {
+            return this.name.equals(pl.getName()) && this.color.equals(pl.getColor());
+        }
+        return false;
     }
 
     @Override
