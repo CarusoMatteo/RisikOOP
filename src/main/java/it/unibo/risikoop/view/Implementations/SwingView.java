@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.Interfaces.Controller;
 import it.unibo.risikoop.view.Interfaces.RisikoView;
+import it.unibo.risikoop.view.Interfaces.Scene;
 
 public class SwingView implements RisikoView {
     private static final int MIN_WIDTH = 1000;
@@ -17,6 +18,7 @@ public class SwingView implements RisikoView {
     private static final float RIDIM = 1.5f;
     private final Controller controller;
     private final JFrame frame = new JFrame();
+    private Scene scene;
     private final PlayerAddingView playerAddingView;
 
     public SwingView(Controller controller) {
@@ -33,13 +35,13 @@ public class SwingView implements RisikoView {
 
     @Override
     public void start() {
+        scene = playerAddingView;
         changePanel(frame, null, playerAddingView);
     }
 
     @Override
     public void choose_map() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'chose_map'");
+        changePanel(frame, playerAddingView, new JPanel());
     }
 
     @Override
@@ -72,6 +74,11 @@ public class SwingView implements RisikoView {
     @Override
     public void show_player_add_failed() {
         JOptionPane.showMessageDialog(playerAddingView, "The charaters name or color has already been used");
+    }
+
+    @Override
+    public Scene getActualScene() {
+        return scene;
     }
 
 }

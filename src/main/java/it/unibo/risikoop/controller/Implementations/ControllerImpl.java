@@ -23,24 +23,23 @@ public class ControllerImpl implements Controller {
     @Override
     public void eventHandle(EventType TYPE, Optional<?> data) {
         switch (TYPE) {
-            case EventType.START_GAME_EVENT:
-                viewList.forEach(RisikoView::start);
-                break;
-            case EventType.ADD_PLAYER_EVENT:
-                data.ifPresent(obj -> {
-                    if (obj instanceof List l &&
-                            l.get(0) instanceof String s &&
-                            l.get(1) instanceof Integer r &&
-                            l.get(2) instanceof Integer g &&
-                            l.get(3) instanceof Integer b) {
-                        if (!gameManager.addPlayer(s, new Color(r, g, b))) {
-                            viewList.forEach(RisikoView::show_player_add_failed);
-                        }
+            case EventType.START_GAME_EVENT -> viewList.forEach(RisikoView::start);
+            case EventType.ADD_PLAYER_EVENT -> data.ifPresent(obj -> {
+                if (obj instanceof List l &&
+                        l.get(0) instanceof String s &&
+                        l.get(1) instanceof Integer r &&
+                        l.get(2) instanceof Integer g &&
+                        l.get(3) instanceof Integer b) {
+                    if (!gameManager.addPlayer(s, new Color(r, g, b))) {
+                        viewList.forEach(RisikoView::show_player_add_failed);
+                    } else {
+                        viewList.forEach(i -> i.getActualScene().updatePlayerList(gameManager.getPlayers()));
+
                     }
-                });
-                break;
-            default:
-                throw new AssertionError();
+                }
+            });
+            case EventType.SELECT_MAP_BEGIN -> viewList.forEach(RisikoView::choose_map);
+            default -> throw new AssertionError();
         }
     }
 
