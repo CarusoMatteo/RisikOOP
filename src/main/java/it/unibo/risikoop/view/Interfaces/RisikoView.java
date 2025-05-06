@@ -21,4 +21,6 @@ public interface RisikoView {
      */
     public void game_over();
 
+    public void show_player_add_failed();
+
 }

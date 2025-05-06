@@ -1,9 +1,11 @@
 package it.unibo.risikoop.view.Implementations;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.Interfaces.Controller;
@@ -15,8 +17,10 @@ public class SwingView implements RisikoView {
     private static final float RIDIM = 1.5f;
     private final Controller controller;
     private final JFrame frame = new JFrame();
+    private final PlayerAddingView playerAddingView;
 
     public SwingView(Controller controller) {
+        playerAddingView = new PlayerAddingView(controller);
         this.controller = controller;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -29,8 +33,7 @@ public class SwingView implements RisikoView {
 
     @Override
     public void start() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'start'");
+        changePanel(frame, null, playerAddingView);
     }
 
     @Override
@@ -51,8 +54,24 @@ public class SwingView implements RisikoView {
         throw new UnsupportedOperationException("Unimplemented method 'game_over'");
     }
 
-    private void changeScene(JPanel panel) {
+    private JPanel changePanel(
+            final Container parent,
+            final JPanel oldPanel,
+            final JPanel newPanel) {
+        if (oldPanel != null) {
+            parent.remove(oldPanel);
+        }
+        parent.add(newPanel);
+        newPanel.setVisible(true);
+        this.frame.revalidate();
+        this.frame.repaint();
+        this.frame.setVisible(true);
+        return newPanel;
+    }
 
+    @Override
+    public void show_player_add_failed() {
+        JOptionPane.showMessageDialog(playerAddingView, "The charaters name or color has already been used");
     }
 
 }

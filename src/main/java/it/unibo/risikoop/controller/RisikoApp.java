@@ -13,7 +13,7 @@ public class RisikoApp {
      * @param views the views to attach
      */
     public RisikoApp() {
-        controller.eventHandle(EventType.START_GAME, null);
+        controller.eventHandle(EventType.START_GAME_EVENT, null);
     }
 
     /**
