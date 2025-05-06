@@ -2,7 +2,6 @@ package it.unibo.risikoop.view.Implementations;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Label;
@@ -34,20 +33,20 @@ public class PlayerAddingView extends JPanel implements Scene {
         this.controller = controller;
         setLayout(new BorderLayout());
         inputPanel.setLayout(new GridBagLayout());
-        playerListPanel.setLayout(new FlowLayout());
         /*
          * 
          */
         playerListPanel.add(playerList);
-        add(inputPanel, BorderLayout.EAST);
-        add(playerListPanel, BorderLayout.WEST);
-        playerList.setSize(playerListPanel.getPreferredSize());
+        add(inputPanel, BorderLayout.CENTER);
+        add(playerListPanel, BorderLayout.AFTER_LINE_ENDS);
         /**
          * 
          */
         GridBagConstraints c = new GridBagConstraints();
         // natural height, maximum width
         c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1.0;
+        c.weighty = 1.0;
 
         c.gridx = 0;
         c.gridy = 0;
