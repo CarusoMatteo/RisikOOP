@@ -20,6 +20,6 @@ public class RisikoApp {
      * @param args ignored
      */
     public static void main(final String... args) {
-        var instance = new RisikoApp();
+        new RisikoApp();
     }
 }

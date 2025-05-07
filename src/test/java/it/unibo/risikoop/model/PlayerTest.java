@@ -13,7 +13,7 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 
 public class PlayerTest {
-        private GameManager gameManager = new GameManagerImpl();
+        private final GameManager gameManager = new GameManagerImpl();
 
         @Test
         void addPlayer() {

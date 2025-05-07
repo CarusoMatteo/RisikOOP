@@ -1,4 +1,4 @@
-package it.unibo.risikoop.view.Implementations;
+package it.unibo.risikoop.view.Implementations.Scenes;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -73,12 +73,12 @@ public class PlayerAddingView extends JPanel implements Scene {
 
         button.addActionListener(i -> {
             var col = tcc.getColor();
-            controller.eventHandle(EventType.ADD_PLAYER_EVENT,
+            this.controller.eventHandle(EventType.ADD_PLAYER_EVENT,
                     Optional.of(
                             List.of(text.getText(), col.getRed(), col.getGreen(), col.getBlue())));
         });
         JButton finishButton = new JButton("End");
-        finishButton.addActionListener(i -> controller.eventHandle(EventType.SELECT_MAP_BEGIN, Optional.empty()));
+        finishButton.addActionListener(i -> this.controller.eventHandle(EventType.SELECT_MAP_BEGIN, Optional.empty()));
         add(finishButton, BorderLayout.SOUTH);
     }
 

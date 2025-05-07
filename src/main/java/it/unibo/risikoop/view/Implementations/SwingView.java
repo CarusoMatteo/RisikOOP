@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.Interfaces.Controller;
+import it.unibo.risikoop.view.Implementations.Scenes.MapChoser;
+import it.unibo.risikoop.view.Implementations.Scenes.PlayerAddingView;
 import it.unibo.risikoop.view.Interfaces.RisikoView;
 import it.unibo.risikoop.view.Interfaces.Scene;
 
@@ -20,9 +22,11 @@ public class SwingView implements RisikoView {
     private final JFrame frame = new JFrame();
     private Scene scene;
     private final PlayerAddingView playerAddingView;
+    private final MapChoser mapChoser;
 
     public SwingView(Controller controller) {
         playerAddingView = new PlayerAddingView(controller);
+        mapChoser = new MapChoser(controller);
         this.controller = controller;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,7 +45,7 @@ public class SwingView implements RisikoView {
 
     @Override
     public void choose_map() {
-        changePanel(frame, playerAddingView, new JPanel());
+        changePanel(frame, playerAddingView, mapChoser);
     }
 
     @Override
