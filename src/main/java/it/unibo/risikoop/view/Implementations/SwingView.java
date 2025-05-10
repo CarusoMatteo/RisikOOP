@@ -50,7 +50,7 @@ public class SwingView implements RisikoView {
     @Override
     public void begin_play() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'begin_play'");
+        System.out.println("Game beginned");
     }
 
     @Override

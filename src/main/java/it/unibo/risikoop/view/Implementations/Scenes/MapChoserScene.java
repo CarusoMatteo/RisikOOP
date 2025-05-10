@@ -26,6 +26,8 @@ public class MapChoserScene extends JPanel {
     private void selectedDefaultMap() {
         if (controller.retrieveFromModel(RetrieveType.RETRIEVE_DEFAULT_MAP).get() instanceof Graph canMap) {
             controller.eventHandle(EventType.SET_MAP_EVENT, Optional.of(canMap));
+            controller.eventHandle(EventType.BEGIN_PLAY, Optional.empty());
+
         }
     }
 
