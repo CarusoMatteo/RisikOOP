@@ -24,6 +24,6 @@ public interface RisikoView {
     /**
      * 
      */
-    public void show_player_add_failed();
+    public void show_player_add_failed(String s);
 
 }

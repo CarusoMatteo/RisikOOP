@@ -1,5 +1,6 @@
 package it.unibo.risikoop.model;
 
+import java.io.File;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -9,8 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.risikoop.controller.utilities.MapExtractor;
 import it.unibo.risikoop.model.Implementations.GameManagerImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
+import it.unibo.risikoop.model.interfaces.Territory;
 
 public class TerritoryTest {
         private final GameManager gameManager = new GameManagerImpl();
@@ -75,6 +78,16 @@ public class TerritoryTest {
                 gameManager.removeUnits("IT", -1);
                 gameManager.removeUnits("IT", 1);
                 assertEquals(gameManager.getTerritory("IT").get().getUnits(), 19);
+        }
 
+        @Test
+        void territoryFromFile() {
+                Graph map = MapExtractor.MapExtractorFromFile("src" + File.separator + "test" + File.separator
+                                + "resources" + File.separator + "model" + File.separator + "mapTest1.txt");
+                gameManager.setWorldMap(map);
+                assertEquals(Set.of("Inghilterra", "Francia", "StatiUniti", "Lussemburgo"),
+                                gameManager.getTerritories()
+                                                .stream().map(Territory::getName)
+                                                .collect(Collectors.toSet()));
         }
 }

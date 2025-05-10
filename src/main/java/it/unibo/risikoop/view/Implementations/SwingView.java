@@ -90,8 +90,8 @@ public class SwingView implements RisikoView {
     }
 
     @Override
-    public void show_player_add_failed() {
-        JOptionPane.showMessageDialog(playerAddingView, "The charaters name or color has already been used");
+    public void show_player_add_failed(final String s) {
+        JOptionPane.showMessageDialog(playerAddingView, s);
     }
 
 }

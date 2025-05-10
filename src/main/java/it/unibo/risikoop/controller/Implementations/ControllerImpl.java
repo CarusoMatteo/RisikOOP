@@ -34,7 +34,8 @@ public class ControllerImpl implements Controller {
                         l.get(2) instanceof Integer g &&
                         l.get(3) instanceof Integer b) {
                     if (!gameManager.addPlayer(s, new Color(r, g, b))) {
-                        viewList.forEach(RisikoView::show_player_add_failed);
+                        viewList.forEach(i -> i.show_player_add_failed(
+                                "The player name or the color selected already are present in the list"));
                     }
                 }
             });
