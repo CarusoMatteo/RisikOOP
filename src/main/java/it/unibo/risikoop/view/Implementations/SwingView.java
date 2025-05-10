@@ -37,6 +37,8 @@ public class SwingView implements RisikoView {
 
     @Override
     public void start() {
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setSize((int) (screenSize.getWidth() / 3), (int) (screenSize.getHeight() / 4));
         changePanel(frame, null, playerAddingView);
     }
 
