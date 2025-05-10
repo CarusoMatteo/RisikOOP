@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Label;
 import java.awt.TextField;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +19,9 @@ import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.Interfaces.Controller;
 import it.unibo.risikoop.controller.utilities.EventType;
-import it.unibo.risikoop.model.interfaces.Player;
-import it.unibo.risikoop.view.Interfaces.Scene;
+import it.unibo.risikoop.controller.utilities.RetrieveType;
 
-public class PlayerAddingView extends JPanel implements Scene {
+public class PlayerAddingView extends JPanel {
     private final Controller controller;
     private final JPanel playerListPanel = new JPanel();
     private final JPanel inputPanel = new JPanel();
@@ -76,16 +76,27 @@ public class PlayerAddingView extends JPanel implements Scene {
             this.controller.eventHandle(EventType.ADD_PLAYER_EVENT,
                     Optional.of(
                             List.of(text.getText(), col.getRed(), col.getGreen(), col.getBlue())));
+            updatePlayerListMine();
         });
         JButton finishButton = new JButton("End");
         finishButton.addActionListener(i -> this.controller.eventHandle(EventType.SELECT_MAP_BEGIN, Optional.empty()));
         add(finishButton, BorderLayout.SOUTH);
     }
 
-    @Override
-    public void updatePlayerList(List<Player> newPlayerList) {
-        newPlayerList.forEach(i -> System.out.println(i.getName() + " " + i.getTotalUnits()));
-        model.removeAllElements();
-        newPlayerList.forEach(i -> model.addElement(i.getName()));
+    private void updatePlayerListMine() {
+        this.controller.retrieveFromModel(RetrieveType.RETRIEVE_CHARACTER_LIST)
+                .ifPresent(j -> {
+                    List<String> newList = new LinkedList<>();
+                    if (j instanceof List list) {
+                        for (var value : list) {
+                            if (value instanceof String s) {
+                                newList.add(s);
+                            }
+                        }
+                    }
+                    model.removeAllElements();
+                    newList.forEach(i -> model.addElement(i));
+                });
     }
+
 }

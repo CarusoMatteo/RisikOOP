@@ -71,7 +71,9 @@ public interface GameManager {
      */
     public void setWorldMap(Graph worldMap);
 
-    public Graph getWorldMap();
+    public Graph getActualWorldMap();
+
+    public Graph getCanonicalWorldMap();
     // TODO: Create active player
     // TODO: Create player change
 

@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.MultiGraph;
 
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
@@ -72,7 +73,7 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public Graph getWorldMap() {
+    public Graph getActualWorldMap() {
         return worldMap;
     }
 
@@ -89,5 +90,18 @@ public class GameManagerImpl implements GameManager {
     @Override
     public void removeUnits(String TerritoryName, int units) {
         getTerritory(TerritoryName).ifPresent(i -> i.removeUnits(units));
+    }
+
+    @Override
+    public Graph getCanonicalWorldMap() {
+        final Graph canonMap = new MultiGraph("defualt-Map", false, true);
+        canonMap.addEdge("NA-EG", "North-Africa", "Egypt");
+        canonMap.addEdge("NA-CN", "North-Africa", "Congo");
+        canonMap.addEdge("NA-EA", "North-Africa", "Est-Africa");
+        canonMap.addEdge("NA-BR", "North-Africa", "Brazil");
+        canonMap.addEdge("NA-WEU", "North-Africa", "West-Europe");
+        canonMap.addEdge("NA-SEU", "North-Africa", "South-Europe");
+        canonMap.addEdge("CN-SA", "Congo", "South-Africa");
+        return canonMap;
     }
 }

@@ -62,7 +62,7 @@ public class TerritoryImpl implements Territory {
 
     @Override
     public Set<Territory> getNeightbours() {
-        Graph map = gameManager.getWorldMap();
+        Graph map = gameManager.getActualWorldMap();
         Set<Territory> territories = gameManager.getTerritories();
         return map.getNode(name)
                 .neighborNodes()

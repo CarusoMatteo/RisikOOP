@@ -4,8 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import org.graphstream.graph.Graph;
+
 import it.unibo.risikoop.controller.Interfaces.Controller;
 import it.unibo.risikoop.controller.utilities.EventType;
+import it.unibo.risikoop.controller.utilities.RetrieveType;
 import it.unibo.risikoop.model.Implementations.Color;
 import it.unibo.risikoop.model.Implementations.GameManagerImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
@@ -32,15 +35,33 @@ public class ControllerImpl implements Controller {
                         l.get(3) instanceof Integer b) {
                     if (!gameManager.addPlayer(s, new Color(r, g, b))) {
                         viewList.forEach(RisikoView::show_player_add_failed);
-                    } else {
-                        viewList.forEach(i -> i.getActualScene().updatePlayerList(gameManager.getPlayers()));
-
                     }
                 }
             });
             case EventType.SELECT_MAP_BEGIN -> viewList.forEach(RisikoView::choose_map);
+            case SET_MAP_EVENT -> data.ifPresent(obj -> {
+                if (obj instanceof Graph g) {
+                    gameManager.setWorldMap(g);
+                }
+            });
+            case BEGIN_PLAY -> viewList.forEach(RisikoView::begin_play);
             default -> throw new AssertionError();
         }
+    }
+
+    @Override
+    public Optional<?> retrieveFromModel(final RetrieveType Type) {
+        Optional<?> data;
+        switch (Type) {
+            case RETRIEVE_DEFAULT_MAP -> {
+                data = Optional.of(gameManager.getCanonicalWorldMap());
+            }
+            case RETRIEVE_CHARACTER_LIST -> {
+                data = Optional.of(gameManager.getPlayers().stream().map(i -> i.getName()).toList());
+            }
+            default -> throw new AssertionError();
+        }
+        return data;
     }
 
 }

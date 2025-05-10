@@ -23,6 +23,4 @@ public interface RisikoView {
 
     public void show_player_add_failed();
 
-    public Scene getActualScene();
-
 }

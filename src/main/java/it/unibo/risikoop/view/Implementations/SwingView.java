@@ -9,10 +9,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.Interfaces.Controller;
-import it.unibo.risikoop.view.Implementations.Scenes.MapChoser;
+import it.unibo.risikoop.view.Implementations.Scenes.MapChoserScene;
 import it.unibo.risikoop.view.Implementations.Scenes.PlayerAddingView;
 import it.unibo.risikoop.view.Interfaces.RisikoView;
-import it.unibo.risikoop.view.Interfaces.Scene;
 
 public class SwingView implements RisikoView {
     private static final int MIN_WIDTH = 1000;
@@ -20,14 +19,13 @@ public class SwingView implements RisikoView {
     private static final float RIDIM = 1.5f;
     private final Controller controller;
     private final JFrame frame = new JFrame();
-    private Scene scene;
     private final PlayerAddingView playerAddingView;
-    private final MapChoser mapChoser;
+    private final MapChoserScene mapChoser;
 
-    public SwingView(Controller controller) {
-        playerAddingView = new PlayerAddingView(controller);
-        mapChoser = new MapChoser(controller);
+    public SwingView(final Controller controller) {
         this.controller = controller;
+        playerAddingView = new PlayerAddingView(this.controller);
+        mapChoser = new MapChoserScene(this.controller);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize((int) (screenSize.getWidth() / RIDIM), (int) (screenSize.getHeight() / RIDIM));
@@ -39,7 +37,6 @@ public class SwingView implements RisikoView {
 
     @Override
     public void start() {
-        scene = playerAddingView;
         changePanel(frame, null, playerAddingView);
     }
 
@@ -78,11 +75,6 @@ public class SwingView implements RisikoView {
     @Override
     public void show_player_add_failed() {
         JOptionPane.showMessageDialog(playerAddingView, "The charaters name or color has already been used");
-    }
-
-    @Override
-    public Scene getActualScene() {
-        return scene;
     }
 
 }
