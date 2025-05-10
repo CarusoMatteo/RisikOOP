@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Label;
 import java.awt.TextField;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,7 @@ import javax.swing.JPanel;
 import it.unibo.risikoop.controller.Interfaces.Controller;
 import it.unibo.risikoop.controller.utilities.EventType;
 import it.unibo.risikoop.controller.utilities.RetrieveType;
+import it.unibo.risikoop.view.Implementations.SwingView;
 
 public class PlayerAddingView extends JPanel {
     private final Controller controller;
@@ -81,6 +84,21 @@ public class PlayerAddingView extends JPanel {
         JButton finishButton = new JButton("End");
         finishButton.addActionListener(i -> this.controller.eventHandle(EventType.SELECT_MAP_BEGIN, Optional.empty()));
         add(finishButton, BorderLayout.SOUTH);
+        /**
+         * Making the fonts dynamic
+         */
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int width = getWidth();
+                int newSize = Math.max(2, width / 50); // Logica semplice
+                SwingView.setFontRecursively(tcc, newSize);
+                for (var comp : getComponents()) {
+                    SwingView.setFontRecursively(comp, newSize);
+
+                }
+            }
+        });
     }
 
     private void updatePlayerListMine() {

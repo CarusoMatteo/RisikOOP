@@ -1,7 +1,9 @@
 package it.unibo.risikoop.view.Implementations;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -21,6 +23,19 @@ public class SwingView implements RisikoView {
     private final JFrame frame = new JFrame();
     private final PlayerAddingView playerAddingView;
     private final MapChoserScene mapChoser;
+
+    public static void setFontRecursively(Component comp, int fontSize) {
+        Font currentFont = comp.getFont();
+        if (currentFont != null) {
+            comp.setFont(new Font(currentFont.getName(), currentFont.getStyle(), fontSize));
+        }
+
+        if (comp instanceof Container container) {
+            for (Component child : container.getComponents()) {
+                setFontRecursively(child, fontSize);
+            }
+        }
+    }
 
     public SwingView(final Controller controller) {
         this.controller = controller;
