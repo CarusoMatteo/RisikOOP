@@ -90,7 +90,7 @@ public class SwingView implements RisikoView {
     }
 
     @Override
-    public void show_player_add_failed(final String s) {
+    public void showErrorMessage(final String s) {
         JOptionPane.showMessageDialog(playerAddingView, s);
     }
 

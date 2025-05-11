@@ -19,6 +19,7 @@ public class MapExtractor {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            // TODO Fix the exception's catch
         }
         return newMap;
     }
