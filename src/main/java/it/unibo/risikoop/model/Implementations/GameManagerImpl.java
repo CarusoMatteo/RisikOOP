@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
 
+import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -19,6 +20,7 @@ public class GameManagerImpl implements GameManager {
 
     private final List<Player> players = new LinkedList<>();
     private final Set<Territory> territories = new HashSet<>();
+    private final Set<Continent> continents = new HashSet<>();
     private Graph worldMap;
 
     public GameManagerImpl() {
@@ -38,6 +40,14 @@ public class GameManagerImpl implements GameManager {
         return territories.stream()
                 .filter(i -> i.getName().equals(name))
                 .findFirst();
+    }
+
+    @Override
+    public Optional<Continent> getContinent(String name) {
+        return continents.stream()
+                .filter(i -> i.getName().equals(name))
+                .findFirst();
+
     }
 
     @Override
@@ -73,6 +83,17 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
+    public void setContinents(Set<Continent> continents) {
+        this.continents.addAll(continents);
+
+    }
+
+    @Override
+    public Set<Continent> getContinents() {
+        return continents;
+    }
+
+    @Override
     public Graph getActualWorldMap() {
         return worldMap;
     }
@@ -92,8 +113,7 @@ public class GameManagerImpl implements GameManager {
         getTerritory(TerritoryName).ifPresent(i -> i.removeUnits(units));
     }
 
-    @Override
-    public Graph getCanonicalWorldMap() {
+    private Graph getCanonicalWorldMap() {
         final Graph canonMap = new MultiGraph("defualt-Map", false, true);
         canonMap.addEdge("NA-EG", "North-Africa", "Egypt");
         canonMap.addEdge("NA-CN", "North-Africa", "Congo");
@@ -103,5 +123,34 @@ public class GameManagerImpl implements GameManager {
         canonMap.addEdge("NA-SEU", "North-Africa", "South-Europe");
         canonMap.addEdge("CN-SA", "Congo", "South-Africa");
         return canonMap;
+    }
+
+    @Override
+    public void removeAllTerritoriesAndContinents() {
+        territories.removeIf(i -> true);
+        continents.removeIf(i -> true);
+        worldMap.clear();
+    }
+
+    @Override
+    public void setDefaultWorld() {
+        Graph canonicalWorld = this.getCanonicalWorldMap();
+        this.setWorldMap(canonicalWorld);
+        /**
+         * 
+         */
+        Continent africa = new ContinentImpl("Africa", 10);
+        Set<String> africaTerritoryNames = Set.of("North-Africa", "Egypt", "Congo", "South-Africa", "Est-Africa");
+        africaTerritoryNames.forEach(i -> this.getTerritory(i)
+                .ifPresent(j -> africa.addTerritory(j)));
+        /**
+         * 
+         */
+        Continent europe = new ContinentImpl("Europe", 20);
+        Set<String> europeTerritoryNames = Set.of("West-Europe", "South-Europe");
+        europeTerritoryNames.forEach(i -> this.getTerritory(i)
+                .ifPresent(j -> europe.addTerritory(j)));
+        continents.addAll(Set.of(africa, europe));
+
     }
 }

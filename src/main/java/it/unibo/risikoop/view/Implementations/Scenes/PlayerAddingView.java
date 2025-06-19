@@ -8,20 +8,16 @@ import java.awt.Label;
 import java.awt.TextField;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.Interfaces.Controller;
-import it.unibo.risikoop.controller.utilities.EventType;
-import it.unibo.risikoop.controller.utilities.RetrieveType;
 import it.unibo.risikoop.view.Implementations.SwingView;
 
 public class PlayerAddingView extends JPanel {
@@ -76,13 +72,18 @@ public class PlayerAddingView extends JPanel {
 
         button.addActionListener(i -> {
             var col = tcc.getColor();
-            this.controller.eventHandle(EventType.ADD_PLAYER_EVENT,
-                    Optional.of(
-                            List.of(text.getText(), col.getRed(), col.getGreen(), col.getBlue())));
+            if (this.controller.getDataAddingController().addPlayer(text.getText(), col.getRed(),
+                    col.getGreen(), col.getBlue())) {
+                JOptionPane.showMessageDialog(this.getParent(), "Giocatore aggiunto correttamente");
+            } else {
+                JOptionPane.showMessageDialog(this.getParent(),
+                        "Errore nell'inserimento, nome giocatore opppure colore già presenti");
+            }
+
             updatePlayerListMine();
         });
         JButton finishButton = new JButton("End");
-        finishButton.addActionListener(i -> this.controller.eventHandle(EventType.SELECT_MAP_BEGIN, Optional.empty()));
+        finishButton.addActionListener(i -> controller.beginMapSelection());
         add(finishButton, BorderLayout.SOUTH);
         /**
          * Making the fonts dynamic
@@ -102,19 +103,8 @@ public class PlayerAddingView extends JPanel {
     }
 
     private void updatePlayerListMine() {
-        this.controller.retrieveFromModel(RetrieveType.RETRIEVE_CHARACTER_LIST)
-                .ifPresent(j -> {
-                    List<String> newList = new LinkedList<>();
-                    if (j instanceof List list) {
-                        for (var value : list) {
-                            if (value instanceof String s) {
-                                newList.add(s);
-                            }
-                        }
-                    }
-                    model.removeAllElements();
-                    newList.forEach(i -> model.addElement(i));
-                });
+        model.removeAllElements();
+        controller.getDataRetrieveController().getPlayerList().forEach(i -> model.addElement(i.getName()));
     }
 
 }

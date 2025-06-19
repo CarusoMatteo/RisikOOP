@@ -1,15 +1,19 @@
 package it.unibo.risikoop.controller.Interfaces;
 
-import java.util.Optional;
-
-import it.unibo.risikoop.controller.utilities.EventType;
-import it.unibo.risikoop.controller.utilities.RetrieveType;
-
 public interface Controller {
     /**
+     * @return
      * 
      */
-    public void eventHandle(EventType TYPE, Optional<?> data);
 
-    public Optional<?> retrieveFromModel(RetrieveType Type);
+    public DataAddingController getDataAddingController();
+
+    public DataRetrieveController getDataRetrieveController();
+
+    public void start();
+
+    public void beginToPlay();
+
+    public void beginMapSelection();
+
 }

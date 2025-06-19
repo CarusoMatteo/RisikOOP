@@ -24,10 +24,17 @@ public interface GameManager {
      */
     public Optional<Territory> getTerritory(String name);
 
+    public Optional<Continent> getContinent(String name);
+
     /**
      * return a list of all territories
      */
     public Set<Territory> getTerritories();
+
+    /**
+     * 
+     */
+    public void removeAllTerritoriesAndContinents();
 
     /**
      * 
@@ -67,14 +74,20 @@ public interface GameManager {
     public List<Player> getPlayers();
 
     /**
-     * Given a graph, create all the territories
+     * Given a graph and the continents, create all the territories and set the
+     * continents
      */
     public void setWorldMap(Graph worldMap);
 
+    public void setContinents(Set<Continent> continents);
+
+    public Set<Continent> getContinents();
+
     public Graph getActualWorldMap();
 
-    public Graph getCanonicalWorldMap();
     // TODO: Create active player
     // TODO: Create player change
+
+    public void setDefaultWorld();
 
 }

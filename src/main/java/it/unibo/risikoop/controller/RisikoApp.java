@@ -2,7 +2,6 @@ package it.unibo.risikoop.controller;
 
 import it.unibo.risikoop.controller.Implementations.ControllerImpl;
 import it.unibo.risikoop.controller.Interfaces.Controller;
-import it.unibo.risikoop.controller.utilities.EventType;
 
 public class RisikoApp {
     Controller controller = new ControllerImpl();
@@ -13,7 +12,7 @@ public class RisikoApp {
      * @param views the views to attach
      */
     public RisikoApp() {
-        controller.eventHandle(EventType.START_GAME_EVENT, null);
+        controller.start();
     }
 
     /**

@@ -1,21 +1,26 @@
 package it.unibo.risikoop.model;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.risikoop.controller.utilities.MapExtractor;
+import it.unibo.risikoop.controller.Implementations.DataAddingControllerImpl;
+import it.unibo.risikoop.controller.Interfaces.DataAddingController;
 import it.unibo.risikoop.model.Implementations.GameManagerImpl;
+import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Territory;
 
-public class TerritoryTest {
+public class WorldTest {
         private final GameManager gameManager = new GameManagerImpl();
 
         @Test
@@ -61,7 +66,7 @@ public class TerritoryTest {
         }
 
         @Test
-        void addUnits() {
+        void addUnitToTerritory() {
                 Graph map = new MultiGraph("map", true, true);
                 map.addNode("IT");
                 map.addNode("USA");
@@ -82,12 +87,49 @@ public class TerritoryTest {
 
         @Test
         void territoryFromFile() {
-                Graph map = MapExtractor.MapExtractorFromFile("src" + File.separator + "test" + File.separator
-                                + "resources" + File.separator + "model" + File.separator + "mapTest1.txt");
-                gameManager.setWorldMap(map);
-                assertEquals(Set.of("Inghilterra", "Francia", "StatiUniti", "Lussemburgo"),
+                DataAddingController controller = new DataAddingControllerImpl(gameManager);
+                assertTrue(controller.setWorldFromFile("src" + File.separator + "test" + File.separator
+                                + "resources" + File.separator + "model" + File.separator + "mapTest1.txt"));
+
+                assertNotEquals(Set.of("Inghilterra", "Francia", "StatiUniti", "Lussemburgo"),
                                 gameManager.getTerritories()
                                                 .stream().map(Territory::getName)
                                                 .collect(Collectors.toSet()));
+                assertEquals(Set.of("Inghilterra", "Francia", "StatiUniti", "Lussemburgo", "Russia", "Italia", "China",
+                                "Giappone"),
+                                gameManager.getTerritories()
+                                                .stream().map(Territory::getName)
+                                                .collect(Collectors.toSet()));
+                assertEquals(Set.of("Asia", "Europa", "America"),
+                                gameManager.getContinents()
+                                                .stream()
+                                                .map(i -> i.getName())
+                                                .collect(Collectors.toSet()));
+        }
+
+        @Test
+        void clearingTest() {
+                DataAddingController controller = new DataAddingControllerImpl(gameManager);
+                assertTrue(controller.setWorldFromFile("src" + File.separator + "test" + File.separator
+                                + "resources" + File.separator + "model" + File.separator + "mapTest1.txt"));
+                gameManager.removeAllTerritoriesAndContinents();
+                assertEquals(Set.of(), gameManager.getContinents());
+                assertEquals(Set.of(), gameManager.getTerritories());
+                assertFalse(controller.setWorldFromFile("src" + File.separator + "test" + File.separator
+                                + "java" + File.separator + "model" + File.separator + ".java"));
+                assertEquals(Set.of(), gameManager.getTerritories());
+                assertEquals(Set.of(), gameManager.getContinents());
+        }
+
+        @Test
+        void setDefaultWorld() {
+                DataAddingController controller = new DataAddingControllerImpl(gameManager);
+                controller.setDefaultMap();
+                Optional<Continent> africa = gameManager.getContinent("Africa");
+                assertTrue(africa.isPresent());
+                assertEquals(Set.of("North-Africa", "Egypt", "Congo", "South-Africa", "Est-Africa"),
+                                africa.get().getTerritories().stream().map(i -> i.getName())
+                                                .collect(Collectors.toSet()));
+
         }
 }

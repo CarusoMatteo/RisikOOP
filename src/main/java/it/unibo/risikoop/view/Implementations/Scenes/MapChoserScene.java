@@ -3,25 +3,18 @@ package it.unibo.risikoop.view.Implementations.Scenes;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.Optional;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.graphstream.graph.Graph;
-
 import it.unibo.risikoop.controller.Interfaces.Controller;
-import it.unibo.risikoop.controller.utilities.EventType;
-import it.unibo.risikoop.controller.utilities.MapExtractor;
-import it.unibo.risikoop.controller.utilities.RetrieveType;
 import it.unibo.risikoop.view.Implementations.SwingView;
 
 public class MapChoserScene extends JPanel {
     private final Controller controller;
     private final JPanel mapPreview = new JPanel();
-    private Graph selectedMap;
 
     public MapChoserScene(final Controller controller) {
         this.controller = controller;
@@ -37,13 +30,7 @@ public class MapChoserScene extends JPanel {
          */
         JButton fileChoser = new JButton("Select file");
         fileChoser.addActionListener(i -> {
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showOpenDialog(null);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                System.out.println(fileChooser.getSelectedFile());
-                selectedMap = MapExtractor.MapExtractorFromFile(fileChooser.getSelectedFile());
-                beginPlay();
-            }
+            mapSelection();
         });
         add(fileChoser, BorderLayout.EAST);
         /**
@@ -52,7 +39,7 @@ public class MapChoserScene extends JPanel {
         add(mapPreview);
         JButton begiGameButton = new JButton("Begin to Play");
         begiGameButton.addActionListener(i -> {
-            beginPlay();
+            controller.beginToPlay();
         });
         add(begiGameButton, BorderLayout.SOUTH);
         addComponentListener(new ComponentAdapter() {
@@ -68,19 +55,26 @@ public class MapChoserScene extends JPanel {
         });
     }
 
-    private void beginPlay() {
-        if (selectedMap == null) {
-            JOptionPane.showMessageDialog(this, "No map selected");
-        } else {
-            this.controller.eventHandle(EventType.SET_MAP_EVENT, Optional.of(selectedMap));
-            this.controller.eventHandle(EventType.BEGIN_PLAY, Optional.empty());
+    private void mapSelection() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            System.out.println(fileChooser.getSelectedFile());
+
+            if (controller.getDataAddingController().setWorldFromFile(fileChooser.getSelectedFile())) {
+                JOptionPane.showMessageDialog(this.getParent(),
+                        "Mappa selezionata correttamente, puoi passare alla prossima fase di gioco oppure selezionare un'altra mappa");
+            } else {
+                JOptionPane.showMessageDialog(this.getParent(),
+                        "Mappa selezionata incorrettamente, formato file probabilmente sbagliato");
+
+            }
         }
+
     }
 
     private void selectedDefaultMap() {
-        if (controller.retrieveFromModel(RetrieveType.RETRIEVE_DEFAULT_MAP).get() instanceof Graph canonMap) {
-            selectedMap = canonMap;
-        }
+        controller.getDataAddingController().setDefaultMap();
     }
 
 }

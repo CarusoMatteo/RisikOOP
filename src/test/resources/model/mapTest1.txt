@@ -1,3 +1,13 @@
 Inghilterra-Francia
 Francia-Lussemburgo
 StatiUniti-Francia
+Russia-China
+Giappone-Italia
+begin continent reward units
+Asia-3
+Europa-2
+America-5
+begin territory
+Asia:Giappone-Russia-China
+Europa:Francia-Lussemburgo-Italia
+America:StatiUniti
