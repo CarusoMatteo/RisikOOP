@@ -18,7 +18,7 @@ public class PlayerImpl implements Player {
      * 
      * @return
      */
-    public PlayerImpl(String name, Color col) {
+    public PlayerImpl(final String name, final Color col) {
         this.name = name;
         this.color = new Color(col.r(), col.g(), col.b());
         territories = new ArrayList<>();
@@ -52,15 +52,15 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Player pl) {
+    public boolean equals(final Object obj) {
+        if (obj instanceof final Player pl) {
             return this.name.equals(pl.getName()) && this.color.equals(pl.getColor());
         }
         return false;
     }
 
     @Override
-    public void addTerritoryCard(TerritoryCard card) {
+    public void addTerritoryCard(final TerritoryCard card) {
         territoryCards.add(card);
     }
 

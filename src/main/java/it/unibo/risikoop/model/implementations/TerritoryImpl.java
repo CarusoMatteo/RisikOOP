@@ -15,7 +15,7 @@ public class TerritoryImpl implements Territory {
     private Player owner;
     private int units = 0;
 
-    public TerritoryImpl(GameManager gameManager, String name) {
+    public TerritoryImpl(final GameManager gameManager, final String name) {
         this.name = name;
         this.gameManager = gameManager;
     }
@@ -31,7 +31,7 @@ public class TerritoryImpl implements Territory {
     }
 
     @Override
-    public boolean setOwner(Player newOwner) {
+    public boolean setOwner(final Player newOwner) {
         if (gameManager.getPlayers().contains(newOwner)) {
             owner = new PlayerImpl(newOwner.getName(), newOwner.getColor());
             return true;
@@ -40,14 +40,14 @@ public class TerritoryImpl implements Territory {
     }
 
     @Override
-    public void addUnits(int addedUnits) {
+    public void addUnits(final int addedUnits) {
         if (addedUnits > 0) {
             this.units = this.units + addedUnits;
         }
     }
 
     @Override
-    public void removeUnits(int removedUnits) {
+    public void removeUnits(final int removedUnits) {
         if (removedUnits > 0) {
             this.units = this.units - removedUnits < 0 ? 0 : this.units - removedUnits;
         }
@@ -56,14 +56,14 @@ public class TerritoryImpl implements Territory {
 
     @Override
     public Integer getUnits() {
-        int returnedValue = units;
+        final int returnedValue = units;
         return returnedValue;
     }
 
     @Override
     public Set<Territory> getNeightbours() {
-        Graph map = gameManager.getActualWorldMap();
-        Set<Territory> territories = gameManager.getTerritories();
+        final Graph map = gameManager.getActualWorldMap();
+        final Set<Territory> territories = gameManager.getTerritories();
         return map.getNode(name)
                 .neighborNodes()
                 .flatMap(i -> territories.stream().filter(j -> j.getName().equals(i.getId())))

@@ -16,7 +16,7 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 
-public class GameManagerImpl implements GameManager {
+public final class GameManagerImpl implements GameManager {
 
     private final List<Player> players = new LinkedList<>();
     private final Set<Territory> territories = new HashSet<>();
@@ -27,7 +27,7 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public boolean addPlayer(String name, Color col) {
+    public boolean addPlayer(final String name, final Color col) {
         if (!players.stream().anyMatch(i -> i.getColor().equals(col) || i.getName().equals(name))) {
             players.add(new PlayerImpl(name, col));
             return true;
@@ -36,14 +36,14 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public Optional<Territory> getTerritory(String name) {
+    public Optional<Territory> getTerritory(final String name) {
         return territories.stream()
                 .filter(i -> i.getName().equals(name))
                 .findFirst();
     }
 
     @Override
-    public Optional<Continent> getContinent(String name) {
+    public Optional<Continent> getContinent(final String name) {
         return continents.stream()
                 .filter(i -> i.getName().equals(name))
                 .findFirst();
@@ -51,7 +51,7 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public void addUnits(String name, int units) {
+    public void addUnits(final String name, final int units) {
         getTerritory(name).ifPresent(i -> i.addUnits(units));
     }
 
@@ -61,8 +61,8 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public boolean removePlayer(String name) {
-        Optional<Player> remove = players.stream().filter(i -> i.getName().equals(name)).findAny();
+    public boolean removePlayer(final String name) {
+        final Optional<Player> remove = players.stream().filter(i -> i.getName().equals(name)).findAny();
         if (remove.isPresent()) {
             players.remove(remove.get());
             return true;
@@ -76,14 +76,14 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public void setWorldMap(Graph worldMap) {
+    public void setWorldMap(final Graph worldMap) {
         this.worldMap = worldMap;
         territories.addAll(worldMap.nodes().map(i -> new TerritoryImpl(this, i.getId())).collect(Collectors.toSet()));
 
     }
 
     @Override
-    public void setContinents(Set<Continent> continents) {
+    public void setContinents(final Set<Continent> continents) {
         this.continents.addAll(continents);
 
     }
@@ -99,8 +99,8 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public Set<Territory> getTerritoryNeightbours(String name) {
-        Optional<Territory> territory = getTerritory(name);
+    public Set<Territory> getTerritoryNeightbours(final String name) {
+        final Optional<Territory> territory = getTerritory(name);
         if (territory.isEmpty()) {
             return Set.of();
         }
@@ -109,8 +109,8 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public void removeUnits(final String TerritoryName, final int units) {
-        getTerritory(TerritoryName).ifPresent(i -> i.removeUnits(units));
+    public void removeUnits(final String territoryName, final int units) {
+        getTerritory(territoryName).ifPresent(i -> i.removeUnits(units));
     }
 
     private Graph getCanonicalWorldMap() {
@@ -134,20 +134,20 @@ public class GameManagerImpl implements GameManager {
 
     @Override
     public void setDefaultWorld() {
-        Graph canonicalWorld = this.getCanonicalWorldMap();
+        final Graph canonicalWorld = this.getCanonicalWorldMap();
         this.setWorldMap(canonicalWorld);
         /**
          * 
          */
-        Continent africa = new ContinentImpl("Africa", 10);
-        Set<String> africaTerritoryNames = Set.of("North-Africa", "Egypt", "Congo", "South-Africa", "Est-Africa");
+        final Continent africa = new ContinentImpl("Africa", 10);
+        final Set<String> africaTerritoryNames = Set.of("North-Africa", "Egypt", "Congo", "South-Africa", "Est-Africa");
         africaTerritoryNames.forEach(i -> this.getTerritory(i)
                 .ifPresent(j -> africa.addTerritory(j)));
         /**
          * 
          */
-        Continent europe = new ContinentImpl("Europe", 20);
-        Set<String> europeTerritoryNames = Set.of("West-Europe", "South-Europe");
+        final Continent europe = new ContinentImpl("Europe", 20);
+        final Set<String> europeTerritoryNames = Set.of("West-Europe", "South-Europe");
         europeTerritoryNames.forEach(i -> this.getTerritory(i)
                 .ifPresent(j -> europe.addTerritory(j)));
         continents.addAll(Set.of(africa, europe));

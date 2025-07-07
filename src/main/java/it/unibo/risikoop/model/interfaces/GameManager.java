@@ -44,7 +44,7 @@ public interface GameManager {
     public Set<Territory> getTerritoryNeightbours(String name);
 
     /**
-     * remove a new player with a certain name if already present
+     * remove a new player with a certain name if already present.
      * 
      * @param name player's name
      * @return true if the player has been removed succesfully
@@ -53,15 +53,15 @@ public interface GameManager {
     public boolean removePlayer(String name);
 
     /**
-     * Add new units to a territory
+     * Add new units to a territory.
      * 
-     * @param territory
+     * @param TerritoryName
      * @param units
      */
     public void addUnits(String TerritoryName, int units);
 
     /**
-     * 
+     * remove units from a territory.
      * @param TerritoryName
      * @param units
      */
@@ -69,25 +69,34 @@ public interface GameManager {
 
     /**
      * 
-     * @return players list
+     * @return players list.
      */
     public List<Player> getPlayers();
 
     /**
-     * Given a graph and the continents, create all the territories and set the
-     * continents
+     * Given a graph and the continents, create all the territories and set the continents.
      */
     public void setWorldMap(Graph worldMap);
-
+    /**
+     * 
+     * @param continents
+     */
     public void setContinents(Set<Continent> continents);
 
+    /**
+     *  */
     public Set<Continent> getContinents();
-
+    /**
+     * 
+     * @return
+     */
     public Graph getActualWorldMap();
-
+    
     // TODO: Create active player
     // TODO: Create player change
-
+    /**
+     * 
+     */
     public void setDefaultWorld();
 
 }

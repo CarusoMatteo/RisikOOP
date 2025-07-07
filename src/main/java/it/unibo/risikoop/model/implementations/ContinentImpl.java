@@ -11,7 +11,7 @@ public class ContinentImpl implements Continent {
     private final Integer unitReward;
     private final Set<Territory> territories = new HashSet<>();
 
-    public ContinentImpl(final String name, Integer unitReward) {
+    public ContinentImpl(final String name, final Integer unitReward) {
         this.name = name;
         this.unitReward = unitReward;
     }
@@ -32,7 +32,7 @@ public class ContinentImpl implements Continent {
     }
 
     @Override
-    public void addTerritory(Territory territory) {
+    public void addTerritory(final Territory territory) {
         territories.add(territory);
     }
 

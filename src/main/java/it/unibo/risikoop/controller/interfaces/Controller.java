@@ -16,4 +16,6 @@ public interface Controller {
 
     public void beginMapSelection();
 
+    public void gameOver();
+
 }

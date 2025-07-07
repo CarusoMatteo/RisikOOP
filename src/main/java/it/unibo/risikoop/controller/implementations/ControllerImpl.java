@@ -48,4 +48,10 @@ public class ControllerImpl implements Controller {
         return dataRetrieveController;
     }
 
+    @Override
+    public void gameOver() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'gameOver'");
+    }
+
 }
