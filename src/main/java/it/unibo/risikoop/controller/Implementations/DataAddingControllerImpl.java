@@ -1,4 +1,4 @@
-package it.unibo.risikoop.controller.Implementations;
+package it.unibo.risikoop.controller.implementations;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,9 +13,9 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.IdAlreadyInUseException;
 import org.graphstream.graph.implementations.MultiGraph;
 
-import it.unibo.risikoop.controller.Interfaces.DataAddingController;
-import it.unibo.risikoop.model.Implementations.Color;
-import it.unibo.risikoop.model.Implementations.ContinentImpl;
+import it.unibo.risikoop.controller.interfaces.DataAddingController;
+import it.unibo.risikoop.model.implementations.Color;
+import it.unibo.risikoop.model.implementations.ContinentImpl;
 import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
 

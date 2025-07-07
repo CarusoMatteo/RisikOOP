@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.graphstream.graph.Graph;
 
-import it.unibo.risikoop.model.Implementations.Color;
+import it.unibo.risikoop.model.implementations.Color;
 
 public interface GameManager {
     /**

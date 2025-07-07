@@ -1,4 +1,4 @@
-package it.unibo.risikoop.view.Implementations;
+package it.unibo.risikoop.view.implementations;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -10,10 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import it.unibo.risikoop.controller.Interfaces.Controller;
-import it.unibo.risikoop.view.Implementations.Scenes.MapChoserScene;
-import it.unibo.risikoop.view.Implementations.Scenes.PlayerAddingView;
-import it.unibo.risikoop.view.Interfaces.RisikoView;
+import it.unibo.risikoop.controller.interfaces.Controller;
+import it.unibo.risikoop.view.implementations.scenes.MapChoserScene;
+import it.unibo.risikoop.view.implementations.scenes.PlayerAddingView;
+import it.unibo.risikoop.view.interfaces.RisikoView;
 
 public class SwingView implements RisikoView {
     private static final int MIN_WIDTH = 1000;

@@ -1,4 +1,4 @@
-package it.unibo.risikoop.controller.Interfaces;
+package it.unibo.risikoop.controller.interfaces;
 
 import java.io.File;
 

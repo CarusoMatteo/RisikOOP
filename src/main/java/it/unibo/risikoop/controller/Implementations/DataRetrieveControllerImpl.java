@@ -1,10 +1,10 @@
-package it.unibo.risikoop.controller.Implementations;
+package it.unibo.risikoop.controller.implementations;
 
 import java.util.List;
 
 import org.graphstream.graph.Graph;
 
-import it.unibo.risikoop.controller.Interfaces.DataRetrieveController;
+import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 

@@ -1,4 +1,4 @@
-package it.unibo.risikoop.model.Implementations;
+package it.unibo.risikoop.model.implementations;
 
 import java.util.Collections;
 import java.util.HashSet;

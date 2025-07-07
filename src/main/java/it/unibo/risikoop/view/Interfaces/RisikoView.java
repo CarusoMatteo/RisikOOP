@@ -1,4 +1,4 @@
-package it.unibo.risikoop.view.Interfaces;
+package it.unibo.risikoop.view.interfaces;
 
 public interface RisikoView {
     /**
