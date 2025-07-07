@@ -3,13 +3,15 @@ package it.unibo.risikoop.controller;
 import it.unibo.risikoop.controller.implementations.ControllerImpl;
 import it.unibo.risikoop.controller.interfaces.Controller;
 
+/**
+ * entry point class.
+ */
 public class RisikoApp {
-    final Controller controller = new ControllerImpl();
+    private final Controller controller = new ControllerImpl();
 
     /**
      * Starts the model and attaches the views.
      * 
-     * @param views the views to attach
      */
     public RisikoApp() {
         controller.start();

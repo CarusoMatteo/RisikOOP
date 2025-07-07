@@ -2,58 +2,57 @@ package it.unibo.risikoop.model.interfaces;
 
 import java.util.Set;
 
+/**
+ * 
+ */
 public interface Territory {
     /**
      * 
-     * @return
+     * @return the namke
      */
-    public String getName();
+    String getName();
 
     /**
      * 
-     * @return
+     * @return the owner
      */
-    public Player getOwner();
+    Player getOwner();
 
     /**
+     * set (if possible) a new owner.
      * 
      * @param newOwner
-     * @return
+     * @return if it was possible or not to change the owner.
      */
-    public boolean setOwner(Player newOwner);
+    boolean changeOwner(Player newOwner);
 
     /**
-     * Add new units to the territory
+     * Add new units to the territory.
      * 
      * @param addedUnits
      * @Throws IllegamArgumentException if the units are negative
      */
-    public void addUnits(int addedUnits);
+    void addUnits(int addedUnits);
 
     /**
-     * Add new units to the territory
+     * Add new units to the territory.
      * 
      * @param removedUnits
      * @Throws IllegamArgumentException if the units are negative
      */
-    public void removeUnits(int removedUnits);
+    void removeUnits(int removedUnits);
 
     /**
      * 
-     * @return
+     * @return the total units
      */
-    public Integer getUnits();
+    Integer getUnits();
 
     /**
-     * get the Neightbours list
+     * get the Neightbours list.
      * 
-     * @return
+     * @return all the neighbours
      */
-    public Set<Territory> getNeightbours();
-
-    /**
-     * set the neightboursList
-     * 
-     */
+    Set<Territory> getNeightbours();
 
 }

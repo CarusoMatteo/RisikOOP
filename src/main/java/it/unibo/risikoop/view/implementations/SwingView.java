@@ -15,7 +15,10 @@ import it.unibo.risikoop.view.implementations.scenes.MapChoserScene;
 import it.unibo.risikoop.view.implementations.scenes.PlayerAddingView;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
-public class SwingView implements RisikoView {
+/**
+ * swing view class.
+ */
+public final class SwingView implements RisikoView {
     private static final int MIN_WIDTH = 1000;
     private static final int MIN_HEIGHT = 600;
     private static final float RIDIM = 1.5f;
@@ -24,19 +27,11 @@ public class SwingView implements RisikoView {
     private final PlayerAddingView playerAddingView;
     private final MapChoserScene mapChoser;
 
-    public static void setFontRecursively(Component comp, int fontSize) {
-        Font currentFont = comp.getFont();
-        if (currentFont != null) {
-            comp.setFont(new Font(currentFont.getName(), currentFont.getStyle(), fontSize));
-        }
-
-        if (comp instanceof Container container) {
-            for (Component child : container.getComponents()) {
-                setFontRecursively(child, fontSize);
-            }
-        }
-    }
-
+    /**
+     * constructor.
+     * 
+     * @param controller
+     */
     public SwingView(final Controller controller) {
         this.controller = controller;
         playerAddingView = new PlayerAddingView(this.controller);
@@ -50,6 +45,24 @@ public class SwingView implements RisikoView {
         frame.setVisible(true);
     }
 
+    /**
+     * 
+     * @param comp
+     * @param fontSize
+     */
+    public static void setFontRecursively(final Component comp, final int fontSize) {
+        final Font currentFont = comp.getFont();
+        if (currentFont != null) {
+            comp.setFont(new Font(currentFont.getName(), currentFont.getStyle(), fontSize));
+        }
+
+        if (comp instanceof final Container container) {
+            for (final Component child : container.getComponents()) {
+                setFontRecursively(child, fontSize);
+            }
+        }
+    }
+
     @Override
     public void start() {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -58,18 +71,18 @@ public class SwingView implements RisikoView {
     }
 
     @Override
-    public void choose_map() {
+    public void chooseMap() {
         changePanel(frame, playerAddingView, mapChoser);
     }
 
     @Override
-    public void begin_play() {
+    public void beginPlay() {
         // TODO Auto-generated method stub
-        System.out.println("Game beginned");
+        // System.out.println("Game beginned");
     }
 
     @Override
-    public void game_over() {
+    public void gameOver() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'game_over'");
     }

@@ -16,15 +16,15 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 
+/**
+ * game manager implementation.
+ */
 public final class GameManagerImpl implements GameManager {
-
+    private static final String NORTH_AFRIC_STRING = "North-Africa";
     private final List<Player> players = new LinkedList<>();
     private final Set<Territory> territories = new HashSet<>();
     private final Set<Continent> continents = new HashSet<>();
     private Graph worldMap;
-
-    public GameManagerImpl() {
-    }
 
     @Override
     public boolean addPlayer(final String name, final Color col) {
@@ -115,12 +115,12 @@ public final class GameManagerImpl implements GameManager {
 
     private Graph getCanonicalWorldMap() {
         final Graph canonMap = new MultiGraph("defualt-Map", false, true);
-        canonMap.addEdge("NA-EG", "North-Africa", "Egypt");
-        canonMap.addEdge("NA-CN", "North-Africa", "Congo");
-        canonMap.addEdge("NA-EA", "North-Africa", "Est-Africa");
-        canonMap.addEdge("NA-BR", "North-Africa", "Brazil");
-        canonMap.addEdge("NA-WEU", "North-Africa", "West-Europe");
-        canonMap.addEdge("NA-SEU", "North-Africa", "South-Europe");
+        canonMap.addEdge("NA-EG", NORTH_AFRIC_STRING, "Egypt");
+        canonMap.addEdge("NA-CN", NORTH_AFRIC_STRING, "Congo");
+        canonMap.addEdge("NA-EA", NORTH_AFRIC_STRING, "Est-Africa");
+        canonMap.addEdge("NA-BR", NORTH_AFRIC_STRING, "Brazil");
+        canonMap.addEdge("NA-WEU", NORTH_AFRIC_STRING, "West-Europe");
+        canonMap.addEdge("NA-SEU", NORTH_AFRIC_STRING, "South-Europe");
         canonMap.addEdge("CN-SA", "Congo", "South-Africa");
         return canonMap;
     }
@@ -140,16 +140,18 @@ public final class GameManagerImpl implements GameManager {
          * 
          */
         final Continent africa = new ContinentImpl("Africa", 10);
-        final Set<String> africaTerritoryNames = Set.of("North-Africa", "Egypt", "Congo", "South-Africa", "Est-Africa");
+        final Set<String> africaTerritoryNames = Set.of(
+                NORTH_AFRIC_STRING, "Egypt", "Congo", "South-Africa",
+                "Est-Africa");
         africaTerritoryNames.forEach(i -> this.getTerritory(i)
-                .ifPresent(j -> africa.addTerritory(j)));
+                .ifPresent(africa::addTerritory));
         /**
          * 
          */
         final Continent europe = new ContinentImpl("Europe", 20);
         final Set<String> europeTerritoryNames = Set.of("West-Europe", "South-Europe");
         europeTerritoryNames.forEach(i -> this.getTerritory(i)
-                .ifPresent(j -> europe.addTerritory(j)));
+                .ifPresent(europe::addTerritory));
         continents.addAll(Set.of(africa, europe));
 
     }

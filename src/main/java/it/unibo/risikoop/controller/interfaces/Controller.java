@@ -1,21 +1,40 @@
 package it.unibo.risikoop.controller.interfaces;
 
+/**
+ * 
+ */
 public interface Controller {
     /**
-     * @return
+     * @return the dataAdding controller.
      * 
      */
+    DataAddingController getDataAddingController();
 
-    public DataAddingController getDataAddingController();
+    /**
+     * 
+     * @return the dataretreving controller.
+     * 
+     */
+    DataRetrieveController getDataRetrieveController();
 
-    public DataRetrieveController getDataRetrieveController();
+    /**
+     * starts the game.
+     */
+    void start();
 
-    public void start();
+    /**
+     * after all the data inserting from the player the game begin.
+     */
+    void beginToPlay();
 
-    public void beginToPlay();
+    /**
+     * gives the option to chose the map.
+     */
+    void beginMapSelection();
 
-    public void beginMapSelection();
-
-    public void gameOver();
+    /**
+     * ends the game.
+     */
+    void gameOver();
 
 }

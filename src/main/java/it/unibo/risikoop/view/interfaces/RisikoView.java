@@ -1,28 +1,31 @@
 package it.unibo.risikoop.view.interfaces;
 
+/**
+ * view interfaces.
+ */
 public interface RisikoView {
     /**
      * 
      */
-    public void start();
+    void start();
 
     /** 
      * 
     */
-    public void choose_map();
+    void chooseMap();
 
     /**
      * 
      */
-    public void begin_play();
+    void beginPlay();
 
     /**
      * 
      */
-    public void game_over();
+    void gameOver();
 
     /**
-     * 
+     * @param s
      */
-    public void showErrorMessage(String s);
+    void showErrorMessage(String s);
 }

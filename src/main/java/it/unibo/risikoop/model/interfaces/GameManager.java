@@ -8,40 +8,51 @@ import org.graphstream.graph.Graph;
 
 import it.unibo.risikoop.model.implementations.Color;
 
+/**
+ * 
+ */
 public interface GameManager {
     /**
-     * Add a new player if not already present
+     * Add a new player if not already present.
      * 
      * @param name new player's name
+     * @param col  new player's color
      * @return true if the player has been added succesfully
      */
-    public boolean addPlayer(String name, Color col);
+    boolean addPlayer(String name, Color col);
 
     /**
      * 
      * @param name
-     * @return
+     * @return the optional for the territory asked for
      */
-    public Optional<Territory> getTerritory(String name);
-
-    public Optional<Continent> getContinent(String name);
-
-    /**
-     * return a list of all territories
-     */
-    public Set<Territory> getTerritories();
-
-    /**
-     * 
-     */
-    public void removeAllTerritoriesAndContinents();
+    Optional<Territory> getTerritory(String name);
 
     /**
      * 
      * @param name
-     * @return
+     * @return the optional of the continent asked for
      */
-    public Set<Territory> getTerritoryNeightbours(String name);
+    Optional<Continent> getContinent(String name);
+
+    /**
+     * return a list of all territories.
+     * 
+     * @return the set of possessed territories
+     */
+    Set<Territory> getTerritories();
+
+    /**
+     * 
+     */
+    void removeAllTerritoriesAndContinents();
+
+    /**
+     * 
+     * @param name
+     * @return the territory neightbours
+     */
+    Set<Territory> getTerritoryNeightbours(String name);
 
     /**
      * remove a new player with a certain name if already present.
@@ -50,53 +61,59 @@ public interface GameManager {
      * @return true if the player has been removed succesfully
      */
 
-    public boolean removePlayer(String name);
+    boolean removePlayer(String name);
 
     /**
      * Add new units to a territory.
      * 
-     * @param TerritoryName
+     * @param territoryName
      * @param units
      */
-    public void addUnits(String TerritoryName, int units);
+    void addUnits(String territoryName, int units);
 
     /**
      * remove units from a territory.
-     * @param TerritoryName
+     * 
+     * @param territoryName
      * @param units
      */
-    public void removeUnits(String TerritoryName, int units);
+    void removeUnits(String territoryName, int units);
 
     /**
      * 
      * @return players list.
      */
-    public List<Player> getPlayers();
+    List<Player> getPlayers();
 
     /**
-     * Given a graph and the continents, create all the territories and set the continents.
+     * Given a graph and the continents, create all the territories and set the
+     * continents.
+     * 
+     * @param worldMap
      */
-    public void setWorldMap(Graph worldMap);
+    void setWorldMap(Graph worldMap);
+
     /**
      * 
      * @param continents
      */
-    public void setContinents(Set<Continent> continents);
+    void setContinents(Set<Continent> continents);
 
     /**
-     *  */
-    public Set<Continent> getContinents();
+     * 
+     * @return the continents present in the game
+     */
+    Set<Continent> getContinents();
+
     /**
      * 
-     * @return
+     * @return the world's map
      */
-    public Graph getActualWorldMap();
-    
-    // TODO: Create active player
-    // TODO: Create player change
+    Graph getActualWorldMap();
+
     /**
      * 
      */
-    public void setDefaultWorld();
+    void setDefaultWorld();
 
 }

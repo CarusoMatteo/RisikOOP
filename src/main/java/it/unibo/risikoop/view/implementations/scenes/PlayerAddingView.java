@@ -20,7 +20,11 @@ import javax.swing.JPanel;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.view.implementations.SwingView;
 
-public class PlayerAddingView extends JPanel {
+/**
+ * first scene.
+ */
+public final class PlayerAddingView extends JPanel {
+    private static final long serialVersionUID = 1L;
     private final Controller controller;
     private final JPanel playerListPanel = new JPanel();
     private final JPanel inputPanel = new JPanel();
@@ -28,6 +32,11 @@ public class PlayerAddingView extends JPanel {
             new String[] {});
     private final JList<String> playerList = new JList<>(model);
 
+    /**
+     * constructor.
+     * 
+     * @param controller
+     */
     public PlayerAddingView(final Controller controller) {
         this.controller = controller;
         setLayout(new BorderLayout());
@@ -41,7 +50,7 @@ public class PlayerAddingView extends JPanel {
         /**
          * 
          */
-        GridBagConstraints c = new GridBagConstraints();
+        final GridBagConstraints c = new GridBagConstraints();
         // natural height, maximum width
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1.0;
@@ -51,7 +60,7 @@ public class PlayerAddingView extends JPanel {
         c.gridy = 0;
         inputPanel.add(new Label("Inserisci il nome del giocatore"), c);
 
-        TextField text = new TextField("Giocatore 1", 1);
+        final TextField text = new TextField("Giocatore 1", 1);
         c.gridx = 0;
         c.gridy = 1;
         inputPanel.add(text, c);
@@ -62,16 +71,16 @@ public class PlayerAddingView extends JPanel {
 
         c.gridx = 0;
         c.gridy = 3;
-        var tcc = new JColorChooser(new Color(255, 0, 0));
+        final var tcc = new JColorChooser(new Color(255, 0, 0));
         inputPanel.add(tcc, c);
 
-        JButton button = new JButton("Add Player");
+        final JButton button = new JButton("Add Player");
         c.gridx = 0;
         c.gridy = 4;
         inputPanel.add(button, c);
 
         button.addActionListener(i -> {
-            var col = tcc.getColor();
+            final var col = tcc.getColor();
             if (this.controller.getDataAddingController().addPlayer(text.getText(), col.getRed(),
                     col.getGreen(), col.getBlue())) {
                 JOptionPane.showMessageDialog(this.getParent(), "Giocatore aggiunto correttamente");
@@ -82,7 +91,7 @@ public class PlayerAddingView extends JPanel {
 
             updatePlayerListMine();
         });
-        JButton finishButton = new JButton("End");
+        final JButton finishButton = new JButton("End");
         finishButton.addActionListener(i -> controller.beginMapSelection());
         add(finishButton, BorderLayout.SOUTH);
         /**
@@ -90,11 +99,11 @@ public class PlayerAddingView extends JPanel {
          */
         addComponentListener(new ComponentAdapter() {
             @Override
-            public void componentResized(ComponentEvent e) {
-                int width = getWidth();
-                int newSize = Math.max(2, width / 50); // Logica semplice
+            public void componentResized(final ComponentEvent e) {
+                final int width = getWidth();
+                final int newSize = Math.max(2, width / 50); // Logica semplice
                 SwingView.setFontRecursively(tcc, newSize);
-                for (var comp : getComponents()) {
+                for (final var comp : getComponents()) {
                     SwingView.setFontRecursively(comp, newSize);
 
                 }

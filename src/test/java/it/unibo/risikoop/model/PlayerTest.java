@@ -17,27 +17,27 @@ import it.unibo.risikoop.model.interfaces.Player;
  */
 public class PlayerTest {
         private final GameManager gameManager = new GameManagerImpl();
+        private final String armandoName = "Armando";
+        private final String diegoName = "Diego";
+        private final String bobName = "bob";
+        private final String claraName = "Clara";
 
         @Test
         void addPlayer() {
-                final List<Player> players = List.of(
-                                new PlayerImpl("Armando", new Color(0, 0, 0)),
-                                new PlayerImpl("Diego", new Color(0, 2, 0)));
+                final List<Player> players = List.of(new PlayerImpl(armandoName, new Color(0, 0, 0)),
+                                new PlayerImpl(diegoName, new Color(0, 2, 0)));
                 players.forEach(i -> gameManager.addPlayer(i.getName(), i.getColor()));
                 assertEquals(players, gameManager.getPlayers());
-                gameManager.addPlayer("bob", new Color(1, 0, 0));
-                assertEquals(List.of(
-                                new PlayerImpl("Armando", new Color(0, 0, 0)),
-                                new PlayerImpl("Diego", new Color(0, 2, 0)),
-                                new PlayerImpl("bob", new Color(1, 0, 0))), gameManager.getPlayers());
-                assert (gameManager.removePlayer("bob"));
-                assertNotEquals(List.of(
-                                new PlayerImpl("Armando", new Color(0, 0, 0)),
-                                new PlayerImpl("Diego", new Color(0, 2, 0)),
-                                new PlayerImpl("bob", new Color(1, 0, 0))), gameManager.getPlayers());
-                assert (!gameManager.removePlayer("Clara"));
-                assertEquals(List.of(
-                                new PlayerImpl("Armando", new Color(0, 0, 0)),
-                                new PlayerImpl("Diego", new Color(0, 2, 0))), gameManager.getPlayers());
+                gameManager.addPlayer(bobName, new Color(1, 0, 0));
+                assertEquals(List.of(new PlayerImpl(armandoName, new Color(0, 0, 0)),
+                                new PlayerImpl(diegoName, new Color(0, 2, 0)),
+                                new PlayerImpl(bobName, new Color(1, 0, 0))), gameManager.getPlayers());
+                assert (gameManager.removePlayer(bobName));
+                assertNotEquals(List.of(new PlayerImpl(armandoName, new Color(0, 0, 0)),
+                                new PlayerImpl(diegoName, new Color(0, 2, 0)),
+                                new PlayerImpl(bobName, new Color(1, 0, 0))), gameManager.getPlayers());
+                assert (!gameManager.removePlayer(claraName));
+                assertEquals(List.of(new PlayerImpl(armandoName, new Color(0, 0, 0)),
+                                new PlayerImpl(diegoName, new Color(0, 2, 0))), gameManager.getPlayers());
         }
 }

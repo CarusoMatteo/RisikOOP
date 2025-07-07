@@ -12,42 +12,51 @@ import javax.swing.JPanel;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.view.implementations.SwingView;
 
-public class MapChoserScene extends JPanel {
+/**
+ * second scene.
+ */
+public final class MapChoserScene extends JPanel {
+    private static final long serialVersionUID = 1L;
     private final Controller controller;
     private final JPanel mapPreview = new JPanel();
 
+    /**
+     * constructor.
+     * 
+     * @param controller
+     */
     public MapChoserScene(final Controller controller) {
         this.controller = controller;
         setLayout(new BorderLayout());
-        /**
-         * Adding button for the default map
+        /*
+         * Adding button for the default map.
          */
-        JButton defaultButton = new JButton("Select default map");
+        final JButton defaultButton = new JButton("Select default map");
         defaultButton.addActionListener(i -> selectedDefaultMap());
         add(defaultButton, BorderLayout.WEST);
-        /**
-         * Adding button for the custom map choser
+        /*
+         * Adding button for the custom map choser.
          */
-        JButton fileChoser = new JButton("Select file");
+        final JButton fileChoser = new JButton("Select file");
         fileChoser.addActionListener(i -> {
             mapSelection();
         });
         add(fileChoser, BorderLayout.EAST);
-        /**
-         * Adding the selected map preview panel
+        /*
+         * Adding the selected map preview panel.
          */
         add(mapPreview);
-        JButton begiGameButton = new JButton("Begin to Play");
+        final JButton begiGameButton = new JButton("Begin to Play");
         begiGameButton.addActionListener(i -> {
             controller.beginToPlay();
         });
         add(begiGameButton, BorderLayout.SOUTH);
         addComponentListener(new ComponentAdapter() {
             @Override
-            public void componentResized(ComponentEvent e) {
-                int width = getWidth();
-                int newSize = Math.max(2, width / 50); // Logica semplice
-                for (var comp : getComponents()) {
+            public void componentResized(final ComponentEvent e) {
+                final int width = getWidth();
+                final int newSize = Math.max(2, width / 50); // Logica semplice
+                for (final var comp : getComponents()) {
                     SwingView.setFontRecursively(comp, newSize);
 
                 }
@@ -56,14 +65,15 @@ public class MapChoserScene extends JPanel {
     }
 
     private void mapSelection() {
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showOpenDialog(null);
+        final JFileChooser fileChooser = new JFileChooser();
+        final int result = fileChooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
-            System.out.println(fileChooser.getSelectedFile());
+            // System.out.println(fileChooser.getSelectedFile());
 
-            if (controller.getDataAddingController().setWorldFromFile(fileChooser.getSelectedFile())) {
+            if (controller.getDataAddingController().loadWorldFromFile(fileChooser.getSelectedFile())) {
                 JOptionPane.showMessageDialog(this.getParent(),
-                        "Mappa selezionata correttamente, puoi passare alla prossima fase di gioco oppure selezionare un'altra mappa");
+                        "Mappa selezionata correttamente, puoi passare alla prossima fase di gioco"
+                                + " oppure selezionare un'altra mappa");
             } else {
                 JOptionPane.showMessageDialog(this.getParent(),
                         "Mappa selezionata incorrettamente, formato file probabilmente sbagliato");

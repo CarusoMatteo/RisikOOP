@@ -9,11 +9,18 @@ import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 
-public class DataRetrieveControllerImpl implements DataRetrieveController {
+/**
+ * controller for retrieveing for the vbiew all kind of necessary data.
+ */
+public final class DataRetrieveControllerImpl implements DataRetrieveController {
     private final GameManager gameManager;
 
+    /**
+     * constructor .
+     * 
+     * @param gameManager
+     */
     @SuppressFBWarnings("EI_EXPOSE_REP2")
-
     public DataRetrieveControllerImpl(final GameManager gameManager) {
         this.gameManager = gameManager;
     }

@@ -6,8 +6,19 @@ import org.graphstream.graph.Graph;
 
 import it.unibo.risikoop.model.interfaces.Player;
 
+/**
+ * 
+ */
 public interface DataRetrieveController {
-    public List<Player> getPlayerList();
+    /**
+     * 
+     * @return the list ofd mplayers
+     */
+    List<Player> getPlayerList();
 
-    public Graph getActualMap();
+    /**
+     * 
+     * @return the world's map
+     */
+    Graph getActualMap();
 }

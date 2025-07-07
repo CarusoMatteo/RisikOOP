@@ -8,14 +8,18 @@ import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TerritoryCard;
 
-public class PlayerImpl implements Player {
+/**
+ * 
+ */
+public final class PlayerImpl implements Player {
     private final String name;
     private final Color color;
     private final List<Territory> territories;
     private final List<TerritoryCard> territoryCards;
 
     /**
-     * 
+     * @param name
+     * @param col
      * @return
      */
     public PlayerImpl(final String name, final Color col) {
@@ -38,7 +42,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public Integer getTotalUnits() {
-        return territories.stream().map(i -> i.getUnits()).reduce(0, Integer::sum);
+        return territories.stream().map(Territory::getUnits).reduce(0, Integer::sum);
     }
 
     @Override
@@ -60,6 +64,12 @@ public class PlayerImpl implements Player {
     }
 
     @Override
+    public int hashCode() {
+        return this.name.hashCode() * 10 + this.color.hashCode() * 100;
+    }
+
+    @Override
+
     public void addTerritoryCard(final TerritoryCard card) {
         territoryCards.add(card);
     }

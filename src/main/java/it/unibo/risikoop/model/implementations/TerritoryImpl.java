@@ -9,12 +9,21 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 
-public class TerritoryImpl implements Territory {
+/**
+ * terriory implementantion.
+ */
+public final class TerritoryImpl implements Territory {
     private final GameManager gameManager;
     private final String name;
     private Player owner;
-    private int units = 0;
+    private int units;
 
+    /**
+     * constructor.
+     * 
+     * @param gameManager
+     * @param name
+     */
     public TerritoryImpl(final GameManager gameManager, final String name) {
         this.name = name;
         this.gameManager = gameManager;
@@ -31,7 +40,7 @@ public class TerritoryImpl implements Territory {
     }
 
     @Override
-    public boolean setOwner(final Player newOwner) {
+    public boolean changeOwner(final Player newOwner) {
         if (gameManager.getPlayers().contains(newOwner)) {
             owner = new PlayerImpl(newOwner.getName(), newOwner.getColor());
             return true;
@@ -56,8 +65,7 @@ public class TerritoryImpl implements Territory {
 
     @Override
     public Integer getUnits() {
-        final int returnedValue = units;
-        return returnedValue;
+        return units;
     }
 
     @Override

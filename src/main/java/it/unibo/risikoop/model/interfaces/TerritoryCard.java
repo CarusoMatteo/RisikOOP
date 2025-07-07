@@ -1,17 +1,36 @@
 package it.unibo.risikoop.model.interfaces;
 
+/**
+ * territory cards.
+ */
 public interface TerritoryCard {
-    public enum CardType {
+    /**
+     * types of card.
+     */
+    enum CardType {
+        /**
+         * 
+         */
         CARD_A,
+        /**
+         * 
+         */
         CARD_B,
+        /**
+         * 
+         */
         CARD_C
     }
 
-    public CardType getCardType();
+    /**
+     * 
+     * @return the types of this card.
+     */
+    CardType getCardType();
 
     /**
      * 
-     * @return
+     * @return the territory associated with
      */
-    public Territory getAssociatedTerritory();
+    Territory getAssociatedTerritory();
 }

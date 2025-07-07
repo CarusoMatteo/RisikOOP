@@ -2,13 +2,34 @@ package it.unibo.risikoop.model.interfaces;
 
 import java.util.Set;
 
+/**
+ * continent interfaces.
+ */
 public interface Continent {
-    public String getName();
+    /**
+     * 
+     * @return the name.
+     */
+    String getName();
 
-    public Integer getUnitReward();
+    /**
+     * 
+     * @return the unit rewards.
+     */
+    Integer getUnitReward();
 
-    public Set<Territory> getTerritories();
+    /**
+     * 
+     * 
+     * @return the set of all the territory of the conmtinent
+     */
+    Set<Territory> getTerritories();
 
-    public void addTerritory(Territory territory);
+    /**
+     * add a new territory.
+     * 
+     * @param territory
+     */
+    void addTerritory(Territory territory);
 
 }

@@ -11,12 +11,18 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.view.implementations.SwingView;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
-public class ControllerImpl implements Controller {
+/**
+ * main controller class.
+ */
+public final class ControllerImpl implements Controller {
     private final GameManager gameManager = new GameManagerImpl();
     private final List<RisikoView> viewList = new LinkedList<>();
     private final DataAddingController dataAddController;
     private final DataRetrieveController dataRetrieveController;
 
+    /**
+     * constructor.
+     */
     public ControllerImpl() {
         viewList.add(new SwingView(this));
         dataAddController = new DataAddingControllerImpl(gameManager);
@@ -30,17 +36,17 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void start() {
-        viewList.forEach(i -> i.start());
+        viewList.forEach(RisikoView::start);
     }
 
     @Override
     public void beginMapSelection() {
-        viewList.forEach(i -> i.choose_map());
+        viewList.forEach(RisikoView::chooseMap);
     }
 
     @Override
     public void beginToPlay() {
-        viewList.forEach(i -> i.begin_play());
+        viewList.forEach(RisikoView::beginPlay);
     }
 
     @Override
