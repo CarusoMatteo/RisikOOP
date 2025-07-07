@@ -109,7 +109,7 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public void removeUnits(String TerritoryName, int units) {
+    public void removeUnits(final String TerritoryName, final int units) {
         getTerritory(TerritoryName).ifPresent(i -> i.removeUnits(units));
     }
 

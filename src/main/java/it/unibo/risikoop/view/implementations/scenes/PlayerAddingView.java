@@ -1,4 +1,4 @@
-package it.unibo.risikoop.view.implementations.Scenes;
+package it.unibo.risikoop.view.implementations.scenes;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
