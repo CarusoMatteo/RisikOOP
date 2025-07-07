@@ -1,4 +1,4 @@
-package it.unibo.risikoop.view.Implementations.Scenes;
+package it.unibo.risikoop.view.implementations.scenes;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,8 +17,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import it.unibo.risikoop.controller.Interfaces.Controller;
-import it.unibo.risikoop.view.Implementations.SwingView;
+import it.unibo.risikoop.controller.interfaces.Controller;
+import it.unibo.risikoop.view.implementations.SwingView;
 
 public class PlayerAddingView extends JPanel {
     private final Controller controller;

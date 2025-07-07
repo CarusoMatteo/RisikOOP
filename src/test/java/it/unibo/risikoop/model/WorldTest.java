@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.risikoop.controller.Implementations.DataAddingControllerImpl;
-import it.unibo.risikoop.controller.Interfaces.DataAddingController;
-import it.unibo.risikoop.model.Implementations.GameManagerImpl;
+import it.unibo.risikoop.controller.implementations.DataAddingControllerImpl;
+import it.unibo.risikoop.controller.interfaces.DataAddingController;
+import it.unibo.risikoop.model.implementations.GameManagerImpl;
 import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Territory;

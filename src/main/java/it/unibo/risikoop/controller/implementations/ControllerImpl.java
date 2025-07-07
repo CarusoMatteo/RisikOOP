@@ -1,15 +1,15 @@
-package it.unibo.risikoop.controller.Implementations;
+package it.unibo.risikoop.controller.implementations;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import it.unibo.risikoop.controller.Interfaces.Controller;
-import it.unibo.risikoop.controller.Interfaces.DataAddingController;
-import it.unibo.risikoop.controller.Interfaces.DataRetrieveController;
-import it.unibo.risikoop.model.Implementations.GameManagerImpl;
+import it.unibo.risikoop.controller.interfaces.Controller;
+import it.unibo.risikoop.controller.interfaces.DataAddingController;
+import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
+import it.unibo.risikoop.model.implementations.GameManagerImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
-import it.unibo.risikoop.view.Implementations.SwingView;
-import it.unibo.risikoop.view.Interfaces.RisikoView;
+import it.unibo.risikoop.view.implementations.SwingView;
+import it.unibo.risikoop.view.interfaces.RisikoView;
 
 public class ControllerImpl implements Controller {
     private final GameManager gameManager = new GameManagerImpl();

@@ -1,4 +1,4 @@
-package it.unibo.risikoop.model.Implementations;
+package it.unibo.risikoop.model.implementations;
 
 import java.util.ArrayList;
 import java.util.Collections;

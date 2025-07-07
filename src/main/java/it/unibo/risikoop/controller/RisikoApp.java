@@ -1,10 +1,10 @@
 package it.unibo.risikoop.controller;
 
-import it.unibo.risikoop.controller.Implementations.ControllerImpl;
-import it.unibo.risikoop.controller.Interfaces.Controller;
+import it.unibo.risikoop.controller.implementations.ControllerImpl;
+import it.unibo.risikoop.controller.interfaces.Controller;
 
 public class RisikoApp {
-    Controller controller = new ControllerImpl();
+    final Controller controller = new ControllerImpl();
 
     /**
      * Starts the model and attaches the views.
