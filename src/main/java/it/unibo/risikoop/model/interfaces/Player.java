@@ -47,4 +47,11 @@ public interface Player {
      */
     Optional<Player> getKiller();
 
+    /**
+     * Sets the player who eliminated this player.
+     *
+     * @param killer the Player who eliminated this player
+     */
+    public void setKiller(Player killer);
+
 }
