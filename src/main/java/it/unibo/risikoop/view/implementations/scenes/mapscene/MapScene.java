@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
+import it.unibo.risikoop.controller.interfaces.Controller;
+
 /**
  * Scene that displays the regular game loop.
  * Shows the Map, the Current Player, their Cards and available Action Buttons.
@@ -25,12 +27,14 @@ public final class MapScene extends JPanel {
      * Constructor for the MapScene.
      * Scene that displays the regular game loop.
      * Shows the Map, the Current Player, their Cards and available Action Buttons.
+     * 
+     * @param controller The controller to retrieve graph data.
      */
-    public MapScene(/* final Controller controller */) {
+    public MapScene(final Controller controller) {
         // this.controller = controller;
 
         this.currentPlayerPanel = new CurrentPlayerJPanel();
-        this.mapPanel = new MapJPanel();
+        this.mapPanel = new MapJPanel(controller.getDataRetrieveController().getActualMap());
         this.cardPanel = new CardJpanel();
         this.actionPanel = new ActionJPanel();
 
@@ -42,10 +46,7 @@ public final class MapScene extends JPanel {
 
     // TODO Remove when actual panels are implemented.
     private void setDebugPanelColors() {
-        this.mapPanel.setBackground(Color.CYAN);
-
         this.currentPlayerPanel.setBackground(Color.RED);
-        this.mapPanel.setBackground(Color.CYAN);
         this.cardPanel.setBackground(Color.GREEN);
         this.actionPanel.setBackground(Color.ORANGE);
     }
