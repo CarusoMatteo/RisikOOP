@@ -2,7 +2,6 @@ package it.unibo.risikoop.controller.implementations;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.graphstream.graph.Graph;
@@ -45,8 +44,8 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     }
 
     @Override
-    public Optional<Territory> getTerritoryFromName(final String name) {
-        return gameManager.getTerritory(name);
+    public Integer getTerritoryUnitsFromName(final String name) {
+        return gameManager.getTerritory(name).map(Territory::getUnits).orElse(0);
     }
 
 }

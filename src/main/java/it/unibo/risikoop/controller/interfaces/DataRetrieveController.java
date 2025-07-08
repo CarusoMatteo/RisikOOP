@@ -1,7 +1,6 @@
 package it.unibo.risikoop.controller.interfaces;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.graphstream.graph.Graph;
@@ -26,18 +25,19 @@ public interface DataRetrieveController {
     Graph getActualMap();
 
     /**
-     * a method for getting all the territories of the game
+     * a method for getting all the territories of the game.
      * 
      * @return a set of all territories
      */
     Set<Territory> getTerritories();
 
     /**
-     * a method for retrieving a territory by its name
+     * a method for retrieving a territory by its name.
      * 
-     * @param namen the name of the territory you want to retrieve
-     * @return an optional of the territory
+     * @param name the name of the territory you want to retrieve
+     * @return the number of units of the territory, if no territory has that name
+     *         returns 0
      */
-    Optional<Territory> getTerritoryFromName(String name);
+    Integer getTerritoryUnitsFromName(String name);
 
 }
