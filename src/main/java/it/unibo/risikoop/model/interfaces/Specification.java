@@ -18,7 +18,7 @@ public interface Specification<T> {
      *         satisfied
      */
     default Specification<T> and(Specification<T> other) {
-        return candidate -> this.isSatisfiedBy(candidate) && other.isSatisfiedBy(candidate);
+        return c -> this.isSatisfiedBy(c) && other.isSatisfiedBy(c);
     }
 
     /**
@@ -29,7 +29,7 @@ public interface Specification<T> {
      *         satisfied
      */
     default Specification<T> or(Specification<T> other) {
-        return candidate -> this.isSatisfiedBy(candidate) || other.isSatisfiedBy(candidate);
+        return c -> this.isSatisfiedBy(c) || other.isSatisfiedBy(c);
     }
 
     /**
@@ -39,7 +39,7 @@ public interface Specification<T> {
      *         satisfied
      */
     default Specification<T> not() {
-        return candidate -> !this.isSatisfiedBy(candidate);
+        return c -> !this.isSatisfiedBy(c);
     }
 
 }
