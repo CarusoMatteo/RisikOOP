@@ -1,11 +1,10 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
-import java.awt.Color;
-
 import javax.swing.JPanel;
 
-public class ActionJPanel extends JPanel {
-    public ActionJPanel() {
-        setBackground(Color.ORANGE);
-    }
+/**
+ * Panel for the Action Buttons in the MapScene.
+ */
+public final class ActionJPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
 }

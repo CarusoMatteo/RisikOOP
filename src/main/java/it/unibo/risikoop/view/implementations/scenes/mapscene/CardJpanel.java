@@ -1,11 +1,10 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
-import java.awt.Color;
-
 import javax.swing.JPanel;
 
-public class CardJpanel extends JPanel {
-    public CardJpanel() {
-        setBackground(Color.GREEN);
-    }
+/**
+ * Panel to display the Cards in the MapScene.
+ */
+public final class CardJpanel extends JPanel {
+    private static final long serialVersionUID = 1L;
 }

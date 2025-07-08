@@ -1,11 +1,10 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
-import java.awt.Color;
-
 import javax.swing.JPanel;
 
-public class CurrentPlayerJPanel extends JPanel {
-    public CurrentPlayerJPanel() {
-        setBackground(Color.RED);
-    }
+/**
+ * Panel to display the Current Player in the MapScene.
+ */
+public final class CurrentPlayerJPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
 }

@@ -1,12 +1,10 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
-import java.awt.Color;
-
 import javax.swing.JPanel;
 
-public class MapJPanel extends JPanel {
-
-    public MapJPanel() {
-        setBackground(Color.CYAN);
-    }
+/**
+ * Panel to dislpay the Map Ghraph in the MapScene.
+ */
+public final class MapJPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
 }

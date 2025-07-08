@@ -1,54 +1,73 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-import it.unibo.risikoop.controller.interfaces.Controller;
-
-public class MapScene extends JPanel {
+/**
+ * Scene that displays the regular game loop.
+ * Shows the Map, the Current Player, their Cards and available Action Buttons.
+ */
+public final class MapScene extends JPanel {
+    private static final double BIG_PANEL_PROPORTION = 0.8;
+    private static final double SMALL_PANEL_PROPORTION = 0.2;
     private static final long serialVersionUID = 1L;
-    private final Controller controller;
+
+    // private final Controller controller;
     private final JPanel currentPlayerPanel;
     private final JPanel mapPanel;
     private final JPanel cardPanel;
     private final JPanel actionPanel;
 
-    public MapScene(Controller controller) {
-        this.controller = controller;
+    /**
+     * Constructor for the MapScene.
+     * Scene that displays the regular game loop.
+     * Shows the Map, the Current Player, their Cards and available Action Buttons.
+     */
+    public MapScene(/* final Controller controller */) {
+        // this.controller = controller;
 
         this.currentPlayerPanel = new CurrentPlayerJPanel();
         this.mapPanel = new MapJPanel();
         this.cardPanel = new CardJpanel();
         this.actionPanel = new ActionJPanel();
 
+        setDebugPanelColors();
+
         setLayout(new GridBagLayout());
         setGridBagConstraints();
     }
 
+    // TODO: Remove when actual panels are implemented.
+    private void setDebugPanelColors() {
+        this.mapPanel.setBackground(Color.CYAN);
+
+        this.currentPlayerPanel.setBackground(Color.RED);
+        this.mapPanel.setBackground(Color.CYAN);
+        this.cardPanel.setBackground(Color.GREEN);
+        this.actionPanel.setBackground(Color.ORANGE);
+    }
+
     private void setGridBagConstraints() {
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
 
-        JPanel leftPanel = new JPanel();
+        final JPanel leftPanel = new JPanel();
         leftPanel.setBackground(Color.BLACK);
-        JPanel rightPanel = new JPanel();
+        final JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.DARK_GRAY);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 0.2;
+        gbc.weightx = SMALL_PANEL_PROPORTION;
         gbc.weighty = 1;
         add(leftPanel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.weightx = 0.8;
+        gbc.weightx = BIG_PANEL_PROPORTION;
         gbc.weighty = 1;
         add(rightPanel, gbc);
 
@@ -56,39 +75,39 @@ public class MapScene extends JPanel {
         populateRightPanel(rightPanel);
     }
 
-    private void populateLeftPanel(JPanel leftPanel) {
+    private void populateLeftPanel(final JPanel leftPanel) {
         leftPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
 
         // currentPlayerPanel
         gbc.gridy = 0;
         gbc.weightx = 1;
-        gbc.weighty = 0.2;
+        gbc.weighty = SMALL_PANEL_PROPORTION;
         leftPanel.add(this.currentPlayerPanel, gbc);
 
         // cardPanel
         gbc.gridy = 1;
         gbc.weightx = 1;
-        gbc.weighty = 0.8;
+        gbc.weighty = BIG_PANEL_PROPORTION;
         leftPanel.add(this.cardPanel, gbc);
     }
 
-    private void populateRightPanel(JPanel rightPanel) {
+    private void populateRightPanel(final JPanel rightPanel) {
         rightPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
 
         // mapPanel
         gbc.gridy = 0;
         gbc.weightx = 1;
-        gbc.weighty = 0.8;
+        gbc.weighty = BIG_PANEL_PROPORTION;
         rightPanel.add(this.mapPanel, gbc);
 
         // actionPanel
         gbc.gridy = 1;
         gbc.weightx = 1;
-        gbc.weighty = 0.2;
+        gbc.weighty = SMALL_PANEL_PROPORTION;
         rightPanel.add(this.actionPanel, gbc);
     }
 
