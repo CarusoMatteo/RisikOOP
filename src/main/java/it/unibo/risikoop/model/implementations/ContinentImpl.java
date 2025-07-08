@@ -37,7 +37,7 @@ public final class ContinentImpl implements Continent {
 
     @Override
     public Set<Territory> getTerritories() {
-        return territories;
+        return Set.copyOf(territories);
     }
 
     @Override

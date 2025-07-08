@@ -15,6 +15,8 @@ import it.unibo.risikoop.view.interfaces.RisikoView;
  * main controller class.
  */
 public final class ControllerImpl implements Controller {
+    private static final long serialVersionUID = 1L;
+
     private final GameManager gameManager = new GameManagerImpl();
     private final List<RisikoView> viewList = new LinkedList<>();
     private final DataAddingController dataAddController;

@@ -6,21 +6,16 @@ import it.unibo.risikoop.controller.interfaces.Controller;
 /**
  * entry point class.
  */
-public class RisikoApp {
-    private final Controller controller = new ControllerImpl();
+public final class RisikoApp {
+    private static final Controller CONTROLLER = new ControllerImpl();
 
-    /**
-     * Starts the model and attaches the views.
-     * 
-     */
-    public RisikoApp() {
-        controller.start();
+    private RisikoApp() {
     }
 
     /**
      * @param args ignored
      */
     public static void main(final String... args) {
-        new RisikoApp();
+        CONTROLLER.start();
     }
 }
