@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 public class CardJpanel extends JPanel {
-	public CardJpanel() {
-		setBackground(Color.GREEN);
-	}
+    public CardJpanel() {
+        setBackground(Color.GREEN);
+    }
 }

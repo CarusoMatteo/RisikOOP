@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 public class MapJPanel extends JPanel {
 
-	public MapJPanel() {
-		setBackground(Color.CYAN);
-	}
+    public MapJPanel() {
+        setBackground(Color.CYAN);
+    }
 }
