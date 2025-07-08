@@ -1,6 +1,9 @@
 package it.unibo.risikoop.controller.implementations;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.graphstream.graph.Graph;
 
@@ -8,6 +11,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
+import it.unibo.risikoop.model.interfaces.Territory;
 
 /**
  * controller for retrieveing for the vbiew all kind of necessary data.
@@ -33,6 +37,16 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     @Override
     public Graph getActualMap() {
         return gameManager.getActualWorldMap();
+    }
+
+    @Override
+    public Set<Territory> getTerritories() {
+        return Collections.unmodifiableSet(gameManager.getTerritories());
+    }
+
+    @Override
+    public Optional<Territory> getTerritoryFromName(final String name) {
+        return gameManager.getTerritory(name);
     }
 
 }
