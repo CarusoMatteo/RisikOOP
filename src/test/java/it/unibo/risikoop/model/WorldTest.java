@@ -23,69 +23,73 @@ import it.unibo.risikoop.model.interfaces.Territory;
 /**
  * Class to test loading default World or World from file.
  */
-public class WorldTest {
+class WorldTest {
+    private static final String USA = "USA";
+
     private final GameManager gameManager = new GameManagerImpl();
 
     @Test
     void addTerritory() {
         final Graph map = new MultiGraph("map", false, true);
-        map.addEdge("JP-USA", "JP", "USA");
-        map.addEdge("USA-UK", "USA", "UK");
+        map.addEdge("JP-USA", "JP", USA);
+        map.addEdge("USA-UK", USA, "UK");
         map.addEdge("IT-UK", "IT", "UK");
         gameManager.setWorldMap(map);
         assertEquals(gameManager.getTerritories()
                 .stream()
-                .map(i -> i.getName())
-                .collect(Collectors.toSet()), Set.of("IT", "USA", "JP", "UK"));
+                .map(Territory::getName)
+                .collect(Collectors.toSet()), Set.of("IT", USA, "JP", "UK"));
         assertNotEquals(gameManager.getTerritories()
                 .stream()
-                .map(i -> i.getName())
-                .collect(Collectors.toSet()), Set.of("id", "USA", "JP", "UK"));
+                .map(Territory::getName)
+                .collect(Collectors.toSet()), Set.of("id", USA, "JP", "UK"));
         /*
          * Checking JP neightbours
          */
         assertNotEquals(gameManager.getTerritoryNeightbours("JP")
                 .stream()
-                .map(i -> i.getName()).collect(Collectors.toSet()), Set.of("IT", "USA"));
+                .map(Territory::getName).collect(Collectors.toSet()), Set.of("IT", USA));
         assertEquals(gameManager.getTerritoryNeightbours("JP")
                 .stream()
-                .map(i -> i.getName()).collect(Collectors.toSet()), Set.of("USA"));
+                .map(Territory::getName).collect(Collectors.toSet()), Set.of(USA));
         /*
          * Checking USA neightbours
          */
-        assertNotEquals(gameManager.getTerritoryNeightbours("USA")
+        assertNotEquals(gameManager.getTerritoryNeightbours(USA)
                 .stream()
-                .map(i -> i.getName()).collect(Collectors.toSet()), Set.of("JP", "S"));
+                .map(Territory::getName).collect(Collectors.toSet()), Set.of("JP", "S"));
 
-        assertEquals(gameManager.getTerritoryNeightbours("USA")
+        assertEquals(gameManager.getTerritoryNeightbours(USA)
                 .stream()
-                .map(i -> i.getName()).collect(Collectors.toSet()), Set.of("JP", "UK"));
+                .map(Territory::getName).collect(Collectors.toSet()), Set.of("JP", "UK"));
         /*
          * Checking UK neightbours
          */
         assertEquals(gameManager.getTerritoryNeightbours("UK")
                 .stream()
-                .map(i -> i.getName()).collect(Collectors.toSet()), Set.of("IT", "USA"));
+                .map(Territory::getName).collect(Collectors.toSet()), Set.of("IT", USA));
     }
 
     @Test
     void addUnitToTerritory() {
         final Graph map = new MultiGraph("map", true, true);
         map.addNode("IT");
-        map.addNode("USA");
+        map.addNode(USA);
         map.addNode("UK");
         map.addNode("JP");
-        map.addEdge("JP-USA", "JP", "USA");
-        map.addEdge("USA-UK", "USA", "UK");
+        map.addEdge("JP-USA", "JP", USA);
+        map.addEdge("USA-UK", USA, "UK");
         map.addEdge("IT-UK", "IT", "UK");
         gameManager.setWorldMap(map);
         gameManager.addUnits("IT", 10);
         gameManager.addUnits("IT", 10);
         gameManager.addUnits("IT", -1);
-        assertEquals(gameManager.getTerritory("IT").get().getUnits(), 20);
+        final int actualUnits = 20;
+        assertEquals(gameManager.getTerritory("IT").get().getUnits(), actualUnits);
         gameManager.removeUnits("IT", -1);
         gameManager.removeUnits("IT", 1);
-        assertEquals(gameManager.getTerritory("IT").get().getUnits(), 19);
+        final int actualUnitsAfterRemoval = 19;
+        assertEquals(gameManager.getTerritory("IT").get().getUnits(), actualUnitsAfterRemoval);
     }
 
     @Test
@@ -106,7 +110,7 @@ public class WorldTest {
         assertEquals(Set.of("Asia", "Europa", "America"),
                 gameManager.getContinents()
                         .stream()
-                        .map(i -> i.getName())
+                        .map(Continent::getName)
                         .collect(Collectors.toSet()));
     }
 
@@ -131,7 +135,7 @@ public class WorldTest {
         final Optional<Continent> africa = gameManager.getContinent("Africa");
         assertTrue(africa.isPresent());
         assertEquals(Set.of("North-Africa", "Egypt", "Congo", "South-Africa", "Est-Africa"),
-                africa.get().getTerritories().stream().map(i -> i.getName())
+                africa.get().getTerritories().stream().map(Territory::getName)
                         .collect(Collectors.toSet()));
 
     }
