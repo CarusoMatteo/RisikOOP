@@ -6,11 +6,11 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Specification;
 
-public class KillOrConquer24Builder extends AbstractObjectiveCardBuilder {
+public class KillPlayerOrConquer24Builder extends AbstractObjectiveCardBuilder {
 
     private final Player target;
 
-    public KillOrConquer24Builder(GameManager gameManager, Player owner) {
+    public KillPlayerOrConquer24Builder(GameManager gameManager, Player owner) {
         super(gameManager, owner);
         this.target = gameManager.getPlayers()
                 .get(super.random.nextInt(gameManager.getPlayers().size()));
