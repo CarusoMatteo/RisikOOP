@@ -1,7 +1,8 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.ui.swing_viewer.SwingViewer;
@@ -12,15 +13,27 @@ import org.graphstream.ui.swing_viewer.ViewPanel;
  */
 public final class MapJPanel extends JPanel {
     private static final long serialVersionUID = 1L;
-    private static final String COMMON_STYLE_SHEET = "node {"
-            + "text-size: 25;"
-            + "text-alignment: under;"
-            + "}";
+    /*
+     * private static final String COMMON_STYLE_SHEET = "node {"
+     * + "text-size: 25;"
+     * + "text-alignment: under;"
+     * + "}";
+     */
+    private static final String COMMON_STYLE_SHEET = """
+                node {
+                    fill-color: orange;
+                    size: 30px;
+                    text-size: 15px;
+                    text-color: black;
+                    text-alignment: under;
+                    size-mode: dyn-size;
+                }
+            """;
 
     /**
      * Constructor for MapJPanel.
      * 
-     * @param graph      The graph representing the actual map.
+     * @param graph The graph representing the actual map.
      */
     public MapJPanel(final Graph graph) {
         setLayout(new BorderLayout());
@@ -29,7 +42,6 @@ public final class MapJPanel extends JPanel {
                 node -> node.setAttribute("ui.label", node.getId() + " - " + getUnits(node.getId()) + " units"));
 
         graph.setAttribute("ui.stylesheet", COMMON_STYLE_SHEET);
-
         final SwingViewer graphViewer = new SwingViewer(graph, SwingViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         graphViewer.enableAutoLayout();
         final ViewPanel graphView = (ViewPanel) graphViewer.addDefaultView(false);
@@ -47,4 +59,5 @@ public final class MapJPanel extends JPanel {
         // TODO Implement logic to get the number of units.
         return String.valueOf(territoryName.length());
     }
+
 }
