@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.view.implementations.scenes.MapChoserScene;
 import it.unibo.risikoop.view.implementations.scenes.PlayerAddingView;
+import it.unibo.risikoop.view.implementations.scenes.mapscene.MapScene;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
 /**
@@ -26,6 +27,7 @@ public final class SwingView implements RisikoView {
     private final JFrame frame = new JFrame();
     private final PlayerAddingView playerAddingView;
     private final MapChoserScene mapChoser;
+    private final MapScene mapScene;
 
     /**
      * constructor.
@@ -36,6 +38,7 @@ public final class SwingView implements RisikoView {
         this.controller = controller;
         playerAddingView = new PlayerAddingView(this.controller);
         mapChoser = new MapChoserScene(this.controller);
+        mapScene = new MapScene(this.controller);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize((int) (screenSize.getWidth() / RIDIM), (int) (screenSize.getHeight() / RIDIM));
@@ -77,8 +80,7 @@ public final class SwingView implements RisikoView {
 
     @Override
     public void beginPlay() {
-        // TODO Auto-generated method stub
-        // System.out.println("Game beginned");
+        changePanel(frame, mapChoser, mapScene);
     }
 
     @Override
