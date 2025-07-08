@@ -3,5 +3,7 @@
     "editor.formatOnSave": true,
     "editor.formatOnSaveMode": "file",
     "editor.defaultFormatter": "redhat.java",
-	"editor.detectIndentation": true
+    "[java]": {
+        "editor.insertSpaces": true
+    },
 }
