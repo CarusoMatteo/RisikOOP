@@ -42,4 +42,13 @@ metodi
 
 Come realizzarlo?
 Utilizzo lo Specification Pattern per comporre obbiettivi in modo semplice dimanico e scalabile
+alternative possibile sarebbere state utilizzando un template method con una classe astretta ed un metodo template isAchive
+oppure usando il pattern stategy e sciverndo la funzione isAchive direttamnete come lambda nel costruttore
+con questi due metodi perdevo l apossibilità di comporre i vari metodi tra loro
+
 genero gli obbiettivi run time 3 tipologie 1. uccidi il giocatore X, 2. Conquista n territorri con x truppe, 3. conquita x continenti
+
+
+------------------------------------------------------------------------------------------------------
+2) Gestione delle care territorio
+Le carte territorio sono caratterizzate da 
