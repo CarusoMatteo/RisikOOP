@@ -11,12 +11,12 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Specification;
 
-public class ConquerNContinets extends AbstractObjectiveCardBuilder {
+public class ConquerNContinetsBuilder extends AbstractObjectiveCardBuilder {
 
     private static final int MIN_TERRITORIES = 10;
     private final Set<Continent> continents;
 
-    public ConquerNContinets(GameManager gameManager, Player owner) {
+    public ConquerNContinetsBuilder(GameManager gameManager, Player owner) {
         super(gameManager, owner);
         this.continents = createBalanceObjective();
     }

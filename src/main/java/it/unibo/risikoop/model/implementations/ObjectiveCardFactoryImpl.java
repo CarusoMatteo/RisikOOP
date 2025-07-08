@@ -2,6 +2,9 @@ package it.unibo.risikoop.model.implementations;
 
 import java.util.Random;
 
+import it.unibo.risikoop.model.implementations.objectivecards.ConquerNContinetsBuilder;
+import it.unibo.risikoop.model.implementations.objectivecards.ConquerNTerritoriesWithXArmiesBuilder;
+import it.unibo.risikoop.model.implementations.objectivecards.KillPlayerOrConquer24Builder;
 import it.unibo.risikoop.model.implementations.specification.ConquerTerritoriesWithMinArmiesSpec;
 import it.unibo.risikoop.model.implementations.specification.KillPlayerOrConquer24TerritoriesSpec;
 import it.unibo.risikoop.model.interfaces.GameManager;
@@ -29,8 +32,20 @@ public class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
     public ObjectiveCard createObjectiveCard(Player owner) {
         ObjectiveType type = getRandomObjectiveType();
 
-        // TODO Auto-generated method stub
-        return null;
+        switch (type) {
+            case KILL_PLAYER_OR_CONQUER_24_TERRITORIES:
+                return new KillPlayerOrConquer24Builder(gameManager, owner).createCard();
+            case CONQUER_TERRITORIES:
+                return new ConquerNTerritoriesWithXArmiesBuilder(
+                        gameManager,
+                        owner,
+                        18,
+                        2).createCard();
+            case CONQUER_CONTINENTS:
+                return new ConquerNContinetsBuilder(gameManager, owner).createCard();
+            default:
+                throw new IllegalArgumentException("Unknown objective type: " + type);
+        }
     }
 
     private ObjectiveType getRandomObjectiveType() {
@@ -38,28 +53,4 @@ public class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
         return types[random.nextInt(types.length)];
     }
 
-    private ObjectiveCard createKillPlayerObjective(Player owner) {
-
-        Player target = gameManager.getPlayers()
-                .get(random.nextInt(gameManager.getPlayers().size()));
-
-        String description = "Kill player " + target.getName() + "from the board or conquer at least 24 territories.";
-
-        return new ObjectiveCardImpl(
-                description,
-                owner,
-                gameManager,
-                new KillPlayerOrConquer24TerritoriesSpec(target));
-    }
-
-    private ObjectiveCard createConquerTerritoriesObjective(Player owner) {
-
-        String description = "Conquer at least 18 territories with at least 2 armies in each.";
-
-        return new ObjectiveCardImpl(
-                description,
-                owner,
-                gameManager,
-                new ConquerTerritoriesWithMinArmiesSpec(2, 18));
-    }
 }
