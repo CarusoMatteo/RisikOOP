@@ -40,7 +40,7 @@ public final class MapScene extends JPanel {
         setGridBagConstraints();
     }
 
-    // TODO: Remove when actual panels are implemented.
+    // TODO Remove when actual panels are implemented.
     private void setDebugPanelColors() {
         this.mapPanel.setBackground(Color.CYAN);
 
