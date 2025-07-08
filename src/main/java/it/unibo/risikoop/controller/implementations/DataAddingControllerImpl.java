@@ -2,8 +2,10 @@ package it.unibo.risikoop.controller.implementations;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.DataAddingController;
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.implementations.ContinentImpl;
@@ -21,6 +24,8 @@ import it.unibo.risikoop.model.interfaces.GameManager;
  * controller for the operations of data adding like adding a player ecc... .
  */
 public final class DataAddingControllerImpl implements DataAddingController {
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "controllers must access shared GameManager because"
+            + "it is a bridge between view and model")
     private final GameManager gameManager;
 
     /**
@@ -42,7 +47,8 @@ public final class DataAddingControllerImpl implements DataAddingController {
     public boolean loadWorldFromFile(final File file) {
         final Graph newMap = new MultiGraph(file.getName(), false, true);
         final Map<String, Continent> cm = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             String line = br.readLine();
             while (line != null) {
                 if ("begin continent reward units".equals(line)) {

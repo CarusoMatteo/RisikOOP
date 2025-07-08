@@ -17,7 +17,7 @@ import it.unibo.risikoop.view.implementations.SwingView;
  */
 public final class MapChoserScene extends JPanel {
     private static final long serialVersionUID = 1L;
-    private final Controller controller;
+    private final transient Controller controller;
     private final JPanel mapPreview = new JPanel();
 
     /**

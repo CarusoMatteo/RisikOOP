@@ -1,11 +1,9 @@
 package it.unibo.risikoop.controller.interfaces;
 
-import java.io.Serializable;
-
 /**
  * 
  */
-public interface Controller extends Serializable {
+public interface Controller {
     /**
      * @return the dataAdding controller.
      * 

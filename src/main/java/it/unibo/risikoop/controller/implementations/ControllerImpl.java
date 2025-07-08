@@ -15,25 +15,20 @@ import it.unibo.risikoop.view.interfaces.RisikoView;
  * main controller class.
  */
 public final class ControllerImpl implements Controller {
-    private static final long serialVersionUID = 1L;
 
     private final GameManager gameManager = new GameManagerImpl();
     private final List<RisikoView> viewList = new LinkedList<>();
-    private final DataAddingController dataAddController;
-    private final DataRetrieveController dataRetrieveController;
 
     /**
      * constructor.
      */
     public ControllerImpl() {
         viewList.add(new SwingView(this));
-        dataAddController = new DataAddingControllerImpl(gameManager);
-        dataRetrieveController = new DataRetrieveControllerImpl(gameManager);
     }
 
     @Override
     public DataAddingController getDataAddingController() {
-        return dataAddController;
+        return new DataAddingControllerImpl(gameManager);
     }
 
     @Override
@@ -53,7 +48,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public DataRetrieveController getDataRetrieveController() {
-        return dataRetrieveController;
+        return new DataRetrieveControllerImpl(gameManager);
     }
 
     @Override
@@ -61,5 +56,14 @@ public final class ControllerImpl implements Controller {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'gameOver'");
     }
+    /*
+     * private void readObject(final java.io.ObjectInputStream in) throws
+     * java.io.IOException, ClassNotFoundException {
+     * in.defaultReadObject();
+     * // Reinitialize transient fields
+     * this.gameManager = new GameManagerImpl();
+     * this.viewList = List.of(new SwingView(this));
+     * }
+     */
 
 }

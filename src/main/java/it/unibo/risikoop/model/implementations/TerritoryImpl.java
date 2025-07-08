@@ -1,10 +1,12 @@
 package it.unibo.risikoop.model.implementations;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.graphstream.graph.Graph;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -13,9 +15,10 @@ import it.unibo.risikoop.model.interfaces.Territory;
  * terriory implementantion.
  */
 public final class TerritoryImpl implements Territory {
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Territory must access shared GameManager")
     private final GameManager gameManager;
     private final String name;
-    private Player owner;
+    private Optional<Player> owner = Optional.empty();
     private int units;
 
     /**
@@ -36,13 +39,13 @@ public final class TerritoryImpl implements Territory {
 
     @Override
     public Player getOwner() {
-        return owner;
+        return owner.get();
     }
 
     @Override
     public boolean changeOwner(final Player newOwner) {
         if (gameManager.getPlayers().contains(newOwner)) {
-            owner = new PlayerImpl(newOwner.getName(), newOwner.getColor());
+            owner = Optional.of(new PlayerImpl(newOwner.getName(), newOwner.getColor()));
             return true;
         }
         return false;

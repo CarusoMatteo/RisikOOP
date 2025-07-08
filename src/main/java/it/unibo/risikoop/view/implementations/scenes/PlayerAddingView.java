@@ -25,7 +25,7 @@ import it.unibo.risikoop.view.implementations.SwingView;
  */
 public final class PlayerAddingView extends JPanel {
     private static final long serialVersionUID = 1L;
-    private final Controller controller;
+    private final transient Controller controller;
     private final JPanel playerListPanel = new JPanel();
     private final JPanel inputPanel = new JPanel();
     private final DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(

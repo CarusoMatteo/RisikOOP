@@ -24,7 +24,7 @@ public final class GameManagerImpl implements GameManager {
     private final List<Player> players = new LinkedList<>();
     private final Set<Territory> territories = new HashSet<>();
     private final Set<Continent> continents = new HashSet<>();
-    private Graph worldMap;
+    private Optional<Graph> worldMap = Optional.empty();
 
     @Override
     public boolean addPlayer(final String name, final Color col) {
@@ -72,12 +72,12 @@ public final class GameManagerImpl implements GameManager {
 
     @Override
     public Set<Territory> getTerritories() {
-        return territories;
+        return Collections.unmodifiableSet(territories);
     }
 
     @Override
     public void setWorldMap(final Graph worldMap) {
-        this.worldMap = worldMap;
+        this.worldMap = Optional.of(worldMap);
         territories.addAll(worldMap.nodes().map(i -> new TerritoryImpl(this, i.getId())).collect(Collectors.toSet()));
 
     }
@@ -90,12 +90,12 @@ public final class GameManagerImpl implements GameManager {
 
     @Override
     public Set<Continent> getContinents() {
-        return continents;
+        return Collections.unmodifiableSet(continents);
     }
 
     @Override
     public Graph getActualWorldMap() {
-        return worldMap;
+        return worldMap.get();
     }
 
     @Override
@@ -129,7 +129,7 @@ public final class GameManagerImpl implements GameManager {
     public void removeAllTerritoriesAndContinents() {
         territories.removeIf(i -> true);
         continents.removeIf(i -> true);
-        worldMap.clear();
+        worldMap.ifPresent(Graph::clear);
     }
 
     @Override
