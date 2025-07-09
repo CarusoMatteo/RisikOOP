@@ -27,7 +27,7 @@ public final class SwingView implements RisikoView {
     private final JFrame frame = new JFrame();
     private final PlayerAddingView playerAddingView;
     private final MapChoserScene mapChoser;
-    private final MapScene mapScene;
+    // private MapScene mapScene;
 
     /**
      * constructor.
@@ -38,7 +38,6 @@ public final class SwingView implements RisikoView {
         this.controller = controller;
         playerAddingView = new PlayerAddingView(this.controller);
         mapChoser = new MapChoserScene(this.controller);
-        mapScene = new MapScene(/* this.controller */);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize((int) (screenSize.getWidth() / RIDIM), (int) (screenSize.getHeight() / RIDIM));
@@ -80,6 +79,7 @@ public final class SwingView implements RisikoView {
 
     @Override
     public void beginPlay() {
+        final MapScene mapScene = new MapScene(this.controller);
         changePanel(frame, mapChoser, mapScene);
     }
 
