@@ -1,6 +1,7 @@
 package it.unibo.risikoop.controller.interfaces;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.graphstream.graph.Graph;
@@ -36,8 +37,8 @@ public interface DataRetrieveController {
      * 
      * @param name the name of the territory you want to retrieve
      * @return the number of units of the territory, if no territory has that name
-     *         returns 0
+     *         returns Optional.empty()
      */
-    Integer getTerritoryUnitsFromName(String name);
+    Optional<Integer> getTerritoryUnitsFromName(String name);
 
 }
