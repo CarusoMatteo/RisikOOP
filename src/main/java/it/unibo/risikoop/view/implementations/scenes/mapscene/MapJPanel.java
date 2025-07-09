@@ -13,21 +13,15 @@ import org.graphstream.ui.swing_viewer.ViewPanel;
  */
 public final class MapJPanel extends JPanel {
     private static final long serialVersionUID = 1L;
-    /*
-     * private static final String COMMON_STYLE_SHEET = "node {"
-     * + "text-size: 25;"
-     * + "text-alignment: under;"
-     * + "}";
-     */
     private static final String COMMON_STYLE_SHEET = """
-                node {
-                    fill-color: orange;
-                    size: 30px;
-                    text-size: 15px;
-                    text-color: black;
-                    text-alignment: under;
-                    size-mode: dyn-size;
-                }
+            node {
+                fill-color: orange;
+                size: 30px;
+                text-size: 15px;
+                text-color: black;
+                text-alignment: under;
+                size-mode: dyn-size;
+            }
             """;
 
     /**
