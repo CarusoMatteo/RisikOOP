@@ -1,0 +1,19 @@
+{
+    "edges":[
+        ["Inghilterra","Francia"],
+        ["Francia","Lussemburgo"],
+        ["StatiUniti","Francia"],
+        ["Russia","China"],
+        ["Giappone","Italia"]
+    ],
+    "continents": {
+            "Asia":3,
+            "America" : 5,
+            "Europa" : 2
+    },
+    "appartenenze":{
+        "Asia":["Giappone","Russia","China"],
+        "Europa":["Francia","Lussemburgo","Italia"],
+        "America" :["StatiUniti"]
+    }
+}

@@ -1,17 +1,16 @@
 package it.unibo.risikoop.controller.implementations;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.DataAddingController;
@@ -24,6 +23,7 @@ import it.unibo.risikoop.model.interfaces.GameManager;
  * controller for the operations of data adding like adding a player ecc... .
  */
 public final class DataAddingControllerImpl implements DataAddingController {
+
     @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "controllers must access shared GameManager because"
             + "it is a bridge between view and model")
     private final GameManager gameManager;
@@ -43,39 +43,29 @@ public final class DataAddingControllerImpl implements DataAddingController {
         return gameManager.addPlayer(nome, new Color(r, g, b));
     }
 
-    @Override
-    public boolean loadWorldFromFile(final File file) {
+    private boolean loadFromJson(final File file) {
+        final ObjectMapper mapper = new ObjectMapper();
         final Graph newMap = new MultiGraph(file.getName(), false, true);
         final Map<String, Continent> cm = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-            String line = br.readLine();
-            while (line != null) {
-                if ("begin continent reward units".equals(line)) {
-                    line = br.readLine();
-                    break;
-                }
-                if (processMapFromLine(line, newMap)) {
-                    return false;
-                }
-                line = br.readLine();
+        try {
+            final JsonResult data = mapper.readValue(file, JsonResult.class);
+            for (final var edge : data.edges) {
+                final String edge1 = edge.get(0);
+                final String edge2 = edge.get(1);
+                newMap.addEdge(edge1 + "-" + edge2, edge1, edge2);
             }
-
             gameManager.setWorldMap(newMap);
-
-            while (line != null && !"begin territory".equals(line)) {
-                if (processContinentFromLine(line, cm)) {
-                    return false;
+            for (final var continent : data.continents.entrySet()) {
+                final String continentName = continent.getKey();
+                final int unitReward = continent.getValue();
+                cm.putIfAbsent(continentName, new ContinentImpl(continentName, unitReward));
+            }
+            for (final var appartenenza : data.appartenenze.entrySet()) {
+                for (final String territoryName : appartenenza.getValue()) {
+                    gameManager.getTerritory(territoryName)
+                            .ifPresent(i -> cm.get(appartenenza.getKey()).addTerritory(i));
                 }
-                line = br.readLine();
             }
-
-            line = br.readLine();
-            while (line != null) {
-                processContinentsTerritoryFromLine(line, cm);
-                line = br.readLine();
-            }
-
             gameManager.setContinents(cm.values().stream().collect(Collectors.toSet()));
 
         } catch (final IOException e) {
@@ -84,37 +74,48 @@ public final class DataAddingControllerImpl implements DataAddingController {
         return true;
     }
 
-    private void processContinentsTerritoryFromLine(final String line, final Map<String, Continent> cm) {
-        final String[] parts = line.split(":");
-        final String continentName = parts[0];
-        final String[] territrories = parts[1].split("-");
-        for (final String territoryName : territrories) {
-            gameManager.getTerritory(territoryName).ifPresent(i -> cm.get(continentName).addTerritory(i));
-        }
-    }
-
-    private boolean processContinentFromLine(final String line, final Map<String, Continent> cm) {
-        final String[] parts = line.split("-");
-        if (parts.length != 2) {
-            return true;
-        }
-        try {
-            final String continentName = parts[0];
-            final int unitReward = Integer.parseInt(parts[1]);
-            cm.putIfAbsent(continentName, new ContinentImpl(continentName, unitReward));
-        } catch (final NumberFormatException e) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean processMapFromLine(final String line, final Graph newMap) {
-        final String[] parts = line.split("-");
-        if (parts.length != 2) {
-            return true;
-        }
-        newMap.addEdge(line, parts[0], parts[1]);
-        return false;
+    @Override
+    public boolean loadWorldFromFile(final File file) {
+        /*
+         * final Graph newMap = new MultiGraph(file.getName(), false, true);
+         * final Map<String, Continent> cm = new HashMap<>();
+         * try (BufferedReader br = new BufferedReader(
+         * new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+         * String line = br.readLine();
+         * while (line != null) {
+         * if ("begin continent reward units".equals(line)) {
+         * line = br.readLine();
+         * break;
+         * }
+         * if (processMapFromLine(line, newMap)) {
+         * return false;
+         * }
+         * line = br.readLine();
+         * }
+         * 
+         * gameManager.setWorldMap(newMap);
+         * 
+         * while (line != null && !"begin territory".equals(line)) {
+         * if (processContinentFromLine(line, cm)) {
+         * return false;
+         * }
+         * line = br.readLine();
+         * }
+         * 
+         * line = br.readLine();
+         * while (line != null) {
+         * processContinentsTerritoryFromLine(line, cm);
+         * line = br.readLine();
+         * }
+         * 
+         * gameManager.setContinents(cm.values().stream().collect(Collectors.toSet()));
+         * 
+         * } catch (final IOException e) {
+         * return false;
+         * }
+         * return true;
+         */
+        return loadFromJson(file);
     }
 
     @Override
@@ -122,4 +123,7 @@ public final class DataAddingControllerImpl implements DataAddingController {
         gameManager.setDefaultWorld();
     }
 
+    private record JsonResult(List<List<String>> edges, Map<String, Integer> continents,
+            Map<String, List<String>> appartenenze) {
+    }
 }
