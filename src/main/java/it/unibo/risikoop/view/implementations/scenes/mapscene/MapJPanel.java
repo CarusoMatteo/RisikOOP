@@ -8,6 +8,8 @@ import org.graphstream.graph.Graph;
 import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.swing_viewer.ViewPanel;
 
+import it.unibo.risikoop.controller.interfaces.Controller;
+
 /**
  * Panel to dislpay the Map Ghraph in the MapScene.
  */
@@ -24,14 +26,18 @@ public final class MapJPanel extends JPanel {
             }
             """;
 
+    private final transient Controller controller;
+
     /**
      * Constructor for MapJPanel.
      * 
-     * @param graph The graph representing the actual map.
+     * @param controller The controller to retrieve graph data and unit count.
      */
-    public MapJPanel(final Graph graph) {
+    public MapJPanel(final Controller controller) {
+        this.controller = controller;
         setLayout(new BorderLayout());
 
+        final Graph graph = controller.getDataRetrieveController().getActualMap();
         graph.nodes().forEach(
                 node -> node.setAttribute("ui.label", node.getId() + " - " + getUnits(node.getId()) + " units"));
 
@@ -50,8 +56,9 @@ public final class MapJPanel extends JPanel {
      * @return A string representing the number of units in the territory.
      */
     private String getUnits(final String territoryName) {
-        // TODO Implement logic to get the number of units.
-        return String.valueOf(territoryName.length());
+        return String.valueOf(controller
+                .getDataRetrieveController()
+                .getTerritoryUnitsFromName(territoryName)
+                .orElse(-1));
     }
-
 }

@@ -34,7 +34,7 @@ public final class MapScene extends JPanel {
         // this.controller = controller;
 
         this.currentPlayerPanel = new CurrentPlayerJPanel();
-        this.mapPanel = new MapJPanel(controller.getDataRetrieveController().getActualMap());
+        this.mapPanel = new MapJPanel(controller);
         this.cardPanel = new CardJpanel();
         this.actionPanel = new ActionJPanel();
 
