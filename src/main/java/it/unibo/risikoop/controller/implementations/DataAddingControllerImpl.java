@@ -76,45 +76,6 @@ public final class DataAddingControllerImpl implements DataAddingController {
 
     @Override
     public boolean loadWorldFromFile(final File file) {
-        /*
-         * final Graph newMap = new MultiGraph(file.getName(), false, true);
-         * final Map<String, Continent> cm = new HashMap<>();
-         * try (BufferedReader br = new BufferedReader(
-         * new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-         * String line = br.readLine();
-         * while (line != null) {
-         * if ("begin continent reward units".equals(line)) {
-         * line = br.readLine();
-         * break;
-         * }
-         * if (processMapFromLine(line, newMap)) {
-         * return false;
-         * }
-         * line = br.readLine();
-         * }
-         * 
-         * gameManager.setWorldMap(newMap);
-         * 
-         * while (line != null && !"begin territory".equals(line)) {
-         * if (processContinentFromLine(line, cm)) {
-         * return false;
-         * }
-         * line = br.readLine();
-         * }
-         * 
-         * line = br.readLine();
-         * while (line != null) {
-         * processContinentsTerritoryFromLine(line, cm);
-         * line = br.readLine();
-         * }
-         * 
-         * gameManager.setContinents(cm.values().stream().collect(Collectors.toSet()));
-         * 
-         * } catch (final IOException e) {
-         * return false;
-         * }
-         * return true;
-         */
         return loadFromJson(file);
     }
 
