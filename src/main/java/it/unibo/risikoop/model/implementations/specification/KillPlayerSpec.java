@@ -16,8 +16,14 @@ public class KillPlayerSpec implements Specification<PlayerGameContext> {
 
     @Override
     public boolean isSatisfiedBy(PlayerGameContext ctx) {
+
+        Objects.requireNonNull(ctx, "PlayerGameContext cannot be null");
+
+
         return target.getKiller()
                 .filter(killer -> killer.equals(ctx.player()))
                 .isPresent();
+
+        //3703685093
     }
 }

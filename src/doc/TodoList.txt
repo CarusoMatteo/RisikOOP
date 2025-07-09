@@ -47,8 +47,13 @@ oppure usando il pattern stategy e sciverndo la funzione isAchive direttamnete c
 con questi due metodi perdevo l apossibilità di comporre i vari metodi tra loro
 
 genero gli obbiettivi run time 3 tipologie 1. uccidi il giocatore X, 2. Conquista n territorri con x truppe, 3. conquita x continenti
+implementato usando il pattern con la classe astratta AbstractObjectiveCardBuilder con i trmplate method abstract String buildDescription(); 
+e abstract Specification<PlayerGameContext> buildSpecification();
 
 
 ------------------------------------------------------------------------------------------------------
 2) Gestione delle care territorio
-Le carte territorio sono caratterizzate da 
+Le carte territorio sono caratterizzate da un territorio associato e un tipo di figura associata che sia cannone, cavallo o soldato 
+quindi ogni carta ha semplice due campi e 4 metodi 2 setter e 2 getter
+
+
