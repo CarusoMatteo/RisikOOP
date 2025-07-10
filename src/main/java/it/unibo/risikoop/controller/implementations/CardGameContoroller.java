@@ -3,16 +3,30 @@ package it.unibo.risikoop.controller.implementations;
 import java.util.List;
 
 import it.unibo.risikoop.controller.interfaces.CardGameController;
+import it.unibo.risikoop.model.implementations.gamecards.CardDeckImpl;
+import it.unibo.risikoop.model.interfaces.CardDeck;
 import it.unibo.risikoop.model.interfaces.Combo;
+import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
 public class CardGameContoroller implements CardGameController{
 
+    private final CardDeck deck;
+    private final GameManager gameManager;
+
+    public CardGameContoroller(GameManager gameManager) {
+        this.gameManager = gameManager;
+        deck = new CardDeckImpl(gameManager.getTerritories());
+    }
+
     @Override
     public GameCard drawCard() {
-        // TODO Auto-generated method stub
-        return null;
+        if (!deck.isEmpty()) {
+            return deck.drawCard();
+        }else {
+            throw new IllegalStateException("The deck is empty, cannot draw a card.");
+        }
     }
 
     @Override
@@ -26,5 +40,4 @@ public class CardGameContoroller implements CardGameController{
         // TODO Auto-generated method stub
         
     }
-    
 }
