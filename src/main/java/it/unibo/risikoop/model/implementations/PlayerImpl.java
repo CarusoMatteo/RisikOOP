@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
-import it.unibo.risikoop.model.interfaces.TerritoryCard;
+import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 
 /**
  * 

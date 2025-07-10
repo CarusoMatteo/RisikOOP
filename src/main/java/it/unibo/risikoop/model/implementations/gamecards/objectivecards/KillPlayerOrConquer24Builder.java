@@ -1,4 +1,4 @@
-package it.unibo.risikoop.model.implementations.objectivecards;
+package it.unibo.risikoop.model.implementations.gamecards.objectivecards;
 
 import it.unibo.risikoop.model.implementations.PlayerGameContext;
 import it.unibo.risikoop.model.implementations.specification.KillPlayerOrConquer24TerritoriesSpec;

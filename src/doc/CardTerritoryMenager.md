@@ -93,5 +93,9 @@
 
 ---
 
+## 7. Controllo sulla validità della cata territorio
+- **Contorollo**: Il contorllo relativo nella creazione della carta territorio esita e si passi un territorio valido
+viene fatto direttamnte dal metodo `createDeck`
+
 **Conclusione**  
 Questa architettura, ispirata a DDD e ai classici pattern di design, garantisce un codice **pulito**, **facilmente manutenibile** e **scalabile** per la gestione delle carte-territorio, del mazzo e delle combo in Risiko.  

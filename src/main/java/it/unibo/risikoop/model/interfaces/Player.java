@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.risikoop.model.implementations.Color;
+import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 
 /**
  * 

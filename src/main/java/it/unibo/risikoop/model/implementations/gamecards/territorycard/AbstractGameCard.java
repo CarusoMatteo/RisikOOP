@@ -1,0 +1,39 @@
+package it.unibo.risikoop.model.implementations.gamecards.territorycard;
+
+import java.util.Objects;
+
+import it.unibo.risikoop.model.interfaces.Player;
+import it.unibo.risikoop.model.interfaces.cards.GameCard;
+import it.unibo.risikoop.model.interfaces.cards.UnitType;
+
+/**
+ * Abstract base class for game cards that provides common functionality for all game cards.
+ * <p>
+ * This class implements the GameCard interface and provides methods to retrieve the type of card
+ * and the owner of the card.
+ */
+public abstract class AbstractGameCard implements GameCard {
+    private final UnitType type;
+    private final Player owner;
+
+    /**
+     * Constructs an AbstractGameCard with the specified type and owner.
+     *
+     * @param type  the type of the card (INFANTRY, CAVALRY, ARTILLERY, or WILD)
+     * @param owner the player who owns the card
+     */
+    protected AbstractGameCard(UnitType type, Player owner) {
+        this.type = Objects.requireNonNull(type, "type must not be null");
+        this.owner = Objects.requireNonNull(owner, "owner must not be null");
+    }
+
+    @Override
+    public UnitType getType() {
+        return type;
+    }
+
+    @Override
+    public Player getOwner() {
+        return owner;
+    }
+}
