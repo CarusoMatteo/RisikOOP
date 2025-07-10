@@ -24,7 +24,7 @@ public interface Specification<T> {
      * @return a new specification that is satisfied if both specifications are
      *         satisfied
      */
-    default Specification<T> and(Specification<T> other) {
+    default Specification<T> and(final Specification<T> other) {
         return c -> this.isSatisfiedBy(c) && other.isSatisfiedBy(c);
     }
 
@@ -35,7 +35,7 @@ public interface Specification<T> {
      * @return a new specification that is satisfied if either specification is
      *         satisfied
      */
-    default Specification<T> or(Specification<T> other) {
+    default Specification<T> or(final Specification<T> other) {
         return c -> this.isSatisfiedBy(c) || other.isSatisfiedBy(c);
     }
 

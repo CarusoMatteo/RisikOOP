@@ -11,7 +11,7 @@ import it.unibo.risikoop.model.interfaces.Specification;
  * or conquering at least 24 territories.
  * The target player is randomly selected from the list of players in the game.
  */
-public class KillPlayerOrConquer24Builder extends AbstractObjectiveCardBuilder {
+public final class KillPlayerOrConquer24Builder extends AbstractObjectiveCardBuilder {
 
     private final Player target;
 
@@ -31,10 +31,9 @@ public class KillPlayerOrConquer24Builder extends AbstractObjectiveCardBuilder {
 
     @Override
     protected String buildDescription() {
-        final String description = "Kill player "
+        return "Kill player "
                 + target.getName()
                 + "from the board or conquer at least 24 territories.";
-        return description;
     }
 
     @Override

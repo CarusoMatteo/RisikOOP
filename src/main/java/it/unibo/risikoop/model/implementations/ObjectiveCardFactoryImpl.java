@@ -12,7 +12,8 @@ import it.unibo.risikoop.model.interfaces.Player;
 
 /**
  * Implementation of the ObjectiveCardFactory interface.
- * This factory creates objective cards for players based on random selection of objective types.
+ * This factory creates objective cards for players based on random selection of
+ * objective types.
  */
 public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
 
@@ -52,9 +53,9 @@ public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
                         MIN_ARMIES_FOR_CONQUER).createCard();
             case CONQUER_CONTINENTS:
                 return new ConquerNContinetsBuilder(gameManager, owner).createCard();
-            default:
-                throw new IllegalArgumentException("Unknown objective type: " + type);
         }
+
+        return null;
     }
 
     private ObjectiveType getRandomObjectiveType() {
