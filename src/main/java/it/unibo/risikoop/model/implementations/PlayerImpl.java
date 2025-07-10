@@ -37,7 +37,7 @@ public final class PlayerImpl implements Player {
      */
     @Override
     public void setKiller(final Player killer) {
-        this.killer = killer;
+        this.killer = new PlayerImpl(killer.getName(), killer.getColor());
     }
 
     @Override
