@@ -1,5 +1,12 @@
 package it.unibo.risikoop.model.interfaces;
 
+/**
+ * Specification interface for defining criteria that an object must satisfy.
+ * This interface allows for the creation of complex logical conditions by
+ * combining multiple specifications using logical AND, OR, and NOT operations.
+ *
+ * @param <T> the type of object that this specification applies to
+ */
 @FunctionalInterface
 public interface Specification<T> {
     /**

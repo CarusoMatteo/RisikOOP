@@ -1,5 +1,9 @@
 package it.unibo.risikoop.model.interfaces;
 
+/**
+ * Represents an objective card in the game.
+ * Objective cards define win conditions that players must achieve to win the game.
+ */
 public interface ObjectiveCard {
 
     /**

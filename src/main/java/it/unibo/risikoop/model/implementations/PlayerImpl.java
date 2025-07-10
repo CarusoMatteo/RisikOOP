@@ -32,6 +32,10 @@ public final class PlayerImpl implements Player {
 
     }
 
+    /**
+     * @param territory
+     */
+    @Override
     public void setKiller(final Player killer) {
         this.killer = killer;
     }
