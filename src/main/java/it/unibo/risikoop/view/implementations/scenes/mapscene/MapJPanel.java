@@ -1,19 +1,24 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
 import java.awt.BorderLayout;
+import java.util.EnumSet;
 
 import javax.swing.JPanel;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.swing_viewer.ViewPanel;
+import org.graphstream.ui.view.View;
+import org.graphstream.ui.view.ViewerListener;
+import org.graphstream.ui.view.ViewerPipe;
+import org.graphstream.ui.view.util.InteractiveElement;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
 
 /**
  * Panel to dislpay the Map Ghraph in the MapScene.
  */
-public final class MapJPanel extends JPanel {
+public final class MapJPanel extends JPanel implements ViewerListener {
     private static final long serialVersionUID = 1L;
     private static final String COMMON_STYLE_SHEET = """
             node {
@@ -27,6 +32,11 @@ public final class MapJPanel extends JPanel {
             """;
 
     private final transient Controller controller;
+    private final Graph graph;
+    private final SwingViewer viewer;
+    private final View view;
+    private final ViewPanel panel;
+    private Boolean loop = true;
 
     /**
      * Constructor for MapJPanel.
@@ -37,16 +47,40 @@ public final class MapJPanel extends JPanel {
         this.controller = controller;
         setLayout(new BorderLayout());
 
-        final Graph graph = controller.getDataRetrieveController().getActualMap();
-        graph.nodes().forEach(
+        this.graph = this.controller.getDataRetrieveController().getActualMap();
+        this.graph.nodes().forEach(
                 node -> node.setAttribute("ui.label", node.getId() + " - " + getUnits(node.getId()) + " units"));
 
         graph.setAttribute("ui.stylesheet", COMMON_STYLE_SHEET);
-        final SwingViewer graphViewer = new SwingViewer(graph, SwingViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-        graphViewer.enableAutoLayout();
-        final ViewPanel graphView = (ViewPanel) graphViewer.addDefaultView(false);
+        this.viewer = new SwingViewer(graph, SwingViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+        this.viewer.enableAutoLayout();
+        this.view = viewer.addDefaultView(false);
+        this.panel = (ViewPanel) this.view;
 
-        this.add(graphView, BorderLayout.CENTER);
+        this.add(panel, BorderLayout.CENTER);
+
+        attachPipe();
+
+    }
+
+    private void attachPipe() {
+        final ViewerPipe pipe = viewer.newViewerPipe();
+        pipe.addViewerListener(this);
+        pipe.addSink(graph);
+
+        new Thread(() -> {
+            while (loop) {
+                pipe.pump();
+                sleep(100);
+            }
+        }).start();
+    }
+
+    private void sleep(final int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (final InterruptedException e) {
+        }
     }
 
     /**
@@ -60,5 +94,35 @@ public final class MapJPanel extends JPanel {
                 .getDataRetrieveController()
                 .getTerritoryUnitsFromName(territoryName)
                 .orElse(-1));
+    }
+
+    @Override
+    public void viewClosed(final String viewName) {
+        loop = false;
+    }
+
+    @Override
+    public void buttonPushed(final String id) {
+        System.out.println("node=" + id);
+        view.allGraphicElementsIn(EnumSet.of(InteractiveElement.NODE), -Double.MAX_VALUE, -Double.MAX_VALUE,
+                Double.MAX_VALUE, Double.MAX_VALUE).forEach(i -> {
+                    System.out.println(i.getSelectorType());
+                    System.out.println(i.getId());
+                    System.out.println(i.getX() + " - " + i.getY());
+                });
+    }
+
+    @Override
+    public void buttonReleased(final String id) {
+
+    }
+
+    @Override
+    public void mouseOver(final String id) {
+
+    }
+
+    @Override
+    public void mouseLeft(final String id) {
     }
 }
