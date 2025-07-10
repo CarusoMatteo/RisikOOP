@@ -1,5 +1,7 @@
 package it.unibo.risikoop.model.interfaces.cards;
 
+import java.util.Optional;
+
 import it.unibo.risikoop.model.interfaces.Player;
 
 /**
@@ -14,5 +16,20 @@ public interface GameCard {
     /**
      * @return the owner of this card
      */
-    Player getOwner();
+    Optional<Player> getOwner();
+
+    /**
+     * Checks if this card is a territory card.
+     *
+     * @return true if this card is a territory card, false otherwise
+     */
+    boolean isTerritoryCard();
+
+    /**
+     * Sets the owner of this card.
+     *
+     * @param player the player who will own this card
+     * @return true if the owner was successfully set, false if the card already has an owner
+     */
+    boolean setOwner(Player player);
 }

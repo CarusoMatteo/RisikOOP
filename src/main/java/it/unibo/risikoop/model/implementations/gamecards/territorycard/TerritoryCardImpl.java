@@ -2,7 +2,6 @@ package it.unibo.risikoop.model.implementations.gamecards.territorycard;
 
 import java.util.Objects;
 
-import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 import it.unibo.risikoop.model.interfaces.cards.UnitType;
@@ -26,8 +25,8 @@ public final class TerritoryCardImpl
      * @param territory  the territory associated with this card
      * @throws IllegalArgumentException if type is WILD
      */
-    public TerritoryCardImpl(UnitType type, Player owner, Territory territory) {
-        super(type, owner);
+    public TerritoryCardImpl(UnitType type, Territory territory) {
+        super(type);
         if (type == UnitType.WILD) {
             throw new IllegalArgumentException("Use WildCardImpl for WILD");
         }

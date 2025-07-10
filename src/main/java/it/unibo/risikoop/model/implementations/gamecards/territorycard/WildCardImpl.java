@@ -17,7 +17,7 @@ public class WildCardImpl
      *
      * @param owner the player who owns the card
      */
-    public WildCardImpl(final Player owner) {
-        super(UnitType.WILD, owner);
+    public WildCardImpl() {
+        super(UnitType.WILD);
     }
 }
