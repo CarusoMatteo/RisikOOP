@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.risikoop.model.implementations.Color;
+import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 
 /**
@@ -20,13 +21,19 @@ public interface Player {
      * 
      * @param card
      */
-    void addTerritoryCard(TerritoryCard card);
+    void addGameCard(GameCard card);
 
     /**
      * 
      * @return the all the possessed territory cards
      */
     List<TerritoryCard> getTerritoryCards();
+
+    /**
+     * 
+     * @return the all the game cards
+     */
+    List<GameCard> getGameCards();
 
     /**
      * 

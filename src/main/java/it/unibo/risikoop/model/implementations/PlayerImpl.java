@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import it.unibo.risikoop.model.interfaces.Player;
+import it.unibo.risikoop.model.interfaces.PlayerHand;
 import it.unibo.risikoop.model.interfaces.Territory;
+import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
+import it.unibo.risikoop.model.interfaces.cards.UnitType;
 
 /**
  * 
@@ -16,7 +20,7 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final Color color;
     private final List<Territory> territories;
-    private final List<TerritoryCard> territoryCards;
+    private final PlayerHand hand;
     private Player killer;
 
     /**
@@ -28,8 +32,7 @@ public final class PlayerImpl implements Player {
         this.name = name;
         this.color = new Color(col.r(), col.g(), col.b());
         territories = new ArrayList<>();
-        territoryCards = new ArrayList<>();
-
+        this.hand = new PlayerHandImpl();
     }
 
     /**
@@ -64,7 +67,10 @@ public final class PlayerImpl implements Player {
 
     @Override
     public List<TerritoryCard> getTerritoryCards() {
-        return Collections.unmodifiableList(territoryCards);
+        return hand.getCards().stream()
+                .filter(gc -> gc.getType() != UnitType.WILD)
+                .map(TerritoryCard.class::cast)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -86,9 +92,14 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
+    public void addGameCard(final GameCard card) {
+        hand.addCard(card);
+    }
 
-    public void addTerritoryCard(final TerritoryCard card) {
-        territoryCards.add(card);
+    @Override
+    public List<GameCard> getGameCards() {
+        return hand.getCards().stream()
+                .collect(Collectors.toList());
     }
 
 }
