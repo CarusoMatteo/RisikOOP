@@ -33,7 +33,7 @@ public final class PlayerImpl implements Player {
     }
 
     /**
-     * @param territory
+     * @param killer
      */
     @Override
     public void setKiller(final Player killer) {

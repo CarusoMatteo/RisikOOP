@@ -12,7 +12,7 @@ public interface Specification<T> {
     /**
      * Checks if the given object satisfies the specification.
      *
-     * @param cantidate the object to check
+     * @param candidate the object to check
      * @return true if the object satisfies the specification, false otherwise
      */
     boolean isSatisfiedBy(T candidate);

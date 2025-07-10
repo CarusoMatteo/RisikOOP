@@ -10,6 +10,10 @@ import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.ObjectiveCardFactory;
 import it.unibo.risikoop.model.interfaces.Player;
 
+/**
+ * Implementation of the ObjectiveCardFactory interface.
+ * This factory creates objective cards for players based on random selection of objective types.
+ */
 public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
 
     enum ObjectiveType {
@@ -18,9 +22,16 @@ public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
         CONQUER_CONTINENTS
     }
 
+    private static final int MIN_ARMIES_FOR_CONQUER = 2;
+    private static final int MIN_TERRITORIES_FOR_CONQUER = 18;
     private final Random random;
     private final GameManager gameManager;
 
+    /**
+     * Constructs an ObjectiveCardFactoryImpl with the specified GameManager.
+     *
+     * @param gameManager the GameManager that manages the game state
+     */
     public ObjectiveCardFactoryImpl(final GameManager gameManager) {
         this.random = new Random();
         this.gameManager = gameManager;
@@ -37,8 +48,8 @@ public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
                 return new ConquerNTerritoriesWithXArmiesBuilder(
                         gameManager,
                         owner,
-                        18,
-                        2).createCard();
+                        MIN_TERRITORIES_FOR_CONQUER,
+                        MIN_ARMIES_FOR_CONQUER).createCard();
             case CONQUER_CONTINENTS:
                 return new ConquerNContinetsBuilder(gameManager, owner).createCard();
             default:

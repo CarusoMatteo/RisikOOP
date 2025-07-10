@@ -6,14 +6,27 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Specification;
 
+/**
+ * Builder for an objective card that requires either killing a specific player
+ * or conquering at least 24 territories.
+ * The target player is randomly selected from the list of players in the game.
+ */
 public class KillPlayerOrConquer24Builder extends AbstractObjectiveCardBuilder {
 
     private final Player target;
 
+    /**
+     * Constructs a KillPlayerOrConquer24Builder with the specified GameManager
+     * and owner.
+     * The target player is randomly selected from the list of players in the game.
+     *
+     * @param gameManager the GameManager that manages the game state
+     * @param owner       the player who owns the objective card
+     */
     public KillPlayerOrConquer24Builder(final GameManager gameManager, final Player owner) {
         super(gameManager, owner);
-        this.target = gameManager.getPlayers()
-                .get(super.random.nextInt(gameManager.getPlayers().size()));
+        this.target = super.getGameManager().getPlayers()
+                .get(super.getRandom().nextInt(super.getGameManager().getPlayers().size()));
     }
 
     @Override
@@ -28,5 +41,4 @@ public class KillPlayerOrConquer24Builder extends AbstractObjectiveCardBuilder {
     protected Specification<PlayerGameContext> buildSpecification() {
         return new KillPlayerOrConquer24TerritoriesSpec(target);
     }
-
 }

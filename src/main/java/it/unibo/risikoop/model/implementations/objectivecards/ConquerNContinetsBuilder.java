@@ -53,7 +53,7 @@ public final class ConquerNContinetsBuilder extends AbstractObjectiveCardBuilder
     }
 
     private Optional<Continent> getRandomContinent(final Set<Continent> selctedContinents) {
-        return gameManager.getContinents().stream()
+        return super.getGameManager().getContinents().stream()
                 .filter(e -> !selctedContinents.contains(e))
                 .findAny();
     }
