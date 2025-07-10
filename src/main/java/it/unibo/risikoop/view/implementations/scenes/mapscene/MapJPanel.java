@@ -1,19 +1,15 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
 import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.EnumSet;
 
 import javax.swing.JPanel;
+
 import org.graphstream.graph.Graph;
-import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.swing_viewer.ViewPanel;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
-import org.graphstream.ui.view.util.InteractiveElement;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
 
@@ -63,40 +59,10 @@ public final class MapJPanel extends JPanel implements ViewerListener {
 
         attachPipe();
 
-        this.panel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent me) {
-                GraphicElement element = view.findGraphicElementAt(
-                        EnumSet.of(InteractiveElement.NODE),
-                        me.getX(),
-                        me.getY());
-                if (element != null) {
-                    System.out.println("element clicked!!!");
-                } else {
-                    System.out.println("element is null");
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
     }
 
     private void attachPipe() {
-        ViewerPipe pipe = viewer.newViewerPipe();
+        final ViewerPipe pipe = viewer.newViewerPipe();
         pipe.addViewerListener(this);
         pipe.addSink(graph);
 
@@ -108,10 +74,10 @@ public final class MapJPanel extends JPanel implements ViewerListener {
         }).start();
     }
 
-    private void sleep(int millis) {
+    private void sleep(final int millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
         }
     }
 
@@ -129,32 +95,24 @@ public final class MapJPanel extends JPanel implements ViewerListener {
     }
 
     @Override
-    public void viewClosed(String viewName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewClosed'");
+    public void viewClosed(final String viewName) {
+        loop = false;
     }
 
     @Override
-    public void buttonPushed(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buttonPushed'");
+    public void buttonPushed(final String id) {
     }
 
     @Override
-    public void buttonReleased(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buttonReleased'");
+    public void buttonReleased(final String id) {
+        System.out.println("node=" + id);
     }
 
     @Override
-    public void mouseOver(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseOver'");
+    public void mouseOver(final String id) {
     }
 
     @Override
-    public void mouseLeft(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseLeft'");
+    public void mouseLeft(final String id) {
     }
 }
