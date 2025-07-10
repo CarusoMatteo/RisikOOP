@@ -1,9 +1,10 @@
 package it.unibo.risikoop.model.interfaces;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
-import javax.smartcardio.Card;
+
+import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
 public interface PlayerHand {
 
@@ -12,21 +13,21 @@ public interface PlayerHand {
      *
      * @return list of cards in hand
      */
-    List<Card> getCards();
+    Set<GameCard> getCards();
 
     /**
      * Adds a single card to the hand.
      *
      * @param card the card to add
      */
-    void addCard(Card card);
+    boolean addCard(GameCard card);
 
     /**
      * Adds multiple cards to the hand in one operation.
      *
      * @param cards the collection of cards to add
      */
-    void addCards(Collection<Card> cards);
+    boolean addCards(Collection<GameCard> cards);
 
     /**
      * Removes a single card from the hand.
@@ -34,7 +35,7 @@ public interface PlayerHand {
      * @param card the card to remove
      * @return true if the card was present and removed, false otherwise
      */
-    boolean removeCard(Card card);
+    boolean removeCard(GameCard card);
 
     /**
      * Removes all specified cards from the hand.
@@ -42,7 +43,7 @@ public interface PlayerHand {
      * @param cards the collection of cards to remove
      * @return true if at least one card was removed, false if none were present
      */
-    boolean removeCards(Collection<Card> cards);
+    boolean removeCards(Collection<GameCard> cards);
 
     /**
      * Checks whether the hand contains the given card.
@@ -50,7 +51,7 @@ public interface PlayerHand {
      * @param card the card to check for
      * @return true if the card is in hand, false otherwise
      */
-    boolean contains(Card card);
+    boolean contains(GameCard card);
 
     /**
      * Returns the number of cards currently in hand.
@@ -69,6 +70,6 @@ public interface PlayerHand {
     /**
      * Removes all cards from the hand.
      */
-    void clear();
-    
-} 
+    boolean clear();
+
+}
