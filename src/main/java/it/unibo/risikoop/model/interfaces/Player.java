@@ -1,6 +1,7 @@
 package it.unibo.risikoop.model.interfaces;
 
 import java.util.List;
+import java.util.Optional;
 
 import it.unibo.risikoop.model.implementations.Color;
 
@@ -41,5 +42,19 @@ public interface Player {
      * @return the player's territories
      */
     List<Territory> getTerritories();
+
+    /**
+     * Returns the player who eliminated this player.
+     *
+     * @return the Player who eliminated this player
+     */
+    Optional<Player> getKiller();
+
+    /**
+     * Sets the player who eliminated this player.
+     *
+     * @param killer the Player who eliminated this player
+     */
+    public void setKiller(Player killer);
 
 }

@@ -23,7 +23,6 @@ class PlayerTest {
     private static final String DIEGO = "Diego";
     private static final String BOB = "bob";
     private static final String CLARA = "Clara";
-
     private final GameManager gameManager = new GameManagerImpl();
 
     @Test

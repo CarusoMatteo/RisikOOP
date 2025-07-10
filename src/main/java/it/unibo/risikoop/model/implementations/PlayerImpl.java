@@ -3,6 +3,7 @@ package it.unibo.risikoop.model.implementations;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -16,6 +17,7 @@ public final class PlayerImpl implements Player {
     private final Color color;
     private final List<Territory> territories;
     private final List<TerritoryCard> territoryCards;
+    private Player killer;
 
     /**
      * @param name
@@ -28,6 +30,16 @@ public final class PlayerImpl implements Player {
         territories = new ArrayList<>();
         territoryCards = new ArrayList<>();
 
+    }
+
+    public void setKiller(Player killer) {
+        this.killer = killer;
+    }
+
+    @Override
+    public Optional<Player> getKiller() {
+        // todo: non so se va bene ritornare il giocatore devo ritornare una copia immutabile?
+        return Optional.ofNullable(killer);
     }
 
     @Override
