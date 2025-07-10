@@ -55,6 +55,6 @@ public interface Player {
      *
      * @param killer the Player who eliminated this player
      */
-    public void setKiller(Player killer);
+    void setKiller(Player killer);
 
 }

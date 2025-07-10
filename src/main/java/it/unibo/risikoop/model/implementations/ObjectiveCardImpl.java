@@ -12,8 +12,8 @@ public final class ObjectiveCardImpl implements ObjectiveCard {
     private final GameManager gameManager;
     private final Specification<PlayerGameContext> winCond;
 
-    public ObjectiveCardImpl(String description, Player owner, GameManager gameManager,
-            Specification<PlayerGameContext> winCond) {
+    public ObjectiveCardImpl(final String description, final Player owner, final GameManager gameManager,
+            final Specification<PlayerGameContext> winCond) {
         this.description = description;
         this.owner = owner;
         this.gameManager = gameManager;

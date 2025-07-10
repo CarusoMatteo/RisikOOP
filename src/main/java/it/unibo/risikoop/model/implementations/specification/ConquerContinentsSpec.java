@@ -8,10 +8,10 @@ import it.unibo.risikoop.model.implementations.PlayerGameContext;
 import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.Specification;
 
-public class ConquerContinentsSpec implements Specification<PlayerGameContext> {
+public final class ConquerContinentsSpec implements Specification<PlayerGameContext> {
     private final Set<Continent> continents;
 
-    public ConquerContinentsSpec(Set<Continent> continents) {
+    public ConquerContinentsSpec(final Set<Continent> continents) {
         this.continents = Objects.requireNonNull(continents, "continents cannot be null");
         if (continents.isEmpty()) {
             throw new IllegalArgumentException("Continents set cannot be empty.");
@@ -19,7 +19,7 @@ public class ConquerContinentsSpec implements Specification<PlayerGameContext> {
     }
 
     @Override
-    public boolean isSatisfiedBy(PlayerGameContext ctx) {
+    public boolean isSatisfiedBy(final PlayerGameContext ctx) {
         return ctx.player().getTerritories().containsAll(
                 continents.stream()
                         .flatMap(continent -> continent.getTerritories().stream())

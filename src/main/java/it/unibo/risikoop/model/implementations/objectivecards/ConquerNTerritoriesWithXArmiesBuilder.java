@@ -12,7 +12,8 @@ public class ConquerNTerritoriesWithXArmiesBuilder
     private final int territories;
     private final int armies;
 
-    public ConquerNTerritoriesWithXArmiesBuilder(GameManager gameManager, Player owner, int territories, int armies) {
+    public ConquerNTerritoriesWithXArmiesBuilder(final GameManager gameManager, final Player owner,
+            final int territories, final int armies) {
         super(gameManager, owner);
         this.territories = territories;
         this.armies = armies;
@@ -20,11 +21,11 @@ public class ConquerNTerritoriesWithXArmiesBuilder
 
     @Override
     protected String buildDescription() {
-        String description = "Conquer at least " +
-                territories +
-                " territories with at least " +
-                armies +
-                " armies.";
+        final String description = "Conquer at least "
+                + territories
+                + " territories with at least "
+                + armies
+                + " armies.";
         return description;
     }
 

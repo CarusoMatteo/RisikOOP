@@ -3,10 +3,10 @@ package it.unibo.risikoop.model.implementations.specification;
 import it.unibo.risikoop.model.implementations.PlayerGameContext;
 import it.unibo.risikoop.model.interfaces.Specification;
 
-public class ConquerTerritoriesSpec implements Specification<PlayerGameContext> {
+public final class ConquerTerritoriesSpec implements Specification<PlayerGameContext> {
     private final int requiredTerritories;
 
-    public ConquerTerritoriesSpec(int requiredTerritories) {
+    public ConquerTerritoriesSpec(final int requiredTerritories) {
 
         if (requiredTerritories <= 0) {
             throw new IllegalArgumentException("Required territories must be greater than zero.");
@@ -16,7 +16,7 @@ public class ConquerTerritoriesSpec implements Specification<PlayerGameContext> 
     }
 
     @Override
-    public boolean isSatisfiedBy(PlayerGameContext ctx) {
+    public boolean isSatisfiedBy(final PlayerGameContext ctx) {
         return ctx.player().getTerritories().size() >= requiredTerritories;
     }
 }

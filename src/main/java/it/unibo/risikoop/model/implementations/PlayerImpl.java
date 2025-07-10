@@ -32,13 +32,14 @@ public final class PlayerImpl implements Player {
 
     }
 
-    public void setKiller(Player killer) {
+    public void setKiller(final Player killer) {
         this.killer = killer;
     }
 
     @Override
     public Optional<Player> getKiller() {
-        // todo: non so se va bene ritornare il giocatore devo ritornare una copia immutabile?
+        // todo: non so se va bene ritornare il giocatore devo ritornare una copia
+        // immutabile?
         return Optional.ofNullable(killer);
     }
 

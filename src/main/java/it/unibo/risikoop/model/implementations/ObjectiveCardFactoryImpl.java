@@ -5,14 +5,12 @@ import java.util.Random;
 import it.unibo.risikoop.model.implementations.objectivecards.ConquerNContinetsBuilder;
 import it.unibo.risikoop.model.implementations.objectivecards.ConquerNTerritoriesWithXArmiesBuilder;
 import it.unibo.risikoop.model.implementations.objectivecards.KillPlayerOrConquer24Builder;
-import it.unibo.risikoop.model.implementations.specification.ConquerTerritoriesWithMinArmiesSpec;
-import it.unibo.risikoop.model.implementations.specification.KillPlayerOrConquer24TerritoriesSpec;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.ObjectiveCardFactory;
 import it.unibo.risikoop.model.interfaces.Player;
 
-public class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
+public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
 
     enum ObjectiveType {
         KILL_PLAYER_OR_CONQUER_24_TERRITORIES,
@@ -23,14 +21,14 @@ public class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
     private final Random random;
     private final GameManager gameManager;
 
-    public ObjectiveCardFactoryImpl(GameManager gameManager) {
+    public ObjectiveCardFactoryImpl(final GameManager gameManager) {
         this.random = new Random();
         this.gameManager = gameManager;
     }
 
     @Override
-    public ObjectiveCard createObjectiveCard(Player owner) {
-        ObjectiveType type = getRandomObjectiveType();
+    public ObjectiveCard createObjectiveCard(final Player owner) {
+        final ObjectiveType type = getRandomObjectiveType();
 
         switch (type) {
             case KILL_PLAYER_OR_CONQUER_24_TERRITORIES:
@@ -49,7 +47,7 @@ public class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
     }
 
     private ObjectiveType getRandomObjectiveType() {
-        ObjectiveType[] types = ObjectiveType.values();
+        final ObjectiveType[] types = ObjectiveType.values();
         return types[random.nextInt(types.length)];
     }
 

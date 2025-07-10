@@ -16,7 +16,7 @@ public abstract class AbstractObjectiveCardBuilder {
     protected final Random random;
     protected final Player owner;
 
-    protected AbstractObjectiveCardBuilder(GameManager gameManager, Player owner) {
+    protected AbstractObjectiveCardBuilder(final GameManager gameManager, final Player owner) {
         this.gameManager = Objects.requireNonNull(gameManager);
         this.owner = Objects.requireNonNull(owner, "owner can not be null");
         this.random = new Random();
@@ -24,8 +24,8 @@ public abstract class AbstractObjectiveCardBuilder {
 
     public ObjectiveCard createCard() {
         Objects.requireNonNull(owner, "owner can not be null");
-        String description = buildDescription();
-        Specification<PlayerGameContext> spec = buildSpecification();
+        final String description = buildDescription();
+        final Specification<PlayerGameContext> spec = buildSpecification();
         return new ObjectiveCardImpl(description, owner, gameManager, spec);
     }
 

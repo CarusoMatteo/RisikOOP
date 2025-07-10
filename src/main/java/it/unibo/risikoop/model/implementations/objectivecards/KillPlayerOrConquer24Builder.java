@@ -10,7 +10,7 @@ public class KillPlayerOrConquer24Builder extends AbstractObjectiveCardBuilder {
 
     private final Player target;
 
-    public KillPlayerOrConquer24Builder(GameManager gameManager, Player owner) {
+    public KillPlayerOrConquer24Builder(final GameManager gameManager, final Player owner) {
         super(gameManager, owner);
         this.target = gameManager.getPlayers()
                 .get(super.random.nextInt(gameManager.getPlayers().size()));
@@ -18,9 +18,9 @@ public class KillPlayerOrConquer24Builder extends AbstractObjectiveCardBuilder {
 
     @Override
     protected String buildDescription() {
-        String description = "Kill player " +
-                target.getName() +
-                "from the board or conquer at least 24 territories.";
+        final String description = "Kill player "
+                + target.getName()
+                + "from the board or conquer at least 24 territories.";
         return description;
     }
 
