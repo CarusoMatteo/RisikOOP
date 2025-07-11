@@ -1,0 +1,29 @@
+Quando stimao giocando cosa posso fare.
+1) il giocatore finisce il turno cliccandon il pulsante fine turno
+2) Appena si clicca il pulsante fine turno si passa direttamnete nella fase di uso combo
+quindi il giocatore avrà la possità di scegliere quali carte usare e le combo usante andranno aggiunte alle truppe 
+da posizionare.
+Dopo di che si premerà il pulsante di inizia fase attacco
+3) La fase di attacco è strutturata così
+    3.1) seleziono un territorio dell'attacante, il click genera effetto se e solo se il territorio selezionato
+    è confinante con un territorio di un altro giocatore ed ha almeno 2 truppe
+    3.2) poi si procede selezionando un territorio di un giocatore avversario il tocco genera effetto se e solo se
+    il territorio selezionato è di confinante con quello selezionato nella fase 3.1
+    !) Da decidere se si passa automaticamnet alla fase di attacco mediante la pressione di un pulsante 
+    preparazione attacco o si passa direttamente alla fase di preparazione attacco 
+    Se in questo momento un giocatore se leziona un altro territorio del giocatore attacante che rispetta i
+    requisiti minimi di attacco si torna alla fase 3.1
+    3.3) dopo di che la sezione degli attacchi avrà selezionato sia attancante che invaso e andranno specificate con quante
+    truppe invadere e poi si cliccherà il pulsante attacca che porterà come esito o la conquista del territorio avversario
+    o l'utilizzo delle truppe dell'attancate, con ovviamnete il relativo aggiornamneto delle truppe consumate sugli stati
+    Dopo l'attacco si torna alla fase 1, di default se non si conquista il territorio ed è ancora possibile attacare restano 
+    selezionati attante e invaso diverssa,mnete si ripulisce la tabella degli attacchi e si torna diretti al punto 3.1
+4) una volta finito di attaccare si clichherà il pulsante spostamneto che permetterà di selezionare un territorio del 
+    giocatore con un numero di truppe >= 2 che confina almeno con un altro suo territorio. Il territorio selezionato fungerà
+    da sorgente mentre il territorio selezionato adiacente da destinazione. Se invece vine selezioanto un territorio non 
+    adiacente (sempre del giocatore che soddisfa i requisiti minimi) questo territoruio verrà preso come sorgente
+    altrimenti, se ho già selezionato sorgente e destinario, ma seleziono un altro territorio confinante con la gìsorgente 
+    questo territorio diventerà il nuovo destinatario. 
+    Una volta selzionato sorgente e destinazione per annullare e selezionare una nuova sorgente andrà premuto il tatso annulla.
+    Una volta scelti sorgentee destinazione andrà selzionato quante truppe muovere e verranno spostate. a seguito dello spostamneto
+    premendo il tanto fine turno inizierà un nuovo turno per il prossimo giocatore
