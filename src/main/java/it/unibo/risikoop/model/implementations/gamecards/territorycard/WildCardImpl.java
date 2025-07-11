@@ -1,6 +1,5 @@
 package it.unibo.risikoop.model.implementations.gamecards.territorycard;
 
-import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.cards.*;
 
 /**

@@ -22,7 +22,7 @@ public class CardDeckImpl implements CardDeck {
     private final Set<Territory> territories;
     private final int percentageOfInfantry;
     private final int percentageOfCavalry;
-    private final int percentageOfArtillery;
+    // private final int percentageOfArtillery;
     private final int numberOfWildCards;
 
     public CardDeckImpl(
@@ -44,7 +44,7 @@ public class CardDeckImpl implements CardDeck {
 
         this.percentageOfInfantry = percentageOfInfantry;
         this.percentageOfCavalry = percentageOfCavalry;
-        this.percentageOfArtillery = percentageOfArtillery;
+        // this.percentageOfArtillery = percentageOfArtillery;
         this.numberOfWildCards = numberOfWildCards;
         deck = createDeck();
     }
