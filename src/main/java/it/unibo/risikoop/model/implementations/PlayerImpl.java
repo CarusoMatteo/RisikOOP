@@ -3,6 +3,7 @@ package it.unibo.risikoop.model.implementations;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import it.unibo.risikoop.model.interfaces.Player;
@@ -10,7 +11,7 @@ import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TerritoryCard;
 
 /**
- * 
+ * player implementation.
  */
 public final class PlayerImpl implements Player {
     private final String name;
@@ -89,6 +90,17 @@ public final class PlayerImpl implements Player {
 
     public void addTerritoryCard(final TerritoryCard card) {
         territoryCards.add(card);
+    }
+
+    @Override
+    public boolean addTerritories(final List<Territory> territories) {
+        Objects.requireNonNull(territories, "territories must not be null");
+        return this.territories.addAll(territories);
+    }
+
+    @Override
+    public boolean removeTerritory(final Territory territory) {
+        return territories.remove(territory);
     }
 
 }

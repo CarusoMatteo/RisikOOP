@@ -10,6 +10,28 @@ import it.unibo.risikoop.model.implementations.Color;
  */
 public interface Player {
     /**
+     * add a new territory to the player.
+     * 
+     * @param territories
+     * @return if it was possible to add the territory
+     * 
+     */
+    boolean addTerritories(List<Territory> territories);
+
+    default boolean addTerritory(Territory territory) {
+        return addTerritories(List.of(territory));
+    }
+
+    /**
+     * remove a territory from the player.
+     * 
+     * @param territory
+     * @return if it was possible to remove the territory
+     * 
+     */
+    boolean removeTerritory(Territory territory);
+
+    /**
      * 
      * @return the total units
      */

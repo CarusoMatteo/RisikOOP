@@ -81,4 +81,17 @@ public final class TerritoryImpl implements Territory {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof final Territory t) {
+            return t.getName().equals(this.getName());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
 }
