@@ -27,3 +27,41 @@ Dopo di che si premerà il pulsante di inizia fase attacco
     Una volta selzionato sorgente e destinazione per annullare e selezionare una nuova sorgente andrà premuto il tatso annulla.
     Una volta scelti sorgentee destinazione andrà selzionato quante truppe muovere e verranno spostate. a seguito dello spostamneto
     premendo il tanto fine turno inizierà un nuovo turno per il prossimo giocatore
+
+
+    ---------------------------------------------------------------------------
+    phaseGameController
+    - metodi
+    - void selectTerritory(Territory t) 
+    - void nextGamePhase()
+    - performeAction()
+
+    Controller da implementare
+    - renforcementController
+        gestisce il decremento delle truppe del player e il posizionamneto
+        delle truppe sul territorio
+        
+        il metodo selectTerritory ha effetto solo se chiamato su un territorio del player e ha come effetto
+        un decremneto delle truppe del giocatore e un incremneto delle truppe sul territorio,
+
+        il metodo performeAction non fa nulla e chiama un eccezzione
+
+        il metodo nextGamePhase passa alla fase di attacco
+
+    - accatcContorller
+        gestisce la fase di attacco e cambia cosa fase a seconda dello stato interno della fase di gioco
+        dell'attacco
+
+        - il metodo selectTerritory nelle fasi di seleziona Attance e duìifensore selezioan loro 2 nella fase di
+        Attac non fa nulla o lancia una eccezione
+        - il metodo performeAction passa ciclicamnete le fasi della macchina a stati setAttaccher -> setDefender -> Attac 
+
+        - il metodo nextGamePhase passa alla pase di spostamneto
+
+    - moveUnit 
+        gestisce la parte relativa agli spostamneti
+        - il metodo selectTerritory nelle fasi di seleziona selctSurc e selectDest selezioan loro 2 dopo di che no fa nulla 
+
+        - il metodo performeAction passa da selctSurc -> selctDest -> move dopo di che no fa nulla e disabilià il btnAction
+
+        - il metodo nextGamePhase cambia giocatore e sposta sulla fase di use combo

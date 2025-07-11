@@ -21,7 +21,8 @@ public final class PlayerImpl implements Player {
     private final Color color;
     private final List<Territory> territories;
     private final PlayerHand hand;
-    private Player killer;
+    private Optional<Player> killer;
+    private int unitsToPlace;
 
     /**
      * @param name
@@ -33,6 +34,8 @@ public final class PlayerImpl implements Player {
         this.color = new Color(col.r(), col.g(), col.b());
         territories = new ArrayList<>();
         this.hand = new PlayerHandImpl();
+        this.unitsToPlace = 0;
+        this.killer = Optional.empty();
     }
 
     /**
@@ -40,14 +43,13 @@ public final class PlayerImpl implements Player {
      */
     @Override
     public void setKiller(final Player killer) {
-        this.killer = new PlayerImpl(killer.getName(), killer.getColor());
+        this.killer = Optional.of(new PlayerImpl(killer.getName(), killer.getColor()));
     }
 
     @Override
     public Optional<Player> getKiller() {
         // todo: non so se va bene ritornare il giocatore devo ritornare una copia
-        // immutabile?
-        return Optional.ofNullable(killer);
+        return killer;
     }
 
     @Override
@@ -100,6 +102,30 @@ public final class PlayerImpl implements Player {
     public List<GameCard> getGameCards() {
         return hand.getCards().stream()
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addUnitsToPlace(int units) {
+        if (units < 0) {
+            throw new IllegalArgumentException("Cannot add a negative number of units to place.");
+        }
+        this.unitsToPlace += units;
+    }
+
+    @Override
+    public void removeUnitsToPlace(int units) {
+        if (units < 0) {
+            throw new IllegalArgumentException("Cannot remove a negative number of units to place.");
+        }
+        if (units > this.unitsToPlace) {
+            throw new IllegalArgumentException("Cannot remove more units than available to place.");
+        }
+        this.unitsToPlace -= units;
+    }
+
+    @Override
+    public boolean isEliminated() {
+        return territories.isEmpty();
     }
 
 }

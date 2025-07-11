@@ -65,4 +65,24 @@ public interface Player {
      */
     void setKiller(Player killer);
 
+    /**
+     * Adds number of units to the player's total units to place.
+     * @param units the number of units to add
+     * @throws IllegalArgumentException if units is negative
+     */  
+     
+    void addUnitsToPlace(int units);
+
+    /**
+     * Removes number of units from the player's total units to place.
+     * @param units the number of units to remove
+     * @throws IllegalArgumentException if units is negative or greater than the current units to place
+     * */
+    void removeUnitsToPlace(int units);
+
+    /**
+     * Checks if the player is eliminated.
+     */
+    boolean isEliminated();
+
 }
