@@ -6,6 +6,7 @@ import java.util.Set;
 
 import it.unibo.risikoop.model.interfaces.PlayerHand;
 import it.unibo.risikoop.model.interfaces.cards.ComboCheckStrategy;
+import it.unibo.risikoop.model.interfaces.cards.ComboChecker;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
 /**

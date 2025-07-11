@@ -1,10 +1,9 @@
-package it.unibo.risikoop.model.implementations.gamecards.combos;
+package it.unibo.risikoop.model.interfaces.cards;
 
 import java.util.Optional;
 import java.util.Set;
 
 import it.unibo.risikoop.model.interfaces.PlayerHand;
-import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
 /**
  * This class allows to check if a combo is usable and to use it.
