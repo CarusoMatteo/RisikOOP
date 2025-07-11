@@ -4,6 +4,9 @@ import java.util.Set;
 
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
+/**
+ * This interface represents the deck of cards in the game.
+ */
 public interface CardDeck {
 
     /**
@@ -27,4 +30,4 @@ public interface CardDeck {
      * @return true if the deck is empty, false otherwise
      */
     boolean isEmpty();
-} 
+}

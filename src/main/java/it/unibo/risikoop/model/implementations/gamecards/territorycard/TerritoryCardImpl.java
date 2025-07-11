@@ -21,11 +21,10 @@ public final class TerritoryCardImpl
      * Constructs a TerritoryCardImpl with the specified type, owner, and territory.
      *
      * @param type       the type of the card (INFANTRY, CAVALRY, ARTILLERY)
-     * @param owner      the player who owns the card
      * @param territory  the territory associated with this card
      * @throws IllegalArgumentException if type is WILD
      */
-    public TerritoryCardImpl(UnitType type, Territory territory) {
+    public TerritoryCardImpl(final UnitType type, final Territory territory) {
         super(type);
         if (type == UnitType.WILD) {
             throw new IllegalArgumentException("Use WildCardImpl for WILD");

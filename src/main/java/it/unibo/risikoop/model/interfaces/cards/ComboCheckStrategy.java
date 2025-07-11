@@ -4,6 +4,9 @@ import java.util.Set;
 
 import it.unibo.risikoop.model.interfaces.PlayerHand;
 
+/**
+ * Interface to check if combos are valid.
+ */
 public interface ComboCheckStrategy {
 
     /**
@@ -23,4 +26,9 @@ public interface ComboCheckStrategy {
      */
     Boolean comboIsPossibile(PlayerHand hand);
 
+    /**
+     * Returns the amount of units rewarded for this combo.
+     * @return the amount of units rewarded for this combo.
+     */
+    int getUnitRewardAmount();
 }

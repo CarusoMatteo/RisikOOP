@@ -1,11 +1,12 @@
 package it.unibo.risikoop.controller.implementations;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import it.unibo.risikoop.controller.interfaces.CardGameController;
 import it.unibo.risikoop.model.implementations.gamecards.CardDeckImpl;
+import it.unibo.risikoop.model.implementations.gamecards.combos.ComboCheckerImpl;
 import it.unibo.risikoop.model.interfaces.CardDeck;
-import it.unibo.risikoop.model.interfaces.Combo;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
@@ -17,10 +18,10 @@ import it.unibo.risikoop.model.interfaces.cards.GameCard;
  * to interact
  * with the card deck and player combos.
  */
-public class CardGameContoroller implements CardGameController {
+public final class CardGameControllerImpl implements CardGameController {
 
     private final CardDeck deck;
-    private final GameManager gameManager;
+    private final ComboCheckerImpl comboChecker = new ComboCheckerImpl();
 
     /**
      * Constructs a CardGameController with the specified GameManager.
@@ -28,8 +29,7 @@ public class CardGameContoroller implements CardGameController {
      *
      * @param gameManager the GameManager that manages the game state
      */
-    public CardGameContoroller(GameManager gameManager) {
-        this.gameManager = gameManager;
+    public CardGameControllerImpl(final GameManager gameManager) {
         deck = new CardDeckImpl(gameManager.getTerritories());
     }
 
@@ -43,14 +43,26 @@ public class CardGameContoroller implements CardGameController {
     }
 
     @Override
-    public List<Combo> findCombos(Player player) {
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean canPlayAnyCombo(final Player player) {
+        if (player == null || player.getGameCards() == null) {
+            throw new IllegalArgumentException("Player or player's hand cannot be null.");
+        }
+
+        return comboChecker.anyComboIsPossible(player.getHand());
     }
 
     @Override
-    public void useCombo(Player player, Combo combo) {
-        // TODO Auto-generated method stub
+    public void useCombo(final Player player, final Set<GameCard> cards) {
+        if (player == null || player.getGameCards() == null) {
+            throw new IllegalArgumentException("Player or player's hand cannot be null.");
+        }
 
+        final Optional<Integer> unitsRewarded = comboChecker.useCombo(cards);
+
+        if (!unitsRewarded.isPresent()) {
+            throw new IllegalStateException("A non valid combo was used.");
+        }
+
+        player.addUnitsToPlace(unitsRewarded.get());
     }
 }

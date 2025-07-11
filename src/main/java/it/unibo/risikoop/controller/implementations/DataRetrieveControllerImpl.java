@@ -48,5 +48,4 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     public Optional<Integer> getTerritoryUnitsFromName(final String name) {
         return gameManager.getTerritory(name).map(Territory::getUnits);
     }
-
 }

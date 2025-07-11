@@ -3,9 +3,11 @@ package it.unibo.risikoop.model.interfaces;
 import java.util.Collection;
 import java.util.Set;
 
-
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
+/**
+ * Represents a player's hand of cards.
+ */
 public interface PlayerHand {
 
     /**
@@ -19,6 +21,7 @@ public interface PlayerHand {
      * Adds a single card to the hand.
      *
      * @param card the card to add
+     * @return true if the card was added successfully, otherwise false.
      */
     boolean addCard(GameCard card);
 
@@ -26,6 +29,7 @@ public interface PlayerHand {
      * Adds multiple cards to the hand in one operation.
      *
      * @param cards the collection of cards to add
+     * @return true if any of the cards were added successfully, otherwise false.
      */
     boolean addCards(Collection<GameCard> cards);
 
@@ -69,6 +73,8 @@ public interface PlayerHand {
 
     /**
      * Removes all cards from the hand.
+     * 
+     * @return true if the hand was cleared successfully, otherwise false.
      */
     boolean clear();
 

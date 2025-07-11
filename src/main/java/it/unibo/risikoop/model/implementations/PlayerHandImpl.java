@@ -7,13 +7,14 @@ import it.unibo.risikoop.model.interfaces.PlayerHand;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
 /**
- * Implementation of the PlayerHand interface, representing a player's hand of cards.
+ * Implementation of the PlayerHand interface, representing a player's hand of
+ * cards.
  * This class provides methods to manage the cards in a player's hand, including
  * adding, removing, and checking for cards.
  */
-public class PlayerHandImpl implements PlayerHand {
+public final class PlayerHandImpl implements PlayerHand {
 
-    final Set<GameCard> cards;
+    private final Set<GameCard> cards;
 
     /**
      * Default constructor initializing an empty player hand.
@@ -23,20 +24,20 @@ public class PlayerHandImpl implements PlayerHand {
     }
 
     @Override
-    public boolean addCard(GameCard card) {
+    public boolean addCard(final GameCard card) {
         if (card == null) {
             throw new IllegalArgumentException("Card cannot be null");
         }
         return cards.add(card);
-        
+
     }
 
     @Override
-    public boolean addCards(Collection<GameCard> cards) {
-        if(cards == null || cards.isEmpty()) {
+    public boolean addCards(final Collection<GameCard> cards) {
+        if (cards == null || cards.isEmpty()) {
             throw new IllegalArgumentException("Cards collection cannot be null or empty");
         }
-        
+
         return cards.addAll(cards);
     }
 
@@ -47,7 +48,7 @@ public class PlayerHandImpl implements PlayerHand {
     }
 
     @Override
-    public boolean contains(GameCard card) {
+    public boolean contains(final GameCard card) {
         return cards.contains(card);
     }
 
@@ -62,17 +63,17 @@ public class PlayerHandImpl implements PlayerHand {
     }
 
     @Override
-    public boolean removeCard(GameCard card) {
+    public boolean removeCard(final GameCard card) {
         return cards.remove(card);
     }
 
     @Override
-    public boolean removeCards(Collection<GameCard> cards) {
+    public boolean removeCards(final Collection<GameCard> cards) {
         return cards.removeAll(cards);
     }
 
     @Override
     public int size() {
         return cards.size();
-    } 
+    }
 }

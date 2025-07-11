@@ -12,7 +12,10 @@ import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.UnitType;
 
-public class CardDeckImpl implements CardDeck {
+/**
+ * This class represents the deck of cards in the game.
+ */
+public final class CardDeckImpl implements CardDeck {
 
     private static final int DEFAULT_PERCENTAGE = 33;
     private static final int DEFAULT_NUMBER_OF_WILD_CARDS = 2;
@@ -25,12 +28,21 @@ public class CardDeckImpl implements CardDeck {
     // private final int percentageOfArtillery;
     private final int numberOfWildCards;
 
+    /**
+     * Constructor for CardDeckImpl.
+     * 
+     * @param territories
+     * @param percentageOfInfantry
+     * @param percentageOfCavalry
+     * @param percentageOfArtillery
+     * @param numberOfWildCards
+     */
     public CardDeckImpl(
-            Set<Territory> territories,
-            int percentageOfInfantry,
-            int percentageOfCavalry,
-            int percentageOfArtillery,
-            int numberOfWildCards) {
+            final Set<Territory> territories,
+            final int percentageOfInfantry,
+            final int percentageOfCavalry,
+            final int percentageOfArtillery,
+            final int numberOfWildCards) {
         this.territories = territories;
 
         if (percentageOfInfantry < 0 || percentageOfCavalry < 0
@@ -49,9 +61,14 @@ public class CardDeckImpl implements CardDeck {
         deck = createDeck();
     }
 
-    public CardDeckImpl(Set<Territory> territories) {
-        this(
-                territories,
+    /**
+     * Default constructor for CardDeckImpl, that uses data from the official Risiko
+     * game.
+     * 
+     * @param territories
+     */
+    public CardDeckImpl(final Set<Territory> territories) {
+        this(territories,
                 DEFAULT_PERCENTAGE,
                 DEFAULT_PERCENTAGE,
                 DEFAULT_ARTILLERY_PERCENTAGE,
@@ -59,7 +76,7 @@ public class CardDeckImpl implements CardDeck {
     }
 
     @Override
-    public boolean addCards(Set<GameCard> card) {
+    public boolean addCards(final Set<GameCard> card) {
         return deck.addAll(card);
     }
 
@@ -78,18 +95,18 @@ public class CardDeckImpl implements CardDeck {
 
     private List<GameCard> createDeck() {
         // 1. Copy and shuffle the territories
-        List<Territory> shuffledTerritories = new ArrayList<>(territories);
+        final List<Territory> shuffledTerritories = new ArrayList<>(territories);
         Collections.shuffle(shuffledTerritories);
 
-        int totalTerritories = shuffledTerritories.size();
+        final int totalTerritories = shuffledTerritories.size();
 
         // 2. Calc the number of each type of card based on percentages
-        int infantryCount = totalTerritories * percentageOfInfantry / SUM_OF_PERCENTAGES;
-        int cavalryCount = totalTerritories * percentageOfCavalry / SUM_OF_PERCENTAGES;
-        int artilleryCount = totalTerritories - infantryCount - cavalryCount;
+        final int infantryCount = totalTerritories * percentageOfInfantry / SUM_OF_PERCENTAGES;
+        final int cavalryCount = totalTerritories * percentageOfCavalry / SUM_OF_PERCENTAGES;
+        final int artilleryCount = totalTerritories - infantryCount - cavalryCount;
 
         // 3. Assegna i tipi ai primi N territori
-        List<GameCard> cards = new ArrayList<>(totalTerritories + numberOfWildCards);
+        final List<GameCard> cards = new ArrayList<>(totalTerritories + numberOfWildCards);
         int idx = 0;
         for (int i = 0; i < infantryCount; i++, idx++) {
             cards.add(new TerritoryCardImpl(UnitType.INFANTRY, shuffledTerritories.get(idx)));

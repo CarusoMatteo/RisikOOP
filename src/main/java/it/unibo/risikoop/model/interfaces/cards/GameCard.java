@@ -5,7 +5,7 @@ import java.util.Optional;
 import it.unibo.risikoop.model.interfaces.Player;
 
 /**
- * Base interface for game cards in Risik
+ * Base interface for game cards in Risiko.
  */
 public interface GameCard {
     /**

@@ -21,6 +21,7 @@ public final class PlayerImpl implements Player {
     private final Color color;
     private final List<Territory> territories;
     private final PlayerHand hand;
+    private int unitsToPlace;
     private Player killer;
 
     /**
@@ -102,4 +103,18 @@ public final class PlayerImpl implements Player {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void addUnitsToPlace(final int units) {
+        this.unitsToPlace += units;
+    }
+
+    @Override
+    public void removeUnitsToPlace(final int units) {
+        this.unitsToPlace -= units;
+    }
+
+    @Override
+    public PlayerHand getHand() {
+        return this.hand;
+    }
 }

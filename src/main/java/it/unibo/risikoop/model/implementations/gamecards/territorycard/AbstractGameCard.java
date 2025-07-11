@@ -23,30 +23,29 @@ public abstract class AbstractGameCard implements GameCard {
      * Constructs an AbstractGameCard with the specified type and owner.
      *
      * @param type  the type of the card (INFANTRY, CAVALRY, ARTILLERY, or WILD)
-     * @param owner the player who owns the card
      */
-    protected AbstractGameCard(UnitType type) {
+    protected AbstractGameCard(final UnitType type) {
         this.type = Objects.requireNonNull(type, "type must not be null");
         this.owner = Optional.empty();
     }
 
     @Override
-    public UnitType getType() {
+    public final UnitType getType() {
         return type;
     }
 
     @Override
-    public Optional<Player> getOwner() {
+    public final Optional<Player> getOwner() {
         return owner;
     }
 
     @Override
-    public boolean isTerritoryCard() {
+    public final boolean isTerritoryCard() {
         return type != UnitType.WILD;
     }
 
     @Override
-    public boolean setOwner(Player player) {
+    public final boolean setOwner(final Player player) {
         if (player == null) {
             throw new IllegalArgumentException("Player cannot be null");
         }
