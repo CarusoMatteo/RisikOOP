@@ -81,4 +81,9 @@ public final class TerritoryImpl implements Territory {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public void setOwner(Player owner){
+        this.owner = Optional.ofNullable(owner);
+    }
+
 }
