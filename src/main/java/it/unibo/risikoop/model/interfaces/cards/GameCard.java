@@ -29,7 +29,8 @@ public interface GameCard {
      * Sets the owner of this card.
      *
      * @param player the player who will own this card
-     * @return true if the owner was successfully set, false if the card already has an owner
+     * @return true if the owner was successfully set, false if the card already has
+     *         an owner
      */
-    boolean setOwner(Player player);
+    boolean updateOwner(Player player);
 }

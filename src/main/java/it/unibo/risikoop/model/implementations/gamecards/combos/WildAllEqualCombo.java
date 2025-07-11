@@ -16,7 +16,7 @@ public final class WildAllEqualCombo implements ComboCheckStrategy {
     private static final int WILD_ALL_EQUAL_UNIT_REWARD = 12;
 
     @Override
-    public Boolean comboIsValid(final Set<GameCard> cards) {
+    public boolean comboIsValid(final Set<GameCard> cards) {
         if (cards == null || cards.size() != 3) {
             throw new IllegalArgumentException("The hand must contain 3 cards.");
         }
@@ -25,7 +25,7 @@ public final class WildAllEqualCombo implements ComboCheckStrategy {
     }
 
     @Override
-    public Boolean comboIsPossibile(final PlayerHand hand) {
+    public boolean comboIsPossibile(final PlayerHand hand) {
         if (Objects.isNull(hand) || Objects.isNull(hand.getCards())) {
             throw new IllegalArgumentException("The hand must not be null.");
         }
@@ -41,7 +41,7 @@ public final class WildAllEqualCombo implements ComboCheckStrategy {
 
     private long countWildUnitTypes(final Set<GameCard> cards) {
         return cards.stream()
-                .map(c -> c.getType())
+                .map(GameCard::getType)
                 .filter(t -> t.equals(UnitType.WILD))
                 .distinct()
                 .count();
@@ -49,7 +49,7 @@ public final class WildAllEqualCombo implements ComboCheckStrategy {
 
     private long countNonWildUnitTypes(final Set<GameCard> cards) {
         return cards.stream()
-                .map(c -> c.getType())
+                .map(GameCard::getType)
                 .filter(t -> !t.equals(UnitType.WILD))
                 .distinct()
                 .count();

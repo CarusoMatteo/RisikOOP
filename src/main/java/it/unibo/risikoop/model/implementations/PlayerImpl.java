@@ -104,12 +104,26 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
+    public int getUnitsToPlace() {
+        return this.unitsToPlace;
+    }
+
+    @Override
     public void addUnitsToPlace(final int units) {
+        if (units < 0) {
+            throw new IllegalArgumentException("Attempted to add a negative number of units to place.");
+        }
+
         this.unitsToPlace += units;
     }
 
     @Override
     public void removeUnitsToPlace(final int units) {
+        if (units < 0 || units > this.unitsToPlace) {
+            throw new IllegalArgumentException(
+                    "Attempted to remove a negative number of units to place or more than available.");
+        }
+
         this.unitsToPlace -= units;
     }
 

@@ -69,7 +69,7 @@ public final class PlayerHandImpl implements PlayerHand {
 
     @Override
     public boolean removeCards(final Collection<GameCard> cards) {
-        return cards.removeAll(cards);
+        return this.cards.removeAll(cards);
     }
 
     @Override

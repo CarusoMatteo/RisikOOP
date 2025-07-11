@@ -16,7 +16,7 @@ public interface ComboCheckStrategy {
      * @return if the Set of cards forms a valid combo.
      * @throws IllegalArgumentException if the Set does not contain exactly 3 cards.
      */
-    Boolean comboIsValid(Set<GameCard> cards);
+    boolean comboIsValid(Set<GameCard> cards);
 
     /**
      * Returns if a player has a valid combo in their hand.
@@ -24,10 +24,11 @@ public interface ComboCheckStrategy {
      * @param hand the player's hand.
      * @return if the player has a valid combo.
      */
-    Boolean comboIsPossibile(PlayerHand hand);
+    boolean comboIsPossibile(PlayerHand hand);
 
     /**
      * Returns the amount of units rewarded for this combo.
+     * 
      * @return the amount of units rewarded for this combo.
      */
     int getUnitRewardAmount();

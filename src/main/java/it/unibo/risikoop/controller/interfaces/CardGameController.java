@@ -25,7 +25,7 @@ public interface CardGameController {
      * @param player the player for whom to find combos.
      * @return if the player can use any combo.
      */
-    Boolean canPlayAnyCombo(Player player);
+    boolean canPlayAnyCombo(Player player);
 
     /**
      * Uses a combo for the specified player.

@@ -21,7 +21,7 @@ public final class ComboCheckerImpl implements ComboChecker {
             new AllArtilleryEqualCombo());
 
     @Override
-    public Boolean anyComboIsPossible(final PlayerHand hand) {
+    public boolean anyComboIsPossible(final PlayerHand hand) {
         return strategies.stream()
                 .anyMatch(strategy -> strategy.comboIsPossibile(hand));
     }
@@ -30,6 +30,6 @@ public final class ComboCheckerImpl implements ComboChecker {
     public Optional<Integer> useCombo(final Set<GameCard> cards) {
         return strategies.stream()
                 .filter(strategy -> strategy.comboIsValid(cards))
-                .map(strategy -> strategy.getUnitRewardAmount()).findFirst();
+                .map(ComboCheckStrategy::getUnitRewardAmount).findFirst();
     }
 }

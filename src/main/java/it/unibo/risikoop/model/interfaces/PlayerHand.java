@@ -77,5 +77,4 @@ public interface PlayerHand {
      * @return true if the hand was cleared successfully, otherwise false.
      */
     boolean clear();
-
 }

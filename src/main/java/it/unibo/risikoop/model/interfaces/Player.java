@@ -66,6 +66,13 @@ public interface Player {
     void setKiller(Player killer);
 
     /**
+     * Returns the number of units this player can place.
+     * 
+     * @return the number of units to place.
+     */
+    int getUnitsToPlace();
+
+    /**
      * Adds number of units to the player's total units to place.
      * 
      * @param units the number of units to add

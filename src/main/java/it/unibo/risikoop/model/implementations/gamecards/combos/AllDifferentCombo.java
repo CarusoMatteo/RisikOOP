@@ -17,7 +17,7 @@ public final class AllDifferentCombo implements ComboCheckStrategy {
     private static final int ALL_DIFFERENT_UNIT_REWARD = 10;
 
     @Override
-    public Boolean comboIsValid(final Set<GameCard> cards) {
+    public boolean comboIsValid(final Set<GameCard> cards) {
         if (Objects.isNull(cards) || cards.size() != 3) {
             throw new IllegalArgumentException("The hand must contain 3 cards.");
         }
@@ -27,7 +27,7 @@ public final class AllDifferentCombo implements ComboCheckStrategy {
     }
 
     @Override
-    public Boolean comboIsPossibile(final PlayerHand hand) {
+    public boolean comboIsPossibile(final PlayerHand hand) {
         if (Objects.isNull(hand) || Objects.isNull(hand.getCards())) {
             throw new IllegalArgumentException("The hand must not be null.");
         }

@@ -17,7 +17,7 @@ public interface ComboChecker {
      * @param hand the player's hand.
      * @return if any combo is possible.
      */
-    Boolean anyComboIsPossible(PlayerHand hand);
+    boolean anyComboIsPossible(PlayerHand hand);
 
     /**
      * Uses any combo with the given set of cards.

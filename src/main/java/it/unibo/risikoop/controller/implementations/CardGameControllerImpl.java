@@ -43,7 +43,7 @@ public final class CardGameControllerImpl implements CardGameController {
     }
 
     @Override
-    public Boolean canPlayAnyCombo(final Player player) {
+    public boolean canPlayAnyCombo(final Player player) {
         if (player == null || player.getGameCards() == null) {
             throw new IllegalArgumentException("Player or player's hand cannot be null.");
         }
