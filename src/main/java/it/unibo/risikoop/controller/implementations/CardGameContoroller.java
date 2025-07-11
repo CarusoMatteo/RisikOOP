@@ -10,11 +10,24 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
-public class CardGameContoroller implements CardGameController{
+/**
+ * Controller for managing card game operations such as drawing cards and
+ * finding combos.
+ * This class implements the CardGameController interface and provides methods
+ * to interact
+ * with the card deck and player combos.
+ */
+public class CardGameContoroller implements CardGameController {
 
     private final CardDeck deck;
     private final GameManager gameManager;
 
+    /**
+     * Constructs a CardGameController with the specified GameManager.
+     * Initializes the card deck with the territories from the GameManager.
+     *
+     * @param gameManager the GameManager that manages the game state
+     */
     public CardGameContoroller(GameManager gameManager) {
         this.gameManager = gameManager;
         deck = new CardDeckImpl(gameManager.getTerritories());
@@ -24,7 +37,7 @@ public class CardGameContoroller implements CardGameController{
     public GameCard drawCard() {
         if (!deck.isEmpty()) {
             return deck.drawCard();
-        }else {
+        } else {
             throw new IllegalStateException("The deck is empty, cannot draw a card.");
         }
     }
@@ -38,6 +51,6 @@ public class CardGameContoroller implements CardGameController{
     @Override
     public void useCombo(Player player, Combo combo) {
         // TODO Auto-generated method stub
-        
+
     }
 }
