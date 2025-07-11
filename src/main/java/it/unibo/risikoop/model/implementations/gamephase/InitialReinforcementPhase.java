@@ -17,11 +17,22 @@ public class InitialReinforcementPhase implements GamePhase {
     private final TurnManager turnManager;
     private final int initialUnits;
     private final GameManager gameManager;
+    private boolean isFirstPlayer;
 
+    /**
+     * Constructs an InitialReinforcementPhase with the specified TurnManager and
+     * GameManager.
+     * The initial number of units is calculated based on the number of territories
+     * and players.
+     *
+     * @param turnManager the TurnManager that manages the turns in the game
+     * @param gameManager the GameManager that manages the game state
+     */
     public InitialReinforcementPhase(TurnManager turnManager, GameManager gameManager) {
         this.turnManager = turnManager;
         this.gameManager = gameManager;
         initialUnits = calculateInitialUnits();
+        this.isFirstPlayer = true;
     }
 
     @Override
@@ -32,30 +43,36 @@ public class InitialReinforcementPhase implements GamePhase {
     @Override
     public void performAction() {
         Player p = turnManager.getCurrentPlayer();
+
+        if (isFirstPlayer) {
+            p.addUnitsToPlace(initialUnits);
+            isFirstPlayer = false;
+        }
+
         if (p.getUnitsToPlace() <= 0 && !turnManager.isNewRound()) {
             turnManager.nextPlayer();
             turnManager.getCurrentPlayer().addUnitsToPlace(initialUnits);
-        } 
+        }
     }
 
     @Override
     public void selectTerritory(Territory t) {
         Player p = turnManager.getCurrentPlayer();
 
-        if(!p.getTerritories().contains(t)) {
+        if (!p.getTerritories().contains(t)) {
             throw new IllegalArgumentException("Player does not own the selected territory.");
         }
 
-        if(p.getUnitsToPlace() > 0){
+        if (p.getUnitsToPlace() > 0) {
             t.addUnits(1);
             p.removeUnitsToPlace(1);
         }
     }
 
-    private int calculateInitialUnits(){
+    private int calculateInitialUnits() {
         int territories = gameManager.getTerritories().size();
         int players = gameManager.getPlayers().size();
-        int initialUnits = (int) (AVERAGE_UNITS_PER_TERRITORY * (territories / players));
-        return initialUnits;
-    } 
+        double avg = (double) territories / players;
+        return (int) Math.floor(AVERAGE_UNITS_PER_TERRITORY * avg);
+    }
 }

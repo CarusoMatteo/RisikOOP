@@ -65,3 +65,11 @@ Dopo di che si premerà il pulsante di inizia fase attacco
         - il metodo performeAction passa da selctSurc -> selctDest -> move dopo di che no fa nulla e disabilià il btnAction
 
         - il metodo nextGamePhase cambia giocatore e sposta sulla fase di use combo
+
+________________________________________________________________________________________________________
+Come funziona il InitialReinforcementPhase 
+il pusante in basso a destra parte grigio e si colora quando tutti il giocatore ha posizionato tuttle le sue truppe 
+(!ATTENZIONE!) quando istanzio l'oggetto assegno già la truppe al primo giocatore, potrebbe essere un possibile bug da controllare bene
+
+dopo che un giocatore ha piazzato tutte le truppe il pustante si colora e ti fa passare al giocatore successivo, 
+si continua così fino a che non si ritorna al primo giocatore allora si passa alla nuova fase di gioco

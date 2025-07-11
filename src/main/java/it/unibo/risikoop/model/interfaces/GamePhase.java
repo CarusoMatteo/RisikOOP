@@ -26,4 +26,11 @@ public interface GamePhase {
      * @return true if the phase is complete, false otherwise
      */
     boolean isComplete();
+
+    /**
+     * Set the number of units to use in the current action.
+     * 
+     * @param units the number of units to use
+     */
+    void setUnitsToUse(int units);
 }

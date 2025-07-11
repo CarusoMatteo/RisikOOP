@@ -48,13 +48,18 @@ public final class PlayerImpl implements Player {
 
     @Override
     public Optional<Player> getKiller() {
-        // todo: non so se va bene ritornare il giocatore devo ritornare una copia
         return killer;
     }
 
     @Override
     public boolean addTerritory(Territory territory) {
         return territories.add(territory);
+    }
+
+    @Override
+    public boolean removeTerritory(Territory territory) {
+        // TODO devo rimuover eil territorio dalla loista dei territori del giocatore
+        return true;
     }
 
     @Override
@@ -130,7 +135,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public boolean isEliminated() {
-        return territories.isEmpty();
+        return killer.isPresent();
     }
 
     @Override

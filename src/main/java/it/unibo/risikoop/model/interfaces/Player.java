@@ -102,4 +102,11 @@ public interface Player {
      */
     boolean addTerritory(Territory territory);
 
+    /**
+     * Removes a territory from the player's territories.
+     * @param territory
+     * @return true if the territory was removed successfully, false otherwise.
+     */
+    boolean removeTerritory(Territory territory);
+
 }
