@@ -67,18 +67,28 @@ public interface Player {
 
     /**
      * Adds number of units to the player's total units to place.
+     * 
      * @param units the number of units to add
      * @throws IllegalArgumentException if units is negative
-     */  
-     
+     */
+
     void addUnitsToPlace(int units);
 
     /**
      * Removes number of units from the player's total units to place.
+     * 
      * @param units the number of units to remove
-     * @throws IllegalArgumentException if units is negative or greater than the current units to place
-     * */
+     * @throws IllegalArgumentException if units is negative or greater than the
+     *                                  current units to place
+     */
     void removeUnitsToPlace(int units);
+
+    /**
+     * Gets the number of units the player can place.
+     * 
+     * @return the number of units to place left
+     */
+    int getUnitsToPlace();
 
     /**
      * Checks if the player is eliminated.

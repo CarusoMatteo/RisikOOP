@@ -128,4 +128,9 @@ public final class PlayerImpl implements Player {
         return territories.isEmpty();
     }
 
+    @Override
+    public int getUnitsToPlace() {
+        return unitsToPlace;
+    }
+
 }

@@ -20,4 +20,12 @@ public interface TurnManager {
      * @return the Player whose turn is next
      */
     Player nextPlayer();
+
+    /**
+     * Checks if a new round has started.
+     * A new round is typically indicated by the first player of the next round.
+     *
+     * @return true if a new round has started, false otherwise
+     */
+    Boolean isNewRound();
 }

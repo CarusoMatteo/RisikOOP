@@ -15,6 +15,7 @@ public class TurnManagerImpl implements TurnManager {
 
     private final List<Player> players;
     private int currentPlayerIndex;
+    private boolean newRound = false;
 
     /**
      * Constructs a TurnManagerImpl with the specified list of players.
@@ -23,6 +24,11 @@ public class TurnManagerImpl implements TurnManager {
      * @param players the list of players in the game
      */
     public TurnManagerImpl(List<Player> players) {
+
+        if (players == null || players.isEmpty()) {
+            throw new IllegalArgumentException("Player list must not be null or empty");
+        }
+
         this.players = players;
         currentPlayerIndex = 0;
     }
@@ -34,10 +40,18 @@ public class TurnManagerImpl implements TurnManager {
 
     @Override
     public Player nextPlayer() {
+        int prevIndex = currentPlayerIndex;
         do {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         } while (players.get(currentPlayerIndex).isEliminated());
 
+        newRound = prevIndex > currentPlayerIndex;
+
         return players.get(currentPlayerIndex);
+    }
+
+    @Override
+    public Boolean isNewRound() {
+        return newRound;
     }
 }
