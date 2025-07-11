@@ -1,9 +1,6 @@
 package it.unibo.risikoop.model.cards;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -11,17 +8,13 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
-import it.unibo.risikoop.model.implementations.PlayerGameContext;
 import it.unibo.risikoop.model.implementations.PlayerImpl;
 import it.unibo.risikoop.model.implementations.TerritoryImpl;
 import it.unibo.risikoop.model.implementations.gamecards.territorycard.TerritoryCardImpl;
 import it.unibo.risikoop.model.implementations.gamecards.territorycard.WildCardImpl;
-import it.unibo.risikoop.model.implementations.specification.ConquerTerritoriesSpec;
-import it.unibo.risikoop.model.implementations.specification.KillPlayerSpec;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
-import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 import it.unibo.risikoop.model.interfaces.cards.UnitType;
 import it.unibo.risikoop.model.interfaces.cards.WildCard;
@@ -46,19 +39,19 @@ final class TerritoryCardTest {
 
     @Test
     void testTerritoryCard() {
-        final TerritoryCard territoryCard = new TerritoryCardImpl(type, owner, territory);
+        final TerritoryCard territoryCard = new TerritoryCardImpl(type, territory);
         assertEquals(type, territoryCard.getType());
         assertEquals(owner, territoryCard.getOwner());
         assertEquals(territory, territoryCard.getAssociatedTerritory());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new TerritoryCardImpl(UnitType.WILD, owner, territory);
+            new TerritoryCardImpl(UnitType.WILD, territory);
         });
     }
 
     @Test
     void testWildCard() {
-        final WildCard territoryCard = new WildCardImpl(owner);
+        final WildCard territoryCard = new WildCardImpl();
         assertEquals(UnitType.WILD, territoryCard.getType());
         assertEquals(owner, territoryCard.getOwner());
     }
