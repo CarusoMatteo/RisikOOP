@@ -10,7 +10,14 @@ import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 
 /**
- * 
+ * Concrete implementation of the {@link LogicAttack} interface,
+ * providing Risiko-style dice attack resolution between two territories.
+ * <p>
+ * Uses up to three attack dice and up to two defense dice per battle round,
+ * sorts the dice in descending order, compares each pair (defender wins ties),
+ * applies unit losses, and repeats until the attacker cannot continue or the
+ * defender’s territory is conquered.
+ * </p>
  */
 public class LogicAttackImpl implements LogicAttack {
 
@@ -23,7 +30,9 @@ public class LogicAttackImpl implements LogicAttack {
     private Territory dst;
 
     /**
-     * 
+     * Constructs a new {@code LogicAttackImpl} instance with no preconfigured
+     * territories or unit counts. Attack and defense state will be initialized
+     * at the start of each {@link #attack(Player, Player, Territory, Territory, int)} call.
      */
     public LogicAttackImpl() {
         this.attackerUnits = 0;
@@ -34,8 +43,6 @@ public class LogicAttackImpl implements LogicAttack {
 
     @Override
     public boolean attack(Player attacker, Player defender, Territory src, Territory dst, int units) {
-        // Verifica che i territori siano validi e che l'attaccante abbia abbastanza
-        // unità
         if (src.getOwner() != attacker || dst.getOwner() != defender) {
             return false;
         }

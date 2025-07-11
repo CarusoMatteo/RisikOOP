@@ -37,11 +37,11 @@ public class AttackPhase implements GamePhase {
     private int unitsToUse;
     private boolean isEnd;
 
-    public AttackPhase(TurnManager turnManager, Player attacker, Player defender) {
+    public AttackPhase(TurnManager turnManager, Player defender) {
         this.turnManager = turnManager;
         this.logic = new LogicAttackImpl();
         this.state = PhaseState.SELECT_ATTACKER;
-        this.attacker = attacker;
+        this.attacker = turnManager.getCurrentPlayer();
         this.defender = defender;
         this.attackerSrc = null;
         this.defenderDst = null;
@@ -56,15 +56,15 @@ public class AttackPhase implements GamePhase {
 
     @Override
     public void performAction() {
-        
-        if(state == PhaseState.SELECT_ATTACKER && attackerSrc != null) {
-            isEnd = false; 
+
+        if (state == PhaseState.SELECT_ATTACKER && attackerSrc != null) {
+            isEnd = false;
             state = PhaseState.SELECT_DEFENDER;
-        } else if(state == PhaseState.SELECT_DEFENDER && defenderDst != null) {
+        } else if (state == PhaseState.SELECT_DEFENDER && defenderDst != null) {
             state = PhaseState.SELECT_UNITS;
-        } else if(state == PhaseState.SELECT_UNITS && unitsToUse > 0) {
+        } else if (state == PhaseState.SELECT_UNITS && unitsToUse > 0) {
             state = PhaseState.EXECUTE_ATTACK;
-        } else if(state == PhaseState.EXECUTE_ATTACK) {
+        } else if (state == PhaseState.EXECUTE_ATTACK) {
             logic.attack(attacker, defender, attackerSrc, defenderDst, unitsToUse);
             isEnd = true; // Mark that an attack has been executed
             state = PhaseState.SELECT_ATTACKER; // Reset to allow for another attack
@@ -99,5 +99,4 @@ public class AttackPhase implements GamePhase {
         return !t.getOwner().equals(turnManager.getCurrentPlayer()) &&
                 attackerSrc.getNeightbours().contains(t);
     }
-
 }
