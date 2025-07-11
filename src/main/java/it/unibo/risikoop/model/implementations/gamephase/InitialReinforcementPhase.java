@@ -6,6 +6,11 @@ import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 
+/**
+ * Represents the initial reinforcement phase of the Risiko game.
+ * In this phase, players receive a calculated number of units to place
+ * on their owned territories at the start of the game.
+ */
 public class InitialReinforcementPhase implements GamePhase {
 
     private static final double AVERAGE_UNITS_PER_TERRITORY = 2.5;
@@ -27,7 +32,7 @@ public class InitialReinforcementPhase implements GamePhase {
     @Override
     public void performAction() {
         Player p = turnManager.getCurrentPlayer();
-        if (p.getUnitsToPlace() <= 0) {
+        if (p.getUnitsToPlace() <= 0 && !turnManager.isNewRound()) {
             turnManager.nextPlayer();
             turnManager.getCurrentPlayer().addUnitsToPlace(initialUnits);
         } 
