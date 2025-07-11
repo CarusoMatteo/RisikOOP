@@ -53,6 +53,11 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
+    public boolean addTerritory(Territory territory) {
+        return territories.add(territory);
+    }
+
+    @Override
     public List<Territory> getTerritories() {
         return Collections.unmodifiableList(territories);
     }

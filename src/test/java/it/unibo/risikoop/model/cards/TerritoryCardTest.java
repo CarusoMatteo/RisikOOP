@@ -46,19 +46,19 @@ final class TerritoryCardTest {
 
     @Test
     void testTerritoryCard() {
-        final TerritoryCard territoryCard = new TerritoryCardImpl(type, owner, territory);
+        final TerritoryCard territoryCard = new TerritoryCardImpl(type, territory);
         assertEquals(type, territoryCard.getType());
         assertEquals(owner, territoryCard.getOwner());
         assertEquals(territory, territoryCard.getAssociatedTerritory());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new TerritoryCardImpl(UnitType.WILD, owner, territory);
+            new TerritoryCardImpl(UnitType.WILD, territory);
         });
     }
 
     @Test
     void testWildCard() {
-        final WildCard territoryCard = new WildCardImpl(owner);
+        final WildCard territoryCard = new WildCardImpl();
         assertEquals(UnitType.WILD, territoryCard.getType());
         assertEquals(owner, territoryCard.getOwner());
     }

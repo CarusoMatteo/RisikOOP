@@ -53,5 +53,6 @@ public class TurnManagerImpl implements TurnManager {
     @Override
     public Boolean isNewRound() {
         return newRound;
+        
     }
 }

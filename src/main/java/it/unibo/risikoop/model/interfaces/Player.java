@@ -95,4 +95,11 @@ public interface Player {
      */
     boolean isEliminated();
 
+    /**
+     * Adds a territory to the player's territories.
+     * @param territory
+     * @return true if the territory was added successfully, false otherwise.
+     */
+    boolean addTerritory(Territory territory);
+
 }
