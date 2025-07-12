@@ -1,8 +1,8 @@
 
 package it.unibo.risikoop.model.implementations.gamephase;
 
-import it.unibo.risikoop.controller.implementations.LogicAttackImpl;
-import it.unibo.risikoop.controller.interfaces.LogicAttack;
+import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
+import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;

@@ -1,8 +1,8 @@
-package it.unibo.risikoop.controller.implementations;
+package it.unibo.risikoop.controller.implementations.logicgame;
 
 import java.util.Set;
 
-import it.unibo.risikoop.controller.interfaces.LogicReinforcementCalculator;
+import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;

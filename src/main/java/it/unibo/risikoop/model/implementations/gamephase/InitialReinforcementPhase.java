@@ -1,5 +1,7 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
+import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
+import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
@@ -13,11 +15,11 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  */
 public class InitialReinforcementPhase implements GamePhase {
 
-    private static final double AVERAGE_UNITS_PER_TERRITORY = 2.5;
     private final TurnManager turnManager;
     private final int initialUnits;
     private final GameManager gameManager;
     private boolean isFirstPlayer;
+    private LogicReinforcementCalculator logic;
 
     /**
      * Constructs an InitialReinforcementPhase with the specified TurnManager and
@@ -31,7 +33,8 @@ public class InitialReinforcementPhase implements GamePhase {
     public InitialReinforcementPhase(TurnManager turnManager, GameManager gameManager) {
         this.turnManager = turnManager;
         this.gameManager = gameManager;
-        initialUnits = calculateInitialUnits();
+        this.logic = new LogicCalcInitialUnitsImpl(gameManager);
+        initialUnits = logic.calcPlayerUnits();
         this.isFirstPlayer = true;
     }
 
@@ -69,10 +72,8 @@ public class InitialReinforcementPhase implements GamePhase {
         }
     }
 
-    private int calculateInitialUnits() {
-        int territories = gameManager.getTerritories().size();
-        int players = gameManager.getPlayers().size();
-        double avg = (double) territories / players;
-        return (int) Math.floor(AVERAGE_UNITS_PER_TERRITORY * avg);
+    @Override
+    public void setUnitsToUse(int units) {
+        // TODO Auto-generated method stub
     }
 }

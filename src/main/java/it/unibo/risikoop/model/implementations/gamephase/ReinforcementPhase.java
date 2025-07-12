@@ -1,7 +1,7 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
-import it.unibo.risikoop.controller.implementations.LogicReinforcementCalculatorImpl;
-import it.unibo.risikoop.controller.interfaces.LogicReinforcementCalculator;
+import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
+import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
