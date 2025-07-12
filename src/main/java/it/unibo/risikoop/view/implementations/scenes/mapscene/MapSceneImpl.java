@@ -34,20 +34,55 @@ public final class MapSceneImpl extends JPanel implements MapScene {
     public MapSceneImpl(final Controller controller) {
         // this.controller = controller;
 
-        this.currentPlayerPanel = new CurrentPlayerJPanel();
+        this.currentPlayerPanel = new CurrentPlayerJPanel(
+                "Giocatore 1",
+                new it.unibo.risikoop.model.implementations.Color(0, 255, 255));
+        /*
+         * this.currentPlayerPanel = new CurrentPlayerJPanel(
+         * controller.getDataRetrieveController().getCurrentPlayerName(),
+         * controller.getDataRetrieveController().getCurrentPlayerColor());
+         */
         this.mapPanel = new MapJPanel(controller);
         this.cardPanel = new CardJpanel();
         this.actionPanel = new ActionJPanel();
 
         setDebugPanelColors();
-
         setLayout(new GridBagLayout());
         setGridBagConstraints();
+
+        new Thread(() -> {
+            try {
+                while (true) {
+                    Thread.sleep(1000);
+                    java.awt.Color randomColor = getRandomColor();
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        // Genera una lunghezza casuale tra 5 e 15
+                        int randomLength = 5 + new java.util.Random().nextInt(11);
+                        // Genera una stringa casuale di quella lunghezza
+                        StringBuilder sb = new StringBuilder(randomLength);
+                        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                        java.util.Random randStr = new java.util.Random();
+                        for (int i = 0; i < randomLength; i++) {
+                            sb.append(chars.charAt(randStr.nextInt(chars.length())));
+                        }
+                        String randomPlayerName = "Giocatore " + sb.toString();
+                        updateCurrentPlayer(randomPlayerName, new it.unibo.risikoop.model.implementations.Color(
+                                randomColor.getRed(), randomColor.getGreen(), randomColor.getBlue()));
+                    });
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+    }
+
+    private java.awt.Color getRandomColor() {
+        java.util.Random rand = new java.util.Random();
+        return new java.awt.Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
     }
 
     // TODO Remove when actual panels are implemented.
     private void setDebugPanelColors() {
-        this.currentPlayerPanel.setBackground(Color.RED);
         this.cardPanel.setBackground(Color.GREEN);
         this.actionPanel.setBackground(Color.ORANGE);
     }
@@ -84,13 +119,13 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
         // currentPlayerPanel
         gbc.gridy = 0;
-        gbc.weightx = 1;
+        gbc.weightx = SMALL_PANEL_PROPORTION;
         gbc.weighty = SMALL_PANEL_PROPORTION;
         leftPanel.add(this.currentPlayerPanel, gbc);
 
         // cardPanel
         gbc.gridy = 1;
-        gbc.weightx = 1;
+        gbc.weightx = BIG_PANEL_PROPORTION;
         gbc.weighty = BIG_PANEL_PROPORTION;
         leftPanel.add(this.cardPanel, gbc);
     }
@@ -115,7 +150,8 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
     @Override
     public void updateCurrentPlayer(String playerName, it.unibo.risikoop.model.implementations.Color playerColor) {
-        currentPlayerPanel.updateCurrentPlayer(playerName, playerColor);
+        currentPlayerPanel.updateCurrentPlayer(
+                playerName,
+                new Color(playerColor.r(), playerColor.g(), playerColor.b()));
     }
-
 }
