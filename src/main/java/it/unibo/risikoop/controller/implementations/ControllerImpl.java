@@ -11,6 +11,7 @@ import it.unibo.risikoop.controller.interfaces.DataAddingController;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
+import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.view.implementations.SwingView;
 import it.unibo.risikoop.view.interfaces.RisikoView;
@@ -78,5 +79,11 @@ public final class ControllerImpl implements Controller {
         Stream.iterate(0, i -> i++)
                 .limit(territories.size())
                 .forEach(i -> players.get(i % players.size()).addTerritory(territories.get(i)));
+    }
+
+    @Override
+    public void showActualPlayer(Player player) {
+        viewList.stream().map(v -> v.getMapScene())
+                .forEach(s -> s.ifPresent(m -> m.updateCurrentPlayer(player.getName(), player.getColor())));
     }
 }

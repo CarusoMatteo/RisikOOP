@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.graphstream.graph.Graph;
 
+import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 
@@ -40,5 +41,17 @@ public interface DataRetrieveController {
      *         returns Optional.empty()
      */
     Optional<Integer> getTerritoryUnitsFromName(String name);
+
+    /**
+     * 
+     * @return the current player's name
+     */
+    String getCurrentPlayerName();
+
+    /**
+     * 
+     * @return the current player's color
+     */
+    Color getCurrentPlayerColor();
 
 }

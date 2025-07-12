@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.Optional;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,6 +15,7 @@ import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.view.implementations.scenes.MapChoserScene;
 import it.unibo.risikoop.view.implementations.scenes.PlayerAddingView;
 import it.unibo.risikoop.view.implementations.scenes.mapscene.MapSceneImpl;
+import it.unibo.risikoop.view.interfaces.MapScene;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
 /**
@@ -27,6 +29,7 @@ public final class SwingView implements RisikoView {
     private final JFrame frame = new JFrame();
     private final PlayerAddingView playerAddingView;
     private final MapChoserScene mapChoser;
+    private Optional<MapScene> mapScene = Optional.empty();
     // private MapScene mapScene;
 
     /**
@@ -79,8 +82,9 @@ public final class SwingView implements RisikoView {
 
     @Override
     public void beginPlay() {
-        final MapSceneImpl mapScene = new MapSceneImpl(this.controller);
-        changePanel(frame, mapChoser, mapScene);
+        final MapSceneImpl mapSceneImpl = new MapSceneImpl(this.controller);
+        mapScene = Optional.of(mapSceneImpl);
+        changePanel(frame, mapChoser, mapSceneImpl);
     }
 
     @Override
@@ -107,6 +111,11 @@ public final class SwingView implements RisikoView {
     @Override
     public void showErrorMessage(final String s) {
         JOptionPane.showMessageDialog(playerAddingView, s);
+    }
+
+    @Override
+    public Optional<MapScene> getMapScene() {
+        return mapScene;
     }
 
 }

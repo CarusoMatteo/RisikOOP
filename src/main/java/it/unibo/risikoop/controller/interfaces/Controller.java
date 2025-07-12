@@ -1,5 +1,7 @@
 package it.unibo.risikoop.controller.interfaces;
 
+import it.unibo.risikoop.model.interfaces.Player;
+
 /**
  * 
  */
@@ -36,5 +38,10 @@ public interface Controller {
      * ends the game.
      */
     void gameOver();
+
+    /**
+     * update the current player showing method
+     */
+    void showActualPlayer(Player player);
 
 }
