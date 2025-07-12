@@ -1,11 +1,10 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
 import java.awt.Color;
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -31,6 +30,8 @@ public final class CurrentPlayerJPanel extends JPanel {
                 firstPlayerColor.r(),
                 firstPlayerColor.g(),
                 firstPlayerColor.b()));
+        this.playerNameLabel.setPreferredSize(new Dimension(1, 1));
+        this.playerNameLabel.setMinimumSize(new Dimension(1, 1));
     }
 
     private void createLabel(final String firstPlayerName) {
@@ -42,7 +43,8 @@ public final class CurrentPlayerJPanel extends JPanel {
 
     public void updateCurrentPlayer(final String playerName, final Color playerColor) {
         this.setBackground(playerColor);
-        this.playerNameLabel.setText("<html>" + playerName + "</html>");
+        this.playerNameLabel.setText("<html><div style='text-align: center; word-wrap: break-word;'>" +
+                playerName + "</div></html>");
         this.playerNameLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, FONT_SIZE));
         this.playerNameLabel.setForeground(getContrastingColor(playerColor));
 
