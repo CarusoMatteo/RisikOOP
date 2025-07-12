@@ -92,7 +92,13 @@ public final class PlayerAddingView extends JPanel {
             updatePlayerListMine();
         });
         final JButton finishButton = new JButton("End");
-        finishButton.addActionListener(i -> controller.beginMapSelection());
+        finishButton.addActionListener(i -> {
+            if (controller.getDataRetrieveController().getPlayerList().size() >= 2) {
+                controller.beginMapSelection();
+            }else{
+                JOptionPane.showMessageDialog(this, "Have to add at least two characters");
+            }
+        });
         add(finishButton, BorderLayout.SOUTH);
         /**
          * Making the fonts dynamic
