@@ -35,7 +35,7 @@ public interface GamePhase {
     void setUnitsToUse(int units);
 
     /**
-     * I initialize the phase by setting all the relevant data
+     * I initialize the phase by setting all the relevant data.
      */
     void initializationPhase();
 }

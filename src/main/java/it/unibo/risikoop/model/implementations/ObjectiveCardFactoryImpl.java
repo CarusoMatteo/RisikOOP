@@ -2,6 +2,7 @@ package it.unibo.risikoop.model.implementations;
 
 import java.util.Random;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.model.implementations.gamecards.objectivecards.ConquerNContinetsBuilder;
 import it.unibo.risikoop.model.implementations.gamecards.objectivecards.ConquerNTerritoriesWithXArmiesBuilder;
 import it.unibo.risikoop.model.implementations.gamecards.objectivecards.KillPlayerOrConquer24Builder;
@@ -33,6 +34,7 @@ public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
      *
      * @param gameManager the GameManager that manages the game state
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentionally returning the Territory reference; mutability managed elsewhere")
     public ObjectiveCardFactoryImpl(final GameManager gameManager) {
         this.random = new Random();
         this.gameManager = gameManager;

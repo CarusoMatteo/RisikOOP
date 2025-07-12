@@ -11,11 +11,11 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * allowing to get the current player and move to the next player,
  * skipping any eliminated players.
  */
-public class TurnManagerImpl implements TurnManager {
+public final class TurnManagerImpl implements TurnManager {
 
     private final List<Player> players;
     private int currentPlayerIndex;
-    private boolean newRound = false;
+    private boolean newRound;
 
     /**
      * Constructs a TurnManagerImpl with the specified list of players.
@@ -23,13 +23,14 @@ public class TurnManagerImpl implements TurnManager {
      *
      * @param players the list of players in the game
      */
-    public TurnManagerImpl(List<Player> players) {
+    public TurnManagerImpl(final List<Player> players) {
 
         if (players == null || players.isEmpty()) {
             throw new IllegalArgumentException("Player list must not be null or empty");
         }
 
-        this.players = players;
+        this.newRound = false;
+        this.players = List.copyOf(players);
         currentPlayerIndex = 0;
     }
 
@@ -40,7 +41,7 @@ public class TurnManagerImpl implements TurnManager {
 
     @Override
     public Player nextPlayer() {
-        int prevIndex = currentPlayerIndex;
+        final int prevIndex = currentPlayerIndex;
         do {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         } while (players.get(currentPlayerIndex).isEliminated());
@@ -53,6 +54,5 @@ public class TurnManagerImpl implements TurnManager {
     @Override
     public Boolean isNewRound() {
         return newRound;
-        
     }
 }

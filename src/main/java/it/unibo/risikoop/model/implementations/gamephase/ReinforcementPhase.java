@@ -1,6 +1,5 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
-import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
@@ -17,24 +16,25 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * - setUnitsToUse(...) is ignored
  * </p>
  */
-public class ReinforcementPhase implements GamePhase {
+public final class ReinforcementPhase implements GamePhase {
 
     private final TurnManager turnManager;
     private LogicReinforcementCalculator logic;
-    private boolean isFirtsReq = true;
+    private boolean isFirtsReq;
 
     /**
      * Constructs a new ReinforcementPhase for the given turn manager.
      *
      * @param turnManager the TurnManager tracking current player and turns
      */
-    public ReinforcementPhase(TurnManager turnManager) {
+    public ReinforcementPhase(final TurnManager turnManager) {
         this.turnManager = turnManager;
+        this.isFirtsReq = true;
     }
 
     @Override
-    public void selectTerritory(Territory t) {
-        Player current = turnManager.getCurrentPlayer();
+    public void selectTerritory(final Territory t) {
+        final Player current = turnManager.getCurrentPlayer();
         if (current.getUnitsToPlace() > 0 && current.getTerritories().contains(t)) {
             t.addUnits(1);
             current.removeUnitsToPlace(1);
@@ -45,7 +45,7 @@ public class ReinforcementPhase implements GamePhase {
     public void performAction() {
         if (isFirtsReq) {
             isFirtsReq = false;
-            Player current = turnManager.getCurrentPlayer();
+            final Player current = turnManager.getCurrentPlayer();
             current.addUnitsToPlace(logic.calcPlayerUnits());
         }
     }
@@ -53,18 +53,17 @@ public class ReinforcementPhase implements GamePhase {
     @Override
     public boolean isComplete() {
         // Phase complete only when all reinforcement units are placed
-        Player current = turnManager.getCurrentPlayer();
+        final Player current = turnManager.getCurrentPlayer();
         return current.getUnitsToPlace() == 0;
     }
 
     @Override
-    public void setUnitsToUse(int units) {
+    public void setUnitsToUse(final int units) {
         // Not used in this phase
     }
 
     @Override
     public void initializationPhase() {
         // TODO Auto-generated method stub
-        
     }
 }

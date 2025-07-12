@@ -13,16 +13,18 @@ import it.unibo.risikoop.model.implementations.gamephase.MovementPhase;
 import it.unibo.risikoop.model.implementations.gamephase.ReinforcementPhase;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.GamePhase;
-import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 
 /**
- * Orchestrates il ciclo di fasi:
- * * prima volta: INITIAL_REINFORCEMENT → REINFORCEMENT → COMBO → ATTACK →
- * MOVEMENT
- * * poi, per ogni turno: REINFORCEMENT → COMBO → ATTACK → MOVEMENT
+ * Coordinates the progression and transition of game phases for each player.
+ * <p>
+ * At the start of the game, phases follow the sequence:
+ * INITIAL_REINFORCEMENT → REINFORCEMENT → COMBO → ATTACK → MOVEMENT.
+ * For subsequent turns, the INITIAL_REINFORCEMENT phase is skipped,
+ * and phases cycle through REINFORCEMENT → COMBO → ATTACK → MOVEMENT.
+ * </p>
  */
-public class GamePhaseControllerImpl implements GamePhaseController {
+public final class GamePhaseControllerImpl implements GamePhaseController {
 
     private enum PhaseKey {
         INITIAL_REINFORCEMENT,
@@ -32,7 +34,7 @@ public class GamePhaseControllerImpl implements GamePhaseController {
         MOVEMENT;
 
         PhaseKey next() {
-            int idx = (this.ordinal() + 1) % values().length;
+            final int idx = (this.ordinal() + 1) % values().length;
             return values()[idx];
         }
     }
@@ -40,9 +42,20 @@ public class GamePhaseControllerImpl implements GamePhaseController {
     private final TurnManager turnManager;
     private final Map<PhaseKey, GamePhase> phases;
     private PhaseKey current;
-    private boolean initialDone = false;
+    private boolean initialDone;
 
-    public GamePhaseControllerImpl(TurnManager tm, GameManager gm) {
+    /**
+     * Creates a new GamePhaseControllerImpl that will manage game phases
+     * using the provided turn manager and game manager.
+     * <p>
+     * Initializes all phase implementations, sets the current phase
+     * to INITIAL_REINFORCEMENT, and calls initializationPhase() on it.
+     * </p>
+     *
+     * @param tm the TurnManager that determines player turn order
+     * @param gm the GameManager providing game state and context
+     */
+    public GamePhaseControllerImpl(final TurnManager tm, final GameManager gm) {
         this.turnManager = tm;
         this.phases = new EnumMap<>(PhaseKey.class);
 
@@ -54,6 +67,8 @@ public class GamePhaseControllerImpl implements GamePhaseController {
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
         phases.get(current).initializationPhase();
+
+        this.initialDone = false;
     }
 
     private GamePhase phase() {
@@ -61,12 +76,12 @@ public class GamePhaseControllerImpl implements GamePhaseController {
     }
 
     @Override
-    public void selectTerritory(Territory t) {
+    public void selectTerritory(final Territory t) {
         phase().selectTerritory(t);
     }
 
     @Override
-    public void setUnitsToUse(int units) {
+    public void setUnitsToUse(final int units) {
         phase().setUnitsToUse(units);
     }
 
@@ -76,15 +91,15 @@ public class GamePhaseControllerImpl implements GamePhaseController {
     }
 
     private void advancePhase() {
-        PhaseKey prev = current;
+        final PhaseKey prev = current;
         PhaseKey next = current.next();
 
-        // Se abbiamo finito INITIAL_REINFORCEMENT, segniamo che non va più rieseguita
+        // Mark initial reinforcement as completed after its first execution
         if (prev == PhaseKey.INITIAL_REINFORCEMENT) {
             initialDone = true;
         }
 
-        // Se INITIAL è già andata e il prossimo sarebbe INITIAL, skip a REINFORCEMENT
+        // Skip INITIAL_REINFORCEMENT in subsequent turns
         if (initialDone && next == PhaseKey.INITIAL_REINFORCEMENT) {
             next = PhaseKey.REINFORCEMENT;
         }
@@ -92,7 +107,7 @@ public class GamePhaseControllerImpl implements GamePhaseController {
         current = next;
         phase().initializationPhase();
 
-        // Ogni volta che passiamo da MOVEMENT → REINFORCEMENT, giro di turno
+        // After MOVEMENT transitions to COMBO, advance to next player's turn
         if (prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO) {
             turnManager.nextPlayer();
         }
@@ -104,41 +119,4 @@ public class GamePhaseControllerImpl implements GamePhaseController {
             advancePhase();
         }
     }
-
-    // private void phaseBeginner(){
-
-    // if(current == PhaseKey.INITIAL_REINFORCEMENT){
-
-    // }
-
-    // }
-
-    // /**
-    // * @return il nome della fase attiva, utile per la UI
-    // */
-    // public String getCurrentPhaseName() {
-    // return current.name();
-    // }
-
-    // // Set unit
-    // private void InitialReinforcementBegin(){
-    // phases.get(current).performAction();
-    // }
-
-    // private void reinforcementBegin(){
-
-    // }
-
-    // private void comboBegin(){
-
-    // }
-
-    // private void attackBegin(){
-
-    // }
-
-    // private void movementBegin(){
-
-    // }
-
 }
