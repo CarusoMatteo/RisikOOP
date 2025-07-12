@@ -13,12 +13,12 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * In this phase, players receive a calculated number of units to place
  * on their owned territories at the start of the game.
  */
-public class InitialReinforcementPhase implements GamePhase {
+public final class InitialReinforcementPhase implements GamePhase {
 
     private final TurnManager turnManager;
     private final int initialUnits;
     private final GameManager gameManager;
-    private LogicReinforcementCalculator logic;
+    private final LogicReinforcementCalculator logic;
 
     /**
      * Constructs an InitialReinforcementPhase with the specified TurnManager and
@@ -29,7 +29,7 @@ public class InitialReinforcementPhase implements GamePhase {
      * @param turnManager the TurnManager that manages the turns in the game
      * @param gameManager the GameManager that manages the game state
      */
-    public InitialReinforcementPhase(TurnManager turnManager, GameManager gameManager) {
+    public InitialReinforcementPhase(final TurnManager turnManager, final GameManager gameManager) {
         this.turnManager = turnManager;
         this.gameManager = gameManager;
         this.logic = new LogicCalcInitialUnitsImpl(gameManager);
@@ -43,7 +43,7 @@ public class InitialReinforcementPhase implements GamePhase {
 
     @Override
     public void performAction() {
-        Player p = turnManager.getCurrentPlayer();
+        final Player p = turnManager.getCurrentPlayer();
 
         if (p.getUnitsToPlace() <= 0 && !turnManager.isNewRound()) {
             turnManager.nextPlayer();
@@ -52,8 +52,8 @@ public class InitialReinforcementPhase implements GamePhase {
     }
 
     @Override
-    public void selectTerritory(Territory t) {
-        Player p = turnManager.getCurrentPlayer();
+    public void selectTerritory(final Territory t) {
+        final Player p = turnManager.getCurrentPlayer();
 
         if (!p.getTerritories().contains(t)) {
             throw new IllegalArgumentException("Player does not own the selected territory.");
@@ -66,7 +66,7 @@ public class InitialReinforcementPhase implements GamePhase {
     }
 
     @Override
-    public void setUnitsToUse(int units) {
+    public void setUnitsToUse(final int units) {
         // TODO Auto-generated method stub
     }
 

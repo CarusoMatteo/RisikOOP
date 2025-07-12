@@ -18,7 +18,7 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * and coordinates the attack logic in conjunction with the current turn
  * manager.
  */
-public class AttackPhase implements GamePhase {
+public final class AttackPhase implements GamePhase {
 
     private enum PhaseState {
         SELECT_ATTACKER,
@@ -30,14 +30,28 @@ public class AttackPhase implements GamePhase {
     private final TurnManager turnManager;
     private final LogicAttack logic;
     private PhaseState state;
-    private Player attacker;
+    private final Player attacker;
     private Player defender;
     private Territory attackerSrc;
     private Territory defenderDst;
     private int unitsToUse;
     private boolean isEnd;
 
-    public AttackPhase(TurnManager turnManager) {
+    /**
+     * Constructs a new AttackPhase associated with the given turn manager.
+     *
+     * <p>
+     * This initializes the internal attack logic, sets the phase state to
+     * {@code SELECT_ATTACKER}, captures the current player from the turn manager
+     * as the attacker, and resets all other fields (no source or destination
+     * territory selected, zero units to use). The phase is marked as complete
+     * until an attacker territory is chosen.
+     * </p>
+     *
+     * @param turnManager the {@link TurnManager} that determines the current player
+     */
+
+    public AttackPhase(final TurnManager turnManager) {
         this.turnManager = turnManager;
         this.logic = new LogicAttackImpl();
         this.state = PhaseState.SELECT_ATTACKER;
@@ -70,7 +84,7 @@ public class AttackPhase implements GamePhase {
     }
 
     @Override
-    public void selectTerritory(Territory t) {
+    public void selectTerritory(final Territory t) {
         if (state == PhaseState.SELECT_ATTACKER && isValidAttacker(t)) {
             this.attackerSrc = t;
             unitsToUse = 0;
@@ -81,7 +95,7 @@ public class AttackPhase implements GamePhase {
     }
 
     @Override
-    public void setUnitsToUse(int units) {
+    public void setUnitsToUse(final int units) {
         if (units > 0 && units <= attackerSrc.getUnits() - 1) {
             unitsToUse = units;
         }
@@ -91,14 +105,14 @@ public class AttackPhase implements GamePhase {
     public void initializationPhase() {
     }
 
-    private boolean isValidAttacker(Territory t) {
-        boolean hasEnemyNeighbor = t.getNeightbours().stream()
+    private boolean isValidAttacker(final Territory t) {
+        final boolean hasEnemyNeighbor = t.getNeightbours().stream()
                 .anyMatch(neighbour -> !neighbour.getOwner().equals(turnManager.getCurrentPlayer()));
-        boolean hasEnoughUnits = t.getUnits() >= 2;
+        final boolean hasEnoughUnits = t.getUnits() >= 2;
         return hasEnemyNeighbor && hasEnoughUnits;
     }
 
-    private boolean isValidDefender(Territory t) {
+    private boolean isValidDefender(final Territory t) {
         return !t.getOwner().equals(turnManager.getCurrentPlayer()) &&
                 attackerSrc.getNeightbours().contains(t);
     }
