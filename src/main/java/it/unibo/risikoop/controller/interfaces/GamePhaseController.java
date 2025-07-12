@@ -17,6 +17,8 @@ public interface GamePhaseController {
      */
     void performAction();
 
+    void nextPhase();
+
     /**
      * Set the number of units to use in the current action.
      * 

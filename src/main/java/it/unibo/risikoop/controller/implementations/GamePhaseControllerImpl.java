@@ -18,8 +18,9 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
 
 /**
  * Orchestrates il ciclo di fasi:
- *   * prima volta: INITIAL_REINFORCEMENT → REINFORCEMENT → COMBO → ATTACK → MOVEMENT
- *   * poi, per ogni turno: REINFORCEMENT → COMBO → ATTACK → MOVEMENT
+ * * prima volta: INITIAL_REINFORCEMENT → REINFORCEMENT → COMBO → ATTACK →
+ * MOVEMENT
+ * * poi, per ogni turno: REINFORCEMENT → COMBO → ATTACK → MOVEMENT
  */
 public class GamePhaseControllerImpl implements GamePhaseController {
 
@@ -46,10 +47,10 @@ public class GamePhaseControllerImpl implements GamePhaseController {
         this.phases = new EnumMap<>(PhaseKey.class);
 
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(tm, gm));
-        phases.put(PhaseKey.COMBO,                 new ComboPhaseImpl());
-        phases.put(PhaseKey.REINFORCEMENT,         new ReinforcementPhase(tm));
-        phases.put(PhaseKey.ATTACK,                new AttackPhase(tm));
-        phases.put(PhaseKey.MOVEMENT,              new MovementPhase(tm));
+        phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
+        phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(tm));
+        phases.put(PhaseKey.ATTACK, new AttackPhase(tm));
+        phases.put(PhaseKey.MOVEMENT, new MovementPhase(tm));
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
         phases.get(current).initializationPhase();
@@ -72,9 +73,6 @@ public class GamePhaseControllerImpl implements GamePhaseController {
     @Override
     public void performAction() {
         phase().performAction();
-        if (phase().isComplete()) {
-            advancePhase();
-        }
     }
 
     private void advancePhase() {
@@ -100,44 +98,47 @@ public class GamePhaseControllerImpl implements GamePhaseController {
         }
     }
 
+    @Override
+    public void nextPhase() {
+        if (phase().isComplete()) {
+            advancePhase();
+        }
+    }
+
     // private void phaseBeginner(){
 
-    //     if(current == PhaseKey.INITIAL_REINFORCEMENT){
-            
-    //     }
+    // if(current == PhaseKey.INITIAL_REINFORCEMENT){
+
+    // }
 
     // }
 
     // /**
-    //  * @return il nome della fase attiva, utile per la UI
-    //  */
+    // * @return il nome della fase attiva, utile per la UI
+    // */
     // public String getCurrentPhaseName() {
-    //     return current.name();
+    // return current.name();
     // }
 
-
-    // // Set unit  
+    // // Set unit
     // private void InitialReinforcementBegin(){
-    //     phases.get(current).performAction();
+    // phases.get(current).performAction();
     // }
 
     // private void reinforcementBegin(){
-        
-    // }
 
+    // }
 
     // private void comboBegin(){
 
-        
     // }
 
     // private void attackBegin(){
-        
+
     // }
 
     // private void movementBegin(){
-        
+
     // }
 
 }
-
