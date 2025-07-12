@@ -1,6 +1,7 @@
 
 package it.unibo.risikoop.model.implementations.gamephase;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.GamePhase;
@@ -84,6 +85,7 @@ public final class AttackPhase implements GamePhase {
     }
 
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
     public void selectTerritory(final Territory t) {
         if (state == PhaseState.SELECT_ATTACKER && isValidAttacker(t)) {
             this.attackerSrc = t;

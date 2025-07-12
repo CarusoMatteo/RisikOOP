@@ -20,7 +20,7 @@ public final class ReinforcementPhase implements GamePhase {
 
     private final TurnManager turnManager;
     private LogicReinforcementCalculator logic;
-    private boolean isFirtsReq = true;
+    private boolean isFirtsReq;
 
     /**
      * Constructs a new ReinforcementPhase for the given turn manager.
@@ -29,6 +29,7 @@ public final class ReinforcementPhase implements GamePhase {
      */
     public ReinforcementPhase(final TurnManager turnManager) {
         this.turnManager = turnManager;
+        this.isFirtsReq = true;
     }
 
     @Override

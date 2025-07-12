@@ -2,6 +2,7 @@ package it.unibo.risikoop.controller.implementations.logicgame;
 
 import java.util.Set;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
@@ -22,10 +23,14 @@ public final class LogicReinforcementCalculatorImpl implements LogicReinforcemen
     private final TurnManager turnManager;
 
     /**
-     * Constructs a new initial units calculator using the given game manager.
+     * Constructs a new reinforcement unit calculator.
      *
-     * @param gameManager the {@link GameManager} providing current game state
+     * @param gameMenager the {@link GameManager} holding game data (continents,
+     *                    territories)
+     * @param turnManager the {@link TurnManager} used to identify the current
+     *                    player
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentionally storing the external GameManager for ongoing calculations")
     public LogicReinforcementCalculatorImpl(final GameManager gameMenager, final TurnManager turnManager) {
         this.gameMenager = gameMenager;
         this.turnManager = turnManager;
@@ -38,7 +43,7 @@ public final class LogicReinforcementCalculatorImpl implements LogicReinforcemen
 
     private int calcTerritoryUnits() {
         final Player p = turnManager.getCurrentPlayer();
-        final int units = (int) (p.getTerritories().size() / 3);
+        final int units = p.getTerritories().size() / 3;
         return units < 0 ? 1 : units;
     }
 

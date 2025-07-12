@@ -43,7 +43,7 @@ public final class CardDeckImpl implements CardDeck {
             final int percentageOfKnight,
             final int percentageOfCannon,
             final int numberOfWildCards) {
-        this.territories = territories;
+        this.territories = Set.copyOf(territories);
 
         if (percentageOfJack < 0 || percentageOfKnight < 0
                 || percentageOfCannon < 0 || numberOfWildCards < 0) {

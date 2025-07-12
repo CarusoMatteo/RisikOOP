@@ -30,7 +30,7 @@ public final class TurnManagerImpl implements TurnManager {
         }
 
         this.newRound = false;
-        this.players = players;
+        this.players = List.copyOf(players);
         currentPlayerIndex = 0;
     }
 

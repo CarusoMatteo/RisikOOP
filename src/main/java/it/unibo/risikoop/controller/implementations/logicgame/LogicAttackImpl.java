@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -19,12 +20,10 @@ import it.unibo.risikoop.model.interfaces.Territory;
  * defender’s territory is conquered.
  * </p>
  */
-public class LogicAttackImpl implements LogicAttack {
+public final class LogicAttackImpl implements LogicAttack {
 
-    private final static int DICE_FACE = 6;
-    private final static int MAX_DICE_USE = 3;
-    private int attackerUnits;
-    private int defenderUnits;
+    private static final int DICE_FACE = 6;
+    private static final int MAX_DICE_USE = 3;
     private final Random rand = new Random();
     private Territory src;
     private Territory dst;
@@ -32,34 +31,36 @@ public class LogicAttackImpl implements LogicAttack {
     /**
      * Constructs a new {@code LogicAttackImpl} instance with no preconfigured
      * territories or unit counts. Attack and defense state will be initialized
-     * at the start of each {@link #attack(Player, Player, Territory, Territory, int)} call.
+     * at the start of each
+     * {@link #attack(Player, Player, Territory, Territory, int)} call.
      */
     public LogicAttackImpl() {
-        this.attackerUnits = 0;
-        this.defenderUnits = 0;
         this.src = null;
         this.dst = null;
     }
 
     @Override
-    public boolean attack(Player attacker, Player defender, Territory src, Territory dst, int units) {
-        if (src.getOwner() != attacker || dst.getOwner() != defender) {
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    public boolean attack(final Player attacker, final Player defender, final Territory src, final Territory dst,
+            final int units) {
+        if (!src.getOwner().equals(attacker) || !dst.getOwner().equals(defender)) {
             return false;
         }
         if (units < 1 || units >= src.getUnits()) {
             return false;
         }
 
-        attackerUnits = units;
-        defenderUnits = dst.getUnits();
         this.src = src;
         this.dst = dst;
 
-        // Simula il lancio dei dadi
-        List<Integer> attackerDice = rollDice(Math.min(MAX_DICE_USE, attackerUnits));
-        List<Integer> defenderDice = rollDice(defenderUnits);
+        final int attackerUnits = units;
+        final int defenderUnits = dst.getUnits();
 
-        int attackerLosses = compareDiceRolls(attackerDice, defenderDice);
+        // Simula il lancio dei dadi
+        final List<Integer> attackerDice = rollDice(Math.min(MAX_DICE_USE, attackerUnits));
+        final List<Integer> defenderDice = rollDice(defenderUnits);
+
+        final int attackerLosses = compareDiceRolls(attackerDice, defenderDice);
 
         // Se il difensore perde tutte le unità, l'attaccante conquista il territorio
         if (dst.getUnits() == 0) {
@@ -74,8 +75,8 @@ public class LogicAttackImpl implements LogicAttack {
         return false;
     }
 
-    private List<Integer> rollDice(int n) {
-        List<Integer> dice = new ArrayList<>();
+    private List<Integer> rollDice(final int n) {
+        final List<Integer> dice = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             dice.add(rand.nextInt(DICE_FACE) + 1);
         }
@@ -83,8 +84,8 @@ public class LogicAttackImpl implements LogicAttack {
         return dice;
     }
 
-    private int compareDiceRolls(List<Integer> attackerDice, List<Integer> defenderDice) {
-        int battles = Math.min(attackerDice.size(), defenderDice.size());
+    private int compareDiceRolls(final List<Integer> attackerDice, final List<Integer> defenderDice) {
+        final int battles = Math.min(attackerDice.size(), defenderDice.size());
         int attackerLosses = 0;
         int defenderLosses = 0;
 

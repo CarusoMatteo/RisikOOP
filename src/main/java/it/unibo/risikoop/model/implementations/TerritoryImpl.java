@@ -82,7 +82,7 @@ public final class TerritoryImpl implements Territory {
     }
 
     @Override
-    public void setOwner(final Player owner){
+    public void setOwner(final Player owner) {
         this.owner = Optional.ofNullable(owner);
     }
 

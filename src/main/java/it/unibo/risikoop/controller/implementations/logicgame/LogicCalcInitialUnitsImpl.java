@@ -1,5 +1,6 @@
 package it.unibo.risikoop.controller.implementations.logicgame;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.GameManager;
 
@@ -21,6 +22,7 @@ public final class LogicCalcInitialUnitsImpl implements LogicReinforcementCalcul
      *
      * @param gameManager the {@link GameManager} providing current game state
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
     public LogicCalcInitialUnitsImpl(final GameManager gameManager) {
         this.gameManager = gameManager;
     }

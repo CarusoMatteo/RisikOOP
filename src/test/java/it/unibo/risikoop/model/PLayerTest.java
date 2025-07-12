@@ -16,6 +16,7 @@ import it.unibo.risikoop.model.implementations.PlayerImpl;
 import it.unibo.risikoop.model.implementations.TerritoryImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
+import it.unibo.risikoop.model.interfaces.Territory;
 
 /**
  * Class to test adding Players.
@@ -52,13 +53,13 @@ class PlayerTest {
                 assertTrue(player.addTerritory(new TerritoryImpl(gameManager, "Afgan")));
                 assertEquals(player.getTerritories()
                                 .stream()
-                                .map(i -> i.getName())
+                                .map(Territory::getName)
                                 .collect(Collectors.toSet()), Set.of("Afgan"));
                 assertFalse(player.removeTerritory(new TerritoryImpl(gameManager, ARMANDO)));
                 assertTrue(player.removeTerritory(new TerritoryImpl(gameManager, "Afgan")));
                 assertEquals(player.getTerritories()
                                 .stream()
-                                .map(i -> i.getName())
+                                .map(Territory::getName)
                                 .collect(Collectors.toSet()), Set.of());
 
         }

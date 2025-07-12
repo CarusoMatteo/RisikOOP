@@ -1,5 +1,6 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.GameManager;
@@ -17,7 +18,6 @@ public final class InitialReinforcementPhase implements GamePhase {
 
     private final TurnManager turnManager;
     private final int initialUnits;
-    private final GameManager gameManager;
     private final LogicReinforcementCalculator logic;
 
     /**
@@ -29,9 +29,9 @@ public final class InitialReinforcementPhase implements GamePhase {
      * @param turnManager the TurnManager that manages the turns in the game
      * @param gameManager the GameManager that manages the game state
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
     public InitialReinforcementPhase(final TurnManager turnManager, final GameManager gameManager) {
         this.turnManager = turnManager;
-        this.gameManager = gameManager;
         this.logic = new LogicCalcInitialUnitsImpl(gameManager);
         initialUnits = logic.calcPlayerUnits();
     }

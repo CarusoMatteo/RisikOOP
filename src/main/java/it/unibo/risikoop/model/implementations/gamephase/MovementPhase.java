@@ -3,6 +3,7 @@ package it.unibo.risikoop.model.implementations.gamephase;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -45,6 +46,7 @@ public final class MovementPhase implements GamePhase {
     }
 
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
     public void selectTerritory(final Territory t) {
         final Player p = turnManager.getCurrentPlayer();
         final Set<Territory> owned = p.getTerritories().stream().collect(Collectors.toSet());
