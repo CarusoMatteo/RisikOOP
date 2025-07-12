@@ -15,9 +15,9 @@ public enum UnitType {
      */
     KNIGHT,
     /**
-     * Artillery unit type.
+     * Cannon unit type.
      */
-    ARTILLERY,
+    CANNON,
     /**
      * Wild unit type, which can be used in a special combo.
      */

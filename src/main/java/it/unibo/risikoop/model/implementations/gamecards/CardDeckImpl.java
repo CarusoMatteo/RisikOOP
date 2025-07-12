@@ -19,13 +19,13 @@ public final class CardDeckImpl implements CardDeck {
 
     private static final int DEFAULT_PERCENTAGE = 33;
     private static final int DEFAULT_NUMBER_OF_WILD_CARDS = 2;
-    private static final int DEFAULT_ARTILLERY_PERCENTAGE = 34; // 33 + 1 to ensure total is 100
+    private static final int DEFAULT_CANNON_PERCENTAGE = 34; // 33 + 1 to ensure total is 100
     private static final int SUM_OF_PERCENTAGES = 100;
     private final List<GameCard> deck;
     private final Set<Territory> territories;
     private final int percentageOfJack;
     private final int percentageOfKnight;
-    // private final int percentageOfArtillery;
+    // private final int percentageOfCannon;
     private final int numberOfWildCards;
 
     /**
@@ -34,29 +34,29 @@ public final class CardDeckImpl implements CardDeck {
      * @param territories
      * @param percentageOfJack
      * @param percentageOfKnight
-     * @param percentageOfArtillery
+     * @param percentageOfCannon
      * @param numberOfWildCards
      */
     public CardDeckImpl(
             final Set<Territory> territories,
             final int percentageOfJack,
             final int percentageOfKnight,
-            final int percentageOfArtillery,
+            final int percentageOfCannon,
             final int numberOfWildCards) {
         this.territories = territories;
 
         if (percentageOfJack < 0 || percentageOfKnight < 0
-                || percentageOfArtillery < 0 || numberOfWildCards < 0) {
+                || percentageOfCannon < 0 || numberOfWildCards < 0) {
             throw new IllegalArgumentException("Percentages and number of wild cards must be non-negative");
         }
 
-        if (percentageOfJack + percentageOfKnight + percentageOfArtillery != SUM_OF_PERCENTAGES) {
+        if (percentageOfJack + percentageOfKnight + percentageOfCannon != SUM_OF_PERCENTAGES) {
             throw new IllegalArgumentException("The sum of percentages must equal 100");
         }
 
         this.percentageOfJack = percentageOfJack;
         this.percentageOfKnight = percentageOfKnight;
-        // this.percentageOfArtillery = percentageOfArtillery;
+        // this.percentageOfCannon = percentageOfCannon;
         this.numberOfWildCards = numberOfWildCards;
         deck = createDeck();
     }
@@ -71,7 +71,7 @@ public final class CardDeckImpl implements CardDeck {
         this(territories,
                 DEFAULT_PERCENTAGE,
                 DEFAULT_PERCENTAGE,
-                DEFAULT_ARTILLERY_PERCENTAGE,
+                DEFAULT_CANNON_PERCENTAGE,
                 DEFAULT_NUMBER_OF_WILD_CARDS);
     }
 
@@ -103,7 +103,7 @@ public final class CardDeckImpl implements CardDeck {
         // 2. Calc the number of each type of card based on percentages
         final int jackCount = totalTerritories * percentageOfJack / SUM_OF_PERCENTAGES;
         final int knightCount = totalTerritories * percentageOfKnight / SUM_OF_PERCENTAGES;
-        final int artilleryCount = totalTerritories - jackCount - knightCount;
+        final int cannonCount = totalTerritories - jackCount - knightCount;
 
         // 3. Assegna i tipi ai primi N territori
         final List<GameCard> cards = new ArrayList<>(totalTerritories + numberOfWildCards);
@@ -114,8 +114,8 @@ public final class CardDeckImpl implements CardDeck {
         for (int i = 0; i < knightCount; i++, idx++) {
             cards.add(new TerritoryCardImpl(UnitType.KNIGHT, shuffledTerritories.get(idx)));
         }
-        for (int i = 0; i < artilleryCount; i++, idx++) {
-            cards.add(new TerritoryCardImpl(UnitType.ARTILLERY, shuffledTerritories.get(idx)));
+        for (int i = 0; i < cannonCount; i++, idx++) {
+            cards.add(new TerritoryCardImpl(UnitType.CANNON, shuffledTerritories.get(idx)));
         }
 
         // 4. Aggiunge le carte Wild (Jolly)

@@ -27,7 +27,7 @@ final class ComboCheckerTest {
     private static final Optional<Integer> ALL_DIFFERENT_UNIT_REWARD = Optional.of(10);
     private static final Optional<Integer> KNIGHT_UNIT_REWARD = Optional.of(8);
     private static final Optional<Integer> JACK_UNIT_REWARD = Optional.of(6);
-    private static final Optional<Integer> ARTILLERY_UNIT_REWARD = Optional.of(4);
+    private static final Optional<Integer> CANNON_UNIT_REWARD = Optional.of(4);
 
     @BeforeEach
     void setUp() {
@@ -61,7 +61,7 @@ final class ComboCheckerTest {
         // - Hand that has AllDifferentCombo and AllKnightEqualCombo (inf)
         // \ ALL_DIFFERENT_UNIT_REWARD
         assertEquals(ALL_DIFFERENT_UNIT_REWARD, checker.useCombo(Set.of(
-                new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")))));
         assertEquals(Optional.empty(), checker.useCombo(Set.of(
@@ -86,23 +86,23 @@ final class ComboCheckerTest {
         // \ JACK_UNIT_REWARD
         // - Hand that has AllJackEqualCombo and AllKnightEqualCombo (sup)
         // \ KNIGHT_UNIT_REWARD
-        // - Hand that has AllJackEqualCombo and AllArtilleryEqualCombo (inf)
+        // - Hand that has AllJackEqualCombo and AllCannonEqualCombo (inf)
         // \ JACK_UNIT_REWARD
         assertEquals(JACK_UNIT_REWARD, checker.useCombo(Set.of(
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")))));
 
-        // AllArtilleryEqualCombo()
-        // - Hand that only has AllArtilleryEqualCombo
-        // \ ARTILLERY_UNIT_REWARD
-        // - Hand that has AllArtilleryEqualCombo and any other superior combo (sup)
+        // AllCannonEqualCombo()
+        // - Hand that only has AllCannonEqualCombo
+        // \ CANNON_UNIT_REWARD
+        // - Hand that has AllCannonEqualCombo and any other superior combo (sup)
         // | (ex: AllJackEqualCombo)
         // \ JACK_UNIT_REWARD
-        assertEquals(ARTILLERY_UNIT_REWARD, checker.useCombo(Set.of(
-                new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")))));
+        assertEquals(CANNON_UNIT_REWARD, checker.useCombo(Set.of(
+                new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")))));
     }
 
 }

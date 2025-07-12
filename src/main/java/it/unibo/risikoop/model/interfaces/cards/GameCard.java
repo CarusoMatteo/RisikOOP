@@ -9,7 +9,7 @@ import it.unibo.risikoop.model.interfaces.Player;
  */
 public interface GameCard {
     /**
-     * @return the type of this card (JACK, KNIGHT, ARTILLERY or WILD)
+     * @return the type of this card (JACK, KNIGHT, CANNON or WILD)
      */
     UnitType getType();
 

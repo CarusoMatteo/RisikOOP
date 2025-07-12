@@ -20,7 +20,7 @@ public final class ComboCheckerImpl implements ComboChecker {
             new AllDifferentCombo(),
             new AllKnightEqualCombo(),
             new AllJackEqualCombo(),
-            new AllArtilleryEqualCombo());
+            new AllCannonEqualCombo());
 
     @Override
     public boolean anyComboIsPossible(final PlayerHand hand) {
