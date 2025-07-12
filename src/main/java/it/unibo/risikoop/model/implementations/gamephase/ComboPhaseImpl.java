@@ -20,31 +20,22 @@ public class ComboPhaseImpl implements GamePhase {
 
     @Override
     public boolean isComplete() {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public void performAction() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void selectTerritory(Territory t) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void setUnitsToUse(int units) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void initializationPhase() {
-        // TODO Auto-generated method stub
-        
     }
 }

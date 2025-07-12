@@ -55,7 +55,6 @@ public class AttackPhase implements GamePhase {
 
     @Override
     public void performAction() {
-
         if (state == PhaseState.SELECT_ATTACKER && attackerSrc != null) {
             isEnd = false;
             state = PhaseState.SELECT_DEFENDER;
@@ -90,8 +89,6 @@ public class AttackPhase implements GamePhase {
 
     @Override
     public void initializationPhase() {
-        // TODO Auto-generated method stub
-        
     }
 
     private boolean isValidAttacker(Territory t) {

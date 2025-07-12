@@ -3,8 +3,6 @@ package it.unibo.risikoop.controller.implementations;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.interfaces.Territory;
 
-package it.unibo.risikoop.model.implementations.gamephase;
-
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -48,8 +46,8 @@ public class GamePhaseControllerImpl implements GamePhaseController {
         this.phases = new EnumMap<>(PhaseKey.class);
 
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(tm, gm));
-        phases.put(PhaseKey.REINFORCEMENT,         new ReinforcementPhase(tm));
         phases.put(PhaseKey.COMBO,                 new ComboPhaseImpl());
+        phases.put(PhaseKey.REINFORCEMENT,         new ReinforcementPhase(tm));
         phases.put(PhaseKey.ATTACK,                new AttackPhase(tm));
         phases.put(PhaseKey.MOVEMENT,              new MovementPhase(tm));
 
@@ -94,10 +92,10 @@ public class GamePhaseControllerImpl implements GamePhaseController {
         }
 
         current = next;
-        phases.get(current).initializationPhase();
+        phase().initializationPhase();
 
         // Ogni volta che passiamo da MOVEMENT → REINFORCEMENT, giro di turno
-        if (prev == PhaseKey.MOVEMENT && current == PhaseKey.REINFORCEMENT) {
+        if (prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO) {
             turnManager.nextPlayer();
         }
     }
