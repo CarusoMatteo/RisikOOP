@@ -64,6 +64,6 @@ public final class WildAllEqualCombo implements ComboCheckStrategy {
                 .entrySet().stream()
                 .max(Entry.comparingByValue())
                 .map(Entry::getValue)
-                .orElse(0l);
+                .orElse(0L);
     }
 }

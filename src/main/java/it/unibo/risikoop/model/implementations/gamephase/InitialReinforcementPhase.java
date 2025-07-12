@@ -74,9 +74,4 @@ public class InitialReinforcementPhase implements GamePhase {
     public void initializationPhase() {
         turnManager.getCurrentPlayer().addUnitsToPlace(initialUnits);
     }
-
-    @Override
-    public void setUnitsToUse(int units) {
-        // TODO Auto-generated method stub
-    }
 }

@@ -21,13 +21,14 @@ import it.unibo.risikoop.model.interfaces.cards.UnitType;
  * Class to test Combo Checker.
  */
 final class ComboCheckerTest {
-    private GameManager gameManager;
-    private ComboChecker checker;
     private static final Optional<Integer> WILD_ALL_EQUAL_UNIT_REWARD = Optional.of(12);
     private static final Optional<Integer> ALL_DIFFERENT_UNIT_REWARD = Optional.of(10);
     private static final Optional<Integer> KNIGHT_UNIT_REWARD = Optional.of(8);
     private static final Optional<Integer> JACK_UNIT_REWARD = Optional.of(6);
     private static final Optional<Integer> CANNON_UNIT_REWARD = Optional.of(4);
+
+    private GameManager gameManager;
+    private ComboChecker checker;
 
     @BeforeEach
     void setUp() {

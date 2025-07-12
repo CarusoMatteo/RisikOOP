@@ -80,6 +80,7 @@ public final class MapJPanel extends JPanel implements ViewerListener {
         try {
             Thread.sleep(millis);
         } catch (final InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
