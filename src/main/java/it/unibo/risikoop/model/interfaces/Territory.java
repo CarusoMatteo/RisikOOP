@@ -19,6 +19,11 @@ public interface Territory {
     Player getOwner();
 
     /**
+     * set new Terriotry owner
+     */
+    void setOwner(Player owner);
+
+    /**
      * set (if possible) a new owner.
      * 
      * @param newOwner

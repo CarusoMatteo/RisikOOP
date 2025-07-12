@@ -22,8 +22,8 @@ public final class PlayerImpl implements Player {
     private final Color color;
     private final List<Territory> territories;
     private final PlayerHand hand;
+    private Optional<Player> killer;
     private int unitsToPlace;
-    private Player killer;
 
     /**
      * @param name
@@ -35,6 +35,8 @@ public final class PlayerImpl implements Player {
         this.color = new Color(col.r(), col.g(), col.b());
         territories = new ArrayList<>();
         this.hand = new PlayerHandImpl();
+        this.unitsToPlace = 0;
+        this.killer = Optional.empty();
     }
 
     /**
@@ -42,14 +44,17 @@ public final class PlayerImpl implements Player {
      */
     @Override
     public void setKiller(final Player killer) {
-        this.killer = new PlayerImpl(killer.getName(), killer.getColor());
+        this.killer = Optional.of(new PlayerImpl(killer.getName(), killer.getColor()));
     }
 
     @Override
     public Optional<Player> getKiller() {
-        // todo: non so se va bene ritornare il giocatore devo ritornare una copia
-        // immutabile?
-        return Optional.ofNullable(killer);
+        return killer;
+    }
+
+    @Override
+    public boolean addTerritory(Territory territory) {
+        return territories.add(territory);
     }
 
     @Override
@@ -119,16 +124,6 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void removeUnitsToPlace(final int units) {
-        if (units < 0 || units > this.unitsToPlace) {
-            throw new IllegalArgumentException(
-                    "Attempted to remove a negative number of units to place or more than available.");
-        }
-
-        this.unitsToPlace -= units;
-    }
-
-    @Override
     public PlayerHand getHand() {
         return this.hand;
     }
@@ -143,5 +138,22 @@ public final class PlayerImpl implements Player {
     public boolean removeTerritory(final Territory territory) {
         return territories.remove(territory);
     }
+
+    @Override
+    public void removeUnitsToPlace(int units) {
+        if (units < 0) {
+            throw new IllegalArgumentException("Cannot remove a negative number of units to place.");
+        }
+        if (units > this.unitsToPlace) {
+            throw new IllegalArgumentException("Cannot remove more units than available to place.");
+        }
+        this.unitsToPlace -= units;
+    }
+
+    @Override
+    public boolean isEliminated() {
+        return killer.isPresent();
+    }
+
 
 }

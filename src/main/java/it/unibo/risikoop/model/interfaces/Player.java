@@ -100,7 +100,6 @@ public interface Player {
      * @param units the number of units to add
      * @throws IllegalArgumentException if units is negative
      */
-
     void addUnitsToPlace(int units);
 
     /**
@@ -118,4 +117,10 @@ public interface Player {
      * @return the player's hand.
      */
     PlayerHand getHand();
+
+    /**
+     * Checks if the player is eliminated.
+     */
+    boolean isEliminated();
+
 }

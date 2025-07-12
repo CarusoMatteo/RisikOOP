@@ -82,6 +82,11 @@ public final class TerritoryImpl implements Territory {
     }
 
     @Override
+    public void setOwner(Player owner){
+        this.owner = Optional.ofNullable(owner);
+    }
+
+    @Override
     public boolean equals(final Object obj) {
         if (obj instanceof final Territory t) {
             return t.getName().equals(this.getName());
