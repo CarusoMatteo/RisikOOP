@@ -8,12 +8,25 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 
-public class LogicReinforcementCalculatorImpl implements LogicReinforcementCalculator {
+/**
+ * Computes the number of initial reinforcement units allocated to a player
+ * at the start of the game, based on the total territories and player count.
+ * <p>
+ * Uses a configurable average units-per-territory factor to determine
+ * the initial distribution.
+ * </p>
+ */
+public final class LogicReinforcementCalculatorImpl implements LogicReinforcementCalculator {
 
     private final GameManager gameMenager;
     private final TurnManager turnManager;
 
-    public LogicReinforcementCalculatorImpl(GameManager gameMenager, TurnManager turnManager) {
+    /**
+     * Constructs a new initial units calculator using the given game manager.
+     *
+     * @param gameManager the {@link GameManager} providing current game state
+     */
+    public LogicReinforcementCalculatorImpl(final GameManager gameMenager, final TurnManager turnManager) {
         this.gameMenager = gameMenager;
         this.turnManager = turnManager;
     }
@@ -24,14 +37,14 @@ public class LogicReinforcementCalculatorImpl implements LogicReinforcementCalcu
     }
 
     private int calcTerritoryUnits() {
-        Player p = turnManager.getCurrentPlayer();
-        int units = (int) (p.getTerritories().size() / 3);
+        final Player p = turnManager.getCurrentPlayer();
+        final int units = (int) (p.getTerritories().size() / 3);
         return units < 0 ? 1 : units;
     }
 
     private int calcContinetUnits() {
-        Set<Continent> continents = gameMenager.getContinents();
-        Player p = turnManager.getCurrentPlayer();
+        final Set<Continent> continents = gameMenager.getContinents();
+        final Player p = turnManager.getCurrentPlayer();
 
         return continents.stream()
                 .filter(c -> p.getTerritories().contains(c.getTerritories()))
