@@ -13,7 +13,6 @@ import it.unibo.risikoop.model.implementations.gamephase.MovementPhase;
 import it.unibo.risikoop.model.implementations.gamephase.ReinforcementPhase;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.GamePhase;
-import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 
 /**
@@ -32,7 +31,7 @@ public class GamePhaseControllerImpl implements GamePhaseController {
         MOVEMENT;
 
         PhaseKey next() {
-            int idx = (this.ordinal() + 1) % values().length;
+            final int idx = (this.ordinal() + 1) % values().length;
             return values()[idx];
         }
     }
@@ -40,9 +39,9 @@ public class GamePhaseControllerImpl implements GamePhaseController {
     private final TurnManager turnManager;
     private final Map<PhaseKey, GamePhase> phases;
     private PhaseKey current;
-    private boolean initialDone = false;
+    private boolean initialDone;
 
-    public GamePhaseControllerImpl(TurnManager tm, GameManager gm) {
+    public GamePhaseControllerImpl(final TurnManager tm, final GameManager gm) {
         this.turnManager = tm;
         this.phases = new EnumMap<>(PhaseKey.class);
 
@@ -54,6 +53,8 @@ public class GamePhaseControllerImpl implements GamePhaseController {
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
         phases.get(current).initializationPhase();
+
+        this.initialDone = false;
     }
 
     private GamePhase phase() {
@@ -61,12 +62,12 @@ public class GamePhaseControllerImpl implements GamePhaseController {
     }
 
     @Override
-    public void selectTerritory(Territory t) {
+    public void selectTerritory(final Territory t) {
         phase().selectTerritory(t);
     }
 
     @Override
-    public void setUnitsToUse(int units) {
+    public void setUnitsToUse(final int units) {
         phase().setUnitsToUse(units);
     }
 
@@ -76,7 +77,7 @@ public class GamePhaseControllerImpl implements GamePhaseController {
     }
 
     private void advancePhase() {
-        PhaseKey prev = current;
+        final PhaseKey prev = current;
         PhaseKey next = current.next();
 
         // Se abbiamo finito INITIAL_REINFORCEMENT, segniamo che non va più rieseguita
@@ -104,41 +105,4 @@ public class GamePhaseControllerImpl implements GamePhaseController {
             advancePhase();
         }
     }
-
-    // private void phaseBeginner(){
-
-    // if(current == PhaseKey.INITIAL_REINFORCEMENT){
-
-    // }
-
-    // }
-
-    // /**
-    // * @return il nome della fase attiva, utile per la UI
-    // */
-    // public String getCurrentPhaseName() {
-    // return current.name();
-    // }
-
-    // // Set unit
-    // private void InitialReinforcementBegin(){
-    // phases.get(current).performAction();
-    // }
-
-    // private void reinforcementBegin(){
-
-    // }
-
-    // private void comboBegin(){
-
-    // }
-
-    // private void attackBegin(){
-
-    // }
-
-    // private void movementBegin(){
-
-    // }
-
 }

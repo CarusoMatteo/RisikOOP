@@ -48,7 +48,7 @@ class PlayerTest {
 
         @Test
         void addTerritory() {
-                Player player = new PlayerImpl(ARMANDO, new Color(0, 0, 0));
+                final Player player = new PlayerImpl(ARMANDO, new Color(0, 0, 0));
                 assertTrue(player.addTerritory(new TerritoryImpl(gameManager, "Afgan")));
                 assertEquals(player.getTerritories()
                                 .stream()
