@@ -2,9 +2,9 @@ package it.unibo.risikoop.model.implementations;
 
 import java.util.Random;
 
-import it.unibo.risikoop.model.implementations.objectivecards.ConquerNContinetsBuilder;
-import it.unibo.risikoop.model.implementations.objectivecards.ConquerNTerritoriesWithXArmiesBuilder;
-import it.unibo.risikoop.model.implementations.objectivecards.KillPlayerOrConquer24Builder;
+import it.unibo.risikoop.model.implementations.gamecards.objectivecards.ConquerNContinetsBuilder;
+import it.unibo.risikoop.model.implementations.gamecards.objectivecards.ConquerNTerritoriesWithXArmiesBuilder;
+import it.unibo.risikoop.model.implementations.gamecards.objectivecards.KillPlayerOrConquer24Builder;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.ObjectiveCardFactory;

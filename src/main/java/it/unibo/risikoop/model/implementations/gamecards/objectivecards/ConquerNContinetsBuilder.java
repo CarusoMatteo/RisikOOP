@@ -1,4 +1,4 @@
-package it.unibo.risikoop.model.implementations.objectivecards;
+package it.unibo.risikoop.model.implementations.gamecards.objectivecards;
 
 import java.util.Optional;
 import java.util.Set;

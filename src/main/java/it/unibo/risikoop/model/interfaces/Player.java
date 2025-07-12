@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.risikoop.model.implementations.Color;
+import it.unibo.risikoop.model.interfaces.cards.GameCard;
+import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 
 /**
  * 
@@ -19,13 +21,19 @@ public interface Player {
      * 
      * @param card
      */
-    void addTerritoryCard(TerritoryCard card);
+    void addGameCard(GameCard card);
 
     /**
      * 
      * @return the all the possessed territory cards
      */
     List<TerritoryCard> getTerritoryCards();
+
+    /**
+     * 
+     * @return the all the game cards
+     */
+    List<GameCard> getGameCards();
 
     /**
      * 
@@ -57,4 +65,35 @@ public interface Player {
      */
     void setKiller(Player killer);
 
+    /**
+     * Returns the number of units this player can place.
+     * 
+     * @return the number of units to place.
+     */
+    int getUnitsToPlace();
+
+    /**
+     * Adds number of units to the player's total units to place.
+     * 
+     * @param units the number of units to add
+     * @throws IllegalArgumentException if units is negative
+     */
+
+    void addUnitsToPlace(int units);
+
+    /**
+     * Removes number of units from the player's total units to place.
+     * 
+     * @param units the number of units to remove
+     * @throws IllegalArgumentException if units is negative or greater than the
+     *                                  current units to place
+     */
+    void removeUnitsToPlace(int units);
+
+    /**
+     * Return this player's hand.
+     * 
+     * @return the player's hand.
+     */
+    PlayerHand getHand();
 }
