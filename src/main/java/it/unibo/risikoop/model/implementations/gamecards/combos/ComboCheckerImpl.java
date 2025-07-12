@@ -38,10 +38,6 @@ public final class ComboCheckerImpl implements ComboChecker {
             throw new IllegalArgumentException("The hand must contain 3 cards.");
         }
 
-        // TODO Remove
-        ComboCheckStrategy wildAllEqual = new WildAllEqualCombo();
-        System.out.println("Using WildAllEqualCombo: " + wildAllEqual.comboIsValid(cards));
-
         return strategies.stream()
                 .filter(strategy -> strategy.comboIsValid(cards))
                 .map(ComboCheckStrategy::getUnitRewardAmount).findFirst();
