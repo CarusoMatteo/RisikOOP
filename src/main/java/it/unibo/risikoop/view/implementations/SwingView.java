@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.view.implementations.scenes.MapChoserScene;
 import it.unibo.risikoop.view.implementations.scenes.PlayerAddingView;
-import it.unibo.risikoop.view.implementations.scenes.mapscene.MapScene;
+import it.unibo.risikoop.view.interfaces.MapScene;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
 /**

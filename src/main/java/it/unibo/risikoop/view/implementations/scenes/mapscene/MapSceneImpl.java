@@ -7,18 +7,19 @@ import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
+import it.unibo.risikoop.view.interfaces.MapScene;
 
 /**
  * Scene that displays the regular game loop.
  * Shows the Map, the Current Player, their Cards and available Action Buttons.
  */
-public final class MapScene extends JPanel {
+public final class MapSceneImpl extends JPanel implements MapScene {
     private static final double BIG_PANEL_PROPORTION = 0.8;
     private static final double SMALL_PANEL_PROPORTION = 0.2;
     private static final long serialVersionUID = 1L;
 
     // private final Controller controller;
-    private final JPanel currentPlayerPanel;
+    private final CurrentPlayerJPanel currentPlayerPanel;
     private final JPanel mapPanel;
     private final JPanel cardPanel;
     private final JPanel actionPanel;
@@ -30,7 +31,7 @@ public final class MapScene extends JPanel {
      * 
      * @param controller The controller to retrieve graph data.
      */
-    public MapScene(final Controller controller) {
+    public MapSceneImpl(final Controller controller) {
         // this.controller = controller;
 
         this.currentPlayerPanel = new CurrentPlayerJPanel();
@@ -110,6 +111,11 @@ public final class MapScene extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = SMALL_PANEL_PROPORTION;
         rightPanel.add(this.actionPanel, gbc);
+    }
+
+    @Override
+    public void updateCurrentPlayer(String playerName, it.unibo.risikoop.model.implementations.Color playerColor) {
+        currentPlayerPanel.updateCurrentPlayer(playerName, playerColor);
     }
 
 }
