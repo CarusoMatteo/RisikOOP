@@ -15,7 +15,7 @@ import it.unibo.risikoop.model.implementations.TerritoryImpl;
 import it.unibo.risikoop.model.implementations.gamecards.combos.AllArtilleryEqualCombo;
 import it.unibo.risikoop.model.implementations.gamecards.combos.AllCavarlyEqualCombo;
 import it.unibo.risikoop.model.implementations.gamecards.combos.AllDifferentCombo;
-import it.unibo.risikoop.model.implementations.gamecards.combos.AllInfantryEqualCombo;
+import it.unibo.risikoop.model.implementations.gamecards.combos.AllJackEqualCombo;
 import it.unibo.risikoop.model.implementations.gamecards.combos.WildAllEqualCombo;
 import it.unibo.risikoop.model.implementations.gamecards.territorycard.TerritoryCardImpl;
 import it.unibo.risikoop.model.implementations.gamecards.territorycard.WildCardImpl;
@@ -46,7 +46,7 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -55,7 +55,7 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -91,10 +91,10 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
@@ -112,7 +112,7 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl(),
@@ -132,7 +132,7 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertTrue(combo.comboIsPossibile(hand));
         assertTrue(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -141,7 +141,7 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -150,7 +150,7 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -168,7 +168,7 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -185,8 +185,8 @@ final class ComboCheckerStrategyTest {
         // a,i,i -> not valid
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -195,7 +195,7 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new WildCardImpl(),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -220,9 +220,9 @@ final class ComboCheckerStrategyTest {
 
         // i,i,i -> not valid
         hand.addCards(Set.of(
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -240,37 +240,37 @@ final class ComboCheckerStrategyTest {
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
@@ -281,28 +281,28 @@ final class ComboCheckerStrategyTest {
         // many cards but not valid
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
@@ -336,7 +336,7 @@ final class ComboCheckerStrategyTest {
 
         // i,c,c -> not valid
         hand.addCards(Set.of(
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
@@ -355,7 +355,7 @@ final class ComboCheckerStrategyTest {
         // a,i,c -> not valid
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
@@ -364,7 +364,7 @@ final class ComboCheckerStrategyTest {
         // w,i,c -> not valid
         hand.addCards(Set.of(
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
@@ -390,9 +390,9 @@ final class ComboCheckerStrategyTest {
 
         // i,i,i -> not valid
         hand.addCards(Set.of(
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -414,17 +414,17 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
@@ -432,9 +432,9 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
@@ -445,20 +445,20 @@ final class ComboCheckerStrategyTest {
         // many cards but not valid
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
@@ -468,8 +468,8 @@ final class ComboCheckerStrategyTest {
     }
 
     @Test
-    void testAllInfantryEqualCombo() {
-        final ComboCheckStrategy combo = new AllInfantryEqualCombo();
+    void testAllJackEqualCombo() {
+        final ComboCheckStrategy combo = new AllJackEqualCombo();
 
         // c,c,c -> not valid
         hand.addCards(Set.of(
@@ -491,7 +491,7 @@ final class ComboCheckerStrategyTest {
 
         // i,c,c -> not valid
         hand.addCards(Set.of(
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
@@ -510,7 +510,7 @@ final class ComboCheckerStrategyTest {
         // a,i,c -> not valid
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
@@ -519,7 +519,7 @@ final class ComboCheckerStrategyTest {
         // w,i,c -> not valid
         hand.addCards(Set.of(
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
@@ -545,9 +545,9 @@ final class ComboCheckerStrategyTest {
 
         // i,i,i -> valid
         hand.addCards(Set.of(
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertTrue(combo.comboIsPossibile(hand));
         assertTrue(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -569,17 +569,17 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
@@ -587,9 +587,9 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
@@ -652,7 +652,7 @@ final class ComboCheckerStrategyTest {
 
         // i,c,c -> not valid
         hand.addCards(Set.of(
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
@@ -671,7 +671,7 @@ final class ComboCheckerStrategyTest {
         // a,i,c -> not valid
         hand.addCards(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
@@ -680,7 +680,7 @@ final class ComboCheckerStrategyTest {
         // w,i,c -> not valid
         hand.addCards(Set.of(
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
@@ -706,9 +706,9 @@ final class ComboCheckerStrategyTest {
 
         // i,i,i -> valid
         hand.addCards(Set.of(
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, ""))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
         assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
@@ -730,17 +730,17 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
@@ -748,9 +748,9 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
@@ -765,22 +765,22 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));

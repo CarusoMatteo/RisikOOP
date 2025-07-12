@@ -29,7 +29,7 @@ final class TerritoryCardTest {
 
     @BeforeEach
     void setUp() {
-        type = UnitType.INFANTRY;
+        type = UnitType.JACK;
         owner = new PlayerImpl("Player1", new Color(0, 2, 0));
         territory = new TerritoryImpl(new GameManagerImpl(), "TerritoryTest");
     }

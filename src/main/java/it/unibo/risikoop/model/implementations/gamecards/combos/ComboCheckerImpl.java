@@ -19,7 +19,7 @@ public final class ComboCheckerImpl implements ComboChecker {
             new WildAllEqualCombo(),
             new AllDifferentCombo(),
             new AllCavarlyEqualCombo(),
-            new AllInfantryEqualCombo(),
+            new AllJackEqualCombo(),
             new AllArtilleryEqualCombo());
 
     @Override

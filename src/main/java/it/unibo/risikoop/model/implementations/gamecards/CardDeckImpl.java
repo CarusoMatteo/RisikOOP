@@ -23,7 +23,7 @@ public final class CardDeckImpl implements CardDeck {
     private static final int SUM_OF_PERCENTAGES = 100;
     private final List<GameCard> deck;
     private final Set<Territory> territories;
-    private final int percentageOfInfantry;
+    private final int percentageOfJack;
     private final int percentageOfCavalry;
     // private final int percentageOfArtillery;
     private final int numberOfWildCards;
@@ -32,29 +32,29 @@ public final class CardDeckImpl implements CardDeck {
      * Constructor for CardDeckImpl.
      * 
      * @param territories
-     * @param percentageOfInfantry
+     * @param percentageOfJack
      * @param percentageOfCavalry
      * @param percentageOfArtillery
      * @param numberOfWildCards
      */
     public CardDeckImpl(
             final Set<Territory> territories,
-            final int percentageOfInfantry,
+            final int percentageOfJack,
             final int percentageOfCavalry,
             final int percentageOfArtillery,
             final int numberOfWildCards) {
         this.territories = territories;
 
-        if (percentageOfInfantry < 0 || percentageOfCavalry < 0
+        if (percentageOfJack < 0 || percentageOfCavalry < 0
                 || percentageOfArtillery < 0 || numberOfWildCards < 0) {
             throw new IllegalArgumentException("Percentages and number of wild cards must be non-negative");
         }
 
-        if (percentageOfInfantry + percentageOfCavalry + percentageOfArtillery != SUM_OF_PERCENTAGES) {
+        if (percentageOfJack + percentageOfCavalry + percentageOfArtillery != SUM_OF_PERCENTAGES) {
             throw new IllegalArgumentException("The sum of percentages must equal 100");
         }
 
-        this.percentageOfInfantry = percentageOfInfantry;
+        this.percentageOfJack = percentageOfJack;
         this.percentageOfCavalry = percentageOfCavalry;
         // this.percentageOfArtillery = percentageOfArtillery;
         this.numberOfWildCards = numberOfWildCards;
@@ -101,15 +101,15 @@ public final class CardDeckImpl implements CardDeck {
         final int totalTerritories = shuffledTerritories.size();
 
         // 2. Calc the number of each type of card based on percentages
-        final int infantryCount = totalTerritories * percentageOfInfantry / SUM_OF_PERCENTAGES;
+        final int jackCount = totalTerritories * percentageOfJack / SUM_OF_PERCENTAGES;
         final int cavalryCount = totalTerritories * percentageOfCavalry / SUM_OF_PERCENTAGES;
-        final int artilleryCount = totalTerritories - infantryCount - cavalryCount;
+        final int artilleryCount = totalTerritories - jackCount - cavalryCount;
 
         // 3. Assegna i tipi ai primi N territori
         final List<GameCard> cards = new ArrayList<>(totalTerritories + numberOfWildCards);
         int idx = 0;
-        for (int i = 0; i < infantryCount; i++, idx++) {
-            cards.add(new TerritoryCardImpl(UnitType.INFANTRY, shuffledTerritories.get(idx)));
+        for (int i = 0; i < jackCount; i++, idx++) {
+            cards.add(new TerritoryCardImpl(UnitType.JACK, shuffledTerritories.get(idx)));
         }
         for (int i = 0; i < cavalryCount; i++, idx++) {
             cards.add(new TerritoryCardImpl(UnitType.CAVALRY, shuffledTerritories.get(idx)));

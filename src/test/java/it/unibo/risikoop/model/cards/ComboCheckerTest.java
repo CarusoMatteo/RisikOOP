@@ -26,7 +26,7 @@ final class ComboCheckerTest {
     private static final Optional<Integer> WILD_ALL_EQUAL_UNIT_REWARD = Optional.of(12);
     private static final Optional<Integer> ALL_DIFFERENT_UNIT_REWARD = Optional.of(10);
     private static final Optional<Integer> CAVALRY_UNIT_REWARD = Optional.of(8);
-    private static final Optional<Integer> INFANTRY_UNIT_REWARD = Optional.of(6);
+    private static final Optional<Integer> JACK_UNIT_REWARD = Optional.of(6);
     private static final Optional<Integer> ARTILLERY_UNIT_REWARD = Optional.of(4);
 
     @BeforeEach
@@ -63,42 +63,42 @@ final class ComboCheckerTest {
         assertEquals(ALL_DIFFERENT_UNIT_REWARD, checker.useCombo(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")))));
         assertEquals(Optional.empty(), checker.useCombo(Set.of(
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")))));
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")))));
 
         // AllCavarlyEqualCombo()
         // - Hand that only has AllCavarlyEqualCombo
         // \ CAVALRY_UNIT_REWARD
         // - Hand that has AllCavarlyEqualCombo and AllDifferentCombo (sup)
         // \ ALL_DIFFERENT_UNIT_REWARD
-        // - Hand that has AllCavarlyEqualCombo and AllInfantryEqualCombo (inf)
+        // - Hand that has AllCavarlyEqualCombo and AllJackEqualCombo (inf)
         // \ CAVALRY_UNIT_REWARD
         assertEquals(CAVALRY_UNIT_REWARD, checker.useCombo(Set.of(
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")))));
 
-        // AllInfantryEqualCombo()
-        // - Hand that only has AllInfantryEqualCombo
-        // \ INFANTRY_UNIT_REWARD
-        // - Hand that has AllInfantryEqualCombo and AllCavarlyEqualCombo (sup)
+        // AllJackEqualCombo()
+        // - Hand that only has AllJackEqualCombo
+        // \ JACK_UNIT_REWARD
+        // - Hand that has AllJackEqualCombo and AllCavarlyEqualCombo (sup)
         // \ CAVALRY_UNIT_REWARD
-        // - Hand that has AllInfantryEqualCombo and AllArtilleryEqualCombo (inf)
-        // \ INFANTRY_UNIT_REWARD
-        assertEquals(INFANTRY_UNIT_REWARD, checker.useCombo(Set.of(
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.INFANTRY, new TerritoryImpl(gameManager, "")))));
+        // - Hand that has AllJackEqualCombo and AllArtilleryEqualCombo (inf)
+        // \ JACK_UNIT_REWARD
+        assertEquals(JACK_UNIT_REWARD, checker.useCombo(Set.of(
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")))));
 
         // AllArtilleryEqualCombo()
         // - Hand that only has AllArtilleryEqualCombo
         // \ ARTILLERY_UNIT_REWARD
         // - Hand that has AllArtilleryEqualCombo and any other superior combo (sup)
-        // | (ex: AllInfantryEqualCombo)
-        // \ INFANTRY_UNIT_REWARD
+        // | (ex: AllJackEqualCombo)
+        // \ JACK_UNIT_REWARD
         assertEquals(ARTILLERY_UNIT_REWARD, checker.useCombo(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),

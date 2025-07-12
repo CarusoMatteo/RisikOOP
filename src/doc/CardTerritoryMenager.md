@@ -17,7 +17,7 @@
 
 1. **Carte** (`model.cards`)  
    - `Card` (interfaccia)  
-   - `TerritoryCard` (tipo: Infantry/Cavalry/Artillery + territorio)  
+   - `TerritoryCard` (tipo: Jack/Cavalry/Artillery + territorio)  
    - `WildCard` (jolly)  
 
 2. **Mano** (`model.player.Hand`)  

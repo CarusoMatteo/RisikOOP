@@ -7,9 +7,9 @@ package it.unibo.risikoop.model.interfaces.cards;
  */
 public enum UnitType {
     /**
-     * Infantry unit type.
+     * Jack unit type.
      */
-    INFANTRY,
+    JACK,
     /**
      * Cavalry unit type.
      */

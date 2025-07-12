@@ -22,7 +22,7 @@ public abstract class AbstractGameCard implements GameCard {
     /**
      * Constructs an AbstractGameCard with the specified type and owner.
      *
-     * @param type the type of the card (INFANTRY, CAVALRY, ARTILLERY, or WILD)
+     * @param type the type of the card (JACK, CAVALRY, ARTILLERY, or WILD)
      */
     protected AbstractGameCard(final UnitType type) {
         this.type = Objects.requireNonNull(type, "type must not be null");
