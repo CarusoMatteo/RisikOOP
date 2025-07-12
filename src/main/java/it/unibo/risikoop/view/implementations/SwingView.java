@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.view.implementations.scenes.MapChoserScene;
 import it.unibo.risikoop.view.implementations.scenes.PlayerAddingView;
-import it.unibo.risikoop.view.interfaces.MapScene;
+import it.unibo.risikoop.view.implementations.scenes.mapscene.MapSceneImpl;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
 /**
@@ -79,7 +79,7 @@ public final class SwingView implements RisikoView {
 
     @Override
     public void beginPlay() {
-        final MapScene mapScene = new MapScene(this.controller);
+        final MapSceneImpl mapScene = new MapSceneImpl(this.controller);
         changePanel(frame, mapChoser, mapScene);
     }
 
