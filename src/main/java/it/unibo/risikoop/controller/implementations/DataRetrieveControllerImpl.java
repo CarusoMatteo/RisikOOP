@@ -9,6 +9,7 @@ import org.graphstream.graph.Graph;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
+import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -47,5 +48,17 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     @Override
     public Optional<Integer> getTerritoryUnitsFromName(final String name) {
         return gameManager.getTerritory(name).map(Territory::getUnits);
+    }
+
+    @Override
+    public String getCurrentPlayerName() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCurrentPlayerName'");
+    }
+
+    @Override
+    public Color getCurrentPlayerColor() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCurrentPlayerColor'");
     }
 }
