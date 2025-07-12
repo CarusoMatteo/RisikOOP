@@ -1,4 +1,4 @@
-package it.unibo.risikoop.controller.interfaces;
+package it.unibo.risikoop.controller.interfaces.logicgame;
 
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;

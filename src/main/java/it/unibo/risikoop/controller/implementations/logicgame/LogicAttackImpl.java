@@ -1,11 +1,11 @@
-package it.unibo.risikoop.controller.implementations;
+package it.unibo.risikoop.controller.implementations.logicgame;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import it.unibo.risikoop.controller.interfaces.LogicAttack;
+import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 

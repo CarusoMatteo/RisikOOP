@@ -1,8 +1,8 @@
 
 package it.unibo.risikoop.model.implementations.gamephase;
 
-import it.unibo.risikoop.controller.implementations.LogicAttackImpl;
-import it.unibo.risikoop.controller.interfaces.LogicAttack;
+import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
+import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -37,12 +37,11 @@ public class AttackPhase implements GamePhase {
     private int unitsToUse;
     private boolean isEnd;
 
-    public AttackPhase(TurnManager turnManager, Player defender) {
+    public AttackPhase(TurnManager turnManager) {
         this.turnManager = turnManager;
         this.logic = new LogicAttackImpl();
         this.state = PhaseState.SELECT_ATTACKER;
         this.attacker = turnManager.getCurrentPlayer();
-        this.defender = defender;
         this.attackerSrc = null;
         this.defenderDst = null;
         this.unitsToUse = 0;
@@ -56,7 +55,6 @@ public class AttackPhase implements GamePhase {
 
     @Override
     public void performAction() {
-
         if (state == PhaseState.SELECT_ATTACKER && attackerSrc != null) {
             isEnd = false;
             state = PhaseState.SELECT_DEFENDER;
@@ -77,6 +75,7 @@ public class AttackPhase implements GamePhase {
             this.attackerSrc = t;
             unitsToUse = 0;
         } else if (state == PhaseState.SELECT_DEFENDER && isValidDefender(t)) {
+            this.defender = t.getOwner();
             this.defenderDst = t;
         }
     }
@@ -86,6 +85,10 @@ public class AttackPhase implements GamePhase {
         if (units > 0 && units <= attackerSrc.getUnits() - 1) {
             unitsToUse = units;
         }
+    }
+
+    @Override
+    public void initializationPhase() {
     }
 
     private boolean isValidAttacker(Territory t) {

@@ -1,4 +1,4 @@
-package it.unibo.risikoop.controller.interfaces;
+package it.unibo.risikoop.controller.interfaces.logicgame;
 
 public interface LogicReinforcementCalculator {
 
