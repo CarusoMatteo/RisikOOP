@@ -1,6 +1,7 @@
 package it.unibo.risikoop.model.implementations;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import it.unibo.risikoop.model.interfaces.PlayerHand;
@@ -20,7 +21,7 @@ public final class PlayerHandImpl implements PlayerHand {
      * Default constructor initializing an empty player hand.
      */
     public PlayerHandImpl() {
-        this.cards = Set.of();
+        this.cards = new HashSet<>();
     }
 
     @Override
@@ -38,7 +39,7 @@ public final class PlayerHandImpl implements PlayerHand {
             throw new IllegalArgumentException("Cards collection cannot be null or empty");
         }
 
-        return cards.addAll(cards);
+        return this.cards.addAll(cards);
     }
 
     @Override
