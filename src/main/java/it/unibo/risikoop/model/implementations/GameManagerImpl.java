@@ -26,6 +26,9 @@ public final class GameManagerImpl implements GameManager {
     private final Set<Continent> continents = new HashSet<>();
     private Optional<Graph> worldMap = Optional.empty();
 
+    public GameManagerImpl() {
+    }
+
     @Override
     public boolean addPlayer(final String name, final Color col) {
         if (!players.stream().anyMatch(i -> i.getColor().equals(col) || i.getName().equals(name))) {
@@ -155,4 +158,5 @@ public final class GameManagerImpl implements GameManager {
         continents.addAll(Set.of(africa, europe));
 
     }
+
 }

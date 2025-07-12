@@ -1,7 +1,5 @@
 package it.unibo.risikoop.controller.interfaces;
 
-import it.unibo.risikoop.model.interfaces.Player;
-
 /**
  * 
  */
@@ -18,6 +16,13 @@ public interface Controller {
      * 
      */
     DataRetrieveController getDataRetrieveController();
+
+    /**
+     * a methot that return the controller for game flow.
+     * 
+     * @return the gamePhase controller
+     */
+    GamePhaseController getGamePhaseController();
 
     /**
      * starts the game.
@@ -38,10 +43,5 @@ public interface Controller {
      * ends the game.
      */
     void gameOver();
-
-    /**
-     * update the current player showing method
-     */
-    void showActualPlayer(Player player);
 
 }

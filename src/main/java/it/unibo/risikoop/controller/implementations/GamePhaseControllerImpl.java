@@ -1,11 +1,10 @@
 package it.unibo.risikoop.controller.implementations;
 
-import it.unibo.risikoop.controller.interfaces.GamePhaseController;
-import it.unibo.risikoop.model.interfaces.Territory;
-
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.implementations.gamephase.AttackPhase;
 import it.unibo.risikoop.model.implementations.gamephase.ComboPhaseImpl;
 import it.unibo.risikoop.model.implementations.gamephase.InitialReinforcementPhase;
@@ -13,7 +12,9 @@ import it.unibo.risikoop.model.implementations.gamephase.MovementPhase;
 import it.unibo.risikoop.model.implementations.gamephase.ReinforcementPhase;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.GamePhase;
+import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.view.interfaces.RisikoView;
 
 /**
  * Coordinates the progression and transition of game phases for each player.
@@ -41,6 +42,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
     private final TurnManager turnManager;
     private final Map<PhaseKey, GamePhase> phases;
+    private final List<RisikoView> viewList;
     private PhaseKey current;
     private boolean initialDone;
 
@@ -51,13 +53,15 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
      * Initializes all phase implementations, sets the current phase
      * to INITIAL_REINFORCEMENT, and calls initializationPhase() on it.
      * </p>
-     *
-     * @param tm the TurnManager that determines player turn order
-     * @param gm the GameManager providing game state and context
+     * 
+     * @param viewList the list of every view
+     * @param tm       the TurnManager that determines player turn order
+     * @param gm       the GameManager providing game state and context
      */
-    public GamePhaseControllerImpl(final TurnManager tm, final GameManager gm) {
+    public GamePhaseControllerImpl(final List<RisikoView> viewList, final TurnManager tm, final GameManager gm) {
         this.turnManager = tm;
         this.phases = new EnumMap<>(PhaseKey.class);
+        this.viewList = viewList;
 
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(tm, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
@@ -110,6 +114,11 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         // After MOVEMENT transitions to COMBO, advance to next player's turn
         if (prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO) {
             turnManager.nextPlayer();
+            viewList.stream().map(v -> v.getMapScene())
+                    .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
+                            turnManager.getCurrentPlayer().getName(),
+                            turnManager.getCurrentPlayer().getColor())));
+
         }
     }
 

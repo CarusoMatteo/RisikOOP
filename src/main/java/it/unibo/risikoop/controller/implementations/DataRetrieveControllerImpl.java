@@ -13,52 +13,54 @@ import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
+import it.unibo.risikoop.model.interfaces.TurnManager;
 
 /**
  * controller for retrieveing for the vbiew all kind of necessary data.
  */
 public final class DataRetrieveControllerImpl implements DataRetrieveController {
-    private final GameManager gameManager;
+    private final GameManager gm;
+    private final TurnManager tm;
 
     /**
      * constructor .
      * 
-     * @param gameManager
+     * @param tm the turn manager
+     * @param gm the game manager
      */
     @SuppressFBWarnings("EI_EXPOSE_REP2")
-    public DataRetrieveControllerImpl(final GameManager gameManager) {
-        this.gameManager = gameManager;
+    public DataRetrieveControllerImpl(final TurnManager tm, final GameManager gm) {
+        this.gm = gm;
+        this.tm = tm;
     }
 
     @Override
     public List<Player> getPlayerList() {
-        return gameManager.getPlayers();
+        return gm.getPlayers();
     }
 
     @Override
     public Graph getActualMap() {
-        return gameManager.getActualWorldMap();
+        return gm.getActualWorldMap();
     }
 
     @Override
     public Set<Territory> getTerritories() {
-        return Collections.unmodifiableSet(gameManager.getTerritories());
+        return Collections.unmodifiableSet(gm.getTerritories());
     }
 
     @Override
     public Optional<Integer> getTerritoryUnitsFromName(final String name) {
-        return gameManager.getTerritory(name).map(Territory::getUnits);
+        return gm.getTerritory(name).map(Territory::getUnits);
     }
 
     @Override
     public String getCurrentPlayerName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCurrentPlayerName'");
+        return tm.getCurrentPlayer().getName();
     }
 
     @Override
     public Color getCurrentPlayerColor() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCurrentPlayerColor'");
+        return tm.getCurrentPlayer().getColor();
     }
 }

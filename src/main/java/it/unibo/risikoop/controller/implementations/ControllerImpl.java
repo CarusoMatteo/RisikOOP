@@ -9,10 +9,12 @@ import java.util.stream.Stream;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.controller.interfaces.DataAddingController;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
+import it.unibo.risikoop.model.implementations.TurnManagerImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
-import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
+import it.unibo.risikoop.model.interfaces.TurnManager;
 import it.unibo.risikoop.view.implementations.SwingView;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
@@ -23,6 +25,7 @@ public final class ControllerImpl implements Controller {
 
     private final GameManager gameManager = new GameManagerImpl();
     private final List<RisikoView> viewList = new LinkedList<>();
+    private TurnManager turnManager;
 
     /**
      * constructor.
@@ -49,12 +52,13 @@ public final class ControllerImpl implements Controller {
     @Override
     public void beginToPlay() {
         assignTerritory();
+        turnManager = new TurnManagerImpl(gameManager.getPlayers());
         viewList.forEach(RisikoView::beginPlay);
     }
 
     @Override
     public DataRetrieveController getDataRetrieveController() {
-        return new DataRetrieveControllerImpl(gameManager);
+        return new DataRetrieveControllerImpl(turnManager, gameManager);
     }
 
     @Override
@@ -82,8 +86,8 @@ public final class ControllerImpl implements Controller {
     }
 
     @Override
-    public void showActualPlayer(Player player) {
-        viewList.stream().map(v -> v.getMapScene())
-                .forEach(s -> s.ifPresent(m -> m.updateCurrentPlayer(player.getName(), player.getColor())));
+    public GamePhaseController getGamePhaseController() {
+        return new GamePhaseControllerImpl(viewList, turnManager, gameManager);
     }
+
 }
