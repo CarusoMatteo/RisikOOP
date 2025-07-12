@@ -1,5 +1,6 @@
 package it.unibo.risikoop.controller.implementations;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -9,7 +10,9 @@ import it.unibo.risikoop.model.implementations.gamecards.combos.ComboCheckerImpl
 import it.unibo.risikoop.model.interfaces.CardDeck;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
+import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
+import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 
 /**
  * Controller for managing card game operations such as drawing cards and
@@ -57,13 +60,19 @@ public final class CardGameControllerImpl implements CardGameController {
             throw new IllegalArgumentException("Player or player's hand cannot be null.");
         }
 
-        final Optional<Integer> unitsRewarded = comboChecker.useCombo(cards);
-        // TODO: Get 2 units if player owns the territory in a card used in the combo.
-
-        if (!unitsRewarded.isPresent()) {
+        final Optional<Integer> comboReward = comboChecker.useCombo(cards);
+        if (!comboReward.isPresent()) {
             throw new IllegalStateException("A non valid combo was used.");
         }
 
-        player.addUnitsToPlace(unitsRewarded.get());
+        final List<Territory> ownedTerritories = List.copyOf(player.getTerritories());
+        final int territoryReward = cards.stream()
+                .filter(GameCard::isTerritoryCard)
+                .map(card -> ((TerritoryCard) card).getAssociatedTerritory())
+                .filter(ownedTerritories::contains)
+                .mapToInt(t -> 2)
+                .sum();
+
+        player.addUnitsToPlace(comboReward.get() + territoryReward);
     }
 }
