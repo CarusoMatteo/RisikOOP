@@ -113,7 +113,6 @@ public final class AttackPhase implements GamePhase {
     }
 
     private boolean isValidDefender(final Territory t) {
-        return !t.getOwner().equals(turnManager.getCurrentPlayer()) &&
-                attackerSrc.getNeightbours().contains(t);
+        return !t.getOwner().equals(turnManager.getCurrentPlayer()) && attackerSrc.getNeightbours().contains(t);
     }
 }
