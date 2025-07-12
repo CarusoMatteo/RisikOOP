@@ -55,6 +55,15 @@ public final class CardGameControllerImpl implements CardGameController {
     }
 
     @Override
+    public boolean isComboValid(final Set<GameCard> cards) {
+        if (cards == null || cards.size() != 3) {
+            throw new IllegalArgumentException("Set must contain 3 cards.");
+        }
+
+        return comboChecker.useCombo(cards).isPresent();
+    }
+
+    @Override
     public void useCombo(final Player player, final Set<GameCard> cards) {
         if (player == null || player.getGameCards() == null) {
             throw new IllegalArgumentException("Player or player's hand cannot be null.");

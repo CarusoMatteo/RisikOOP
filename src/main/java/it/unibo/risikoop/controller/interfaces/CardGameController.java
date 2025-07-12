@@ -24,15 +24,32 @@ public interface CardGameController {
      *
      * @param player the player for whom to find combos.
      * @return if the player can use any combo.
+     * @throws IllegalArgumentException if the player or their hand is null.
      */
     boolean canPlayAnyCombo(Player player);
+
+    /**
+     * Returns if the set contains a valid combo.
+     * 
+     * @param cards the set of cards to check for a valid combo.
+     * @return true if the set contains a valid combo, otherwise false.
+     * @throws IllegalArgumentException if the set does not contain exactly 3 cards.
+     */
+    boolean isComboValid(final Set<GameCard> cards);
 
     /**
      * Uses a combo for the specified player.
      *
      * @param player the player who is using the combo.
      * @param cards  the combo to be used.
+     * @throws IllegalArgumentException if the player or their hand is null, or if
+     *                                  the cards set does not contain exactly 3
+     *                                  cards.
+     * @throws IllegalStateException    if the combo is not valid.
+     *                                  This must not happen because an invalid
+     *                                  combo shouldn't be usable since the "Use
+     *                                  combo" button should be disabled.
      */
     void useCombo(Player player, Set<GameCard> cards);
-    // Togli le carte riinserendole nel mazzo, aggiunge le unità al giocatore
+
 }
