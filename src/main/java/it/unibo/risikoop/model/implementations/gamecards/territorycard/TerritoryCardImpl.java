@@ -22,7 +22,7 @@ public final class TerritoryCardImpl
     /**
      * Constructs a TerritoryCardImpl with the specified type, owner, and territory.
      *
-     * @param type      the type of the card (JACK, CAVALRY, ARTILLERY)
+     * @param type      the type of the card (JACK, KNIGHT, ARTILLERY)
      * @param territory the territory associated with this card
      * @throws IllegalArgumentException if type is WILD
      */

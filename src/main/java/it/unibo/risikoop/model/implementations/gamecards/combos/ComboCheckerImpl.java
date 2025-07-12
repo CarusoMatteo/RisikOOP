@@ -18,7 +18,7 @@ public final class ComboCheckerImpl implements ComboChecker {
     private final List<ComboCheckStrategy> strategies = List.of(
             new WildAllEqualCombo(),
             new AllDifferentCombo(),
-            new AllCavarlyEqualCombo(),
+            new AllKnightEqualCombo(),
             new AllJackEqualCombo(),
             new AllArtilleryEqualCombo());
 

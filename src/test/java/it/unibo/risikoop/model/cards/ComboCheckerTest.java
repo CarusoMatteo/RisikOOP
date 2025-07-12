@@ -25,7 +25,7 @@ final class ComboCheckerTest {
     private ComboChecker checker;
     private static final Optional<Integer> WILD_ALL_EQUAL_UNIT_REWARD = Optional.of(12);
     private static final Optional<Integer> ALL_DIFFERENT_UNIT_REWARD = Optional.of(10);
-    private static final Optional<Integer> CAVALRY_UNIT_REWARD = Optional.of(8);
+    private static final Optional<Integer> KNIGHT_UNIT_REWARD = Optional.of(8);
     private static final Optional<Integer> JACK_UNIT_REWARD = Optional.of(6);
     private static final Optional<Integer> ARTILLERY_UNIT_REWARD = Optional.of(4);
 
@@ -46,8 +46,8 @@ final class ComboCheckerTest {
         // \ WILD_ALL_EQUAL_UNIT_REWARD
         assertEquals(WILD_ALL_EQUAL_UNIT_REWARD, checker.useCombo(Set.of(
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")))));
+                new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")))));
         assertEquals(Optional.empty(), checker.useCombo(Set.of(
                 new WildCardImpl(),
                 new WildCardImpl(),
@@ -58,34 +58,34 @@ final class ComboCheckerTest {
         // \ ALL_DIFFERENT_UNIT_REWARD
         // - Hand that has AllDifferentCombo and WildAllEqualCombo (sup)
         // \ WILD_ALL_EQUAL_UNIT_REWARD
-        // - Hand that has AllDifferentCombo and AllCavarlyEqualCombo (inf)
+        // - Hand that has AllDifferentCombo and AllKnightEqualCombo (inf)
         // \ ALL_DIFFERENT_UNIT_REWARD
         assertEquals(ALL_DIFFERENT_UNIT_REWARD, checker.useCombo(Set.of(
                 new TerritoryCardImpl(UnitType.ARTILLERY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")))));
         assertEquals(Optional.empty(), checker.useCombo(Set.of(
                 new WildCardImpl(),
-                new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")))));
 
-        // AllCavarlyEqualCombo()
-        // - Hand that only has AllCavarlyEqualCombo
-        // \ CAVALRY_UNIT_REWARD
-        // - Hand that has AllCavarlyEqualCombo and AllDifferentCombo (sup)
+        // AllKnightEqualCombo()
+        // - Hand that only has AllKnightEqualCombo
+        // \ KNIGHT_UNIT_REWARD
+        // - Hand that has AllKnightEqualCombo and AllDifferentCombo (sup)
         // \ ALL_DIFFERENT_UNIT_REWARD
-        // - Hand that has AllCavarlyEqualCombo and AllJackEqualCombo (inf)
-        // \ CAVALRY_UNIT_REWARD
-        assertEquals(CAVALRY_UNIT_REWARD, checker.useCombo(Set.of(
-                new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")),
-                new TerritoryCardImpl(UnitType.CAVALRY, new TerritoryImpl(gameManager, "")))));
+        // - Hand that has AllKnightEqualCombo and AllJackEqualCombo (inf)
+        // \ KNIGHT_UNIT_REWARD
+        assertEquals(KNIGHT_UNIT_REWARD, checker.useCombo(Set.of(
+                new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
+                new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")))));
 
         // AllJackEqualCombo()
         // - Hand that only has AllJackEqualCombo
         // \ JACK_UNIT_REWARD
-        // - Hand that has AllJackEqualCombo and AllCavarlyEqualCombo (sup)
-        // \ CAVALRY_UNIT_REWARD
+        // - Hand that has AllJackEqualCombo and AllKnightEqualCombo (sup)
+        // \ KNIGHT_UNIT_REWARD
         // - Hand that has AllJackEqualCombo and AllArtilleryEqualCombo (inf)
         // \ JACK_UNIT_REWARD
         assertEquals(JACK_UNIT_REWARD, checker.useCombo(Set.of(

@@ -11,9 +11,9 @@ public enum UnitType {
      */
     JACK,
     /**
-     * Cavalry unit type.
+     * Knight unit type.
      */
-    CAVALRY,
+    KNIGHT,
     /**
      * Artillery unit type.
      */
