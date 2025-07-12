@@ -37,12 +37,11 @@ public class AttackPhase implements GamePhase {
     private int unitsToUse;
     private boolean isEnd;
 
-    public AttackPhase(TurnManager turnManager, Player defender) {
+    public AttackPhase(TurnManager turnManager) {
         this.turnManager = turnManager;
         this.logic = new LogicAttackImpl();
         this.state = PhaseState.SELECT_ATTACKER;
         this.attacker = turnManager.getCurrentPlayer();
-        this.defender = defender;
         this.attackerSrc = null;
         this.defenderDst = null;
         this.unitsToUse = 0;
@@ -77,6 +76,7 @@ public class AttackPhase implements GamePhase {
             this.attackerSrc = t;
             unitsToUse = 0;
         } else if (state == PhaseState.SELECT_DEFENDER && isValidDefender(t)) {
+            this.defender = t.getOwner();
             this.defenderDst = t;
         }
     }
@@ -86,6 +86,12 @@ public class AttackPhase implements GamePhase {
         if (units > 0 && units <= attackerSrc.getUnits() - 1) {
             unitsToUse = units;
         }
+    }
+
+    @Override
+    public void initializationPhase() {
+        // TODO Auto-generated method stub
+        
     }
 
     private boolean isValidAttacker(Territory t) {

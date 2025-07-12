@@ -88,4 +88,9 @@ public class MovementPhase implements GamePhase {
             this.unitsToMove = units;
         }
     }
+
+    @Override
+    public void initializationPhase() {
+        // TODO Auto-generated method stub
+    }
 }

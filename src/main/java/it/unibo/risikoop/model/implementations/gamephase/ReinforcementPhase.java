@@ -61,4 +61,10 @@ public class ReinforcementPhase implements GamePhase {
     public void setUnitsToUse(int units) {
         // Not used in this phase
     }
+
+    @Override
+    public void initializationPhase() {
+        // TODO Auto-generated method stub
+        
+    }
 }

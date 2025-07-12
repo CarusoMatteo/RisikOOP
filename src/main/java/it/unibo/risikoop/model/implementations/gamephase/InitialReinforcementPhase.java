@@ -18,7 +18,6 @@ public class InitialReinforcementPhase implements GamePhase {
     private final TurnManager turnManager;
     private final int initialUnits;
     private final GameManager gameManager;
-    private boolean isFirstPlayer;
     private LogicReinforcementCalculator logic;
 
     /**
@@ -35,7 +34,6 @@ public class InitialReinforcementPhase implements GamePhase {
         this.gameManager = gameManager;
         this.logic = new LogicCalcInitialUnitsImpl(gameManager);
         initialUnits = logic.calcPlayerUnits();
-        this.isFirstPlayer = true;
     }
 
     @Override
@@ -46,11 +44,6 @@ public class InitialReinforcementPhase implements GamePhase {
     @Override
     public void performAction() {
         Player p = turnManager.getCurrentPlayer();
-
-        if (isFirstPlayer) {
-            p.addUnitsToPlace(initialUnits);
-            isFirstPlayer = false;
-        }
 
         if (p.getUnitsToPlace() <= 0 && !turnManager.isNewRound()) {
             turnManager.nextPlayer();
@@ -75,5 +68,10 @@ public class InitialReinforcementPhase implements GamePhase {
     @Override
     public void setUnitsToUse(int units) {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void initializationPhase() {
+        turnManager.getCurrentPlayer().addUnitsToPlace(initialUnits);
     }
 }
