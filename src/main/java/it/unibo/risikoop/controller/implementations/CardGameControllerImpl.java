@@ -58,6 +58,7 @@ public final class CardGameControllerImpl implements CardGameController {
         }
 
         final Optional<Integer> unitsRewarded = comboChecker.useCombo(cards);
+        // TODO: Get 2 units if player owns the territory in a card used in the combo.
 
         if (!unitsRewarded.isPresent()) {
             throw new IllegalStateException("A non valid combo was used.");

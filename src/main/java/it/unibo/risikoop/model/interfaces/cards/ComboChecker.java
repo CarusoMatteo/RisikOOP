@@ -24,6 +24,8 @@ public interface ComboChecker {
      * @param cards the set of cards to use for the combo.
      * @return the amount of units rewarded for the combo,
      *         or an empty Optional if no combo can be used with those cards.
+     *         This does not include the reward if the player owns the territory
+     *         represented by a card used in the combo.
      */
     Optional<Integer> useCombo(Set<GameCard> cards);
 

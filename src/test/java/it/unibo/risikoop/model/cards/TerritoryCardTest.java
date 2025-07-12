@@ -12,7 +12,6 @@ import it.unibo.risikoop.model.implementations.PlayerImpl;
 import it.unibo.risikoop.model.implementations.TerritoryImpl;
 import it.unibo.risikoop.model.implementations.gamecards.territorycard.TerritoryCardImpl;
 import it.unibo.risikoop.model.implementations.gamecards.territorycard.WildCardImpl;
-import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
@@ -27,14 +26,12 @@ final class TerritoryCardTest {
     private UnitType type;
     private Player owner;
     private Territory territory;
-    private GameManager gameManager;
 
     @BeforeEach
     void setUp() {
-        gameManager = new GameManagerImpl();
         type = UnitType.INFANTRY;
         owner = new PlayerImpl("Player1", new Color(0, 2, 0));
-        territory = new TerritoryImpl(gameManager, "TerritoryTest");
+        territory = new TerritoryImpl(new GameManagerImpl(), "TerritoryTest");
     }
 
     @Test

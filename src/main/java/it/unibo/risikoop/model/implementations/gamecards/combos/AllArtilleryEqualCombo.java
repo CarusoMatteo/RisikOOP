@@ -7,7 +7,7 @@ import it.unibo.risikoop.model.interfaces.cards.UnitType;
  */
 public final class AllArtilleryEqualCombo extends AllEqualCombo {
 
-    private static final int ARTILLERY_UNIT_REWARD = 8;
+    private static final int ARTILLERY_UNIT_REWARD = 4;
 
     @Override
     public int getUnitRewardAmount() {

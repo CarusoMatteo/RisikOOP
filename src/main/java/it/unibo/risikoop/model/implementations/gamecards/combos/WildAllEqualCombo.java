@@ -2,6 +2,8 @@ package it.unibo.risikoop.model.implementations.gamecards.combos;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import it.unibo.risikoop.model.interfaces.PlayerHand;
 import it.unibo.risikoop.model.interfaces.cards.ComboCheckStrategy;
@@ -20,8 +22,8 @@ public final class WildAllEqualCombo implements ComboCheckStrategy {
         if (cards == null || cards.size() != 3) {
             throw new IllegalArgumentException("The hand must contain 3 cards.");
         }
-        // One WILD and two cards of different UnitTypes.
-        return countWildUnitTypes(cards) == 1 && countNonWildUnitTypes(cards) == 2;
+        // One WILD and two cards of equal UnitTypes.
+        return countWildUnitTypes(cards) == 1 && getMostFrequentNonWildUnitTypeFrequency(cards) == 2;
     }
 
     @Override
@@ -30,8 +32,9 @@ public final class WildAllEqualCombo implements ComboCheckStrategy {
             throw new IllegalArgumentException("The hand must not be null.");
         }
 
-        // One WILD and two cards of different UnitTypes.
-        return countWildUnitTypes(hand.getCards()) >= 1 && countNonWildUnitTypes(hand.getCards()) >= 2;
+        // One WILD and two cards of equal UnitTypes.
+        return countWildUnitTypes(hand.getCards()) >= 1
+                && getMostFrequentNonWildUnitTypeFrequency(hand.getCards()) >= 2;
     }
 
     @Override
@@ -47,11 +50,20 @@ public final class WildAllEqualCombo implements ComboCheckStrategy {
                 .count();
     }
 
-    private long countNonWildUnitTypes(final Set<GameCard> cards) {
+    /**
+     * Returns the frequency of the most frequent non-WILD UnitType in the set.
+     * 
+     * @param cards
+     * @return the frequency of the most frequent non-WILD UnitType.
+     */
+    private Long getMostFrequentNonWildUnitTypeFrequency(final Set<GameCard> cards) {
         return cards.stream()
                 .map(GameCard::getType)
                 .filter(t -> !t.equals(UnitType.WILD))
-                .distinct()
-                .count();
+                .collect(Collectors.groupingBy(t -> t, Collectors.counting()))
+                .entrySet().stream()
+                .max(Entry.comparingByValue())
+                .map(Entry::getValue)
+                .orElse(0l);
     }
 }
