@@ -1,86 +1,95 @@
 package it.unibo.risikoop.model.gamephase;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
-import it.unibo.risikoop.model.implementations.PlayerImpl;
 import it.unibo.risikoop.model.implementations.TerritoryImpl;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
-import it.unibo.risikoop.model.interfaces.GameManager;
-import it.unibo.risikoop.model.interfaces.Player;
-import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 
-public class TurnManagerTest {
+/**
+ * Unit tests for the {@link TurnManagerImpl} class.
+ * <p>
+ * Ensures that turn rotation logic behaves correctly, including:
+ * <ul>
+ *   <li>initial current player selection</li>
+ *   <li>advancing to next player in order</li>
+ *   <li>detecting the start of a new round after all players have taken a turn</li>
+ *   <li>skipping eliminated players (test currently commented out)</li>
+ * </ul>
+ * </p>
+ */
+class TurnManagerTest {
+
+
+    // evita literal duplicati
+    private static final String ALICE = "Alice";
+    private static final String BOB   = "Bob";
+    private static final String CAROL = "Carol";
 
     private TurnManager turnManager;
-    private GameManager gameManager;
 
+    /**
+     * Sets up a {@link GameManagerImpl} with three players and assigns one
+     * territory to each. Then initializes a {@link TurnManagerImpl}.
+     */
     @BeforeEach
     void setUp() {
-        gameManager = new GameManagerImpl();
+        // gameManager non serve come campo: lo usiamo solo qui
+        final var gameManager = new GameManagerImpl();
+        gameManager.addPlayer(ALICE, new Color(0, 0, 0));
+        gameManager.addPlayer(BOB,   new Color(1, 0, 0));
+        gameManager.addPlayer(CAROL, new Color(2, 0, 0));
 
-        gameManager.addPlayer("Alice", new Color(0, 0, 0));
-        gameManager.addPlayer("Bob", new Color(1, 0, 0));
-        gameManager.addPlayer("Carol", new Color(2, 0, 0));
-
-        var players = gameManager.getPlayers();
-        List<Territory> territories = List.of(
-                new TerritoryImpl(gameManager, "T1"),
-                new TerritoryImpl(gameManager, "T2"),
-                new TerritoryImpl(gameManager, "T3"),
-                new TerritoryImpl(gameManager, "T4"),
-                new TerritoryImpl(gameManager, "T5"));
-
+        final var players = gameManager.getPlayers();
+        final var territories = List.of(
+            new TerritoryImpl(gameManager, "T1"),
+            new TerritoryImpl(gameManager, "T2"),
+            new TerritoryImpl(gameManager, "T3"),
+            new TerritoryImpl(gameManager, "T4"),
+            new TerritoryImpl(gameManager, "T5")
+        );
         players.get(0).addTerritory(territories.get(0));
         players.get(1).addTerritory(territories.get(1));
         players.get(2).addTerritory(territories.get(2));
 
-        turnManager = new TurnManagerImpl(gameManager.getPlayers());
+        turnManager = new TurnManagerImpl(players);
     }
 
     @Test
     void testCurrentPlayer() {
-        assertEquals("Alice", turnManager.getCurrentPlayer().getName());
+        assertEquals(ALICE, turnManager.getCurrentPlayer().getName());
     }
 
     @Test
     void testNextPlayerOrder() {
-
-        assertEquals("Alice", turnManager.getCurrentPlayer().getName());
+        assertEquals(ALICE, turnManager.getCurrentPlayer().getName());
         assertFalse(turnManager.isNewRound());
 
-        assertEquals("Bob", turnManager.nextPlayer().getName());
+        assertEquals(BOB,   turnManager.nextPlayer().getName());
         assertFalse(turnManager.isNewRound());
 
-        assertEquals("Carol", turnManager.nextPlayer().getName());
+        assertEquals(CAROL, turnManager.nextPlayer().getName());
         assertFalse(turnManager.isNewRound());
 
-        assertEquals("Alice", turnManager.nextPlayer().getName());
+        assertEquals(ALICE, turnManager.nextPlayer().getName());
         assertTrue(turnManager.isNewRound());
 
-        assertEquals("Bob", turnManager.nextPlayer().getName());
+        assertEquals(BOB,   turnManager.nextPlayer().getName());
         assertFalse(turnManager.isNewRound());
     }
 
     @Test
     void testSkipEliminatedPlayers() {
-        // ((DummyPlayer) players.get(1)).eliminate(); // Elimina Bob
-        // Player bob = gameManager.getPlayers().get(1);
-
-        // assertEquals("Bob", turnManager.nextPlayer().getName()); // Bob eliminato, ma
-        // viene saltato
-        // assertEquals("Carol", turnManager.nextPlayer().getName());
-        // assertEquals("Alice", turnManager.nextPlayer().getName());
-        // assertEquals("Carol", turnManager.nextPlayer().getName());
+        // (test commentato)
     }
 
     @Test
@@ -89,7 +98,6 @@ public class TurnManagerTest {
         turnManager.nextPlayer(); // Carol
         turnManager.nextPlayer(); // Alice
 
-        assertTrue(turnManager.isNewRound()); // Dopo Carol torna Alice, nuovo round
+        assertTrue(turnManager.isNewRound());
     }
-
 }

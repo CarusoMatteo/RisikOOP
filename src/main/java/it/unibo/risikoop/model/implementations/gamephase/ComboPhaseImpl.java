@@ -16,7 +16,7 @@ import it.unibo.risikoop.model.interfaces.Territory;
  * @see GamePhase
  * @see Territory
  */
-public class ComboPhaseImpl implements GamePhase {
+public final class ComboPhaseImpl implements GamePhase {
 
     @Override
     public boolean isComplete() {
@@ -28,11 +28,11 @@ public class ComboPhaseImpl implements GamePhase {
     }
 
     @Override
-    public void selectTerritory(Territory t) {
+    public void selectTerritory(final Territory t) {
     }
 
     @Override
-    public void setUnitsToUse(int units) {
+    public void setUnitsToUse(final int units) {
     }
 
     @Override
