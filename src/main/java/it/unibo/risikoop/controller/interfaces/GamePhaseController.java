@@ -1,6 +1,7 @@
 package it.unibo.risikoop.controller.interfaces;
 
 import it.unibo.risikoop.model.interfaces.Territory;
+import it.unibo.risikoop.model.interfaces.TurnManager;
 
 /**
  * Controller interface for managing the different phases of the game.
@@ -17,6 +18,7 @@ public interface GamePhaseController {
      * Selects a territory to perform the current phase's action on.
      *
      * @param territory the {@link Territory} to select
+     * @throws IllegalArgumentException when territory selected is unusable
      */
     void selectTerritory(Territory territory);
 
@@ -46,6 +48,23 @@ public interface GamePhaseController {
      * @param units the number of units to use
      */
     void setUnitsToUse(int units);
+
+    /**
+     * Gives the actual game phase description.
+     * 
+     * @return a string holding the description
+     */
+    String getStateDescription();
+
+    /**
+     * return th turn manager for the faces.
+     * 
+     * @return the TurnManager object
+     */
+    TurnManager getTurnManager();
+
+    /**
+     * go to the next player in the list.
+     */
+    void nextPlayer();
 }
-
-

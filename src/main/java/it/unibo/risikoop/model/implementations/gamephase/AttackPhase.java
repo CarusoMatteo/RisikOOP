@@ -3,6 +3,7 @@ package it.unibo.risikoop.model.implementations.gamephase;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
@@ -37,6 +38,7 @@ public final class AttackPhase implements GamePhase {
     private Territory defenderDst;
     private int unitsToUse;
     private boolean isEnd;
+    private final GamePhaseController GamePhaseController;
 
     /**
      * Constructs a new AttackPhase associated with the given turn manager.
@@ -49,11 +51,12 @@ public final class AttackPhase implements GamePhase {
      * until an attacker territory is chosen.
      * </p>
      *
-     * @param turnManager the {@link TurnManager} that determines the current player
+     * @param gpc the {@link GamePhaseController}
      */
 
-    public AttackPhase(final TurnManager turnManager) {
-        this.turnManager = turnManager;
+    public AttackPhase(final GamePhaseController gpc) {
+        this.GamePhaseController = gpc;
+        this.turnManager = gpc.getTurnManager();
         this.logic = new LogicAttackImpl();
         this.state = PhaseState.SELECT_ATTACKER;
         this.attacker = turnManager.getCurrentPlayer();

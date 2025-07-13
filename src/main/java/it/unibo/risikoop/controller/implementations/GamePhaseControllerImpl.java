@@ -28,11 +28,27 @@ import it.unibo.risikoop.view.interfaces.RisikoView;
 public final class GamePhaseControllerImpl implements GamePhaseController {
 
     private enum PhaseKey {
-        INITIAL_REINFORCEMENT,
-        REINFORCEMENT,
-        COMBO,
-        ATTACK,
-        MOVEMENT;
+        INITIAL_REINFORCEMENT("Fase di rinforzo iniziale"),
+        REINFORCEMENT("Fase di rinforzo"),
+        COMBO("Fase di gestione combo"),
+        ATTACK("Fase di gestione attacchi"),
+        MOVEMENT("Fase di gestione spostamenti");
+
+        private final String desc;
+
+        PhaseKey(final String desc) {
+            this.desc = desc;
+        }
+
+        /**
+         * a method that returns the description of the phase.
+         * 
+         * @return a string holding the description
+         */
+        @SuppressWarnings("unused")
+        public String getLabelDesc() {
+            return String.copyValueOf(desc.toCharArray());
+        }
 
         PhaseKey next() {
             final int idx = (this.ordinal() + 1) % values().length;
@@ -63,11 +79,11 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         this.phases = new EnumMap<>(PhaseKey.class);
         this.viewList = viewList;
 
-        phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(tm, gm));
+        phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
-        phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(tm));
-        phases.put(PhaseKey.ATTACK, new AttackPhase(tm));
-        phases.put(PhaseKey.MOVEMENT, new MovementPhase(tm));
+        phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(gm, this));
+        phases.put(PhaseKey.ATTACK, new AttackPhase(this));
+        phases.put(PhaseKey.MOVEMENT, new MovementPhase(this));
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
         phases.get(current).initializationPhase();
@@ -113,12 +129,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
         // After MOVEMENT transitions to COMBO, advance to next player's turn
         if (prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO) {
-            turnManager.nextPlayer();
-            viewList.stream().map(v -> v.getMapScene())
-                    .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
-                            turnManager.getCurrentPlayer().getName(),
-                            turnManager.getCurrentPlayer().getColor())));
-
+            nextPlayer();
         }
     }
 
@@ -127,5 +138,24 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         if (phase().isComplete()) {
             advancePhase();
         }
+    }
+
+    @Override
+    public String getStateDescription() {
+        return String.copyValueOf(current.getLabelDesc().toCharArray());
+    }
+
+    @Override
+    public TurnManager getTurnManager() {
+        return turnManager;
+    }
+
+    @Override
+    public void nextPlayer() {
+        turnManager.nextPlayer();
+        viewList.stream().map(v -> v.getMapScene())
+                .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
+                        turnManager.getCurrentPlayer().getName(),
+                        turnManager.getCurrentPlayer().getColor())));
     }
 }
