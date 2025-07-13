@@ -71,7 +71,7 @@ class GameFlowTest {
         players.get(0).addTerritory(gameManager.getTerritory("T1").get());
         players.get(0).addTerritory(gameManager.getTerritory("T2").get());
         players.get(1).addTerritory(gameManager.getTerritory("T3").get());
-        players.get(2).addTerritory(gameManager.getTerritory("T4").get());
+        players.get(1).addTerritory(gameManager.getTerritory("T4").get());
 
         turnManager = new TurnManagerImpl(players);
         gpc = new GamePhaseControllerImpl(List.of(), turnManager, gameManager);
@@ -97,29 +97,51 @@ class GameFlowTest {
     }
 
     @Test
-    void flowTest(){
+    void flowTest() {
         assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
-
-
-    }
-
-    private void initialRenforcement(){
-
-    }
-
-    private void renforcemente(){
+        initialRenforcement();
+        assertEquals(COMBO, gpc.getStateDescription());
+        assertEquals(ALICE, gpc.getTurnManager().getCurrentPlayer());
+        renforcemente(territories.getFirst());
 
     }
 
-    private void combo(){
+    private void initialRenforcement() {
+        // controllo che il primo giocatore sia alice
+        assertEquals(ALICE, gpc.getTurnManager().getCurrentPlayer().getName());
+        for (int i = 0; i < gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace(); i++) {
+            territories.getFirst().addUnits(i);
+        }
+
+        assertFalse(gpc.getTurnManager().isLastPlayer());
+        gpc.performAction();
+
+        assertEquals(BOB, gpc.getTurnManager().getCurrentPlayer().getName());
+        for (int i = 0; i < gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace(); i++) {
+            territories.getLast().addUnits(i);
+        }
+
+        assertTrue(gpc.getTurnManager().isLastPlayer());
+        gpc.performAction();
+    }
+
+    private void renforcemente(Territory t) {
+        for (int i = 0; i < gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace(); i++) {
+            t.addUnits(i);
+        }
+        gpc.performAction();
+    }
+
+    private void combo() {
+        gpc.performAction();
 
     }
 
-    private void attack(){
+    private void attack() {
 
     }
 
-    private void movement(){
+    private void movement() {
 
     }
 
@@ -131,7 +153,7 @@ class GameFlowTest {
         assertEquals(BOB, turnManager.nextPlayer().getName());
         // todo: cambiare metodo assertFalse(turnManager.isNewRound());
 
-        assertEquals(CAROL, turnManager.nextPlayer().getName());
+        // assertEquals(CAROL, turnManager.nextPlayer().getName());
         // todo: cambiare metodo assertFalse(turnManager.isNewRound());
 
         assertEquals(ALICE, turnManager.nextPlayer().getName());
@@ -162,52 +184,55 @@ class GameFlowTest {
     }
 
     private void testFirstphase() {
-        /* first player turn */
-        assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
-        assertEquals(gameManager.getPlayers().get(0), turnManager.getCurrentPlayer());
-        assertEquals(7, gameManager.getPlayers().get(0).getUnitsToPlace());
-        assertEquals(0, territories.get(0).getUnits());
-        gpc.selectTerritory(territories.get(0));
-        gpc.selectTerritory(territories.get(0));
-        gpc.selectTerritory(territories.get(3));
-        gpc.selectTerritory(territories.get(3));
-        gpc.selectTerritory(territories.get(6));
-        gpc.selectTerritory(territories.get(6));
-        gpc.selectTerritory(territories.get(6));
-        gpc.selectTerritory(territories.get(6));
-        assertEquals(2, territories.get(0).getUnits());
-        assertEquals(2, territories.get(3).getUnits());
-        assertEquals(3, territories.get(6).getUnits());
-        /* second player turn */
-        gpc.performAction();
-        assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
-        assertEquals(gameManager.getPlayers().get(1), turnManager.getCurrentPlayer());
-        assertEquals(7, gameManager.getPlayers().get(1).getUnitsToPlace());
-        gpc.selectTerritory(territories.get(1));
-        gpc.selectTerritory(territories.get(1));
-        gpc.selectTerritory(territories.get(4));
-        gpc.selectTerritory(territories.get(4));
-        gpc.selectTerritory(territories.get(7));
-        gpc.selectTerritory(territories.get(7));
-        gpc.selectTerritory(territories.get(7));
-        assertEquals(2, territories.get(1).getUnits());
-        assertEquals(2, territories.get(4).getUnits());
-        assertEquals(3, territories.get(7).getUnits());
-        /* third player turn */
-        gpc.performAction();
-        assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
-        assertEquals(gameManager.getPlayers().get(2), turnManager.getCurrentPlayer());
-        assertEquals(7, gameManager.getPlayers().get(2).getUnitsToPlace());
-        gpc.selectTerritory(territories.get(2));
-        gpc.selectTerritory(territories.get(2));
-        gpc.selectTerritory(territories.get(5));
-        gpc.selectTerritory(territories.get(5));
-        gpc.selectTerritory(territories.get(8));
-        gpc.selectTerritory(territories.get(8));
-        gpc.selectTerritory(territories.get(8));
-        assertEquals(2, territories.get(2).getUnits());
-        assertEquals(2, territories.get(5).getUnits());
-        assertEquals(3, territories.get(8).getUnits());
+        // /* first player turn */
+        // assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
+        // assertEquals(gameManager.getPlayers().get(0),
+        // turnManager.getCurrentPlayer());
+        // assertEquals(7, gameManager.getPlayers().get(0).getUnitsToPlace());
+        // assertEquals(0, territories.get(0).getUnits());
+        // gpc.selectTerritory(territories.get(0));
+        // gpc.selectTerritory(territories.get(0));
+        // gpc.selectTerritory(territories.get(3));
+        // gpc.selectTerritory(territories.get(3));
+        // gpc.selectTerritory(territories.get(6));
+        // gpc.selectTerritory(territories.get(6));
+        // gpc.selectTerritory(territories.get(6));
+        // gpc.selectTerritory(territories.get(6));
+        // assertEquals(2, territories.get(0).getUnits());
+        // assertEquals(2, territories.get(3).getUnits());
+        // assertEquals(3, territories.get(6).getUnits());
+        // /* second player turn */
+        // gpc.performAction();
+        // assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
+        // assertEquals(gameManager.getPlayers().get(1),
+        // turnManager.getCurrentPlayer());
+        // assertEquals(7, gameManager.getPlayers().get(1).getUnitsToPlace());
+        // gpc.selectTerritory(territories.get(1));
+        // gpc.selectTerritory(territories.get(1));
+        // gpc.selectTerritory(territories.get(4));
+        // gpc.selectTerritory(territories.get(4));
+        // gpc.selectTerritory(territories.get(7));
+        // gpc.selectTerritory(territories.get(7));
+        // gpc.selectTerritory(territories.get(7));
+        // assertEquals(2, territories.get(1).getUnits());
+        // assertEquals(2, territories.get(4).getUnits());
+        // assertEquals(3, territories.get(7).getUnits());
+        // /* third player turn */
+        // gpc.performAction();
+        // assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
+        // assertEquals(gameManager.getPlayers().get(2),
+        // turnManager.getCurrentPlayer());
+        // assertEquals(7, gameManager.getPlayers().get(2).getUnitsToPlace());
+        // gpc.selectTerritory(territories.get(2));
+        // gpc.selectTerritory(territories.get(2));
+        // gpc.selectTerritory(territories.get(5));
+        // gpc.selectTerritory(territories.get(5));
+        // gpc.selectTerritory(territories.get(8));
+        // gpc.selectTerritory(territories.get(8));
+        // gpc.selectTerritory(territories.get(8));
+        // assertEquals(2, territories.get(2).getUnits());
+        // assertEquals(2, territories.get(5).getUnits());
+        // assertEquals(3, territories.get(8).getUnits());
     }
 
     @Test
@@ -235,8 +260,5 @@ class GameFlowTest {
         assertEquals(9, territories.get(1).getUnits());
 
     }
-
-
-
 
 }

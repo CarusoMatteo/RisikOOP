@@ -30,8 +30,8 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
     private enum PhaseKey {
         INITIAL_REINFORCEMENT("Fase di rinforzo iniziale"),
-        REINFORCEMENT("Fase di rinforzo"),
         COMBO("Fase di gestione combo"),
+        REINFORCEMENT("Fase di rinforzo"),
         ATTACK("Fase di gestione attacchi"),
         MOVEMENT("Fase di gestione spostamenti");
 
