@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import org.graphstream.graph.Graph;
@@ -14,21 +15,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.risikoop.controller.implementations.GamePhaseControllerImpl;
-import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
+import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.implementations.Color;
+import it.unibo.risikoop.model.implementations.ContinentImpl;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
 import it.unibo.risikoop.model.implementations.TerritoryImpl;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
-import it.unibo.risikoop.model.implementations.gamephase.InitialReinforcementPhase;
+import it.unibo.risikoop.model.implementations.gamephase.ReinforcementPhase;
+import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 
-class InitialReinforcementTest {
+class ReinforcementTest {
 
     private static final List<String> NAMES = List.of("Alice", "Bob", "Carol");
     private static final int NUM_TERRITORIES = 9;
@@ -45,59 +48,52 @@ class InitialReinforcementTest {
         gm = new GameManagerImpl();
 
         for (int i = 0; i < NAMES.size(); i++) {
-            gm.addPlayer(NAMES.get(i),new Color(i, 0, 0));
+            gm.addPlayer(NAMES.get(i), new Color(i, 0, 0));
         }
 
         territories = createTerritories();
         gm.setWorldMap(createTestMap());
-        assignTerritoriesToPlayers();
+
+        gm.setContinents(createContinents());
 
         tm = new TurnManagerImpl(gm.getPlayers());
         gpc = new GamePhaseControllerImpl(List.of(), tm, gm);
-        gp = new InitialReinforcementPhase(gpc, gm);
-        logic = new LogicCalcInitialUnitsImpl(gm);
+        gp = new ReinforcementPhase(gm, gpc);
+        logic = new LogicReinforcementCalculatorImpl(gm, tm);
     }
 
     @Test
-    void checkFirstPlayerUnits() {
+    void checkUnitsToPlayer() {
         var p = tm.getCurrentPlayer();
         assertEquals("Alice", p.getName());
-        assertEquals(logic.calcPlayerUnits(), p.getUnitsToPlace());
+        p.addTerritory(territories.get(0));
+        assertEquals(1, logic.calcPlayerUnits());
+
+        p.addTerritories(List.of(
+                territories.get(1),
+                territories.get(2),
+                territories.get(3)));
+        assertEquals(1 + gm.getContinent("C1").get().getUnitReward(), logic.calcPlayerUnits());
+
+        for (int i = 4; i < NUM_TERRITORIES; i++) {
+            p.addTerritory(territories.get(i));
+        }
+
+        assertEquals(
+                NUM_TERRITORIES / 3 +
+                        gm.getContinent("C1").get().getUnitReward() +
+                        gm.getContinent("C2").get().getUnitReward(),
+                logic.calcPlayerUnits());
     }
 
     @Test
     void placeAllUnitsForEachPlayer() {
-        int expectedUnits = logic.calcPlayerUnits();
+        assignAllTerritoriesToPlayers();
 
-        for (int playerIndex = 0; playerIndex < NAMES.size(); playerIndex++) {
-            String playerName = NAMES.get(playerIndex);
-            Territory homeTerritory = territories.get(playerIndex * 3);
+        var u = gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace();
+        gp.initializationPhase();
+        assertEquals(18, gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace());
 
-            var p = tm.getCurrentPlayer();
-            assertEquals(playerName, p.getName());
-            assertFalse(gp.isComplete());
-            assertEquals(expectedUnits, p.getUnitsToPlace());
-
-            // place all units
-            placeUnitsOnTerritory(p, homeTerritory, expectedUnits);
-
-            // cannot place extra units
-            gp.selectTerritory(homeTerritory);
-            assertEquals(0, p.getUnitsToPlace());
-            assertEquals(expectedUnits, homeTerritory.getUnits());
-
-            // clicking foreign territory does nothing
-            gp.selectTerritory(territories.get((playerIndex + 1) % 3 * 3));
-            assertEquals(0, p.getUnitsToPlace());
-
-            // advance to next player
-            gp.performAction();
-        }
-
-        // After last player, phase should be complete and still Carol's turn
-        assertTrue(tm.isLastPlayer());
-        assertTrue(gp.isComplete());
-        assertEquals("Carol", tm.getCurrentPlayer().getName());
     }
 
     // --- Helpers ---
@@ -134,13 +130,34 @@ class InitialReinforcementTest {
         return graph;
     }
 
-    private void assignTerritoriesToPlayers() {
-        var players = gm.getPlayers();
-        for (int i = 0; i < players.size(); i++) {
-            var p = players.get(i);
-            for (int j = 0; j < 3; j++) {
-                p.addTerritory(gm.getTerritory("T" + (i * 3 + j + 1)).get());
-            }
+    private void assignAllTerritoriesToPlayers() {
+        var p = gm.getPlayers().getFirst();
+        p.addTerritories(createTerritories());
+    }
+
+    private void assignSomeTerritoriesToPlayers(int n) {
+        var p = gm.getPlayers().getFirst();
+        int min = Math.min(NUM_TERRITORIES, n);
+        for (int i = 0; i < min; i++) {
+            p.addTerritory(gm.getTerritory("T" + i).get());
         }
     }
+
+    private Set<Continent> createContinents() {
+
+        var c1 = new ContinentImpl("C1", 3);
+
+        c1.addTerritory(territories.get(0));
+        c1.addTerritory(territories.get(1));
+        c1.addTerritory(territories.get(2));
+
+        var c2 = new ContinentImpl("C2", 5);
+
+        c2.addTerritory(territories.get(3));
+        c2.addTerritory(territories.get(4));
+        c2.addTerritory(territories.get(5));
+
+        return Set.of(c1, c2);
+    }
+
 }

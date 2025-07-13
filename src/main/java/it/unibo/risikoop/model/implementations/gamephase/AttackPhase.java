@@ -54,16 +54,20 @@ public final class AttackPhase implements GamePhase {
      * @param gpc the {@link GamePhaseController}
      */
 
-    public AttackPhase(final GamePhaseController gpc) {
+    public AttackPhase(final GamePhaseController gpc, final LogicAttack logic) {
         this.GamePhaseController = gpc;
         this.turnManager = gpc.getTurnManager();
-        this.logic = new LogicAttackImpl();
+        this.logic = logic;
         this.state = PhaseState.SELECT_ATTACKER;
         this.attacker = turnManager.getCurrentPlayer();
         this.attackerSrc = null;
         this.defenderDst = null;
         this.unitsToUse = 0;
         this.isEnd = true;
+    }
+
+    public AttackPhase(final GamePhaseController gpc) {
+        this(gpc, new LogicAttackImpl());
     }
 
     @Override

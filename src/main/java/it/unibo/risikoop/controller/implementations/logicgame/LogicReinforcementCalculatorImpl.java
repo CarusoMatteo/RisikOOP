@@ -52,7 +52,7 @@ public final class LogicReinforcementCalculatorImpl implements LogicReinforcemen
         final Player p = turnManager.getCurrentPlayer();
 
         return continents.stream()
-                .filter(c -> p.getTerritories().contains(c.getTerritories()))
+                .filter(c -> p.getTerritories().containsAll(c.getTerritories()))
                 .mapToInt(Continent::getUnitReward).sum();
     }
 }

@@ -24,7 +24,6 @@ public final class ReinforcementPhase implements GamePhase {
     private final TurnManager turnManager;
     private final LogicReinforcementCalculator logic;
     private final GamePhaseController gpc;
-    private boolean isFirtsReq;
 
     /**
      * Constructs a new ReinforcementPhase for the given turn manager.
@@ -35,7 +34,6 @@ public final class ReinforcementPhase implements GamePhase {
     public ReinforcementPhase(final GameManager gm, final GamePhaseController gpc) {
         this.gpc = gpc;
         this.turnManager = gpc.getTurnManager();
-        this.isFirtsReq = true;
         logic = new LogicReinforcementCalculatorImpl(gm, turnManager);
     }
 
@@ -50,13 +48,16 @@ public final class ReinforcementPhase implements GamePhase {
 
     @Override
     public void performAction() {
+        if (isComplete()) {
+            gpc.nextPhase();
+        }
         // if (isFirtsReq) {
-        //     isFirtsReq = false;
-        //     final Player current = turnManager.getCurrentPlayer();
-        //     if (current.getUnitsToPlace() <= 0 && !turnManager.isNewRound()) {
-        //         gpc.nextPlayer();
-        //         turnManager.getCurrentPlayer().addUnitsToPlace(logic.calcPlayerUnits());
-        //     }
+        // isFirtsReq = false;
+        // final Player current = turnManager.getCurrentPlayer();
+        // if (current.getUnitsToPlace() <= 0 && !turnManager.isNewRound()) {
+        // gpc.nextPlayer();
+        // turnManager.getCurrentPlayer().addUnitsToPlace(logic.calcPlayerUnits());
+        // }
         // }
     }
 
@@ -74,6 +75,7 @@ public final class ReinforcementPhase implements GamePhase {
 
     @Override
     public void initializationPhase() {
-        // TODO Auto-generated method stub
+        turnManager.getCurrentPlayer()
+                .addUnitsToPlace(logic.calcPlayerUnits());
     }
 }

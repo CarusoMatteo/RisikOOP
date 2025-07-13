@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import it.unibo.risikoop.controller.implementations.logicgame.AttackTest;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.implementations.gamephase.AttackPhase;
 import it.unibo.risikoop.model.implementations.gamephase.ComboPhaseImpl;
@@ -82,7 +83,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
         phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(gm, this));
-        phases.put(PhaseKey.ATTACK, new AttackPhase(this));
+        phases.put(PhaseKey.ATTACK, new AttackPhase(this, new AttackTest()));
         phases.put(PhaseKey.MOVEMENT, new MovementPhase(this));
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
