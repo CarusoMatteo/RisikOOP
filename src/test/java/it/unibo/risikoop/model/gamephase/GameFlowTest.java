@@ -38,7 +38,6 @@ class GameFlowTest {
     // evita literal duplicati
     private static final String ALICE = "Alice";
     private static final String BOB = "Bob";
-    private static final String CAROL = "Carol";
     private static final String INITIAL_REINFORCEMENT = "Fase di rinforzo iniziale";
     private static final String REINFORCEMENT = "Fase di rinforzo";
     private static final String COMBO = "Fase di gestione combo";
@@ -60,30 +59,19 @@ class GameFlowTest {
         gameManager = new GameManagerImpl();
         gameManager.addPlayer(ALICE, new Color(0, 0, 0));
         gameManager.addPlayer(BOB, new Color(1, 0, 0));
-        gameManager.addPlayer(CAROL, new Color(2, 0, 0));
 
         final var players = gameManager.getPlayers();
         territories = List.of(
                 new TerritoryImpl(gameManager, "T1"),
                 new TerritoryImpl(gameManager, "T2"),
                 new TerritoryImpl(gameManager, "T3"),
-                new TerritoryImpl(gameManager, "T4"),
-                new TerritoryImpl(gameManager, "T5"),
-                new TerritoryImpl(gameManager, "T6"),
-                new TerritoryImpl(gameManager, "T7"),
-                new TerritoryImpl(gameManager, "T8"),
-                new TerritoryImpl(gameManager, "T9"));
+                new TerritoryImpl(gameManager, "T4"));
         final Graph graph = createTestMap();
         gameManager.setWorldMap(graph);
         players.get(0).addTerritory(gameManager.getTerritory("T1").get());
-        players.get(1).addTerritory(gameManager.getTerritory("T2").get());
-        players.get(2).addTerritory(gameManager.getTerritory("T3").get());
-        players.get(0).addTerritory(gameManager.getTerritory("T4").get());
-        players.get(1).addTerritory(gameManager.getTerritory("T5").get());
-        players.get(2).addTerritory(gameManager.getTerritory("T6").get());
-        players.get(0).addTerritory(gameManager.getTerritory("T7").get());
-        players.get(1).addTerritory(gameManager.getTerritory("T8").get());
-        players.get(2).addTerritory(gameManager.getTerritory("T9").get());
+        players.get(0).addTerritory(gameManager.getTerritory("T2").get());
+        players.get(1).addTerritory(gameManager.getTerritory("T3").get());
+        players.get(2).addTerritory(gameManager.getTerritory("T4").get());
 
         turnManager = new TurnManagerImpl(players);
         gpc = new GamePhaseControllerImpl(List.of(), turnManager, gameManager);
@@ -94,19 +82,12 @@ class GameFlowTest {
                 "T1",
                 "T2",
                 "T3",
-                "T4",
-                "T5",
-                "T6",
-                "T7",
-                "T8",
-                "T9");
+                "T4");
         Graph graph = new MultiGraph(ALICE, false, true);
-        graph.addEdge("1", territoriesName.get(0), territoriesName.get(5));
-        graph.addEdge("2", territoriesName.get(2), territoriesName.get(4));
-        graph.addEdge("3", territoriesName.get(3), territoriesName.get(1));
-        graph.addEdge("6", territoriesName.get(7), territoriesName.get(8));
-        graph.addEdge("7", territoriesName.get(8), territoriesName.get(2));
-        graph.addEdge("7", territoriesName.get(6), territoriesName.get(2));
+        graph.addEdge("1", territoriesName.get(0), territoriesName.get(1));
+        graph.addEdge("2", territoriesName.get(1), territoriesName.get(2));
+        graph.addEdge("3", territoriesName.get(2), territoriesName.get(3));
+        graph.addEdge("4", territoriesName.get(3), territoriesName.get(0));
         return graph;
     }
 
