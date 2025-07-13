@@ -27,5 +27,5 @@ public interface TurnManager {
      *
      * @return true if a new round has started, false otherwise
      */
-    Boolean isNewRound();
+    Boolean isLastPlayer();
 }

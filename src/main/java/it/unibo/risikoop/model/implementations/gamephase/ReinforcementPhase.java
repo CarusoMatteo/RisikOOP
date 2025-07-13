@@ -50,14 +50,14 @@ public final class ReinforcementPhase implements GamePhase {
 
     @Override
     public void performAction() {
-        if (isFirtsReq) {
-            isFirtsReq = false;
-            final Player current = turnManager.getCurrentPlayer();
-            if (current.getUnitsToPlace() <= 0 && !turnManager.isNewRound()) {
-                gpc.nextPlayer();
-                turnManager.getCurrentPlayer().addUnitsToPlace(logic.calcPlayerUnits());
-            }
-        }
+        // if (isFirtsReq) {
+        //     isFirtsReq = false;
+        //     final Player current = turnManager.getCurrentPlayer();
+        //     if (current.getUnitsToPlace() <= 0 && !turnManager.isNewRound()) {
+        //         gpc.nextPlayer();
+        //         turnManager.getCurrentPlayer().addUnitsToPlace(logic.calcPlayerUnits());
+        //     }
+        // }
     }
 
     @Override

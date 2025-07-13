@@ -1,5 +1,7 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
+import java.io.Serial;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
@@ -38,14 +40,17 @@ public final class InitialReinforcementPhase implements GamePhase {
 
     @Override
     public boolean isComplete() {
-        return gpc.getTurnManager().isNewRound();
+        return gpc.getTurnManager().isLastPlayer() &&
+                gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace() == 0;
     }
 
     @Override
     public void performAction() {
         final Player p = gpc.getTurnManager().getCurrentPlayer();
 
-        if (p.getUnitsToPlace() <= 0 && !gpc.getTurnManager().isNewRound()) {
+        System.out.println(p.getName());
+
+        if (p.getUnitsToPlace() == 0 && !gpc.getTurnManager().isLastPlayer()) {
             gpc.nextPlayer();
             gpc.getTurnManager().getCurrentPlayer().addUnitsToPlace(initialUnits);
         }
@@ -55,11 +60,12 @@ public final class InitialReinforcementPhase implements GamePhase {
     public void selectTerritory(final Territory t) {
         final Player p = gpc.getTurnManager().getCurrentPlayer();
 
-        if (!p.getTerritories().contains(t)) {
-            throw new IllegalArgumentException("Player does not own the selected territory.");
-        }
+        // if (!p.getTerritories().contains(t)) {
+        // throw new IllegalArgumentException("Player does not own the selected
+        // territory.");
+        // }
 
-        if (p.getUnitsToPlace() > 0) {
+        if (p.getUnitsToPlace() > 0 && p.getTerritories().contains(t)) {
             t.addUnits(1);
             p.removeUnitsToPlace(1);
         }

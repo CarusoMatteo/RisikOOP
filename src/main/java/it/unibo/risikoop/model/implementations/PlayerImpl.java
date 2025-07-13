@@ -155,5 +155,4 @@ public final class PlayerImpl implements Player {
         return killer.isPresent();
     }
 
-
 }
