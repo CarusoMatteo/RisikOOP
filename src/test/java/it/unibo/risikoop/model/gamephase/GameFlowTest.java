@@ -36,8 +36,7 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
 class GameFlowTest {
 
     // evita literal duplicati
-    private static final String ALICE = "Alice";
-    private static final String BOB = "Bob";
+    private static final List<String> playerName = List.of("Alice", "Bob");
     private static final String INITIAL_REINFORCEMENT = "Fase di rinforzo iniziale";
     private static final String REINFORCEMENT = "Fase di rinforzo";
     private static final String COMBO = "Fase di gestione combo";
@@ -93,7 +92,7 @@ class GameFlowTest {
 
     @Test
     void testCurrentPlayer() {
-        assertEquals(ALICE, turnManager.getCurrentPlayer().getName());
+        assertEquals(playerName.getFirst(), turnManager.getCurrentPlayer().getName());
     }
 
     @Test
@@ -101,10 +100,21 @@ class GameFlowTest {
         assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
         initialRenforcement();
         assertEquals(COMBO, gpc.getStateDescription());
-        assertEquals(ALICE, gpc.getTurnManager().getCurrentPlayer());
+        assertEquals(playerName.getFirst(), gpc.getTurnManager().getCurrentPlayer());
         renforcemente(territories.getFirst());
 
     }
+
+    //
+    // 1) controllo che il giocatore corrente sia lui
+    // 2) controllo che la fase sia completa -> false
+    // 3) provo a cambiare fase devo restare sulla stessa
+    // 4) controllo che se metto le truppe su un territorio non mio non cambi nulla
+    // ovvero stesse struppe nel etrritorio selezionato e stesse truppe da
+    // posizionare per il giocatore
+    // 5) provo a posizionare una truppa sul mio territorio
+    // truppe del territorio + 1 truppe del giocatore - 1
+    // controllo che la fase sia completa -> true
 
     private void initialRenforcement() {
         // controllo che il primo giocatore sia alice
@@ -123,6 +133,23 @@ class GameFlowTest {
 
         assertTrue(gpc.getTurnManager().isLastPlayer());
         gpc.performAction();
+    }
+
+    private void InitialTurnExecutor(int playerIndex) {
+        var p = gpc.getTurnManager().getCurrentPlayer();
+        // 1) controllo che la fase sia quella corretta
+        assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
+        // 1) controllo che il giocatore corrente sia lui
+        assertEquals(playerName.get(playerIndex), p.getName());
+        
+        // 2) controllo che la fase sia completa -> false
+        // 3) provo a cambiare fase devo restare sulla stessa
+        // 4) controllo che se metto le truppe su un territorio non mio non cambi nulla
+        // ovvero stesse struppe nel etrritorio selezionato e stesse truppe da
+        // posizionare per il giocatore
+        // 5) provo a posizionare una truppa sul mio territorio
+        // truppe del territorio + 1 truppe del giocatore - 1
+        // controllo che la fase sia completa -> true
     }
 
     private void renforcemente(Territory t) {
