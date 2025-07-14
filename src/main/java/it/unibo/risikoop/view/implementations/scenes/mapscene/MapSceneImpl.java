@@ -49,36 +49,6 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         setDebugPanelColors();
         setLayout(new GridBagLayout());
         setGridBagConstraints();
-
-        new Thread(() -> {
-            try {
-                while (true) {
-                    Thread.sleep(1000);
-                    java.awt.Color randomColor = getRandomColor();
-                    javax.swing.SwingUtilities.invokeLater(() -> {
-                        // Genera una lunghezza casuale tra 5 e 15
-                        int randomLength = 5 + new java.util.Random().nextInt(11);
-                        // Genera una stringa casuale di quella lunghezza
-                        StringBuilder sb = new StringBuilder(randomLength);
-                        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                        java.util.Random randStr = new java.util.Random();
-                        for (int i = 0; i < randomLength; i++) {
-                            sb.append(chars.charAt(randStr.nextInt(chars.length())));
-                        }
-                        String randomPlayerName = "Giocatore " + sb.toString();
-                        updateCurrentPlayer(randomPlayerName, new it.unibo.risikoop.model.implementations.Color(
-                                randomColor.getRed(), randomColor.getGreen(), randomColor.getBlue()));
-                    });
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }).start();
-    }
-
-    private java.awt.Color getRandomColor() {
-        java.util.Random rand = new java.util.Random();
-        return new java.awt.Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
     }
 
     // TODO Remove when actual panels are implemented.
