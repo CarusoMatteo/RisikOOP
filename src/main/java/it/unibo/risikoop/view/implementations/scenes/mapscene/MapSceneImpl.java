@@ -53,11 +53,11 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         this.mapPanel = new MapJPanel(controller);
 
         // TODO: Remove getDebugCardPanel
-        // and make cardPanel final.
         // this.cardPanel = new CardJpanel(
         // data.getCurrentPlayerObjectiveCard(),
-        // data.getCurrentPlayerGameCards());
-        this.cardPanel = getDebugCardPanel();
+        // data.getCurrentPlayerGameCards(),
+        // controller);
+        this.cardPanel = getDebugCardPanel(controller);
 
         this.actionPanel = new ActionJPanel();
 
@@ -78,10 +78,9 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         cardPanel.updateCurrentPlayerCards(objectiveCard, cards);
     }
 
-    private CardJpanel getDebugCardPanel() {
+    private CardJpanel getDebugCardPanel(Controller controller) {
         return new CardJpanel(
                 new ObjectiveCard() {
-
                     @Override
                     public boolean isAchieved() {
                         return false;
@@ -106,7 +105,8 @@ public final class MapSceneImpl extends JPanel implements MapScene {
                         new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(new GameManagerImpl(), "Argentina")),
                         new WildCardImpl(),
                         new WildCardImpl(),
-                        new WildCardImpl()));
+                        new WildCardImpl()),
+                controller);
     }
 
     private void setGridBagConstraints() {

@@ -5,12 +5,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import it.unibo.risikoop.controller.interfaces.CardGameController;
+import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
@@ -21,6 +22,8 @@ import it.unibo.risikoop.model.interfaces.cards.GameCard;
 public final class CardJpanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
+    private final CardGameController controller;
+
     private final HideButtonJPanel hideButtonPanel;
     private final ObjectiveCardJPanel objectiveCardPanel;
     private final CardsListJPanel cardsListPanel;
@@ -28,11 +31,13 @@ public final class CardJpanel extends JPanel {
 
     private boolean isInfoVisible = false;
 
-    public CardJpanel(final ObjectiveCard objectiveCard, final List<GameCard> cards) {
+    public CardJpanel(final ObjectiveCard objectiveCard, final List<GameCard> cards, Controller controller) {
         this.hideButtonPanel = new HideButtonJPanel();
         this.objectiveCardPanel = new ObjectiveCardJPanel(objectiveCard);
         this.cardsListPanel = new CardsListJPanel(cards);
         this.playComboPanel = new PlayComboJPanel();
+
+        this.controller = controller.getCardGameController();
 
         setupPanels();
         hideInfo();
@@ -142,10 +147,8 @@ public final class CardJpanel extends JPanel {
         public PlayComboJPanel() {
             this.setLayout(new BorderLayout());
             this.playComboButton = new JButton(PLAY_COMBO_TEXT);
-            
             this.playComboButton.setPreferredSize(new Dimension(1, 1));
             this.playComboButton.setMinimumSize(new Dimension(1, 1));
-            
             this.add(this.playComboButton, BorderLayout.CENTER);
         }
     }
