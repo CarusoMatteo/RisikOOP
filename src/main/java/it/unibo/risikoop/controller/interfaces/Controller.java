@@ -5,6 +5,13 @@ package it.unibo.risikoop.controller.interfaces;
  */
 public interface Controller {
     /**
+     * Gives the card game controller.
+     * 
+     * @return the card game controller
+     */
+    CardGameController getCardGameController();
+
+    /**
      * @return the dataAdding controller.
      * 
      */

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import it.unibo.risikoop.controller.interfaces.CardGameController;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.controller.interfaces.DataAddingController;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
@@ -88,6 +89,11 @@ public final class ControllerImpl implements Controller {
     @Override
     public GamePhaseController getGamePhaseController() {
         return new GamePhaseControllerImpl(viewList, turnManager, gameManager);
+    }
+
+    @Override
+    public CardGameController getCardGameController() {
+        return new CardGameControllerImpl(gameManager);
     }
 
 }
