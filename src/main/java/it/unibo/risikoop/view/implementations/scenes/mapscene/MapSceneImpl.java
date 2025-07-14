@@ -57,7 +57,6 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
     // TODO Remove when actual panels are implemented.
     private void setDebugPanelColors() {
-        this.cardPanel.setBackground(Color.GREEN);
         this.actionPanel.setBackground(Color.ORANGE);
     }
 
@@ -66,9 +65,7 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         gbc.fill = GridBagConstraints.BOTH;
 
         final JPanel leftPanel = new JPanel();
-        leftPanel.setBackground(Color.BLACK);
         final JPanel rightPanel = new JPanel();
-        rightPanel.setBackground(Color.DARK_GRAY);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
