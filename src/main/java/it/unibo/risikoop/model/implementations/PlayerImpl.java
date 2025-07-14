@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.PlayerHand;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -24,6 +25,7 @@ public final class PlayerImpl implements Player {
     private final PlayerHand hand;
     private Optional<Player> killer;
     private int unitsToPlace;
+    private Optional<ObjectiveCard> objectiveCard;
 
     /**
      * @param name
@@ -37,6 +39,7 @@ public final class PlayerImpl implements Player {
         this.hand = new PlayerHandImpl();
         this.unitsToPlace = 0;
         this.killer = Optional.empty();
+        objectiveCard = Optional.empty();
     }
 
     /**
@@ -53,7 +56,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public boolean addTerritory(Territory territory) {
+    public boolean addTerritory(final Territory territory) {
         return territories.add(territory);
     }
 
@@ -140,7 +143,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void removeUnitsToPlace(int units) {
+    public void removeUnitsToPlace(final int units) {
         if (units < 0) {
             throw new IllegalArgumentException("Cannot remove a negative number of units to place.");
         }
@@ -155,5 +158,14 @@ public final class PlayerImpl implements Player {
         return killer.isPresent();
     }
 
+    @Override
+    public Optional<ObjectiveCard> getObjectiveCard() {
+        return objectiveCard;
+    }
+
+    @Override
+    public void setObjectiveCard(ObjectiveCard objectiveCard) {
+        this.objectiveCard = Optional.ofNullable(objectiveCard);
+    }
 
 }

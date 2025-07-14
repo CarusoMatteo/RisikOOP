@@ -126,10 +126,14 @@ public interface Player {
 
     /**
      * Returns the objective card of this player.
+     * 
      * @return the objective card of this player.
-     * Should be Optional?
+     *         Should be Optional?
      */
-    ObjectiveCard getObjectiveCard();
+    Optional<ObjectiveCard> getObjectiveCard();
 
-
+    /**
+     * Set objective card of this player.
+     */
+    void setObjectiveCard(ObjectiveCard objectiveCard);
 }
