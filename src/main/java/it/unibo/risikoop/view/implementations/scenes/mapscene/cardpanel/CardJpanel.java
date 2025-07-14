@@ -24,6 +24,7 @@ public final class CardJpanel extends JPanel {
     private final HideButtonJPanel hideButtonPanel;
     private final ObjectiveCardJPanel objectiveCardPanel;
     private final CardsListJPanel cardsListPanel;
+    private final PlayComboJPanel playComboPanel;
 
     private boolean isInfoVisible = false;
 
@@ -31,6 +32,7 @@ public final class CardJpanel extends JPanel {
         this.hideButtonPanel = new HideButtonJPanel();
         this.objectiveCardPanel = new ObjectiveCardJPanel(objectiveCard);
         this.cardsListPanel = new CardsListJPanel(cards);
+        this.playComboPanel = new PlayComboJPanel();
 
         setupPanels();
         hideInfo();
@@ -56,8 +58,13 @@ public final class CardJpanel extends JPanel {
 
         gbc.gridy = 2;
         gbc.weightx = 1;
-        gbc.weighty = 0.7;
+        gbc.weighty = 0.6;
         add(cardsListPanel, gbc);
+
+        gbc.gridy = 3;
+        gbc.weightx = 1;
+        gbc.weighty = 0.1;
+        add(playComboPanel, gbc);
     }
 
     public void updateCurrentPlayerCards(final ObjectiveCard objectiveCard, final List<GameCard> cards) {
@@ -125,6 +132,21 @@ public final class CardJpanel extends JPanel {
             } else {
                 this.hideButton.setText(SWOW_CARDS_TEXT);
             }
+        }
+    }
+
+    private class PlayComboJPanel extends JPanel {
+        private static final String PLAY_COMBO_TEXT = "Play combo";
+        private final JButton playComboButton;
+
+        public PlayComboJPanel() {
+            this.setLayout(new BorderLayout());
+            this.playComboButton = new JButton(PLAY_COMBO_TEXT);
+            
+            this.playComboButton.setPreferredSize(new Dimension(1, 1));
+            this.playComboButton.setMinimumSize(new Dimension(1, 1));
+            
+            this.add(this.playComboButton, BorderLayout.CENTER);
         }
     }
 }
