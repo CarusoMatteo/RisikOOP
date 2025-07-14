@@ -4,28 +4,32 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 
 public class CardsListJPanel extends JPanel {
+    private final Controller controller;
+    private final JButton playComboButton;
     private final JScrollPane scrollPane;
     private final CardEntryListJPanel cardEntryListPanel;
     private Set<GameCard> selectedCards = new HashSet<>();
 
-    public CardsListJPanel(final List<GameCard> cards) {
+    public CardsListJPanel(final List<GameCard> cards, final Controller controller,
+            final JButton playComboButton) {
         this.setLayout(new GridLayout(1, 1));
 
         this.setPreferredSize(new Dimension(1, 1));
@@ -36,6 +40,8 @@ public class CardsListJPanel extends JPanel {
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.add(scrollPane);
+        this.controller = controller;
+        this.playComboButton = playComboButton;
 
         updateCards(cards);
     }
@@ -63,6 +69,21 @@ public class CardsListJPanel extends JPanel {
             this.selectedCards.remove(card);
         }
 
+        if (selectedCards.size() == 3 && controller.getCardGameController().isComboValid(selectedCards)) {
+            System.out.println("Select -> Combo is valid, enabling button.");
+            this.playComboButton.setEnabled(true);
+        } else {
+            this.playComboButton.setEnabled(false);
+        }
+    }
+
+    public void playCombo() {
+        System.out.println("Play Combo -> Playing combo with selected cards: " + selectedCards);
+        this.controller.getCardGameController().useCombo(
+                controller.getDataRetrieveController().getCurrentPlayer(),
+                selectedCards);
+        this.updateCards(
+                controller.getDataRetrieveController().getCurrentPlayerGameCards());
     }
 
     private class CardEntryListJPanel extends JPanel {
@@ -75,6 +96,7 @@ public class CardsListJPanel extends JPanel {
         public void updateCards(final List<GameCard> cards) {
             this.removeAll();
             cards.stream().forEach(card -> this.add(new CardEntryJPanel(card)));
+            this.revalidate();
         }
     }
 

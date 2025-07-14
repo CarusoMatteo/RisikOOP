@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import it.unibo.risikoop.controller.interfaces.CardGameController;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
@@ -22,8 +21,6 @@ import it.unibo.risikoop.model.interfaces.cards.GameCard;
 public final class CardJpanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    private final CardGameController controller;
-
     private final HideButtonJPanel hideButtonPanel;
     private final ObjectiveCardJPanel objectiveCardPanel;
     private final CardsListJPanel cardsListPanel;
@@ -34,10 +31,8 @@ public final class CardJpanel extends JPanel {
     public CardJpanel(final ObjectiveCard objectiveCard, final List<GameCard> cards, Controller controller) {
         this.hideButtonPanel = new HideButtonJPanel();
         this.objectiveCardPanel = new ObjectiveCardJPanel(objectiveCard);
-        this.cardsListPanel = new CardsListJPanel(cards);
         this.playComboPanel = new PlayComboJPanel();
-
-        this.controller = controller.getCardGameController();
+        this.cardsListPanel = new CardsListJPanel(cards, controller, playComboPanel.getPlayComboButton());
 
         setupPanels();
         hideInfo();
@@ -149,7 +144,15 @@ public final class CardJpanel extends JPanel {
             this.playComboButton = new JButton(PLAY_COMBO_TEXT);
             this.playComboButton.setPreferredSize(new Dimension(1, 1));
             this.playComboButton.setMinimumSize(new Dimension(1, 1));
+            this.playComboButton.setEnabled(false);
+            this.playComboButton.addActionListener(e -> {
+                cardsListPanel.playCombo();
+            });
             this.add(this.playComboButton, BorderLayout.CENTER);
+        }
+
+        public JButton getPlayComboButton() {
+            return this.playComboButton;
         }
     }
 }
