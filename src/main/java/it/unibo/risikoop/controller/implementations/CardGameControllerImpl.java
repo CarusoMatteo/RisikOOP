@@ -83,5 +83,6 @@ public final class CardGameControllerImpl implements CardGameController {
                 .sum();
 
         player.addUnitsToPlace(comboReward.get() + territoryReward);
+        player.getHand().removeCards(cards);
     }
 }
