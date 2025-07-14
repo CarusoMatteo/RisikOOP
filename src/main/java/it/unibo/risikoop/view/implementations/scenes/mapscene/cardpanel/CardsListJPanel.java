@@ -18,10 +18,14 @@ public class CardsListJPanel extends JPanel {
     }
 
 	public void hideInfo() {
+        System.out.println("Hide -> Hiding all cards.");
+
 		// TODO Auto-generated method stub
 	}
 
 	public void showInfo() {
-		// TODO Auto-generated method stub
+        System.out.println("Show -> Showing all cards.");
+
+        // TODO Auto-generated method stub
 	}
 }

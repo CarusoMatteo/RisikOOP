@@ -33,8 +33,7 @@ public final class CardJpanel extends JPanel {
         this.cardsListPanel = new CardsListJPanel(cards);
 
         setupPanels();
-
-        updateCurrentPlayerCards(objectiveCard, cards);
+        hideInfo();
     }
 
     private void setupPanels() {
@@ -43,7 +42,6 @@ public final class CardJpanel extends JPanel {
         final GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
 
-        // this.hideButtonPanel.setBackground(Color.LIGHT_GRAY);
         this.objectiveCardPanel.setBackground(new Color(0x23241E));
 
         gbc.gridy = 0;
@@ -69,6 +67,8 @@ public final class CardJpanel extends JPanel {
     }
 
     private void toggleInfoVisibility() {
+        System.out.println("Toggle -> Toggling info visibility.");
+
         if (isInfoVisible) {
             hideInfo();
         } else {
@@ -81,6 +81,8 @@ public final class CardJpanel extends JPanel {
      * Hide the cards.
      */
     private void hideInfo() {
+        System.out.println("Hide -> Hiding everything");
+
         this.objectiveCardPanel.hideInfo();
         this.cardsListPanel.hideInfo();
 
