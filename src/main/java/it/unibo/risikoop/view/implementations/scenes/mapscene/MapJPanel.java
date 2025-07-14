@@ -30,8 +30,8 @@ public final class MapJPanel extends JPanel implements ViewerListener {
             """;
 
     private final transient Controller controller;
-    private final Graph graph;
-    private final SwingViewer viewer;
+    private final transient Graph graph;
+    private final transient SwingViewer viewer;
     private final View view;
     private final ViewPanel panel;
     private Boolean loop = true;
@@ -74,11 +74,13 @@ public final class MapJPanel extends JPanel implements ViewerListener {
         }).start();
     }
 
+    // Thread.sleep is used to control the loop timing,
+    // we have no logger in this project.
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     private void sleep(final int millis) {
         try {
             Thread.sleep(millis);
         } catch (final InterruptedException e) {
-            e.printStackTrace();
         }
     }
 

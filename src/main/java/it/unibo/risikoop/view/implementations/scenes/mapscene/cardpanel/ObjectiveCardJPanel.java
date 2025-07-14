@@ -12,14 +12,16 @@ import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 /**
  * Panel to display the Objective Card in MapScene's CardJPanel.
  */
-public class ObjectiveCardJPanel extends JPanel {
+public final class ObjectiveCardJPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
     private static final String CARD_HIDDEN_TEXT = "Objective Card hidden.";
 
-    private ObjectiveCard currenObjectiveCard;
+    private transient ObjectiveCard currenObjectiveCard;
     private final JLabel descriptionLabel;
 
     /**
      * Constructor for ObjectiveCardJPanel.
+     * 
      * @param objectiveCard The ObjectiveCard to display for the first time.
      */
     public ObjectiveCardJPanel(final ObjectiveCard objectiveCard) {
@@ -39,6 +41,7 @@ public class ObjectiveCardJPanel extends JPanel {
 
     /**
      * Updates the ObjectiveCard displayed in this panel.
+     * 
      * @param objectiveCard The new ObjectiveCard to display.
      */
     public void updateObjectiveCard(final ObjectiveCard objectiveCard) {

@@ -22,10 +22,11 @@ public interface Player {
 
     /**
      * Gives a territory to the player.
+     * 
      * @param territory the territory to give to the player.
      * @return if the addition was successful.
      */
-    default boolean addTerritory(Territory territory) {
+    default boolean addTerritory(final Territory territory) {
         return addTerritories(List.of(territory));
     }
 

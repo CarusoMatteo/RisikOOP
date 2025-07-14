@@ -126,7 +126,9 @@ public final class CardJpanel extends JPanel {
     /**
      * Class to create a panel with a button to toggle the cards' visibility.
      */
-    private class HideButtonJPanel extends JPanel {
+    private final class HideButtonJPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+
         private static final String HIDE_CARDS_TEXT = "Hide Cards";
         private static final String SWOW_CARDS_TEXT = "Show Cards";
 
@@ -163,7 +165,9 @@ public final class CardJpanel extends JPanel {
     /**
      * Class to create a panel with a button to play the card combo.
      */
-    private class PlayComboJPanel extends JPanel {
+    private final class PlayComboJPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+
         private static final String PLAY_COMBO_TEXT = "Play combo";
         private final JButton playComboButton;
 

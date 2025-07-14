@@ -25,12 +25,14 @@ import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
  * JPanel to display a list of cards within a ScrollPane.
  * Allows selection of cards with checkboxes.
  */
-public class CardsListJPanel extends JPanel {
-    private final Controller controller;
+public final class CardsListJPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
+
+    private final transient Controller controller;
     private final JButton playComboButton;
     private final JScrollPane scrollPane;
     private final CardEntryListJPanel cardEntryListPanel;
-    private final Set<GameCard> selectedCards = new HashSet<>();
+    private final transient Set<GameCard> selectedCards = new HashSet<>();
 
     /**
      * Constructor for CardsListJPanel.
@@ -41,6 +43,10 @@ public class CardsListJPanel extends JPanel {
      * @param playComboButton The button that needs to be enabled to play a combo of
      *                        selected cards.
      */
+    /*
+     * Suppressed because the comboButton is not changed.
+     */
+    @SuppressWarnings("EI_EXPOSE_REP")
     public CardsListJPanel(final List<GameCard> cards,
             final Controller controller,
             final JButton playComboButton) {
@@ -66,7 +72,6 @@ public class CardsListJPanel extends JPanel {
      * @param cards
      */
     public void updateCards(final List<GameCard> cards) {
-        System.out.println("UpdCards -> Updating cards with new list.");
         this.cardEntryListPanel.updateCards(cards);
     }
 
@@ -111,7 +116,6 @@ public class CardsListJPanel extends JPanel {
      * This method should be called when the play combo button is clicked.
      */
     public void playCombo() {
-        System.out.println("Play Combo -> Playing combo");
         this.controller.getCardGameController().useCombo(
                 controller.getDataRetrieveController().getCurrentPlayer(),
                 selectedCards);
@@ -122,7 +126,9 @@ public class CardsListJPanel extends JPanel {
     /**
      * Class to display a list of card entries.
      */
-    private class CardEntryListJPanel extends JPanel {
+    private final class CardEntryListJPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+
         /**
          * Constructor for CardEntryListJPanel.
          * 
@@ -147,7 +153,9 @@ public class CardsListJPanel extends JPanel {
     /**
      * Class to display a single card entry with a checkbox, an icon and the name.
      */
-    private class CardEntryJPanel extends JPanel {
+    private final class CardEntryJPanel extends JPanel {
+        private static final double ICON_ASPECT_RATIO = 1.8;
+        private static final long serialVersionUID = 1L;
         private static final int ICON_HEIGHT = 64;
 
         private final GameCard card;
@@ -180,7 +188,7 @@ public class CardsListJPanel extends JPanel {
             }
             final ImageIcon resizedIcon = new ImageIcon(new ImageIcon(getClass().getResource(resoucePath.toString()))
                     .getImage()
-                    .getScaledInstance((int) (ICON_HEIGHT * 1.8), (int) ICON_HEIGHT, Image.SCALE_SMOOTH));
+                    .getScaledInstance((int) (ICON_HEIGHT * ICON_ASPECT_RATIO), ICON_HEIGHT, Image.SCALE_SMOOTH));
 
             final String text;
             if (card.isTerritoryCard()) {

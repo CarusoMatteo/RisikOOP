@@ -127,6 +127,11 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
+    @SuppressWarnings("EI_EXPOSE_REP")
+    /*
+     * Suppressed because the hand is given as a way
+     * to get/modifiy the player's cards.
+     */
     public PlayerHand getHand() {
         return this.hand;
     }
