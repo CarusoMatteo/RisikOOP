@@ -9,8 +9,14 @@ import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
+import it.unibo.risikoop.model.implementations.GameManagerImpl;
+import it.unibo.risikoop.model.implementations.TerritoryImpl;
+import it.unibo.risikoop.model.implementations.gamecards.territorycard.TerritoryCardImpl;
+import it.unibo.risikoop.model.implementations.gamecards.territorycard.WildCardImpl;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
+import it.unibo.risikoop.model.interfaces.cards.UnitType;
+import it.unibo.risikoop.view.implementations.scenes.mapscene.cardpanel.CardJpanel;
 import it.unibo.risikoop.view.interfaces.MapScene;
 
 /**
@@ -25,7 +31,7 @@ public final class MapSceneImpl extends JPanel implements MapScene {
     // private final Controller controller;
     private final CurrentPlayerJPanel currentPlayerPanel;
     private final JPanel mapPanel;
-    private CardJpanel cardPanel;
+    private final CardJpanel cardPanel;
     private final JPanel actionPanel;
 
     /**
@@ -46,38 +52,61 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
         this.mapPanel = new MapJPanel(controller);
 
-        // TODO: Remove try-catch when objective cards setup are implemented
+        // TODO: Remove getDebugCardPanel
         // and make cardPanel final.
-        try {
-            this.cardPanel = new CardJpanel(
-                    data.getCurrentPlayerObjectiveCard(),
-                    data.getCurrentPlayerGameCards());
-        } catch (final Exception e) {
-            this.cardPanel = new CardJpanel(
-                    new ObjectiveCard() {
+        // this.cardPanel = new CardJpanel(
+        // data.getCurrentPlayerObjectiveCard(),
+        // data.getCurrentPlayerGameCards());
+        this.cardPanel = getDebugCardPanel();
 
-                        @Override
-                        public boolean isAchieved() {
-                            return false;
-                        }
-
-                        @Override
-                        public String getDescription() {
-                            return "Conquer 24 territories.";
-                        }
-                    },
-                    data.getCurrentPlayerGameCards());
-        }
         this.actionPanel = new ActionJPanel();
 
-        setDebugPanelColors();
         setLayout(new GridBagLayout());
         setGridBagConstraints();
     }
 
-    // TODO Remove when actual panels are implemented.
-    private void setDebugPanelColors() {
-        this.actionPanel.setBackground(Color.ORANGE);
+    @Override
+    public void updateCurrentPlayer(
+            final String playerName,
+            final it.unibo.risikoop.model.implementations.Color playerColor,
+            final ObjectiveCard objectiveCard,
+            final List<GameCard> cards) {
+
+        currentPlayerPanel.updateCurrentPlayer(
+                playerName,
+                new Color(playerColor.r(), playerColor.g(), playerColor.b()));
+        cardPanel.updateCurrentPlayerCards(objectiveCard, cards);
+    }
+
+    private CardJpanel getDebugCardPanel() {
+        return new CardJpanel(
+                new ObjectiveCard() {
+
+                    @Override
+                    public boolean isAchieved() {
+                        return false;
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "Conquer 24 territories.";
+                    }
+                },
+                List.of(new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(new GameManagerImpl(), "")),
+                        new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(new GameManagerImpl(), "")),
+                        new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(new GameManagerImpl(), "")),
+                        new WildCardImpl(),
+                        new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(new GameManagerImpl(), "")),
+                        new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(new GameManagerImpl(), "")),
+                        new WildCardImpl(),
+                        new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(new GameManagerImpl(), "")),
+                        new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(new GameManagerImpl(), "")),
+                        new WildCardImpl(),
+                        new WildCardImpl(),
+                        new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(new GameManagerImpl(), "")),
+                        new WildCardImpl(),
+                        new WildCardImpl(),
+                        new WildCardImpl()));
     }
 
     private void setGridBagConstraints() {
@@ -137,18 +166,5 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         gbc.weightx = 1;
         gbc.weighty = SMALL_PANEL_PROPORTION;
         rightPanel.add(this.actionPanel, gbc);
-    }
-
-    @Override
-    public void updateCurrentPlayer(
-            String playerName,
-            it.unibo.risikoop.model.implementations.Color playerColor,
-            ObjectiveCard objectiveCard,
-            List<GameCard> cards) {
-
-        currentPlayerPanel.updateCurrentPlayer(
-                playerName,
-                new Color(playerColor.r(), playerColor.g(), playerColor.b()));
-        cardPanel.updateCurrentPlayerCards(objectiveCard, cards);
     }
 }
