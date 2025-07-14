@@ -122,7 +122,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
         // Skip INITIAL_REINFORCEMENT in subsequent turns
         if (initialDone && next == PhaseKey.INITIAL_REINFORCEMENT) {
-            next = PhaseKey.REINFORCEMENT;
+            next = PhaseKey.COMBO;
         }
 
         current = next;

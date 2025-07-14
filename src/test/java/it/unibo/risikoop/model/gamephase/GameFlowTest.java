@@ -115,13 +115,52 @@ class GameFlowTest {
     void flowTest() {
         assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
         initialRenforcement();
+        renforcementOnlyGame(0);
+        renforcementOnlyGame(1);
+        assertEquals(playerNames.getFirst(), gpc.getTurnManager().getCurrentPlayer().getName());
+        // assertEquals(COMBO, gpc.getStateDescription());
+        // combo();
+        // assertEquals(REINFORCEMENT, gpc.getStateDescription());
+        // renforcemente(0);
+        // assertEquals(ATTACK, gpc.getStateDescription());
+    }
+
+    private void renforcementOnlyGame(int playerIndex) {
+        // faccio la fase di combo, non gioco nulla e vado oltre
+        assertEquals(
+                playerNames.get(playerIndex),
+                gpc.getTurnManager().getCurrentPlayer().getName());
         assertEquals(COMBO, gpc.getStateDescription());
         combo();
+
+        // piazzo le truppe
+        assertEquals(
+                playerNames.get(playerIndex),
+                gpc.getTurnManager().getCurrentPlayer().getName());
         assertEquals(REINFORCEMENT, gpc.getStateDescription());
-        renforcemente(0);
+        renforcemente(playerIndex);
+
+        // skippo la fase di attacco
+        assertEquals(
+                playerNames.get(playerIndex),
+                gpc.getTurnManager().getCurrentPlayer().getName());
         assertEquals(ATTACK, gpc.getStateDescription());
+        gpc.nextPhase();
 
+        // skippo la fase di spostamento
+        assertEquals(
+                playerNames.get(playerIndex),
+                gpc.getTurnManager().getCurrentPlayer().getName());
+        assertEquals(MOVEMENT, gpc.getStateDescription());
+        gpc.nextPhase();
 
+        // dopo la fase di sostamento devo essere tornato alla fase di combo con il
+        // giocatore successivo
+        var i = playerIndex == playerNames.size() - 1 ? 0 : playerIndex + 1;
+        assertEquals(
+                playerNames.get(i),
+                gpc.getTurnManager().getCurrentPlayer().getName());
+        assertEquals(COMBO, gpc.getStateDescription());
     }
 
     //
