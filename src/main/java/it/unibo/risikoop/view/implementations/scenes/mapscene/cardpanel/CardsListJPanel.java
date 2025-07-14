@@ -21,14 +21,28 @@ import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 
+/**
+ * JPanel to display a list of cards within a ScrollPane.
+ * Allows selection of cards with checkboxes.
+ */
 public class CardsListJPanel extends JPanel {
     private final Controller controller;
     private final JButton playComboButton;
     private final JScrollPane scrollPane;
     private final CardEntryListJPanel cardEntryListPanel;
-    private Set<GameCard> selectedCards = new HashSet<>();
+    private final Set<GameCard> selectedCards = new HashSet<>();
 
-    public CardsListJPanel(final List<GameCard> cards, final Controller controller,
+    /**
+     * Constructor for CardsListJPanel.
+     * 
+     * @param cards           The cards to display in the list for the first time.
+     * @param controller      The controller to retrieve the player's cards and to
+     *                        check if a combo is vaild.
+     * @param playComboButton The button that needs to be enabled to play a combo of
+     *                        selected cards.
+     */
+    public CardsListJPanel(final List<GameCard> cards,
+            final Controller controller,
             final JButton playComboButton) {
         this.setLayout(new GridLayout(1, 1));
 
@@ -46,39 +60,58 @@ public class CardsListJPanel extends JPanel {
         updateCards(cards);
     }
 
+    /**
+     * Updates the list of cards displayed in the panel.
+     * 
+     * @param cards
+     */
     public void updateCards(final List<GameCard> cards) {
+        System.out.println("UpdCards -> Updating cards with new list.");
         this.cardEntryListPanel.updateCards(cards);
     }
 
+    /**
+     * Hides the card list in the panel.
+     */
     public void hideInfo() {
-        System.out.println("Hide -> Hiding all cards.");
         this.cardEntryListPanel.setVisible(false);
     }
 
+    /**
+     * Shows the card list in the panel.
+     */
     public void showInfo() {
-        System.out.println("Show -> Showing all cards.");
         this.cardEntryListPanel.setVisible(true);
     }
 
+    /**
+     * Tracks selection and deselection of cards.
+     * Enables the play combo button if three valid cards are selected.
+     * 
+     * @param card       The card that is being selected or deselected.
+     * @param isSelected True if the card was just selected, false if it was just
+     *                   deselected.
+     */
     public void selectCard(final GameCard card, final boolean isSelected) {
         if (isSelected) {
-            System.out.println("Select -> Card " + card.getType() + " was selected.");
             this.selectedCards.add(card);
         } else {
-            System.out.println("Deselect -> Card " + card.getType() + " was deselected.");
             this.selectedCards.remove(card);
         }
 
         if (selectedCards.size() == 3 && controller.getCardGameController().isComboValid(selectedCards)) {
-            System.out.println("Select -> Combo is valid, enabling button.");
             this.playComboButton.setEnabled(true);
         } else {
             this.playComboButton.setEnabled(false);
         }
     }
 
+    /**
+     * Plays the combo of selected cards.
+     * This method should be called when the play combo button is clicked.
+     */
     public void playCombo() {
-        System.out.println("Play Combo -> Playing combo with selected cards: " + selectedCards);
+        System.out.println("Play Combo -> Playing combo");
         this.controller.getCardGameController().useCombo(
                 controller.getDataRetrieveController().getCurrentPlayer(),
                 selectedCards);
@@ -86,27 +119,46 @@ public class CardsListJPanel extends JPanel {
                 controller.getDataRetrieveController().getCurrentPlayerGameCards());
     }
 
+    /**
+     * Class to display a list of card entries.
+     */
     private class CardEntryListJPanel extends JPanel {
-
-        public CardEntryListJPanel(final List<GameCard> cards) {
+        /**
+         * Constructor for CardEntryListJPanel.
+         * 
+         * @param cards The list of cards to display in the panel for the first time.
+         */
+        CardEntryListJPanel(final List<GameCard> cards) {
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             updateCards(cards);
         }
 
+        /**
+         * Updates the list of cards displayed in the panel.
+         * 
+         * @param cards The new list of cards to display.
+         */
         public void updateCards(final List<GameCard> cards) {
             this.removeAll();
             cards.stream().forEach(card -> this.add(new CardEntryJPanel(card)));
-            this.revalidate();
         }
     }
 
+    /**
+     * Class to display a single card entry with a checkbox, an icon and the name.
+     */
     private class CardEntryJPanel extends JPanel {
         private static final int ICON_HEIGHT = 64;
 
         private final GameCard card;
         private final JCheckBox checkBox;
 
-        public CardEntryJPanel(final GameCard card) {
+        /**
+         * Constructor for CardEntryJPanel.
+         * 
+         * @param card The card to display in the entry.
+         */
+        CardEntryJPanel(final GameCard card) {
             this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
             this.card = card;
@@ -126,12 +178,11 @@ public class CardsListJPanel extends JPanel {
                     resoucePath.append("wild.png");
                     break;
             }
-            ImageIcon icon = new ImageIcon(getClass().getResource(resoucePath.toString()));
-            Image scaledImage = icon.getImage()
-                    .getScaledInstance((int) (ICON_HEIGHT * 1.8), (int) ICON_HEIGHT, Image.SCALE_SMOOTH);
-            ImageIcon resizedIcon = new ImageIcon(scaledImage);
+            final ImageIcon resizedIcon = new ImageIcon(new ImageIcon(getClass().getResource(resoucePath.toString()))
+                    .getImage()
+                    .getScaledInstance((int) (ICON_HEIGHT * 1.8), (int) ICON_HEIGHT, Image.SCALE_SMOOTH));
 
-            String text;
+            final String text;
             if (card.isTerritoryCard()) {
                 text = ((TerritoryCard) card).getAssociatedTerritory().getName();
             } else {

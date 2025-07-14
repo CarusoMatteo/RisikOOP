@@ -21,14 +21,28 @@ import it.unibo.risikoop.model.interfaces.cards.GameCard;
 public final class CardJpanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
+    private static final double BUTTON_PROPORTIONS = 0.1;
+    private static final double SMALL_PANEL_PROPORTIONS = 0.2;
+    private static final double BIG_PANEL_PROPORTIONS = 0.6;
+
+    private static final int OBJECTIVE_PANEL_BACKGROUND_COLOR = 0x23241E;
+
     private final HideButtonJPanel hideButtonPanel;
     private final ObjectiveCardJPanel objectiveCardPanel;
     private final CardsListJPanel cardsListPanel;
     private final PlayComboJPanel playComboPanel;
 
-    private boolean isInfoVisible = false;
+    private boolean isInfoVisible;
 
-    public CardJpanel(final ObjectiveCard objectiveCard, final List<GameCard> cards, Controller controller) {
+    /**
+     * Constructor for CardJpanel.
+     * 
+     * @param objectiveCard The objective card to display for the first time.
+     * @param cards         The list of game cards to display for the first time.
+     * @param controller    The controller to retrieve the player's cards and to
+     *                      check if a combo is vaild.
+     */
+    public CardJpanel(final ObjectiveCard objectiveCard, final List<GameCard> cards, final Controller controller) {
         this.hideButtonPanel = new HideButtonJPanel();
         this.objectiveCardPanel = new ObjectiveCardJPanel(objectiveCard);
         this.playComboPanel = new PlayComboJPanel();
@@ -44,29 +58,35 @@ public final class CardJpanel extends JPanel {
         final GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
 
-        this.objectiveCardPanel.setBackground(new Color(0x23241E));
+        this.objectiveCardPanel.setBackground(new Color(OBJECTIVE_PANEL_BACKGROUND_COLOR));
 
         gbc.gridy = 0;
         gbc.weightx = 1;
-        gbc.weighty = 0.1;
+        gbc.weighty = BUTTON_PROPORTIONS;
         add(hideButtonPanel, gbc);
 
         gbc.gridy = 1;
         gbc.weightx = 1;
-        gbc.weighty = 0.2;
+        gbc.weighty = SMALL_PANEL_PROPORTIONS;
         add(objectiveCardPanel, gbc);
 
         gbc.gridy = 2;
         gbc.weightx = 1;
-        gbc.weighty = 0.6;
+        gbc.weighty = BIG_PANEL_PROPORTIONS;
         add(cardsListPanel, gbc);
 
         gbc.gridy = 3;
         gbc.weightx = 1;
-        gbc.weighty = 0.1;
+        gbc.weighty = BUTTON_PROPORTIONS;
         add(playComboPanel, gbc);
     }
 
+    /**
+     * Update the current player's objective card and cards.
+     * 
+     * @param objectiveCard The objective card to display.
+     * @param cards         The list of game cards to display.
+     */
     public void updateCurrentPlayerCards(final ObjectiveCard objectiveCard, final List<GameCard> cards) {
         this.objectiveCardPanel.updateObjectiveCard(objectiveCard);
         this.cardsListPanel.updateCards(List.copyOf(cards));
@@ -74,8 +94,6 @@ public final class CardJpanel extends JPanel {
     }
 
     private void toggleInfoVisibility() {
-        System.out.println("Toggle -> Toggling info visibility.");
-
         if (isInfoVisible) {
             hideInfo();
         } else {
@@ -84,12 +102,9 @@ public final class CardJpanel extends JPanel {
     }
 
     /**
-     * Hide objective card description.
-     * Hide the cards.
+     * Hide objective card description and the cards.
      */
     private void hideInfo() {
-        System.out.println("Hide -> Hiding everything");
-
         this.objectiveCardPanel.hideInfo();
         this.cardsListPanel.hideInfo();
 
@@ -98,8 +113,7 @@ public final class CardJpanel extends JPanel {
     }
 
     /**
-     * Show objective card description.
-     * Show the cards.
+     * Show objective card description and the cards.
      */
     private void showInfo() {
         this.objectiveCardPanel.showInfo();
@@ -109,13 +123,19 @@ public final class CardJpanel extends JPanel {
         this.hideButtonPanel.toggleText(isInfoVisible);
     }
 
+    /**
+     * Class to create a panel with a button to toggle the cards' visibility.
+     */
     private class HideButtonJPanel extends JPanel {
         private static final String HIDE_CARDS_TEXT = "Hide Cards";
         private static final String SWOW_CARDS_TEXT = "Show Cards";
 
         private final JButton hideButton;
 
-        public HideButtonJPanel() {
+        /**
+         * Constructor for HideButtonJPanel.
+         */
+        HideButtonJPanel() {
             this.setLayout(new BorderLayout());
 
             this.hideButton = new JButton(SWOW_CARDS_TEXT);
@@ -126,7 +146,12 @@ public final class CardJpanel extends JPanel {
             this.add(this.hideButton, BorderLayout.CENTER);
         }
 
-        public void toggleText(boolean newVisibility) {
+        /**
+         * Toggle the text of the button based on the visibility state.
+         * 
+         * @param newVisibility The new visibility state.
+         */
+        public void toggleText(final boolean newVisibility) {
             if (newVisibility) {
                 this.hideButton.setText(HIDE_CARDS_TEXT);
             } else {
@@ -135,11 +160,17 @@ public final class CardJpanel extends JPanel {
         }
     }
 
+    /**
+     * Class to create a panel with a button to play the card combo.
+     */
     private class PlayComboJPanel extends JPanel {
         private static final String PLAY_COMBO_TEXT = "Play combo";
         private final JButton playComboButton;
 
-        public PlayComboJPanel() {
+        /**
+         * Constructor for PlayComboJPanel.
+         */
+        PlayComboJPanel() {
             this.setLayout(new BorderLayout());
             this.playComboButton = new JButton(PLAY_COMBO_TEXT);
             this.playComboButton.setPreferredSize(new Dimension(1, 1));
@@ -151,6 +182,11 @@ public final class CardJpanel extends JPanel {
             this.add(this.playComboButton, BorderLayout.CENTER);
         }
 
+        /**
+         * Returns the button to play the combo.
+         * 
+         * @return the button to play the combo.
+         */
         public JButton getPlayComboButton() {
             return this.playComboButton;
         }

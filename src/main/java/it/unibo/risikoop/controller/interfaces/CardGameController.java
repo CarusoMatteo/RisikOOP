@@ -35,7 +35,7 @@ public interface CardGameController {
      * @return true if the set contains a valid combo, otherwise false.
      * @throws IllegalArgumentException if the set does not contain exactly 3 cards.
      */
-    boolean isComboValid(final Set<GameCard> cards);
+    boolean isComboValid(Set<GameCard> cards);
 
     /**
      * Uses a combo for the specified player.

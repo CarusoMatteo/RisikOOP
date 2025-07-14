@@ -1,7 +1,6 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
 import java.awt.BorderLayout;
-import java.util.EnumSet;
 
 import javax.swing.JPanel;
 
@@ -11,7 +10,6 @@ import org.graphstream.ui.swing_viewer.ViewPanel;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
-import org.graphstream.ui.view.util.InteractiveElement;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
 
@@ -104,13 +102,6 @@ public final class MapJPanel extends JPanel implements ViewerListener {
 
     @Override
     public void buttonPushed(final String id) {
-        System.out.println("node=" + id);
-        view.allGraphicElementsIn(EnumSet.of(InteractiveElement.NODE), -Double.MAX_VALUE, -Double.MAX_VALUE,
-                Double.MAX_VALUE, Double.MAX_VALUE).forEach(i -> {
-                    System.out.println(i.getSelectorType());
-                    System.out.println(i.getId());
-                    System.out.println(i.getX() + " - " + i.getY());
-                });
     }
 
     @Override

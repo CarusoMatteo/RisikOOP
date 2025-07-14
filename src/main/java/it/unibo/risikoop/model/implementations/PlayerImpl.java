@@ -165,7 +165,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void setObjectiveCard(ObjectiveCard objectiveCard) {
+    public void setObjectiveCard(final ObjectiveCard objectiveCard) {
         this.objectiveCard = Optional.ofNullable(objectiveCard);
     }
 

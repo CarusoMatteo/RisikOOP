@@ -27,7 +27,8 @@ public final class TerritoryCardImpl
      * @param territory the territory associated with this card
      * @throws IllegalArgumentException if type is WILD
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference;"
+            + "game logic needs mutable state.")
     public TerritoryCardImpl(final UnitType type, final Territory territory) {
         super(type);
         if (type == UnitType.WILD) {
@@ -37,7 +38,8 @@ public final class TerritoryCardImpl
     }
 
     @Override
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We intentionally store the Territory reference;"
+            + "game logic needs mutable state.")
     public Territory getAssociatedTerritory() {
         return territory;
     }

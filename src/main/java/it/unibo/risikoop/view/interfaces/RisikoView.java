@@ -31,5 +31,11 @@ public interface RisikoView {
      */
     void showErrorMessage(String s);
 
+    /**
+     * Returns the MapScene if it exists.
+     * 
+     * @return Optional containing the MapScene if it exists, otherwise empty,
+     *         since it may not be created at the beginning.
+     */
     Optional<MapScene> getMapScene();
 }

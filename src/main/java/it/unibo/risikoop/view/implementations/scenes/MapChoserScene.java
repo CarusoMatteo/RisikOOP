@@ -76,7 +76,6 @@ public final class MapChoserScene extends JPanel {
         final JFileChooser fileChooser = new JFileChooser();
         final int result = fileChooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
-            // System.out.println(fileChooser.getSelectedFile());
             firstSelectionMade = controller.getDataAddingController().loadWorldFromFile(fileChooser.getSelectedFile());
             if (firstSelectionMade) {
                 JOptionPane.showMessageDialog(this.getParent(),

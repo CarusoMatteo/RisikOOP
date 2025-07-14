@@ -78,7 +78,7 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         cardPanel.updateCurrentPlayerCards(objectiveCard, cards);
     }
 
-    private CardJpanel getDebugCardPanel(Controller controller) {
+    private CardJpanel getDebugCardPanel(final Controller controller) {
         return new CardJpanel(
                 new ObjectiveCard() {
                     @Override

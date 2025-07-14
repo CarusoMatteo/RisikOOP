@@ -22,6 +22,12 @@ public final class CurrentPlayerJPanel extends JPanel {
 
     private JLabel playerNameLabel;
 
+    /**
+     * Constructor for the CurrentPlayerJPanel.
+     * 
+     * @param firstPlayerName  The name of the first player.
+     * @param firstPlayerColor The color of the first player.
+     */
     public CurrentPlayerJPanel(final String firstPlayerName,
             final it.unibo.risikoop.model.implementations.Color firstPlayerColor) {
         this.setLayout(new GridLayout(1, 1));
@@ -41,10 +47,17 @@ public final class CurrentPlayerJPanel extends JPanel {
         this.playerNameLabel.setVerticalAlignment(JLabel.CENTER);
     }
 
+    /**
+     * Updates the current player information displayed in the panel.
+     * 
+     * @param playerName  The name of the current player.
+     * @param playerColor The color of the current player.
+     */
     public void updateCurrentPlayer(final String playerName, final Color playerColor) {
         this.setBackground(playerColor);
-        this.playerNameLabel.setText("<html><div style='text-align: center; word-wrap: break-word;'>" +
-                playerName + "</div></html>");
+        this.playerNameLabel.setText("<html><div style='text-align: center; word-wrap: break-word;'>"
+                + playerName
+                + "</div></html>");
         this.playerNameLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, FONT_SIZE));
         this.playerNameLabel.setForeground(getContrastingColor(playerColor));
 

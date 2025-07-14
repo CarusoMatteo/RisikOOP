@@ -9,15 +9,20 @@ import javax.swing.JPanel;
 
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 
+/**
+ * Panel to display the Objective Card in MapScene's CardJPanel.
+ */
 public class ObjectiveCardJPanel extends JPanel {
     private static final String CARD_HIDDEN_TEXT = "Objective Card hidden.";
 
     private ObjectiveCard currenObjectiveCard;
-    private JLabel descriptionLabel;
+    private final JLabel descriptionLabel;
 
-    public ObjectiveCardJPanel(ObjectiveCard objectiveCard) {
-        System.out.println("Creating ObjectiveCardJPanel with objective card: " + objectiveCard.getDescription());
-
+    /**
+     * Constructor for ObjectiveCardJPanel.
+     * @param objectiveCard The ObjectiveCard to display for the first time.
+     */
+    public ObjectiveCardJPanel(final ObjectiveCard objectiveCard) {
         this.setLayout(new BorderLayout());
 
         this.descriptionLabel = new JLabel();
@@ -32,22 +37,27 @@ public class ObjectiveCardJPanel extends JPanel {
         updateObjectiveCard(objectiveCard);
     }
 
-    public void updateObjectiveCard(ObjectiveCard objectiveCard) {
-        System.out.println("Updating Objective Card -> " + objectiveCard.getDescription());
+    /**
+     * Updates the ObjectiveCard displayed in this panel.
+     * @param objectiveCard The new ObjectiveCard to display.
+     */
+    public void updateObjectiveCard(final ObjectiveCard objectiveCard) {
         this.currenObjectiveCard = objectiveCard;
     }
 
+    /**
+     * Hides the ObjectiveCard information.
+     */
     public void hideInfo() {
-        System.out.println("Hide -> Replacing description with hidden text.");
-
         this.descriptionLabel.setText("<html><div style='text-align: center; word-wrap: break-word;'>"
                 + CARD_HIDDEN_TEXT
                 + "</div></html>");
     }
 
+    /**
+     * Shows the ObjectiveCard information.
+     */
     public void showInfo() {
-        System.out.println("Show -> Replacing description with current objective card description.");
-
         this.descriptionLabel.setText("<html><div style='text-align: center; word-wrap: break-word;'>"
                 + this.currenObjectiveCard.getDescription()
                 + "</div></html>");

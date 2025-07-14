@@ -20,6 +20,11 @@ public interface Player {
      */
     boolean addTerritories(List<Territory> territories);
 
+    /**
+     * Gives a territory to the player.
+     * @param territory the territory to give to the player.
+     * @return if the addition was successful.
+     */
     default boolean addTerritory(Territory territory) {
         return addTerritories(List.of(territory));
     }
@@ -120,6 +125,8 @@ public interface Player {
 
     /**
      * Checks if the player is eliminated.
+     * 
+     * @return true if the player was eliminated, otherwise false.
      */
     boolean isEliminated();
 
@@ -132,6 +139,8 @@ public interface Player {
 
     /**
      * Set objective card of this player.
+     * 
+     * @param objectiveCard the objective card to give to the player.
      */
     void setObjectiveCard(ObjectiveCard objectiveCard);
 }

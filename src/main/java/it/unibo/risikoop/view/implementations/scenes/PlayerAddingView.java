@@ -95,7 +95,7 @@ public final class PlayerAddingView extends JPanel {
         finishButton.addActionListener(i -> {
             if (controller.getDataRetrieveController().getPlayerList().size() >= 2) {
                 controller.beginMapSelection();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Have to add at least two characters");
             }
         });
