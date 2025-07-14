@@ -83,6 +83,11 @@ public final class InitialReinforcementPhase implements GamePhase {
         addOneUnitOnEachPlayerTerritory();
     }
 
+    @Override
+    public String getInnerState() {
+        return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " unit placement";
+    }
+
     private void addOneUnitOnEachPlayerTerritory() {
         var p = gpc.getTurnManager().getCurrentPlayer();
         p.getTerritories().forEach(t -> {

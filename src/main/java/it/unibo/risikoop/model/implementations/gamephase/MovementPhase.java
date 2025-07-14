@@ -17,11 +17,27 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * number of units to move.
  */
 public final class MovementPhase implements GamePhase {
-    enum PhaseState {
-        SELECT_SOURCE,
-        SELECT_DESTINATION,
-        SELECT_UNITS,
-        MOVE_UNITS
+    public enum PhaseState {
+        SELECT_SOURCE("Select the source territory"),
+        SELECT_DESTINATION("Select the destination territory"),
+        SELECT_UNITS("Choose number of units to move"),
+        MOVE_UNITS("Execute the move");
+
+        private final String description;
+
+        PhaseState(String description) {
+            this.description = description;
+        }
+
+        /** Restituisce la descrizione associata a questo stato */
+        public String getDescription() {
+            return description;
+        }
+
+        @Override
+        public String toString() {
+            return description;
+        }
     }
 
     private final TurnManager turnManager;
@@ -96,5 +112,10 @@ public final class MovementPhase implements GamePhase {
     @Override
     public void initializationPhase() {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public String getInnerState() {
+        return state.getDescription();
     }
 }

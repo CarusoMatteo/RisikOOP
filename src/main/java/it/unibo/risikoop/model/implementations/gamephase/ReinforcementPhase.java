@@ -68,4 +68,9 @@ public final class ReinforcementPhase implements GamePhase {
         turnManager.getCurrentPlayer()
                 .addUnitsToPlace(logic.calcPlayerUnits());
     }
+
+    @Override
+    public String getInnerState() {
+        return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " place units";
+    }
 }

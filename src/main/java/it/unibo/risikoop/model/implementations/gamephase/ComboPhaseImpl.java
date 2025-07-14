@@ -38,4 +38,9 @@ public final class ComboPhaseImpl implements GamePhase {
     @Override
     public void initializationPhase() {
     }
+
+    @Override
+    public String getInnerState() {
+        return "player chose combos";
+    }
 }

@@ -57,6 +57,13 @@ public interface GamePhaseController {
     String getStateDescription();
 
     /**
+     * Gives the actual inner game phase description.
+     * 
+     * @return a string holding the description
+     */
+    String getInnerStatePhaseDescription();
+
+    /**
      * return th turn manager for the faces.
      * 
      * @return the TurnManager object

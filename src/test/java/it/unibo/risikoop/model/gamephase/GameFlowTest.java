@@ -46,6 +46,12 @@ class GameFlowTest {
     private static final String ATTACK = "Fase di gestione attacchi";
     private static final String MOVEMENT = "Fase di gestione spostamenti";
 
+    // innerstate attack
+    private static final String SELECT_ATTACKER = "Select the territory to attack from";
+    private static final String SELECT_DEFENDER = "Select the territory to attack";
+    private static final String SELECT_UNITS = "Choose how many units to use";
+    private static final String EXECUTE_ATTACK = "Resolve the attack";
+
     private TurnManager turnManager;
     private GamePhaseController gpc;
     private List<Territory> territories;
@@ -99,11 +105,29 @@ class GameFlowTest {
                 "T3",
                 "T4");
         Graph graph = new MultiGraph(playerNames.getFirst(), false, true);
-        graph.addEdge("1", territoriesName.get(0), territoriesName.get(1));
-        graph.addEdge("2", territoriesName.get(1), territoriesName.get(2));
-        graph.addEdge("3", territoriesName.get(2), territoriesName.get(3));
-        graph.addEdge("4", territoriesName.get(3), territoriesName.get(0));
+        // graph.addEdge("1", territoriesName.get(0), territoriesName.get(1));
+        // graph.addEdge("1", territoriesName.get(1), territoriesName.get(0));
+        // graph.addEdge("2", territoriesName.get(1), territoriesName.get(2));
+        // graph.addEdge("3", territoriesName.get(2), territoriesName.get(3));
+        // graph.addEdge("4", territoriesName.get(3), territoriesName.get(0));
+        makeFullyConnected(graph, territoriesName);
         return graph;
+    }
+
+    private void makeFullyConnected(Graph graph, List<String> territories) {
+        int edgeId = 0;
+        // ogni nodo verso ogni altro (dirigendo l'arco)
+        for (int i = 0; i < territories.size(); i++) {
+            for (int j = 0; j < territories.size(); j++) {
+                if (i == j)
+                    continue;
+                String src = territories.get(i);
+                String dst = territories.get(j);
+                String id = "e" + edgeId++;
+                // true = grafo diretto
+                graph.addEdge(id, src, dst, true);
+            }
+        }
     }
 
     @Test
@@ -118,6 +142,7 @@ class GameFlowTest {
         renforcementOnlyGame(0);
         renforcementOnlyGame(1);
         assertEquals(playerNames.getFirst(), gpc.getTurnManager().getCurrentPlayer().getName());
+        normalGame(0);
         // assertEquals(COMBO, gpc.getStateDescription());
         // combo();
         // assertEquals(REINFORCEMENT, gpc.getStateDescription());
@@ -163,16 +188,25 @@ class GameFlowTest {
         assertEquals(COMBO, gpc.getStateDescription());
     }
 
-    //
-    // 1) controllo che il giocatore corrente sia lui
-    // 2) controllo che la fase sia completa -> false
-    // 3) provo a cambiare fase devo restare sulla stessa
-    // 4) controllo che se metto le truppe su un territorio non mio non cambi nulla
-    // ovvero stesse struppe nel etrritorio selezionato e stesse truppe da
-    // posizionare per il giocatore
-    // 5) provo a posizionare una truppa sul mio territorio
-    // truppe del territorio + 1 truppe del giocatore - 1
-    // controllo che la fase sia completa -> true
+    private void normalGame(int playerIndex) {
+        // faccio la fase di combo, non gioco nulla e vado oltre
+        assertEquals(
+                playerNames.get(playerIndex),
+                gpc.getTurnManager().getCurrentPlayer().getName());
+        assertEquals(COMBO, gpc.getStateDescription());
+        combo();
+
+        // piazzo le truppe
+        assertEquals(
+                playerNames.get(playerIndex),
+                gpc.getTurnManager().getCurrentPlayer().getName());
+        assertEquals(REINFORCEMENT, gpc.getStateDescription());
+        renforcemente(playerIndex);
+
+        // inizio la fase di attacco
+        attack(playerIndex);
+
+    }
 
     private void initialRenforcement() {
         assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
@@ -316,7 +350,50 @@ class GameFlowTest {
         gpc.nextPhase();
     }
 
-    private void attack() {
+    // 1) controllo che il giocatore sia quello corretto
+    // 2) contrtollo che la fase sia quella giusta
+    // 3) seleziono come territorio uno che non sia mio (Non succede nulla)
+    // 4) clicclo su perform action non succede nulla
+    // 5) seleziono un mio territorio (lo seleziono come attacante) -> lo imposta
+    // 6) selezione un territorio non mio non succede nulla
+    // 7) seleziono il mio altro territorio lo imposta
+    // 8)
+    private void attack(int playerIndex) {
+        var p = gpc.getTurnManager().getCurrentPlayer();
+        var enemyTerritoryIndex = (playerIndex * playerNames.size() + playerNames.size() + 1) % territories.size();
+        Territory enemyT = gameManager.getTerritory("T" + enemyTerritoryIndex).get();
+        Territory myT = gameManager.getTerritory("T" + (playerIndex * playerNames.size() + 1)).get();
+
+        // 1) controllo che il giocatore sia quello corretto
+        assertEquals(playerNames.get(playerIndex), p.getName());
+
+        // 2) contrtollo che la fase sia quella giusta
+        assertEquals(ATTACK, gpc.getStateDescription());
+
+        // 3) controllo che lo stato interno sia seleziona attacante
+        assertEquals(SELECT_ATTACKER, gpc.getInnerStatePhaseDescription());
+
+        // 4) seleziono come territorio uno che non sia mio (Non succede nulla)
+        gpc.selectTerritory(enemyT);
+
+        // 5) provo a proseguire a devo restare in seleziona territorio
+        gpc.performAction();
+        assertEquals(SELECT_ATTACKER, gpc.getInnerStatePhaseDescription());
+
+        // 6) seleziono il mio
+        gpc.selectTerritory(myT);
+        gpc.performAction();
+        assertEquals(SELECT_DEFENDER, gpc.getInnerStatePhaseDescription());
+
+        // 6) seleziono un mio territorioe non succede nulla
+        gpc.selectTerritory(myT);
+        gpc.performAction();
+        assertEquals(SELECT_DEFENDER, gpc.getInnerStatePhaseDescription());
+
+        // 6) seleziono il territorio avversario e diventa quelle da attaccare
+        gpc.selectTerritory(enemyT);
+        gpc.performAction();
+        assertEquals(SELECT_UNITS, gpc.getInnerStatePhaseDescription());
 
     }
 

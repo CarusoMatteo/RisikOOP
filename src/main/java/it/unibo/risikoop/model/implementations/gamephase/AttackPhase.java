@@ -23,10 +23,26 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
 public final class AttackPhase implements GamePhase {
 
     private enum PhaseState {
-        SELECT_ATTACKER,
-        SELECT_DEFENDER,
-        SELECT_UNITS,
-        EXECUTE_ATTACK
+        SELECT_ATTACKER("Select the territory to attack from"),
+        SELECT_DEFENDER("Select the territory to attack"),
+        SELECT_UNITS("Choose how many units to use"),
+        EXECUTE_ATTACK("Resolve the attack");
+
+        private final String description;
+
+        PhaseState(String description) {
+            this.description = description;
+        }
+
+        /** Restituisce la descrizione leggibile di questo stato */
+        public String getDescription() {
+            return description;
+        }
+
+        @Override
+        public String toString() {
+            return description;
+        }
     }
 
     private final TurnManager turnManager;
@@ -114,14 +130,22 @@ public final class AttackPhase implements GamePhase {
     public void initializationPhase() {
     }
 
+    @Override
+    public String getInnerState() {
+        return state.getDescription();
+    }
+
     private boolean isValidAttacker(final Territory t) {
         final boolean hasEnemyNeighbor = t.getNeightbours().stream()
                 .anyMatch(neighbour -> !neighbour.getOwner().equals(turnManager.getCurrentPlayer()));
         final boolean hasEnoughUnits = t.getUnits() >= 2;
-        return hasEnemyNeighbor && hasEnoughUnits;
+        final boolean isMine = t.getOwner().equals(turnManager.getCurrentPlayer());
+        return hasEnemyNeighbor && hasEnoughUnits && isMine;
     }
 
     private boolean isValidDefender(final Territory t) {
-        return !t.getOwner().equals(turnManager.getCurrentPlayer()) && attackerSrc.getNeightbours().contains(t);
+        boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
+        boolean isNeightbour = attackerSrc.getNeightbours().contains(t);
+        return !isMy && isNeightbour;
     }
 }

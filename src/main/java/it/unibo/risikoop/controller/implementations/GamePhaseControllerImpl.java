@@ -159,4 +159,9 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
                         turnManager.getCurrentPlayer().getName(),
                         turnManager.getCurrentPlayer().getColor())));
     }
+
+    @Override
+    public String getInnerStatePhaseDescription() {
+        return phase().getInnerState();
+    }
 }
