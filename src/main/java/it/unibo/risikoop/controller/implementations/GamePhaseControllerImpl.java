@@ -129,7 +129,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         phase().initializationPhase();
 
         // After MOVEMENT transitions to COMBO, advance to next player's turn
-        if (prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO) {
+        if ((prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO) || prev == PhaseKey.INITIAL_REINFORCEMENT) {
             nextPlayer();
         }
     }

@@ -42,7 +42,7 @@ public final class MovementPhase implements GamePhase {
         this.source = null;
         this.destination = null;
         this.unitsToMove = 0;
-        this.moved = false;
+        this.moved = true;
         this.state = PhaseState.SELECT_SOURCE;
     }
 
@@ -56,6 +56,7 @@ public final class MovementPhase implements GamePhase {
             if (owned.contains(t) && t.getUnits() >= 2) {
                 this.source = t;
                 unitsToMove = 0;
+                moved = false;
             }
         } else if (state == PhaseState.SELECT_DESTINATION) {
             if (source.getNeightbours().contains(t)) {

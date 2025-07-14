@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.risikoop.controller.implementations.GamePhaseControllerImpl;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
+import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.implementations.Color;
@@ -50,6 +51,7 @@ class GameFlowTest {
     private List<Territory> territories;
     private GameManager gameManager;
     private LogicReinforcementCalculator initialLogic;
+    private LogicReinforcementCalculator renforcementLogic;
 
     /**
      * Sets up a {@link GameManagerImpl} with three players and assigns one
@@ -87,6 +89,7 @@ class GameFlowTest {
         turnManager = new TurnManagerImpl(players);
         gpc = new GamePhaseControllerImpl(List.of(), turnManager, gameManager);
         initialLogic = new LogicCalcInitialUnitsImpl(gameManager);
+        renforcementLogic = new LogicReinforcementCalculatorImpl(gameManager, turnManager);
     }
 
     private Graph createTestMap() {
@@ -113,8 +116,11 @@ class GameFlowTest {
         assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
         initialRenforcement();
         assertEquals(COMBO, gpc.getStateDescription());
-        // assertEquals(playerName.getFirst(), gpc.getTurnManager().getCurrentPlayer());
-        // renforcemente(territories.getFirst());
+        combo();
+        assertEquals(REINFORCEMENT, gpc.getStateDescription());
+        renforcemente(0);
+        assertEquals(ATTACK, gpc.getStateDescription());
+
 
     }
 
@@ -211,16 +217,64 @@ class GameFlowTest {
         assertEquals(pUnit, p.getUnitsToPlace());
     }
 
-    private void renforcemente(Territory t) {
-        for (int i = 0; i < gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace(); i++) {
-            t.addUnits(i);
+    // 1) Provo a chiamare nextPhase non deve fare nulla resto nel mio
+    // 2) Provo a mettere le truppe in un territorio non mio non deve succedere
+    // nulla
+    // 3) metto tutte le mie truppe su un territorio
+    // 4) provo a mettere truppe avendole già piazzate non deve fae nulla
+    // 5) provo a metterle in unterritorio non mio non deve fare nulla
+    // 6) chiamo nextPhase e deve passare alla fase di attacco
+    private void renforcemente(int playerIndex) {
+        Territory t = null;
+        int tUnit = 0;
+        int pUnit = 0;
+        // 1) controllo che il giocatore sia corretto
+        var p = gpc.getTurnManager().getCurrentPlayer();
+        assertEquals(playerNames.get(playerIndex), p.getName());
+
+        // 2) Provo a chiamare nextPhase non deve fare nulla resto nel mio
+        gpc.nextPhase();
+        assertEquals(REINFORCEMENT, gpc.getStateDescription());
+
+        // controllo le truppe da piazzare
+        assertEquals(renforcementLogic.calcPlayerUnits(), p.getUnitsToPlace());
+
+        // 3) Provo a mettere le truppe in un territorio non mio
+        // e non deve succedere nulla
+        var emenyTerriotryIndex = (playerIndex * playerNames.size() + playerNames.size()) % territories.size();
+        reinforceEnemyTerritoryTest(emenyTerriotryIndex);
+
+        // 4) metto tutte le mie truppe su un territorio
+        var units = p.getUnitsToPlace();
+        for (int i = 0; i < units; i++) {
+            var tName = "T" + (playerIndex * playerNames.size() + 1);
+            t = gameManager.getTerritory(tName).get();
+            tUnit = t.getUnits();
+            pUnit = p.getUnitsToPlace();
+            gpc.selectTerritory(t);
+            assertEquals(tUnit + 1, t.getUnits());
+            assertEquals(pUnit - 1, p.getUnitsToPlace());
+
+            // 5) provo a mettere le truppe in terriorio non mio non deve afe nulla
+            reinforceEnemyTerritoryTest(emenyTerriotryIndex);
         }
-        gpc.performAction();
+
+        // 6) provo a mettere truppe avendole già piazzate non deve fae nulla
+        gpc.selectTerritory(t);
+        assertEquals(tUnit + 1, t.getUnits());
+        assertEquals(0, p.getUnitsToPlace());
+
+        // 7) chiamo nextPhase e deve passare alla fase di attacco
+        gpc.nextPhase();
+        assertEquals(ATTACK, gpc.getStateDescription());
+
+        // 8) il giocatore deve sempre essere lui
+        p = gpc.getTurnManager().getCurrentPlayer();
+        assertEquals(playerNames.get(playerIndex), p.getName());
     }
 
     private void combo() {
-        gpc.performAction();
-
+        gpc.nextPhase();
     }
 
     private void attack() {
