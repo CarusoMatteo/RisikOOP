@@ -11,9 +11,11 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.interfaces.GameManager;
+import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
 /**
  * controller for retrieveing for the vbiew all kind of necessary data.
@@ -62,5 +64,15 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     @Override
     public Color getCurrentPlayerColor() {
         return tm.getCurrentPlayer().getColor();
+    }
+
+    @Override
+    public ObjectiveCard getCurrentPlayerObjectiveCard() {
+        return tm.getCurrentPlayer().getObjectiveCard();
+    }
+
+    @Override
+    public List<GameCard> getCurrentPlayerGameCards() {
+        return tm.getCurrentPlayer().getGameCards();
     }
 }

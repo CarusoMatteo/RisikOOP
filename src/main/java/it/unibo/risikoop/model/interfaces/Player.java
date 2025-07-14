@@ -2,7 +2,6 @@ package it.unibo.risikoop.model.interfaces;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
@@ -128,9 +127,8 @@ public interface Player {
      * Returns the objective card of this player.
      * 
      * @return the objective card of this player.
-     *         Should be Optional?
      */
-    Optional<ObjectiveCard> getObjectiveCard();
+    ObjectiveCard getObjectiveCard();
 
     /**
      * Set objective card of this player.

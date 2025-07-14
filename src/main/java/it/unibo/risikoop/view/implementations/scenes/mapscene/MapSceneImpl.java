@@ -3,10 +3,14 @@ package it.unibo.risikoop.view.implementations.scenes.mapscene;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.List;
 
 import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
+import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
+import it.unibo.risikoop.model.interfaces.ObjectiveCard;
+import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.view.interfaces.MapScene;
 
 /**
@@ -21,7 +25,7 @@ public final class MapSceneImpl extends JPanel implements MapScene {
     // private final Controller controller;
     private final CurrentPlayerJPanel currentPlayerPanel;
     private final JPanel mapPanel;
-    private final JPanel cardPanel;
+    private final CardJpanel cardPanel;
     private final JPanel actionPanel;
 
     /**
@@ -29,21 +33,21 @@ public final class MapSceneImpl extends JPanel implements MapScene {
      * Scene that displays the regular game loop.
      * Shows the Map, the Current Player, their Cards and available Action Buttons.
      * 
-     * @param controller The controller to retrieve graph data.
+     * @param controller The controller to retrieve graph data and player
+     *                   information.
      */
     public MapSceneImpl(final Controller controller) {
         // this.controller = controller;
+        final DataRetrieveController data = controller.getDataRetrieveController();
 
         this.currentPlayerPanel = new CurrentPlayerJPanel(
-                "Giocatore 1",
-                new it.unibo.risikoop.model.implementations.Color(0, 255, 255));
-        /*
-         * this.currentPlayerPanel = new CurrentPlayerJPanel(
-         * controller.getDataRetrieveController().getCurrentPlayerName(),
-         * controller.getDataRetrieveController().getCurrentPlayerColor());
-         */
+                data.getCurrentPlayerName(),
+                data.getCurrentPlayerColor());
+
         this.mapPanel = new MapJPanel(controller);
-        this.cardPanel = new CardJpanel();
+        this.cardPanel = new CardJpanel(
+                data.getCurrentPlayerObjectiveCard(),
+                data.getCurrentPlayerGameCards());
         this.actionPanel = new ActionJPanel();
 
         setDebugPanelColors();
@@ -119,9 +123,15 @@ public final class MapSceneImpl extends JPanel implements MapScene {
     }
 
     @Override
-    public void updateCurrentPlayer(String playerName, it.unibo.risikoop.model.implementations.Color playerColor) {
+    public void updateCurrentPlayer(
+            String playerName,
+            it.unibo.risikoop.model.implementations.Color playerColor,
+            ObjectiveCard objectiveCard,
+            List<GameCard> cards) {
+
         currentPlayerPanel.updateCurrentPlayer(
                 playerName,
                 new Color(playerColor.r(), playerColor.g(), playerColor.b()));
+        cardPanel.updateCurrentPlayerCards(objectiveCard, cards);
     }
 }

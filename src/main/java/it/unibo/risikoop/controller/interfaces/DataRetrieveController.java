@@ -7,8 +7,10 @@ import java.util.Set;
 import org.graphstream.graph.Graph;
 
 import it.unibo.risikoop.model.implementations.Color;
+import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
+import it.unibo.risikoop.model.interfaces.cards.GameCard;
 
 /**
  * 
@@ -53,5 +55,15 @@ public interface DataRetrieveController {
      * @return the current player's color
      */
     Color getCurrentPlayerColor();
+
+    /**
+     * @return the current player's objective card
+     */
+    ObjectiveCard getCurrentPlayerObjectiveCard();
+
+    /**
+     * @return the current player's game cards, including both territory and wilds
+     */
+    List<GameCard> getCurrentPlayerGameCards();
 
 }

@@ -117,8 +117,9 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
             viewList.stream().map(v -> v.getMapScene())
                     .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
                             turnManager.getCurrentPlayer().getName(),
-                            turnManager.getCurrentPlayer().getColor())));
-
+                            turnManager.getCurrentPlayer().getColor(),
+                            turnManager.getCurrentPlayer().getObjectiveCard(),
+                            turnManager.getCurrentPlayer().getGameCards())));
         }
     }
 

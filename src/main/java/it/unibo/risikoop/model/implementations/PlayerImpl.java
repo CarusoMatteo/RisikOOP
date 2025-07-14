@@ -159,8 +159,9 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Optional<ObjectiveCard> getObjectiveCard() {
-        return objectiveCard;
+    public ObjectiveCard getObjectiveCard() {
+        return objectiveCard
+                .orElseThrow(() -> new IllegalStateException("Objective card was required when it was not present."));
     }
 
     @Override
