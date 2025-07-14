@@ -25,7 +25,7 @@ public final class MapSceneImpl extends JPanel implements MapScene {
     // private final Controller controller;
     private final CurrentPlayerJPanel currentPlayerPanel;
     private final JPanel mapPanel;
-    private final CardJpanel cardPanel;
+    private CardJpanel cardPanel;
     private final JPanel actionPanel;
 
     /**
@@ -45,9 +45,29 @@ public final class MapSceneImpl extends JPanel implements MapScene {
                 data.getCurrentPlayerColor());
 
         this.mapPanel = new MapJPanel(controller);
-        this.cardPanel = new CardJpanel(
-                data.getCurrentPlayerObjectiveCard(),
-                data.getCurrentPlayerGameCards());
+
+        // TODO: Remove try-catch when objective cards setup are implemented
+        // and make cardPanel final.
+        try {
+            this.cardPanel = new CardJpanel(
+                    data.getCurrentPlayerObjectiveCard(),
+                    data.getCurrentPlayerGameCards());
+        } catch (final Exception e) {
+            this.cardPanel = new CardJpanel(
+                    new ObjectiveCard() {
+
+                        @Override
+                        public boolean isAchieved() {
+                            return false;
+                        }
+
+                        @Override
+                        public String getDescription() {
+                            return "Conquer 24 territories.";
+                        }
+                    },
+                    data.getCurrentPlayerGameCards());
+        }
         this.actionPanel = new ActionJPanel();
 
         setDebugPanelColors();
@@ -90,13 +110,13 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
         // currentPlayerPanel
         gbc.gridy = 0;
-        gbc.weightx = SMALL_PANEL_PROPORTION;
+        gbc.weightx = 1;
         gbc.weighty = SMALL_PANEL_PROPORTION;
         leftPanel.add(this.currentPlayerPanel, gbc);
 
         // cardPanel
         gbc.gridy = 1;
-        gbc.weightx = BIG_PANEL_PROPORTION;
+        gbc.weightx = 1;
         gbc.weighty = BIG_PANEL_PROPORTION;
         leftPanel.add(this.cardPanel, gbc);
     }
