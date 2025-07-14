@@ -75,4 +75,9 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     public List<GameCard> getCurrentPlayerGameCards() {
         return tm.getCurrentPlayer().getGameCards();
     }
+
+    @Override
+    public Player getCurrentPlayer() {
+        return tm.getCurrentPlayer();
+    }
 }

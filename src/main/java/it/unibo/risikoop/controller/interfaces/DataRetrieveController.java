@@ -66,4 +66,9 @@ public interface DataRetrieveController {
      */
     List<GameCard> getCurrentPlayerGameCards();
 
+    /**
+     * @return the current player
+     */
+    Player getCurrentPlayer();
+
 }
