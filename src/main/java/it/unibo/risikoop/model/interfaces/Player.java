@@ -2,6 +2,7 @@ package it.unibo.risikoop.model.interfaces;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
@@ -122,5 +123,13 @@ public interface Player {
      * Checks if the player is eliminated.
      */
     boolean isEliminated();
+
+    /**
+     * Returns the objective card of this player.
+     * @return the objective card of this player.
+     * Should be Optional?
+     */
+    ObjectiveCard getObjectiveCard();
+
 
 }
