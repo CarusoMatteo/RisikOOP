@@ -53,6 +53,7 @@ public final class InitialReinforcementPhase implements GamePhase {
         if (p.getUnitsToPlace() == 0 && !gpc.getTurnManager().isLastPlayer()) {
             gpc.nextPlayer();
             gpc.getTurnManager().getCurrentPlayer().addUnitsToPlace(initialUnits);
+            addOneUnitOnEachPlayerTerritory();
         }
     }
 
@@ -82,7 +83,7 @@ public final class InitialReinforcementPhase implements GamePhase {
         addOneUnitOnEachPlayerTerritory();
     }
 
-    private void addOneUnitOnEachPlayerTerritory(){
+    private void addOneUnitOnEachPlayerTerritory() {
         var p = gpc.getTurnManager().getCurrentPlayer();
         p.getTerritories().forEach(t -> {
             p.removeUnitsToPlace(1);
