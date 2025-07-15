@@ -1,6 +1,7 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
-import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
+import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.GamePhase;
@@ -21,18 +22,19 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
 public final class ReinforcementPhase implements GamePhase {
 
     private final TurnManager turnManager;
-    private LogicReinforcementCalculator logic;
-    private boolean isFirtsReq;
+    private final LogicReinforcementCalculator logic;
+    private final GamePhaseController gpc;
 
     /**
      * Constructs a new ReinforcementPhase for the given turn manager.
-     *
-     * @param turnManager the TurnManager tracking current player and turns
+     * 
+     * @param gm  the game manager
+     * @param gpc the game phase manager
      */
-    public ReinforcementPhase(final GameManager gm, final TurnManager turnManager) {
-        this.turnManager = turnManager;
-        this.isFirtsReq = true;
-        this.logic = new LogicCalcInitialUnitsImpl(gm);
+    public ReinforcementPhase(final GameManager gm, final GamePhaseController gpc) {
+        this.gpc = gpc;
+        this.turnManager = gpc.getTurnManager();
+        logic = new LogicReinforcementCalculatorImpl(gm, turnManager);
     }
 
     @Override
@@ -46,11 +48,7 @@ public final class ReinforcementPhase implements GamePhase {
 
     @Override
     public void performAction() {
-        if (isFirtsReq) {
-            isFirtsReq = false;
-            final Player current = turnManager.getCurrentPlayer();
-            current.addUnitsToPlace(logic.calcPlayerUnits());
-        }
+
     }
 
     @Override
@@ -67,6 +65,12 @@ public final class ReinforcementPhase implements GamePhase {
 
     @Override
     public void initializationPhase() {
-        // TODO Auto-generated method stub
+        turnManager.getCurrentPlayer()
+                .addUnitsToPlace(logic.calcPlayerUnits());
+    }
+
+    @Override
+    public String getInnerState() {
+        return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " place units";
     }
 }

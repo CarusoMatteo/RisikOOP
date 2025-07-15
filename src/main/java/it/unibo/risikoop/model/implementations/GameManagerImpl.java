@@ -47,7 +47,6 @@ public final class GameManagerImpl implements GameManager {
         return continents.stream()
                 .filter(i -> i.getName().equals(name))
                 .findFirst();
-
     }
 
     @Override

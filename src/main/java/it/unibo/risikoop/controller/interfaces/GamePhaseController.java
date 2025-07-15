@@ -1,6 +1,8 @@
 package it.unibo.risikoop.controller.interfaces;
 
+import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Territory;
+import it.unibo.risikoop.model.interfaces.TurnManager;
 
 /**
  * Controller interface for managing the different phases of the game.
@@ -17,6 +19,7 @@ public interface GamePhaseController {
      * Selects a territory to perform the current phase's action on.
      *
      * @param territory the {@link Territory} to select
+     * @throws IllegalArgumentException when territory selected is unusable
      */
     void selectTerritory(Territory territory);
 
@@ -48,26 +51,30 @@ public interface GamePhaseController {
     void setUnitsToUse(int units);
 
     /**
-     * change the displayed source territory.
+     * Gives the actual game phase description.
      * 
-     * @param srcTerritoryName the new text
+     * @return a string holding the description
      */
-    public void updateSrcTerritory(String srcTerritoryName);
+    String getStateDescription();
 
     /**
-     * change the displayed destination territory.
+     * Gives the actual inner game phase description.
      * 
-     * @param srcTerritoryName the new text
+     * @return a string holding the description
      */
-    public void updateDstTerritory(String dstTerritoryName);
+    String getInnerStatePhaseDescription();
 
     /**
-     * change the displayed phase related text.
+     * return th turn manager for the faces.
      * 
-     * @param srcTerritoryKindString
-     * @param dstterritoryKindString
-     * @param changeStateButonString
+     * @return the TurnManager object
      */
-    public void updatePhaseRelatedText(String srcTerritoryKindString, String dstterritoryKindString,
-            String changeStateButonString);
+    TurnManager getTurnManager();
+
+    /**
+     * go to the next player in the list.
+     */
+    void nextPlayer();
+
+    GamePhase getCurrentPhase();
 }

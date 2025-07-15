@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import it.unibo.risikoop.controller.implementations.logicgame.AttackTest;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.implementations.gamephase.AttackPhase;
 import it.unibo.risikoop.model.implementations.gamephase.ComboPhaseImpl;
@@ -28,11 +29,27 @@ import it.unibo.risikoop.view.interfaces.RisikoView;
 public final class GamePhaseControllerImpl implements GamePhaseController {
 
     private enum PhaseKey {
-        INITIAL_REINFORCEMENT,
-        REINFORCEMENT,
-        COMBO,
-        ATTACK,
-        MOVEMENT;
+        INITIAL_REINFORCEMENT("Fase di rinforzo iniziale"),
+        COMBO("Fase di gestione combo"),
+        REINFORCEMENT("Fase di rinforzo"),
+        ATTACK("Fase di gestione attacchi"),
+        MOVEMENT("Fase di gestione spostamenti");
+
+        private final String desc;
+
+        PhaseKey(final String desc) {
+            this.desc = desc;
+        }
+
+        /**
+         * a method that returns the description of the phase.
+         * 
+         * @return a string holding the description
+         */
+        @SuppressWarnings("unused")
+        public String getLabelDesc() {
+            return String.copyValueOf(desc.toCharArray());
+        }
 
         PhaseKey next() {
             final int idx = (this.ordinal() + 1) % values().length;
@@ -62,11 +79,12 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         this.turnManager = tm;
         this.phases = new EnumMap<>(PhaseKey.class);
         this.viewList = viewList;
-        phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, tm, gm));
+
+        phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
-        phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(gm, tm));
-        phases.put(PhaseKey.ATTACK, new AttackPhase(this, tm));
-        phases.put(PhaseKey.MOVEMENT, new MovementPhase(this, tm));
+        phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(gm, this));
+        phases.put(PhaseKey.ATTACK, new AttackPhase(this));
+        phases.put(PhaseKey.MOVEMENT, new MovementPhase(this));
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
         phases.get(current).initializationPhase();
@@ -111,16 +129,15 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
         // Skip INITIAL_REINFORCEMENT in subsequent turns
         if (initialDone && next == PhaseKey.INITIAL_REINFORCEMENT) {
-            next = PhaseKey.REINFORCEMENT;
+            next = PhaseKey.COMBO;
         }
 
         current = next;
         phase().initializationPhase();
 
         // After MOVEMENT transitions to COMBO, advance to next player's turn
-        viewList.forEach(i -> i.getMapScene()
-                .ifPresent(m -> m.enableAction(current == PhaseKey.ATTACK || current == PhaseKey.MOVEMENT)));
-        if (prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO) {
+        if ((prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO)
+                || prev == PhaseKey.INITIAL_REINFORCEMENT) {
             turnManager.nextPlayer();
 
         }
@@ -137,27 +154,41 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
                             turnManager.getCurrentPlayer().getObjectiveCard(),
                             turnManager.getCurrentPlayer().getGameCards())));
         }
-
-        System.out.println(current.name());
-        System.out.println(turnManager.getCurrentPlayer().getName());
-
     }
 
     @Override
-    public void updateSrcTerritory(String srcTerritoryName) {
-        viewList.forEach(i -> i.getMapScene().ifPresent(m -> m.updateSrcTerritory(srcTerritoryName)));
-
+    public void nextPhase() {
+        if (phase().isComplete()) {
+            advancePhase();
+        }
     }
 
     @Override
-    public void updateDstTerritory(String dstTerritoryName) {
-        viewList.forEach(i -> i.getMapScene().ifPresent(m -> m.updateDstTerritory(dstTerritoryName)));
+    public String getStateDescription() {
+        return String.copyValueOf(current.getLabelDesc().toCharArray());
     }
 
     @Override
-    public void updatePhaseRelatedText(String srcTerritoryKindString, String dstterritoryKindString,
-            String changeStateButonString) {
-        viewList.forEach(i -> i.getMapScene().ifPresent(
-                m -> m.updatePhaseRelatedText(srcTerritoryKindString, dstterritoryKindString, changeStateButonString)));
+    public TurnManager getTurnManager() {
+        return turnManager;
+    }
+
+    @Override
+    public void nextPlayer() {
+        turnManager.nextPlayer();
+        viewList.stream().map(v -> v.getMapScene())
+                .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
+                        turnManager.getCurrentPlayer().getName(),
+                        turnManager.getCurrentPlayer().getColor())));
+    }
+
+    @Override
+    public String getInnerStatePhaseDescription() {
+        return phase().getInnerState();
+    }
+
+    @Override
+    public GamePhase getCurrentPhase() {
+        return phase();
     }
 }
