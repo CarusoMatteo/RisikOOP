@@ -58,7 +58,7 @@ public final class MapSceneImpl extends JPanel implements MapScene {
                 controller);
         // this.cardPanel = getDebugCardPanel(controller);
 
-        this.actionPanel = new ActionJPanel();
+        this.actionPanel = new ActionJPanel(controller);
 
         setLayout(new GridBagLayout());
         setGridBagConstraints();
