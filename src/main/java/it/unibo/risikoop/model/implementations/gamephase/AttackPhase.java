@@ -3,6 +3,7 @@ package it.unibo.risikoop.model.implementations.gamephase;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
@@ -30,6 +31,7 @@ public final class AttackPhase implements GamePhase {
 
     private final TurnManager turnManager;
     private final LogicAttack logic;
+    private final GamePhaseController gpc;
     private PhaseState state;
     private final Player attacker;
     private Player defender;
@@ -48,11 +50,15 @@ public final class AttackPhase implements GamePhase {
      * territory selected, zero units to use). The phase is marked as complete
      * until an attacker territory is chosen.
      * </p>
+     * 
+     * @param gamePhaseControllerImpl the {@link GamePhaseController}
      *
-     * @param turnManager the {@link TurnManager} that determines the current player
+     * @param turnManager             the {@link TurnManager} that determines the
+     *                                current player
      */
 
-    public AttackPhase(final TurnManager turnManager) {
+    public AttackPhase(GamePhaseController gamePhaseController, final TurnManager turnManager) {
+        this.gpc = gamePhaseController;
         this.turnManager = turnManager;
         this.logic = new LogicAttackImpl();
         this.state = PhaseState.SELECT_ATTACKER;
@@ -90,9 +96,11 @@ public final class AttackPhase implements GamePhase {
         if (state == PhaseState.SELECT_ATTACKER && isValidAttacker(t)) {
             this.attackerSrc = t;
             unitsToUse = 0;
+            gpc.updateSrcTerritory(t.getName());
         } else if (state == PhaseState.SELECT_DEFENDER && isValidDefender(t)) {
             this.defender = t.getOwner();
             this.defenderDst = t;
+            gpc.updateDstTerritory(t.getName());
         }
     }
 
@@ -105,6 +113,7 @@ public final class AttackPhase implements GamePhase {
 
     @Override
     public void initializationPhase() {
+        gpc.updatePhaseRelatedText("Attacker", "Defender", "Go to movement phase");
     }
 
     private boolean isValidAttacker(final Territory t) {

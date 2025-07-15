@@ -58,6 +58,8 @@ public final class ControllerImpl implements Controller {
         assignTerritory();
         turnManager = new TurnManagerImpl(gameManager.getPlayers());
         viewList.forEach(RisikoView::beginPlay);
+        viewList.forEach(i -> i.getMapScene()
+                .ifPresent(m -> m.enableAction(false)));
     }
 
     @Override

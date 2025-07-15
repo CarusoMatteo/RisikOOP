@@ -119,4 +119,15 @@ public final class MapJPanel extends JPanel implements ViewerListener {
     @Override
     public void mouseLeft(final String id) {
     }
+
+    /**
+     * change the displayed units for the specific territory.
+     * 
+     * @param territoryName
+     * @param units
+     */
+    public void changeUnitsOfTerritory(String territoryName, int units) {
+        this.graph.nodes().filter(i -> i.getId().equals(territoryName)).forEach(i -> i.setAttribute("ui.label",
+                i.getId() + " - " + getUnits(i.getId()) + " units"));
+    }
 }

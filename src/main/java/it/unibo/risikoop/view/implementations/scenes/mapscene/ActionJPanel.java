@@ -22,6 +22,7 @@ public final class ActionJPanel extends JPanel {
     private final JLabel dstTerritoryDesc = new JLabel("Territorio destinazione");
     private final JButton performeActionButton = new JButton("Esegui azione");
     private final JButton changeStateButton = new JButton("Cambia Stato");
+    private final JPanel statePanel = statePanel();
 
     /**
      * constructor.
@@ -30,7 +31,8 @@ public final class ActionJPanel extends JPanel {
      */
     public ActionJPanel(final Controller controller) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(statePanel());
+
+        add(statePanel);
         add(changeStateButton);
     }
 
@@ -88,26 +90,44 @@ public final class ActionJPanel extends JPanel {
     }
 
     /**
-     * Update all the text inside this panel.
+     * change the displayed source territory.
      * 
-     * @param srcTerritory       the actual source territory string that has been
-     *                           selected
-     * @param srcTerritoryLabel  the string that says the kind of source territory
-     * @param dstTerritory       the actual destination territory string that has
-     *                           been
-     *                           selected
-     * @param dstTerritoryLabel  the string that says the kind of destination
-     *                           territory
-     * @param performeButtonText the button action string
-     * @param changeStateString  the string for the changestate button
+     * @param srcTerritoryName the new text
      */
-    public void updateAllText(String srcTerritory, String srcTerritoryLabel, String dstTerritory,
-            String dstTerritoryLabel, String performeButtonText, String changeStateString) {
-        this.srcTerritoryLabel.setText(srcTerritory);
-        this.srcTerritoryDesc.setText(srcTerritoryLabel);
-        this.dstTerritoryLabel.setText(dstTerritoryLabel);
-        this.dstTerritoryDesc.setText(dstTerritoryLabel);
-        this.performeActionButton.setText(performeButtonText);
-        this.changeStateButton.setText(changeStateString);
+    public void updateSrcTerritory(String srcTerritoryName) {
+        this.srcTerritoryLabel.setText(srcTerritoryName);
     }
+
+    /**
+     * change the displayed destination territory.
+     * 
+     * @param srcTerritoryName the new text
+     */
+    public void updateDstTerritory(String dstTerritoryName) {
+        this.dstTerritoryLabel.setText(dstTerritoryName);
+    }
+
+    /**
+     * change the displayed phase related text.
+     * 
+     * @param srcTerritoryKindString
+     * @param dstterritoryKindString
+     * @param changeStateButonString
+     */
+    public void updatePhaseRelatedText(String srcTerritoryKindString, String dstterritoryKindString,
+            String changeStateButonString) {
+        this.srcTerritoryDesc.setText(srcTerritoryKindString);
+        this.dstTerritoryDesc.setText(dstterritoryKindString);
+        this.changeStateButton.setText(changeStateButonString);
+    }
+
+    /**
+     * set if the action panel should be enabled.
+     * 
+     * @param toEnable
+     */
+    public void enableActionPanel(boolean toEnable) {
+        statePanel.setVisible(toEnable);
+    }
+
 }

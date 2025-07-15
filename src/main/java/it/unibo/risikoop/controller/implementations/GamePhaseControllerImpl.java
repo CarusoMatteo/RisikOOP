@@ -62,12 +62,11 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         this.turnManager = tm;
         this.phases = new EnumMap<>(PhaseKey.class);
         this.viewList = viewList;
-
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(tm, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
         phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(tm));
-        phases.put(PhaseKey.ATTACK, new AttackPhase(tm));
-        phases.put(PhaseKey.MOVEMENT, new MovementPhase(tm));
+        phases.put(PhaseKey.ATTACK, new AttackPhase(this, tm));
+        phases.put(PhaseKey.MOVEMENT, new MovementPhase(this, tm));
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
         phases.get(current).initializationPhase();
@@ -91,6 +90,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
     @Override
     public void performAction() {
+
         phase().performAction();
     }
 
@@ -112,6 +112,8 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         phase().initializationPhase();
 
         // After MOVEMENT transitions to COMBO, advance to next player's turn
+        viewList.forEach(i -> i.getMapScene()
+                .ifPresent(m -> m.enableAction(current == PhaseKey.ATTACK || current == PhaseKey.MOVEMENT)));
         if (prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO) {
             turnManager.nextPlayer();
             viewList.stream().map(v -> v.getMapScene())
@@ -120,6 +122,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
                             turnManager.getCurrentPlayer().getColor(),
                             turnManager.getCurrentPlayer().getObjectiveCard(),
                             turnManager.getCurrentPlayer().getGameCards())));
+
         }
     }
 
@@ -128,5 +131,23 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         if (phase().isComplete()) {
             advancePhase();
         }
+    }
+
+    @Override
+    public void updateSrcTerritory(String srcTerritoryName) {
+        viewList.forEach(i -> i.getMapScene().ifPresent(m -> m.updateSrcTerritory(srcTerritoryName)));
+
+    }
+
+    @Override
+    public void updateDstTerritory(String dstTerritoryName) {
+        viewList.forEach(i -> i.getMapScene().ifPresent(m -> m.updateDstTerritory(dstTerritoryName)));
+    }
+
+    @Override
+    public void updatePhaseRelatedText(String srcTerritoryKindString, String dstterritoryKindString,
+            String changeStateButonString) {
+        viewList.forEach(i -> i.getMapScene().ifPresent(
+                m -> m.updatePhaseRelatedText(srcTerritoryKindString, dstterritoryKindString, changeStateButonString)));
     }
 }

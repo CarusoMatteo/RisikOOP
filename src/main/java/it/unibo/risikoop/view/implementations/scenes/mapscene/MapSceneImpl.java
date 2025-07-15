@@ -30,9 +30,9 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
     // private final Controller controller;
     private final CurrentPlayerJPanel currentPlayerPanel;
-    private final JPanel mapPanel;
+    private final MapJPanel mapPanel;
     private final CardJpanel cardPanel;
-    private final JPanel actionPanel;
+    private final ActionJPanel actionPanel;
 
     /**
      * Constructor for the MapScene.
@@ -165,5 +165,48 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         gbc.weightx = 1;
         gbc.weighty = SMALL_PANEL_PROPORTION;
         rightPanel.add(this.actionPanel, gbc);
+    }
+
+    /**
+     * change the displayed source territory.
+     * 
+     * @param srcTerritoryName the new text
+     */
+    @Override
+    public void updateSrcTerritory(String srcTerritoryName) {
+        actionPanel.updateSrcTerritory(srcTerritoryName);
+    }
+
+    /**
+     * change the displayed destination territory.
+     * 
+     * @param srcTerritoryName the new text
+     */
+    @Override
+    public void updateDstTerritory(String dstTerritoryName) {
+        actionPanel.updateDstTerritory(dstTerritoryName);
+    }
+
+    /**
+     * change the displayed phase related text.
+     * 
+     * @param srcTerritoryKindString
+     * @param dstterritoryKindString
+     * @param changeStateButonString
+     */
+    @Override
+    public void updatePhaseRelatedText(String srcTerritoryKindString, String dstterritoryKindString,
+            String changeStateButonString) {
+        actionPanel.updatePhaseRelatedText(srcTerritoryKindString, dstterritoryKindString, changeStateButonString);
+    }
+
+    @Override
+    public void changeTerritoryUnits(String territoryName, int units) {
+        mapPanel.changeUnitsOfTerritory(territoryName, units);
+    }
+
+    @Override
+    public void enableAction(boolean toEnable) {
+        actionPanel.enableActionPanel(toEnable);
     }
 }

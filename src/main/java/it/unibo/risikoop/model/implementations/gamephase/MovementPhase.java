@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -24,6 +25,7 @@ public final class MovementPhase implements GamePhase {
     }
 
     private final TurnManager turnManager;
+    private final GamePhaseController gpc;
     private Territory source;
     private Territory destination;
     private int unitsToMove;
@@ -33,10 +35,14 @@ public final class MovementPhase implements GamePhase {
     /**
      * Constructs a MovementPhase with the specified TurnManager.
      * Initializes the phase state to SELECT_SOURCE.
+     * 
+     * @param gamePhaseController
      *
-     * @param turnManager the TurnManager that manages the turns in the game
+     * @param turnManager         the TurnManager that manages the turns in the
+     *                            game
      */
-    public MovementPhase(final TurnManager turnManager) {
+    public MovementPhase(GamePhaseController gamePhaseController, final TurnManager turnManager) {
+        this.gpc = gamePhaseController;
         this.turnManager = turnManager;
         this.source = null;
         this.destination = null;
@@ -55,10 +61,12 @@ public final class MovementPhase implements GamePhase {
             if (owned.contains(t) && t.getUnits() >= 2) {
                 this.source = t;
                 unitsToMove = 0;
+                gpc.updateSrcTerritory(t.getName());
             }
         } else if (state == PhaseState.SELECT_DESTINATION) {
             if (source.getNeightbours().contains(t)) {
                 this.destination = t;
+                gpc.updateDstTerritory(t.getName());
             }
         }
     }
@@ -93,6 +101,6 @@ public final class MovementPhase implements GamePhase {
 
     @Override
     public void initializationPhase() {
-        // TODO Auto-generated method stub
+        gpc.updatePhaseRelatedText("from", "to", "go to reinforcment state");
     }
 }

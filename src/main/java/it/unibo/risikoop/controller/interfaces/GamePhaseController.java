@@ -46,6 +46,28 @@ public interface GamePhaseController {
      * @param units the number of units to use
      */
     void setUnitsToUse(int units);
+
+    /**
+     * change the displayed source territory.
+     * 
+     * @param srcTerritoryName the new text
+     */
+    public void updateSrcTerritory(String srcTerritoryName);
+
+    /**
+     * change the displayed destination territory.
+     * 
+     * @param srcTerritoryName the new text
+     */
+    public void updateDstTerritory(String dstTerritoryName);
+
+    /**
+     * change the displayed phase related text.
+     * 
+     * @param srcTerritoryKindString
+     * @param dstterritoryKindString
+     * @param changeStateButonString
+     */
+    public void updatePhaseRelatedText(String srcTerritoryKindString, String dstterritoryKindString,
+            String changeStateButonString);
 }
-
-
