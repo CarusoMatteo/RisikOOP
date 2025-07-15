@@ -161,10 +161,10 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     @Override
     public void nextPlayer() {
         turnManager.nextPlayer();
-        viewList.stream().map(v -> v.getMapScene())
-                .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
-                        turnManager.getCurrentPlayer().getName(),
-                        turnManager.getCurrentPlayer().getColor())));
+        // viewList.stream().map(v -> v.getMapScene())
+        // .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
+        // turnManager.getCurrentPlayer().getName(),
+        // turnManager.getCurrentPlayer().getColor())));
     }
 
     @Override
