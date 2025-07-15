@@ -90,6 +90,7 @@ public final class ControllerImpl implements Controller {
         Collections.shuffle(territories);
         for (int i = 0; i < territories.size(); i++) {
             players.get(i % players.size()).addTerritory(territories.get(i));
+            territories.get(i).setOwner(players.get(i % players.size()));
         }
         players.forEach(p -> {
             p.setObjectiveCard(new ObjectiveCardFactoryImpl(gameManager).createObjectiveCard(p));

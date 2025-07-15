@@ -119,6 +119,7 @@ public final class AttackPhase implements GamePhase {
             this.defender = t.getOwner();
             this.defenderDst = t;
         }
+
     }
 
     @Override
