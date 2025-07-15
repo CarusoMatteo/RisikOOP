@@ -44,10 +44,19 @@ public final class ActionJPanel extends JPanel {
         add(stateLabel);
         add(changeStateButton);
         changeStateButton.addActionListener(i -> {
-            this.changeState();
-            this.stateLabel.setText(controller.getGamePhaseController().getStateDescription() + " "
-                    + controller.getGamePhaseController().getInnerStatePhaseDescription());
+
+            changeStateButtonBehavior();
         });
+    }
+
+    private void changeStateButtonBehavior() {
+        this.changeState();
+        updateStateLabel();
+        this.setButtons();
+        statePanel.setVisible(
+                controller.getGamePhaseController().getStateDescription().equals("Fase di gestione attacchi")
+                        || controller.getGamePhaseController().getStateDescription()
+                                .equals("Fase di gestione spostamenti"));
     }
 
     private JPanel statePanel() {
@@ -68,8 +77,11 @@ public final class ActionJPanel extends JPanel {
         panel.add(performeActionButton, gbc);
         performeActionButton.addActionListener(i -> {
             controller.getGamePhaseController().performAction();
-            this.stateLabel.setText(controller.getGamePhaseController().getStateDescription() + " "
-                    + controller.getGamePhaseController().getInnerStatePhaseDescription());
+            updateStateLabel();
+            this.setButtons();
+            if (controller.getGamePhaseController().getCurrentPhase().isComplete()) {
+                changeStateButtonBehavior();
+            }
         });
         return panel;
     }
@@ -161,7 +173,25 @@ public final class ActionJPanel extends JPanel {
         statePanel.setVisible(toEnable);
     }
 
+    /**
+     * update the text inside the statae label.
+     * 
+     */
+    public void updateStateLabel() {
+        this.stateLabel.setText(controller.getGamePhaseController().getStateDescription() + " "
+                + controller.getGamePhaseController().getInnerStatePhaseDescription());
+    }
+
     private void changeState() {
         controller.getGamePhaseController().nextPhase();
+    }
+
+    private void setButtons() {
+        changeStateButton.setVisible(
+                controller.getGamePhaseController().getCurrentPhase().isComplete());
+        performeActionButton.setVisible(
+                !controller.getGamePhaseController().getStateDescription()
+                        .equals("Fase di gestione combo")
+                        || !(controller.getGamePhaseController().getCurrentPhase().isComplete()));
     }
 }

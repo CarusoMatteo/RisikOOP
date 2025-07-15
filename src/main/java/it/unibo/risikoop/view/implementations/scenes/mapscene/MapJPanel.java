@@ -30,6 +30,7 @@ public final class MapJPanel extends JPanel implements ViewerListener {
             """;
 
     private final transient Controller controller;
+    private final ActionJPanel ap;
     private final transient Graph graph;
     private final transient SwingViewer viewer;
     private final View view;
@@ -39,9 +40,12 @@ public final class MapJPanel extends JPanel implements ViewerListener {
     /**
      * Constructor for MapJPanel.
      * 
-     * @param controller The controller to retrieve graph data and unit count.
+     * @param actionPanel The ActionPanel that will be used when we click a
+     *                    territory for updating the state labels
+     * @param controller  The controller to retrieve graph data and unit count.
      */
-    public MapJPanel(final Controller controller) {
+    public MapJPanel(final ActionJPanel actonPanel, final Controller controller) {
+        this.ap = actonPanel;
         this.controller = controller;
         setLayout(new BorderLayout());
 
@@ -106,6 +110,8 @@ public final class MapJPanel extends JPanel implements ViewerListener {
     public void buttonPushed(final String id) {
         controller.getGamePhaseController()
                 .selectTerritory(controller.getDataRetrieveController().getTerritoryFromName(id).get());
+        ap.updateStateLabel();
+
     }
 
     @Override
