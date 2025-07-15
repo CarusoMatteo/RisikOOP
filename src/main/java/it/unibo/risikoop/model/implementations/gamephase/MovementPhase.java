@@ -75,7 +75,9 @@ public final class MovementPhase implements GamePhase {
                 moved = false;
             }
         } else if (state == PhaseState.SELECT_DESTINATION) {
-            if (source.getNeightbours().contains(t) && !t.equals(source)) {
+            if (source.getNeightbours().contains(t)
+                    && !t.equals(source)
+                    && t.getOwner().equals(turnManager.getCurrentPlayer())) {
                 this.destination = t;
             }
         }

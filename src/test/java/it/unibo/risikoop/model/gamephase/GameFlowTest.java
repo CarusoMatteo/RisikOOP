@@ -155,11 +155,7 @@ class GameFlowTest {
         renforcementOnlyGame(1);
         assertEquals(playerNames.getFirst(), gpc.getTurnManager().getCurrentPlayer().getName());
         normalGame(0);
-        // assertEquals(COMBO, gpc.getStateDescription());
-        // combo();
-        // assertEquals(REINFORCEMENT, gpc.getStateDescription());
-        // renforcemente(0);
-        // assertEquals(ATTACK, gpc.getStateDescription());
+
     }
 
     private void renforcementOnlyGame(int playerIndex) {
@@ -226,7 +222,12 @@ class GameFlowTest {
                 playerNames.get(playerIndex),
                 gpc.getTurnManager().getCurrentPlayer().getName());
         assertEquals(MOVEMENT, gpc.getStateDescription());
-        // movement(playerIndex);
+        movementPlayer1(playerIndex);
+
+        assertEquals(
+                playerNames.get((playerIndex + 1) % playerNames.size()),
+                gpc.getTurnManager().getCurrentPlayer().getName());
+        assertEquals(COMBO, gpc.getStateDescription());
 
     }
 
@@ -498,7 +499,6 @@ class GameFlowTest {
 
     private void movementPlayer1(int playerIndex) {
         var p = gpc.getTurnManager().getCurrentPlayer();
-        var enemyTerritoryIndex = (playerIndex * playerNames.size() + playerNames.size() + 1) % territories.size();
         Territory enemyT = gameManager.getTerritory("T4").get();
         Territory src = gameManager.getTerritory("T2").get();
         Territory dst = gameManager.getTerritory("T1").get();
@@ -536,6 +536,25 @@ class GameFlowTest {
         gpc.performAction();
         assertEquals(SELECT_UNITS_MOVEMENTS, gpc.getInnerStatePhaseDescription());
 
+        // imposto le truppe da muovere
+        int unitToMove = 3;
+        int srcUnit = src.getUnits();
+        int dstUnit = dst.getUnits();
+        gpc.setUnitsToUse(unitToMove);
+        gpc.performAction();
+
+        // controllo se sono nella fase di spostamento truppe e muovo le truppe
+        assertEquals(MOVE_UNITS, gpc.getInnerStatePhaseDescription());
+        gpc.performAction();
+        assertEquals(srcUnit - unitToMove, src.getUnits());
+        assertEquals(dstUnit + unitToMove, dst.getUnits());
+        assertEquals(MOVE_UNITS, gpc.getInnerStatePhaseDescription());
+
+
+        // passo al prossimo player
+        gpc.nextPhase();
+        assertEquals(COMBO, gpc.getStateDescription());
+        assertEquals(playerNames.get(1), gpc.getTurnManager().getCurrentPlayer().getName());
     }
 
     @Test
