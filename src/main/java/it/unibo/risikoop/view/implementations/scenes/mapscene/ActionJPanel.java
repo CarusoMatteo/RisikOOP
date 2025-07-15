@@ -8,6 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
 
@@ -22,7 +23,9 @@ public final class ActionJPanel extends JPanel {
     private final JLabel dstTerritoryDesc = new JLabel("Territorio destinazione");
     private final JButton performeActionButton = new JButton("Esegui azione");
     private final JButton changeStateButton = new JButton("Cambia Stato");
-    private final JPanel statePanel = statePanel();
+    private final JTextField unitsTextField = new JTextField();
+    private final JPanel statePanel = labelButton();
+    private final Controller controller;
 
     /**
      * constructor.
@@ -30,10 +33,12 @@ public final class ActionJPanel extends JPanel {
      * @param controller the game controller
      */
     public ActionJPanel(final Controller controller) {
+        this.controller = controller;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        add(statePanel);
+        add(statePanel());
         add(changeStateButton);
+        changeStateButton.addActionListener(i -> this.changeState());
     }
 
     private JPanel statePanel() {
@@ -45,13 +50,14 @@ public final class ActionJPanel extends JPanel {
         gbc.gridy = 0;
         gbc.weightx = 1;
         gbc.weighty = 1;
-        panel.add(labelButton(), gbc);
+        panel.add(statePanel, gbc);
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = 0;
         gbc.weighty = 1;
         gbc.insets = new Insets(5, 0, 5, 5);
         panel.add(performeActionButton, gbc);
+        performeActionButton.addActionListener(i -> controller.getGamePhaseController().performAction());
         return panel;
     }
 
@@ -85,6 +91,18 @@ public final class ActionJPanel extends JPanel {
         labelGbc.weightx = 1;
         labelGbc.weighty = 1;
         panel.add(dstTerritoryLabel, labelGbc);
+
+        labelGbc.gridx = 0;
+        labelGbc.gridy = 2;
+        labelGbc.weightx = 0;
+        labelGbc.weighty = 1;
+        panel.add(new JLabel("Number of units to use"), labelGbc);
+
+        labelGbc.gridx = 1;
+        labelGbc.gridy = 2;
+        labelGbc.weightx = 1;
+        labelGbc.weighty = 1;
+        panel.add(unitsTextField, labelGbc);
 
         return panel;
     }
@@ -130,4 +148,7 @@ public final class ActionJPanel extends JPanel {
         statePanel.setVisible(toEnable);
     }
 
+    private void changeState() {
+        controller.getGamePhaseController().nextPhase();
+    }
 }

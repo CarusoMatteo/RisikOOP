@@ -104,6 +104,8 @@ public final class MapJPanel extends JPanel implements ViewerListener {
 
     @Override
     public void buttonPushed(final String id) {
+        controller.getGamePhaseController()
+                .selectTerritory(controller.getDataRetrieveController().getTerritoryFromName(id).get());
     }
 
     @Override

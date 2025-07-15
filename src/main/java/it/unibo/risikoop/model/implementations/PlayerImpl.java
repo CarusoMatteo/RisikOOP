@@ -138,6 +138,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public boolean addTerritories(final List<Territory> territories) {
+        territories.forEach(i -> i.setOwner(this));
         Objects.requireNonNull(territories, "territories must not be null");
         return this.territories.addAll(territories);
     }

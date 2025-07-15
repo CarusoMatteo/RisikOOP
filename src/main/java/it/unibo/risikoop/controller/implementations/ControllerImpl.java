@@ -30,6 +30,7 @@ public final class ControllerImpl implements Controller {
     private final GameManager gameManager = new GameManagerImpl();
     private final List<RisikoView> viewList = new LinkedList<>();
     private TurnManager turnManager;
+    private GamePhaseController gamePhaseController;
 
     /**
      * constructor.
@@ -57,6 +58,7 @@ public final class ControllerImpl implements Controller {
     public void beginToPlay() {
         assignTerritory();
         turnManager = new TurnManagerImpl(gameManager.getPlayers());
+        gamePhaseController = new GamePhaseControllerImpl(viewList, turnManager, gameManager);
         viewList.forEach(RisikoView::beginPlay);
         viewList.forEach(i -> i.getMapScene()
                 .ifPresent(m -> m.enableAction(false)));
@@ -104,7 +106,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public GamePhaseController getGamePhaseController() {
-        return new GamePhaseControllerImpl(viewList, turnManager, gameManager);
+        return gamePhaseController;
     }
 
     @Override

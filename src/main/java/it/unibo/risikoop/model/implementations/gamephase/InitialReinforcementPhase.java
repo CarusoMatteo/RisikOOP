@@ -2,6 +2,7 @@ package it.unibo.risikoop.model.implementations.gamephase;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.GamePhase;
@@ -19,18 +20,24 @@ public final class InitialReinforcementPhase implements GamePhase {
     private final TurnManager turnManager;
     private final int initialUnits;
     private final LogicReinforcementCalculator logic;
+    private GamePhaseController gpc;
 
     /**
      * Constructs an InitialReinforcementPhase with the specified TurnManager and
      * GameManager.
      * The initial number of units is calculated based on the number of territories
      * and players.
+     * 
+     * @param gamePhaseControllerImpl
      *
-     * @param turnManager the TurnManager that manages the turns in the game
-     * @param gameManager the GameManager that manages the game state
+     * @param turnManager             the TurnManager that manages the turns in the
+     *                                game
+     * @param gameManager             the GameManager that manages the game state
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
-    public InitialReinforcementPhase(final TurnManager turnManager, final GameManager gameManager) {
+    public InitialReinforcementPhase(GamePhaseController gamePhaseController, final TurnManager turnManager,
+            final GameManager gameManager) {
+        this.gpc = gamePhaseController;
         this.turnManager = turnManager;
         this.logic = new LogicCalcInitialUnitsImpl(gameManager);
         initialUnits = logic.calcPlayerUnits();
@@ -63,6 +70,7 @@ public final class InitialReinforcementPhase implements GamePhase {
             t.addUnits(1);
             p.removeUnitsToPlace(1);
         }
+        
     }
 
     @Override

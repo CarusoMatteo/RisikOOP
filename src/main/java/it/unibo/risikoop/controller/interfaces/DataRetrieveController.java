@@ -45,6 +45,15 @@ public interface DataRetrieveController {
     Optional<Integer> getTerritoryUnitsFromName(String name);
 
     /**
+     * a method for retrieving a territory by its name.
+     * 
+     * @param name the name of the territory you want to retrieve
+     * @return the number of units of the territory, if no territory has that name
+     *         returns Optional.empty()
+     */
+    Optional<Territory> getTerritoryFromName(String name);
+
+    /**
      * 
      * @return the current player's name
      */

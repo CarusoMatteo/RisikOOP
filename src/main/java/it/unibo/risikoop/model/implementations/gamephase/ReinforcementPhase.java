@@ -1,6 +1,8 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
+import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
+import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -27,9 +29,10 @@ public final class ReinforcementPhase implements GamePhase {
      *
      * @param turnManager the TurnManager tracking current player and turns
      */
-    public ReinforcementPhase(final TurnManager turnManager) {
+    public ReinforcementPhase(final GameManager gm, final TurnManager turnManager) {
         this.turnManager = turnManager;
         this.isFirtsReq = true;
+        this.logic = new LogicCalcInitialUnitsImpl(gm);
     }
 
     @Override

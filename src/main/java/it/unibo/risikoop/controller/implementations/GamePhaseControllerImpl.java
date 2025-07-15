@@ -62,9 +62,9 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         this.turnManager = tm;
         this.phases = new EnumMap<>(PhaseKey.class);
         this.viewList = viewList;
-        phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(tm, gm));
+        phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, tm, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
-        phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(tm));
+        phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(gm, tm));
         phases.put(PhaseKey.ATTACK, new AttackPhase(this, tm));
         phases.put(PhaseKey.MOVEMENT, new MovementPhase(this, tm));
 
@@ -81,6 +81,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     @Override
     public void selectTerritory(final Territory t) {
         phase().selectTerritory(t);
+        viewList.forEach(i -> i.getMapScene().ifPresent(m -> m.changeTerritoryUnits(t.getName(), t.getUnits())));
     }
 
     @Override
@@ -90,8 +91,13 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
     @Override
     public void performAction() {
-
         phase().performAction();
+        viewList.stream().map(v -> v.getMapScene())
+                .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
+                        turnManager.getCurrentPlayer().getName(),
+                        turnManager.getCurrentPlayer().getColor(),
+                        turnManager.getCurrentPlayer().getObjectiveCard(),
+                        turnManager.getCurrentPlayer().getGameCards())));
     }
 
     private void advancePhase() {
@@ -116,12 +122,6 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
                 .ifPresent(m -> m.enableAction(current == PhaseKey.ATTACK || current == PhaseKey.MOVEMENT)));
         if (prev == PhaseKey.MOVEMENT && current == PhaseKey.COMBO) {
             turnManager.nextPlayer();
-            viewList.stream().map(v -> v.getMapScene())
-                    .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
-                            turnManager.getCurrentPlayer().getName(),
-                            turnManager.getCurrentPlayer().getColor(),
-                            turnManager.getCurrentPlayer().getObjectiveCard(),
-                            turnManager.getCurrentPlayer().getGameCards())));
 
         }
     }
@@ -130,7 +130,17 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     public void nextPhase() {
         if (phase().isComplete()) {
             advancePhase();
+            viewList.stream().map(v -> v.getMapScene())
+                    .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
+                            turnManager.getCurrentPlayer().getName(),
+                            turnManager.getCurrentPlayer().getColor(),
+                            turnManager.getCurrentPlayer().getObjectiveCard(),
+                            turnManager.getCurrentPlayer().getGameCards())));
         }
+
+        System.out.println(current.name());
+        System.out.println(turnManager.getCurrentPlayer().getName());
+
     }
 
     @Override

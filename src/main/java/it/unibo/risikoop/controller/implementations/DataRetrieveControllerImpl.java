@@ -80,4 +80,9 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     public Player getCurrentPlayer() {
         return tm.getCurrentPlayer();
     }
+
+    @Override
+    public Optional<Territory> getTerritoryFromName(String name) {
+        return gm.getTerritory(name);
+    }
 }
