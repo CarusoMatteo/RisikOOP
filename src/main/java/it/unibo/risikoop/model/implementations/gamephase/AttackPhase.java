@@ -2,7 +2,6 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
 import java.util.List;
-import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
@@ -50,7 +49,6 @@ public final class AttackPhase implements GamePhase {
 
     private final TurnManager turnManager;
     private final LogicAttack logic;
-    private final GamePhaseController gpc;
     private PhaseState state;
     private final Player attacker;
     private Player defender;
@@ -117,11 +115,9 @@ public final class AttackPhase implements GamePhase {
         if (state == PhaseState.SELECT_ATTACKER && isValidAttacker(t)) {
             this.attackerSrc = t;
             unitsToUse = 0;
-            gpc.updateSrcTerritory(t.getName());
         } else if (state == PhaseState.SELECT_DEFENDER && isValidDefender(t)) {
             this.defender = t.getOwner();
             this.defenderDst = t;
-            gpc.updateDstTerritory(t.getName());
         }
     }
 

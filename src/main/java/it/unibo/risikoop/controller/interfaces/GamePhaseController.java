@@ -77,4 +77,6 @@ public interface GamePhaseController {
     void nextPlayer();
 
     GamePhase getCurrentPhase();
+
+    void updateDstTerritory(String name);
 }

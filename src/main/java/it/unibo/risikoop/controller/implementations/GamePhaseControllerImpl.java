@@ -4,7 +4,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import it.unibo.risikoop.controller.implementations.logicgame.AttackTest;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.implementations.gamephase.AttackPhase;
 import it.unibo.risikoop.model.implementations.gamephase.ComboPhaseImpl;
@@ -13,6 +12,7 @@ import it.unibo.risikoop.model.implementations.gamephase.MovementPhase;
 import it.unibo.risikoop.model.implementations.gamephase.ReinforcementPhase;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.GamePhase;
+import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 import it.unibo.risikoop.view.interfaces.RisikoView;
@@ -157,13 +157,6 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     }
 
     @Override
-    public void nextPhase() {
-        if (phase().isComplete()) {
-            advancePhase();
-        }
-    }
-
-    @Override
     public String getStateDescription() {
         return String.copyValueOf(current.getLabelDesc().toCharArray());
     }
@@ -176,10 +169,10 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     @Override
     public void nextPlayer() {
         turnManager.nextPlayer();
+        Player p = turnManager.getCurrentPlayer();
         viewList.stream().map(v -> v.getMapScene())
-                .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
-                        turnManager.getCurrentPlayer().getName(),
-                        turnManager.getCurrentPlayer().getColor())));
+                .forEach(i -> i.ifPresent(
+                        m -> m.updateCurrentPlayer(p.getName(), p.getColor(), p.getObjectiveCard(), p.getGameCards())));
     }
 
     @Override
