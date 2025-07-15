@@ -24,6 +24,7 @@ public final class ActionJPanel extends JPanel {
     private final JLabel dstTerritoryDesc = new JLabel("Territorio destinazione");
     private final JButton performeActionButton = new JButton("Esegui azione");
     private final JButton changeStateButton = new JButton("Cambia Stato");
+    private final JLabel stateLabel;
     private final JTextField unitsTextField = new JTextField();
     private final JPanel statePanel = labelButton();
     private final Controller controller;
@@ -35,11 +36,18 @@ public final class ActionJPanel extends JPanel {
      */
     public ActionJPanel(final Controller controller) {
         this.controller = controller;
+        this.stateLabel = new JLabel(controller.getGamePhaseController().getStateDescription() + " "
+                + controller.getGamePhaseController().getInnerStatePhaseDescription());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add(statePanel());
+        add(stateLabel);
         add(changeStateButton);
-        changeStateButton.addActionListener(i -> this.changeState());
+        changeStateButton.addActionListener(i -> {
+            this.changeState();
+            this.stateLabel.setText(controller.getGamePhaseController().getStateDescription() + " "
+                    + controller.getGamePhaseController().getInnerStatePhaseDescription());
+        });
     }
 
     private JPanel statePanel() {
@@ -58,7 +66,11 @@ public final class ActionJPanel extends JPanel {
         gbc.weighty = 1;
         gbc.insets = new Insets(5, 0, 5, 5);
         panel.add(performeActionButton, gbc);
-        performeActionButton.addActionListener(i -> controller.getGamePhaseController().performAction());
+        performeActionButton.addActionListener(i -> {
+            controller.getGamePhaseController().performAction();
+            this.stateLabel.setText(controller.getGamePhaseController().getStateDescription() + " "
+                    + controller.getGamePhaseController().getInnerStatePhaseDescription());
+        });
         return panel;
     }
 

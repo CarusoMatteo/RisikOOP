@@ -28,6 +28,11 @@ import it.unibo.risikoop.view.interfaces.RisikoView;
  */
 public final class GamePhaseControllerImpl implements GamePhaseController {
 
+    @Override
+    public void updateDstTerritory(String name) {
+        viewList.forEach(i -> i.getMapScene().ifPresent(m -> m.updateDstTerritory(name)));
+    }
+
     private enum PhaseKey {
         INITIAL_REINFORCEMENT("Fase di rinforzo iniziale"),
         COMBO("Fase di gestione combo"),
