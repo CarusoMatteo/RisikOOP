@@ -45,16 +45,19 @@ public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
         final ObjectiveType type = getRandomObjectiveType();
 
         switch (type) {
-            case KILL_PLAYER_OR_CONQUER_24_TERRITORIES:
+            case KILL_PLAYER_OR_CONQUER_24_TERRITORIES -> {
                 return new KillPlayerOrConquer24Builder(gameManager, owner).createCard();
-            case CONQUER_TERRITORIES:
+            }
+            case CONQUER_TERRITORIES -> {
                 return new ConquerNTerritoriesWithXArmiesBuilder(
                         gameManager,
                         owner,
                         MIN_TERRITORIES_FOR_CONQUER,
                         MIN_ARMIES_FOR_CONQUER).createCard();
-            case CONQUER_CONTINENTS:
+            }
+            case CONQUER_CONTINENTS -> {
                 return new ConquerNContinetsBuilder(gameManager, owner).createCard();
+            }
         }
 
         return null;

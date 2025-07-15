@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Random;
 
 import it.unibo.risikoop.controller.interfaces.CardGameController;
 import it.unibo.risikoop.controller.interfaces.Controller;
@@ -12,10 +12,13 @@ import it.unibo.risikoop.controller.interfaces.DataAddingController;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
+import it.unibo.risikoop.model.implementations.ObjectiveCardFactoryImpl;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
+import it.unibo.risikoop.model.implementations.gamecards.territorycard.TerritoryCardImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.model.interfaces.cards.UnitType;
 import it.unibo.risikoop.view.implementations.SwingView;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
@@ -81,9 +84,20 @@ public final class ControllerImpl implements Controller {
         final var players = gameManager.getPlayers();
         final List<Territory> territories = new ArrayList<>(gameManager.getTerritories().stream().toList());
         Collections.shuffle(territories);
-        Stream.iterate(0, i -> i++)
-                .limit(territories.size())
-                .forEach(i -> players.get(i % players.size()).addTerritory(territories.get(i)));
+        for (int i = 0; i < territories.size(); i++) {
+            players.get(i % players.size()).addTerritory(territories.get(i));
+        }
+        players.forEach(p -> {
+            p.setObjectiveCard(new ObjectiveCardFactoryImpl(gameManager).createObjectiveCard(p));
+            /** for debug only */
+            p.getTerritories().forEach(i -> {
+                int numRandom = new Random().nextInt(0, 3);
+                UnitType t = numRandom == 0 ? UnitType.CANNON : (numRandom == 1 ? UnitType.JACK : UnitType.KNIGHT);
+                p.addGameCard(new TerritoryCardImpl(t, i));
+            });
+            /** ------------------ */
+        });
+
     }
 
     @Override

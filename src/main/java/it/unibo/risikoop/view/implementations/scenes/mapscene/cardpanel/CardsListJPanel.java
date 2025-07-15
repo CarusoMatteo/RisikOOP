@@ -173,18 +173,10 @@ public final class CardsListJPanel extends JPanel {
 
             final StringBuilder resoucePath = new StringBuilder("/cards/");
             switch (card.getType()) {
-                case CANNON:
-                    resoucePath.append("cannon.png");
-                    break;
-                case JACK:
-                    resoucePath.append("jack.png");
-                    break;
-                case KNIGHT:
-                    resoucePath.append("knight.png");
-                    break;
-                case WILD:
-                    resoucePath.append("wild.png");
-                    break;
+                case CANNON -> resoucePath.append("cannon.png");
+                case JACK -> resoucePath.append("jack.png");
+                case KNIGHT -> resoucePath.append("knight.png");
+                case WILD -> resoucePath.append("wild.png");
             }
             final ImageIcon resizedIcon = new ImageIcon(new ImageIcon(getClass().getResource(resoucePath.toString()))
                     .getImage()

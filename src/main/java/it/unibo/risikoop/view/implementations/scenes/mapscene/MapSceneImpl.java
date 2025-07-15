@@ -52,12 +52,11 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
         this.mapPanel = new MapJPanel(controller);
 
-        // TODO: Remove getDebugCardPanel
-        // this.cardPanel = new CardJpanel(
-        // data.getCurrentPlayerObjectiveCard(),
-        // data.getCurrentPlayerGameCards(),
-        // controller);
-        this.cardPanel = getDebugCardPanel(controller);
+        this.cardPanel = new CardJpanel(
+                data.getCurrentPlayerObjectiveCard(),
+                data.getCurrentPlayerGameCards(),
+                controller);
+        // this.cardPanel = getDebugCardPanel(controller);
 
         this.actionPanel = new ActionJPanel();
 
