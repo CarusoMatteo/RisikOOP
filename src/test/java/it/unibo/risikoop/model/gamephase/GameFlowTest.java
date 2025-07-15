@@ -42,6 +42,7 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * </ul>
  * </p>
  */
+// committo prima del merge
 class GameFlowTest {
 
     // evita literal duplicati
@@ -549,7 +550,6 @@ class GameFlowTest {
         assertEquals(srcUnit - unitToMove, src.getUnits());
         assertEquals(dstUnit + unitToMove, dst.getUnits());
         assertEquals(MOVE_UNITS, gpc.getInnerStatePhaseDescription());
-
 
         // passo al prossimo player
         gpc.nextPhase();
