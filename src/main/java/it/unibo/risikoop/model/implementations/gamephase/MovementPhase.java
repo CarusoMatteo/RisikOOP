@@ -75,7 +75,7 @@ public final class MovementPhase implements GamePhase {
                 moved = false;
             }
         } else if (state == PhaseState.SELECT_DESTINATION) {
-            if (source.getNeightbours().contains(t)) {
+            if (source.getNeightbours().contains(t) && !t.equals(source)) {
                 this.destination = t;
             }
         }
@@ -86,7 +86,7 @@ public final class MovementPhase implements GamePhase {
         if (state == PhaseState.SELECT_SOURCE && source != null) {
             state = PhaseState.SELECT_DESTINATION;
         } else if (state == PhaseState.SELECT_DESTINATION && destination != null) {
-            state = PhaseState.MOVE_UNITS;
+            state = PhaseState.SELECT_UNITS;
         } else if (state == PhaseState.SELECT_UNITS && unitsToMove > 0) {
             state = PhaseState.MOVE_UNITS;
         } else if (state == PhaseState.MOVE_UNITS) {
@@ -104,7 +104,9 @@ public final class MovementPhase implements GamePhase {
 
     @Override
     public void setUnitsToUse(final int units) {
-        if (source != null && units <= source.getUnits() - 1) {
+        if (state == PhaseState.SELECT_UNITS
+                && units <= source.getUnits() - 1
+                && units > 0) {
             this.unitsToMove = units;
         }
     }

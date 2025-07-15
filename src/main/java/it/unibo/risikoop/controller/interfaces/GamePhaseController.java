@@ -1,5 +1,6 @@
 package it.unibo.risikoop.controller.interfaces;
 
+import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 
@@ -74,4 +75,6 @@ public interface GamePhaseController {
      * go to the next player in the list.
      */
     void nextPlayer();
+
+    GamePhase getCurrentPhase();
 }

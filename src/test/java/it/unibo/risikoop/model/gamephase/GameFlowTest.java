@@ -1,6 +1,9 @@
 package it.unibo.risikoop.model.gamephase;
 
+import java.lang.reflect.Field;
 import java.util.List;
+
+import javax.print.DocFlavor.SERVICE_FORMATTED;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -11,14 +14,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.risikoop.controller.implementations.GamePhaseControllerImpl;
+import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
+import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
 import it.unibo.risikoop.model.implementations.TerritoryImpl;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
+import it.unibo.risikoop.model.implementations.gamephase.AttackPhase;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
@@ -51,6 +57,12 @@ class GameFlowTest {
     private static final String SELECT_DEFENDER = "Select the territory to attack";
     private static final String SELECT_UNITS = "Choose how many units to use";
     private static final String EXECUTE_ATTACK = "Resolve the attack";
+
+    // inner state movement
+    private static final String SELECT_SOURCE = "Select the source territory";
+    private static final String SELECT_DESTINATION = "Select the destination territory";
+    private static final String SELECT_UNITS_MOVEMENTS = "Choose number of units to move";
+    private static final String MOVE_UNITS = "Execute the move";
 
     private TurnManager turnManager;
     private GamePhaseController gpc;
@@ -204,7 +216,17 @@ class GameFlowTest {
         renforcemente(playerIndex);
 
         // inizio la fase di attacco
+        assertEquals(
+                playerNames.get(playerIndex),
+                gpc.getTurnManager().getCurrentPlayer().getName());
+        assertEquals(ATTACK, gpc.getStateDescription());
         attack(playerIndex);
+
+        assertEquals(
+                playerNames.get(playerIndex),
+                gpc.getTurnManager().getCurrentPlayer().getName());
+        assertEquals(MOVEMENT, gpc.getStateDescription());
+        // movement(playerIndex);
 
     }
 
@@ -364,6 +386,9 @@ class GameFlowTest {
         Territory enemyT = gameManager.getTerritory("T" + enemyTerritoryIndex).get();
         Territory myT = gameManager.getTerritory("T" + (playerIndex * playerNames.size() + 1)).get();
 
+        // assegno a tutti i territory 5 truppe
+        gameManager.getTerritories().stream().forEach(t -> t.addUnits(5));
+
         // 1) controllo che il giocatore sia quello corretto
         assertEquals(playerNames.get(playerIndex), p.getName());
 
@@ -384,20 +409,132 @@ class GameFlowTest {
         gpc.selectTerritory(myT);
         gpc.performAction();
         assertEquals(SELECT_DEFENDER, gpc.getInnerStatePhaseDescription());
+        gpc.nextPhase();
+        assertEquals(ATTACK, gpc.getStateDescription());
 
         // 6) seleziono un mio territorioe non succede nulla
         gpc.selectTerritory(myT);
         gpc.performAction();
         assertEquals(SELECT_DEFENDER, gpc.getInnerStatePhaseDescription());
+        gpc.nextPhase();
+        assertEquals(ATTACK, gpc.getStateDescription());
 
         // 6) seleziono il territorio avversario e diventa quelle da attaccare
         gpc.selectTerritory(enemyT);
         gpc.performAction();
         assertEquals(SELECT_UNITS, gpc.getInnerStatePhaseDescription());
+        gpc.nextPhase();
+        assertEquals(ATTACK, gpc.getStateDescription());
+
+        // 7) tocco terrytory a caso non deve fae nulla
+        gpc.selectTerritory(enemyT);
+        gpc.performAction();
+        gpc.selectTerritory(myT);
+        gpc.performAction();
+        assertEquals(SELECT_UNITS, gpc.getInnerStatePhaseDescription());
+        gpc.nextPhase();
+        assertEquals(ATTACK, gpc.getStateDescription());
+
+        // imposto le unità con cui attaccare
+        var unitsUsed = 2;
+        gpc.setUnitsToUse(unitsUsed);
+
+        // 8) imposto le unità con cui attacare
+        var unitAttacker = myT.getUnits();
+        gpc.performAction();
+        assertEquals(EXECUTE_ATTACK, gpc.getInnerStatePhaseDescription());
+
+        // 9) attacco
+        setWinAttacker();
+        gpc.performAction();
+        assertEquals(p.getName(), enemyT.getOwner().getName());
+        assertEquals(unitsUsed, enemyT.getUnits());
+        assertEquals(unitAttacker - unitsUsed, myT.getUnits());
+
+        // controllo di essere tornato su select attaker
+        assertEquals(SELECT_ATTACKER, gpc.getInnerStatePhaseDescription());
+
+        // faccio vincere il difensore
+        gpc.selectTerritory(myT);
+        gpc.performAction();
+        var t = gameManager.getTerritory("T4").get();
+        gpc.selectTerritory(t);
+        gpc.performAction();
+        gpc.setUnitsToUse(unitsUsed);
+        gpc.performAction();
+        setWinDefender();
+        unitAttacker = myT.getUnits();
+        var defenderUnit = t.getUnits();
+        gpc.performAction();
+        assertEquals(playerNames.get(1), t.getOwner().getName());
+        assertEquals(defenderUnit, t.getUnits());
+        assertEquals(unitAttacker - unitsUsed, myT.getUnits());
+
+        // controllo di poter passare alla prossima fase
+        gpc.nextPhase();
+        assertEquals(MOVEMENT, gpc.getStateDescription());
 
     }
 
-    private void movement() {
+    private void setWinAttacker() {
+        AttackPhase phase = (AttackPhase) gpc.getCurrentPhase();
+        LogicAttackImpl l = (LogicAttackImpl) phase.getAttackLogic();
+
+        List<Integer> attackerDice = List.of(6);
+        List<Integer> defender = List.of(5, 5, 5);
+        l.setAttackerDice(attackerDice);
+        l.setDefencerDice(defender);
+    }
+
+    private void setWinDefender() {
+        AttackPhase phase = (AttackPhase) gpc.getCurrentPhase();
+        LogicAttackImpl l = (LogicAttackImpl) phase.getAttackLogic();
+
+        List<Integer> attackerDice = List.of(5, 5, 5);
+        List<Integer> defender = List.of(6);
+        l.setAttackerDice(attackerDice);
+        l.setDefencerDice(defender);
+    }
+
+    private void movementPlayer1(int playerIndex) {
+        var p = gpc.getTurnManager().getCurrentPlayer();
+        var enemyTerritoryIndex = (playerIndex * playerNames.size() + playerNames.size() + 1) % territories.size();
+        Territory enemyT = gameManager.getTerritory("T4").get();
+        Territory src = gameManager.getTerritory("T2").get();
+        Territory dst = gameManager.getTerritory("T1").get();
+
+        // 1) controllo che il giocatore sia quello corretto
+        assertEquals(playerNames.get(playerIndex), p.getName());
+
+        // 2) contrtollo che la fase sia quella giusta
+        assertEquals(MOVEMENT, gpc.getStateDescription());
+
+        // 3) controllo che lo stato interno sia seleziona sorgente
+        assertEquals(SELECT_SOURCE, gpc.getInnerStatePhaseDescription());
+
+        // 4) seleziono come territorio uno che non sia mio (Non succede nulla)
+        gpc.selectTerritory(enemyT);
+        gpc.performAction();
+        assertEquals(SELECT_SOURCE, gpc.getInnerStatePhaseDescription());
+
+        // seleziono un mio territorio
+        gpc.selectTerritory(dst);
+        gpc.selectTerritory(src);
+        gpc.performAction();
+        assertEquals(SELECT_DESTINATION, gpc.getInnerStatePhaseDescription());
+
+        // seleziono un territorio non mio
+        gpc.selectTerritory(enemyT);
+        gpc.performAction();
+        assertEquals(SELECT_DESTINATION, gpc.getInnerStatePhaseDescription());
+
+        gpc.selectTerritory(src);
+        gpc.performAction();
+        assertEquals(SELECT_DESTINATION, gpc.getInnerStatePhaseDescription());
+
+        gpc.selectTerritory(dst);
+        gpc.performAction();
+        assertEquals(SELECT_UNITS_MOVEMENTS, gpc.getInnerStatePhaseDescription());
 
     }
 

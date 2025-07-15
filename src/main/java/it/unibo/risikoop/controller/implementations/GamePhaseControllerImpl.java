@@ -83,7 +83,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
         phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(gm, this));
-        phases.put(PhaseKey.ATTACK, new AttackPhase(this, new AttackTest()));
+        phases.put(PhaseKey.ATTACK, new AttackPhase(this));
         phases.put(PhaseKey.MOVEMENT, new MovementPhase(this));
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
@@ -163,5 +163,10 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     @Override
     public String getInnerStatePhaseDescription() {
         return phase().getInnerState();
+    }
+
+    @Override
+    public GamePhase getCurrentPhase() {
+        return phase();
     }
 }

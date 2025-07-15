@@ -1,6 +1,9 @@
 
 package it.unibo.risikoop.model.implementations.gamephase;
 
+import java.util.List;
+import java.util.Optional;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
@@ -121,7 +124,9 @@ public final class AttackPhase implements GamePhase {
 
     @Override
     public void setUnitsToUse(final int units) {
-        if (units > 0 && units <= attackerSrc.getUnits() - 1) {
+        if (state == PhaseState.SELECT_UNITS
+                && units <= attackerSrc.getUnits() - 1
+                && units > 0) {
             unitsToUse = units;
         }
     }
@@ -133,6 +138,22 @@ public final class AttackPhase implements GamePhase {
     @Override
     public String getInnerState() {
         return state.getDescription();
+    }
+
+    // Orredno serev per testare gli attacchi
+    public void setAttackerDice(List<Integer> dice) {
+        LogicAttackImpl l = (LogicAttackImpl) logic;
+        l.setAttackerDice(dice);
+    }
+
+    // Orrendo serve per testare gli attacchi
+    public void setDefencerDice(List<Integer> dice) {
+        LogicAttackImpl l = (LogicAttackImpl) logic;
+        l.setDefencerDice(dice);
+    }
+
+    public LogicAttack getAttackLogic() {
+        return logic;
     }
 
     private boolean isValidAttacker(final Territory t) {
