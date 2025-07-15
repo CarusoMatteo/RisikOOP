@@ -163,6 +163,7 @@ public final class PlayerImpl implements Player {
         return killer.isPresent();
     }
 
+<<<<<<< HEAD
     @Override
     public ObjectiveCard getObjectiveCard() {
         return objectiveCard
@@ -174,4 +175,6 @@ public final class PlayerImpl implements Player {
         this.objectiveCard = Optional.ofNullable(objectiveCard);
     }
 
+=======
+>>>>>>> game-flow-test
 }

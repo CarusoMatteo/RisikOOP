@@ -44,7 +44,7 @@ public final class LogicReinforcementCalculatorImpl implements LogicReinforcemen
     private int calcTerritoryUnits() {
         final Player p = turnManager.getCurrentPlayer();
         final int units = p.getTerritories().size() / 3;
-        return units < 0 ? 1 : units;
+        return units <= 0 ? 1 : units;
     }
 
     private int calcContinetUnits() {
@@ -52,7 +52,7 @@ public final class LogicReinforcementCalculatorImpl implements LogicReinforcemen
         final Player p = turnManager.getCurrentPlayer();
 
         return continents.stream()
-                .filter(c -> p.getTerritories().contains(c.getTerritories()))
+                .filter(c -> p.getTerritories().containsAll(c.getTerritories()))
                 .mapToInt(Continent::getUnitReward).sum();
     }
 }

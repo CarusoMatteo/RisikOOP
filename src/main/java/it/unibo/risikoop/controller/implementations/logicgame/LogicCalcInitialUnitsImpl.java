@@ -32,7 +32,8 @@ public final class LogicCalcInitialUnitsImpl implements LogicReinforcementCalcul
         final int territories = gameManager.getTerritories().size();
         final int players = gameManager.getPlayers().size();
         final double avg = (double) territories / players;
-        return (int) Math.floor(AVERAGE_UNITS_PER_TERRITORY * avg);
+        final int trups = (int) Math.floor(AVERAGE_UNITS_PER_TERRITORY * avg);
+        return trups > 0 ? trups : 1;
     }
 
 }

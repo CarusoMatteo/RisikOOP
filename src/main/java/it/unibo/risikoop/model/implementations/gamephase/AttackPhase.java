@@ -1,8 +1,12 @@
 
 package it.unibo.risikoop.model.implementations.gamephase;
 
+import java.util.List;
+import java.util.Optional;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
@@ -22,10 +26,26 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
 public final class AttackPhase implements GamePhase {
 
     private enum PhaseState {
-        SELECT_ATTACKER,
-        SELECT_DEFENDER,
-        SELECT_UNITS,
-        EXECUTE_ATTACK
+        SELECT_ATTACKER("Select the territory to attack from"),
+        SELECT_DEFENDER("Select the territory to attack"),
+        SELECT_UNITS("Choose how many units to use"),
+        EXECUTE_ATTACK("Resolve the attack");
+
+        private final String description;
+
+        PhaseState(String description) {
+            this.description = description;
+        }
+
+        /** Restituisce la descrizione leggibile di questo stato */
+        public String getDescription() {
+            return description;
+        }
+
+        @Override
+        public String toString() {
+            return description;
+        }
     }
 
     private final TurnManager turnManager;
@@ -37,6 +57,7 @@ public final class AttackPhase implements GamePhase {
     private Territory defenderDst;
     private int unitsToUse;
     private boolean isEnd;
+    private final GamePhaseController GamePhaseController;
 
     /**
      * Constructs a new AttackPhase associated with the given turn manager.
@@ -49,18 +70,23 @@ public final class AttackPhase implements GamePhase {
      * until an attacker territory is chosen.
      * </p>
      *
-     * @param turnManager the {@link TurnManager} that determines the current player
+     * @param gpc the {@link GamePhaseController}
      */
 
-    public AttackPhase(final TurnManager turnManager) {
-        this.turnManager = turnManager;
-        this.logic = new LogicAttackImpl();
+    public AttackPhase(final GamePhaseController gpc, final LogicAttack logic) {
+        this.GamePhaseController = gpc;
+        this.turnManager = gpc.getTurnManager();
+        this.logic = logic;
         this.state = PhaseState.SELECT_ATTACKER;
         this.attacker = turnManager.getCurrentPlayer();
         this.attackerSrc = null;
         this.defenderDst = null;
         this.unitsToUse = 0;
         this.isEnd = true;
+    }
+
+    public AttackPhase(final GamePhaseController gpc) {
+        this(gpc, new LogicAttackImpl());
     }
 
     @Override
@@ -98,7 +124,9 @@ public final class AttackPhase implements GamePhase {
 
     @Override
     public void setUnitsToUse(final int units) {
-        if (units > 0 && units <= attackerSrc.getUnits() - 1) {
+        if (state == PhaseState.SELECT_UNITS
+                && units <= attackerSrc.getUnits() - 1
+                && units > 0) {
             unitsToUse = units;
         }
     }
@@ -107,14 +135,38 @@ public final class AttackPhase implements GamePhase {
     public void initializationPhase() {
     }
 
+    @Override
+    public String getInnerState() {
+        return state.getDescription();
+    }
+
+    // Orredno serev per testare gli attacchi
+    public void setAttackerDice(List<Integer> dice) {
+        LogicAttackImpl l = (LogicAttackImpl) logic;
+        l.setAttackerDice(dice);
+    }
+
+    // Orrendo serve per testare gli attacchi
+    public void setDefencerDice(List<Integer> dice) {
+        LogicAttackImpl l = (LogicAttackImpl) logic;
+        l.setDefencerDice(dice);
+    }
+
+    public LogicAttack getAttackLogic() {
+        return logic;
+    }
+
     private boolean isValidAttacker(final Territory t) {
         final boolean hasEnemyNeighbor = t.getNeightbours().stream()
                 .anyMatch(neighbour -> !neighbour.getOwner().equals(turnManager.getCurrentPlayer()));
         final boolean hasEnoughUnits = t.getUnits() >= 2;
-        return hasEnemyNeighbor && hasEnoughUnits;
+        final boolean isMine = t.getOwner().equals(turnManager.getCurrentPlayer());
+        return hasEnemyNeighbor && hasEnoughUnits && isMine;
     }
 
     private boolean isValidDefender(final Territory t) {
-        return !t.getOwner().equals(turnManager.getCurrentPlayer()) && attackerSrc.getNeightbours().contains(t);
+        boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
+        boolean isNeightbour = attackerSrc.getNeightbours().contains(t);
+        return !isMy && isNeightbour;
     }
 }

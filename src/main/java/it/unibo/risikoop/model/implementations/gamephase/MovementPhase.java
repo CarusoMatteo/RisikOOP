@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -16,11 +17,27 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * number of units to move.
  */
 public final class MovementPhase implements GamePhase {
-    enum PhaseState {
-        SELECT_SOURCE,
-        SELECT_DESTINATION,
-        SELECT_UNITS,
-        MOVE_UNITS
+    public enum PhaseState {
+        SELECT_SOURCE("Select the source territory"),
+        SELECT_DESTINATION("Select the destination territory"),
+        SELECT_UNITS("Choose number of units to move"),
+        MOVE_UNITS("Execute the move");
+
+        private final String description;
+
+        PhaseState(String description) {
+            this.description = description;
+        }
+
+        /** Restituisce la descrizione associata a questo stato */
+        public String getDescription() {
+            return description;
+        }
+
+        @Override
+        public String toString() {
+            return description;
+        }
     }
 
     private final TurnManager turnManager;
@@ -34,14 +51,14 @@ public final class MovementPhase implements GamePhase {
      * Constructs a MovementPhase with the specified TurnManager.
      * Initializes the phase state to SELECT_SOURCE.
      *
-     * @param turnManager the TurnManager that manages the turns in the game
+     * @param gpc the game phase manager
      */
-    public MovementPhase(final TurnManager turnManager) {
-        this.turnManager = turnManager;
+    public MovementPhase(final GamePhaseController gpc) {
+        this.turnManager = gpc.getTurnManager();
         this.source = null;
         this.destination = null;
         this.unitsToMove = 0;
-        this.moved = false;
+        this.moved = true;
         this.state = PhaseState.SELECT_SOURCE;
     }
 
@@ -55,9 +72,12 @@ public final class MovementPhase implements GamePhase {
             if (owned.contains(t) && t.getUnits() >= 2) {
                 this.source = t;
                 unitsToMove = 0;
+                moved = false;
             }
         } else if (state == PhaseState.SELECT_DESTINATION) {
-            if (source.getNeightbours().contains(t)) {
+            if (source.getNeightbours().contains(t)
+                    && !t.equals(source)
+                    && t.getOwner().equals(turnManager.getCurrentPlayer())) {
                 this.destination = t;
             }
         }
@@ -68,7 +88,7 @@ public final class MovementPhase implements GamePhase {
         if (state == PhaseState.SELECT_SOURCE && source != null) {
             state = PhaseState.SELECT_DESTINATION;
         } else if (state == PhaseState.SELECT_DESTINATION && destination != null) {
-            state = PhaseState.MOVE_UNITS;
+            state = PhaseState.SELECT_UNITS;
         } else if (state == PhaseState.SELECT_UNITS && unitsToMove > 0) {
             state = PhaseState.MOVE_UNITS;
         } else if (state == PhaseState.MOVE_UNITS) {
@@ -86,7 +106,9 @@ public final class MovementPhase implements GamePhase {
 
     @Override
     public void setUnitsToUse(final int units) {
-        if (source != null && units <= source.getUnits() - 1) {
+        if (state == PhaseState.SELECT_UNITS
+                && units <= source.getUnits() - 1
+                && units > 0) {
             this.unitsToMove = units;
         }
     }
@@ -94,5 +116,10 @@ public final class MovementPhase implements GamePhase {
     @Override
     public void initializationPhase() {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public String getInnerState() {
+        return state.getDescription();
     }
 }

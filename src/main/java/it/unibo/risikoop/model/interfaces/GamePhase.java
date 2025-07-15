@@ -38,4 +38,10 @@ public interface GamePhase {
      * I initialize the phase by setting all the relevant data.
      */
     void initializationPhase();
+
+    /**
+     * 
+     * @return the inner state of phase
+     */
+    String getInnerState();
 }
