@@ -71,6 +71,7 @@ public final class ReinforcementPhase implements GamePhase {
 
     @Override
     public String getInnerState() {
-        return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " place units";
+        return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " place units: " +
+                gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace();
     }
 }
