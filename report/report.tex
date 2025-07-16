@@ -1,0 +1,131 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{alltt, fancyvrb, url}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% Questo commentalo se vuoi scrivere in inglese.
+\usepackage[italian]{babel}
+
+\usepackage[italian]{cleveref}
+
+\title{
+RisiKOOP \\
+\begin{large}
+Il gioco strategico per la conquista del mondo
+\end{large}
+}
+
+\author{Matteo Caruso, Matteo Ceccarelli, Franceso Sacripante}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Analisi}
+
+\section{Descrizione e requisiti}
+
+Il software mira a replicare il gioco Risiko, un gioco da tavolo di strategia a turni dove ogni giocatore controlla una squadra di unità allo scopo di completare un obiettivo determinato da una Carta Obiettivo pescata a inizio partita.
+Questa richiederà di conquistare dei continenti, annientare un'altra armata oppure conquistare un certo numero di territori.
+Il gioco inizia spartendo tutti i territori tra i giocatori e dà dei territori iniziali con cui rinforzarli.
+Ogni turno turno, il giocatore otterrà vari carri armati da posizionare sui suoi territori.
+Potrà poi attaccare territori adiacenti ai propri.
+Se riesce a conquistare almeno uno stato otterrà una Carta Territorio, utilizzabile per giocare combo
+\footnote{Le combo sono tris di carte. Saranno approfondite in dettaglio sucecssivamente.} al fine di ottenere ulteriori unità nei successivi turni.
+Infine avrà l'opportunità di spostare delle unità fra i suoi territori.
+
+\subsubsection{Requisiti funzionali}
+\begin{itemize}
+	\item Il software dovrà permettere di giocare a una semplice versione di Risiko.
+	\item Ogni giocatore ha una sua Carta Obiettivo e varie Carte Territorio.
+	\item L'attacco avviene tramite il tiro di dadi, il cui confronto ne determinerà l'esito.
+\end{itemize}
+
+\subsubsection{Requisiti non funzionali}
+\begin{itemize}
+	\item La mappa è selezionabile, scelta dai giocatori a inizio partita.
+	\item I giocatori dovranno poter nascondere le proprie Carte Obiettivo e Territorio agli altri giocatori.
+\end{itemize}
+
+\section{Modello del Dominio}
+
+Il gioco inizia con la selezione dei giocatori, del loro colore e della mappa.
+Successivamente vengono assegnati i territori, ed è chiesto ai giocatori di posizionare le loro unità rimanenti in quei territori.
+Ora inizia il game-loop del gioco, che si ripete fino a quando un giocatore non vince:
+% TODO: aggiungi fasi
+\begin{itemize}
+	\item Fase di rinforzo.
+	\item Fase di attacco.
+	\item Fase di spostamento finale.
+\end{itemize}
+
+% TODO: UML obbligatorio di sole interfacce: Mappa, Giocatore, Carte, Fasi di gioco.
+
+\chapter{Design}
+
+\section{Architettura}
+
+L'architettura del software è basata su un pattern Model-View-Controller (MVC).
+L'entry point dell'applicazione è il \texttt{Controller}, che si occupa di avviare il model, che eredita da \texttt{GameManager}, e le view registrate, che eredtano da \texttt{RisikoView}.
+Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingContrller} permette di impostare giocatori e la mappa; \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente; \texttt{TurnManager} permette di gestire le fasi del gioco.
+
+% TODO: UML delle interfacce per tutti i controller, il game manager e la risiko view.
+
+\section{Design dettagliato}
+% TODO: Design individuale da fare.
+
+\chapter{Sviluppo}
+
+\section{Testing automatizzato}
+Il testing automatizzato è stato realizzato tramite JUnit, focalizzato principalmente sul model, come l'insermineto della mappa, la gestione dei giocatori, la validazione delle combo di carte, e sulla gestione delle fasi di gioco.
+
+\section{Note di sviluppo}
+% TODO: Note di sviluppo individuale da fare con permalink a github su feature di linguaggio di cui vai fiero.
+
+\chapter{Commenti finali}
+
+\section{Autovalutazione e lavori futuri}
+% Obbligatorio individuale.
+
+\section{Difficoltà incontrate e commenit per i docenti}
+% Opzionale individuale.
+
+\appendix
+\chapter{Guida utente}
+
+\appendix
+\chapter{Esercitazioni di laboratorio}
+
+\section{matteo.caruso7@studio.unibo.it}
+
+\begin{itemize}
+	\item Laboratorio 08: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=178723#p247198}
+	\item Laboratorio 09: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=179154#p247764}
+	\item Laboratorio 10: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=180101#p248784}
+	\item Laboratorio 11: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=181206#p250854}
+\end{itemize}
+
+\section{matteo.ceccarelli@studio.unibo.it}
+% TODO: Compila i laboratori che hai fatto e metti l'email giusta.
+\begin{itemize}
+	\item Laboratorio XX: \url{https://virtuale.unibo.it}
+\end{itemize}
+
+\section{franceso.sacripante@studio.unibo.it}
+% TODO: Compila i laboratori che hai fatto e metti l'email giusta.
+\begin{itemize}
+	\item Laboratorio XX: \url{https://virtuale.unibo.it}
+\end{itemize}
+
+
+\bibliographystyle{alpha}
+\bibliography{blbliography}
+\end{document}
