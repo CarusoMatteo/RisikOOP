@@ -2,15 +2,21 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
-import it.unibo.risikoop.model.interfaces.GamePhase;
+import it.unibo.risikoop.model.interfaces.AttackResult;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseDescribable;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithActionToPerforme;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithAttack;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
 
 /**
  * Represents the attack phase in the game, managing the sequence of actions
@@ -22,7 +28,8 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * and coordinates the attack logic in conjunction with the current turn
  * manager.
  */
-public final class AttackPhase implements GamePhase {
+public final class AttackPhase
+        implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme, PhaseWithAttack {
 
     private enum PhaseState {
         SELECT_ATTACKER("Select the territory to attack from"),
@@ -106,7 +113,6 @@ public final class AttackPhase implements GamePhase {
             logic.attack(attacker, defender, attackerSrc, defenderDst, unitsToUse);
             isEnd = true; // Mark that an attack has been executed
             state = PhaseState.SELECT_ATTACKER; // Reset to allow for another attack
-            System.out.println("attack");
         }
     }
 
@@ -133,11 +139,7 @@ public final class AttackPhase implements GamePhase {
     }
 
     @Override
-    public void initializationPhase() {
-    }
-
-    @Override
-    public String getInnerState() {
+    public String getInnerStatePhaseDescription() {
         return state.getDescription();
     }
 
@@ -169,5 +171,15 @@ public final class AttackPhase implements GamePhase {
         boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
         boolean isNeightbour = attackerSrc.getNeightbours().contains(t);
         return !isMy && isNeightbour;
+    }
+
+    @Override
+    public Optional<AttackResult> showAttackResults() {
+        return logic.showAttackResults();
+    }
+
+    @Override
+    public void enableFastAttack() {
+        logic.enableFastAttack();
     }
 }

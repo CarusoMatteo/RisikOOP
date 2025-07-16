@@ -2,13 +2,14 @@ package it.unibo.risikoop.controller.interfaces.logicgame;
 
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithAttack;
 
 /**
  * Defines the core attack logic for resolving combat between two territories.
  * Implementations should encapsulate the dice rolls, unit losses, and territory
  * conquest rules of the game.
  */
-public interface LogicAttack {
+public interface LogicAttack extends PhaseWithAttack{
 
     /**
      * Executes an attack from one territory to another, resolving combat

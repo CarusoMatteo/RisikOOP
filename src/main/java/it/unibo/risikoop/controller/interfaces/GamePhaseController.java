@@ -1,8 +1,11 @@
 package it.unibo.risikoop.controller.interfaces;
 
-import it.unibo.risikoop.model.interfaces.GamePhase;
+import java.util.Optional;
+
+import it.unibo.risikoop.model.interfaces.AttackResult;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
 
 /**
  * Controller interface for managing the different phases of the game.
@@ -75,6 +78,24 @@ public interface GamePhaseController {
      */
     void nextPlayer();
 
+    /**
+     * Returns the current game phase.
+     *
+     * @return the current {@link GamePhase}
+     */
     GamePhase getCurrentPhase();
 
+    /**
+     * Shows the results of the attack.
+     *
+     * @return an {@link AttackResult} containing the dice rolls for both attacker
+     *         and defender
+     */
+    Optional<AttackResult> showAttackResults();
+
+    /**
+     * Enables fast attack mode, allowing the player to perform multiple attacks
+     * in quick succession without waiting for confirmation after each attack.
+     */
+    void enableFastAttack();
 }

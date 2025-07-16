@@ -1,7 +1,7 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
-import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Territory;
+import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
 
 /**
  * Implementation of the {@link GamePhase} interface representing the Combo
@@ -24,23 +24,6 @@ public final class ComboPhaseImpl implements GamePhase {
     }
 
     @Override
-    public void performAction() {
-    }
-
-    @Override
     public void selectTerritory(final Territory t) {
-    }
-
-    @Override
-    public void setUnitsToUse(final int units) {
-    }
-
-    @Override
-    public void initializationPhase() {
-    }
-
-    @Override
-    public String getInnerState() {
-        return "player chose combos";
     }
 }

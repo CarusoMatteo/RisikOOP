@@ -4,10 +4,12 @@ import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcement
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.interfaces.GameManager;
-import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseDescribable;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithInitialization;
 
 /**
  * ReinforcementPhase allows the current player to place all their
@@ -19,7 +21,7 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * - setUnitsToUse(...) is ignored
  * </p>
  */
-public final class ReinforcementPhase implements GamePhase {
+public final class ReinforcementPhase implements GamePhase, PhaseDescribable, PhaseWithInitialization {
 
     private final TurnManager turnManager;
     private final LogicReinforcementCalculator logic;
@@ -47,21 +49,12 @@ public final class ReinforcementPhase implements GamePhase {
     }
 
     @Override
-    public void performAction() {
-
-    }
-
-    @Override
     public boolean isComplete() {
         // Phase complete only when all reinforcement units are placed
         final Player current = turnManager.getCurrentPlayer();
         return current.getUnitsToPlace() == 0;
     }
 
-    @Override
-    public void setUnitsToUse(final int units) {
-        // Not used in this phase
-    }
 
     @Override
     public void initializationPhase() {
@@ -70,7 +63,7 @@ public final class ReinforcementPhase implements GamePhase {
     }
 
     @Override
-    public String getInnerState() {
+    public String getInnerStatePhaseDescription() {
         return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " place units: " +
                 gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace();
     }

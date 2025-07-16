@@ -5,10 +5,13 @@ import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
-import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseDescribable;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithActionToPerforme;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
 
 /**
  * Represents the movement phase of the Risiko game.
@@ -16,7 +19,7 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * The player selects a source territory, a destination territory, and the
  * number of units to move.
  */
-public final class MovementPhase implements GamePhase {
+public final class MovementPhase implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme {
     public enum PhaseState {
         SELECT_SOURCE("Select the source territory"),
         SELECT_DESTINATION("Select the destination territory"),
@@ -116,12 +119,7 @@ public final class MovementPhase implements GamePhase {
     }
 
     @Override
-    public void initializationPhase() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public String getInnerState() {
+    public String getInnerStatePhaseDescription() {
         return state.getDescription();
     }
 }
