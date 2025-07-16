@@ -9,13 +9,8 @@ import javax.swing.JPanel;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
-import it.unibo.risikoop.model.implementations.GameManagerImpl;
-import it.unibo.risikoop.model.implementations.TerritoryImpl;
-import it.unibo.risikoop.model.implementations.gamecards.territorycard.TerritoryCardImpl;
-import it.unibo.risikoop.model.implementations.gamecards.territorycard.WildCardImpl;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
-import it.unibo.risikoop.model.interfaces.cards.UnitType;
 import it.unibo.risikoop.view.implementations.scenes.mapscene.cardpanel.CardJpanel;
 import it.unibo.risikoop.view.interfaces.MapScene;
 
@@ -30,9 +25,9 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
     // private final Controller controller;
     private final CurrentPlayerJPanel currentPlayerPanel;
-    private final JPanel mapPanel;
+    private final MapJPanel mapPanel;
     private final CardJpanel cardPanel;
-    private final JPanel actionPanel;
+    private final ActionJPanel actionPanel;
 
     /**
      * Constructor for the MapScene.
@@ -50,16 +45,14 @@ public final class MapSceneImpl extends JPanel implements MapScene {
                 data.getCurrentPlayerName(),
                 data.getCurrentPlayerColor());
 
-        this.mapPanel = new MapJPanel(controller);
+        this.cardPanel = new CardJpanel(
+                data.getCurrentPlayerObjectiveCard(),
+                data.getCurrentPlayerGameCards(),
+                controller);
+        // this.cardPanel = getDebugCardPanel(controller);
 
-        // TODO: Remove getDebugCardPanel
-        // this.cardPanel = new CardJpanel(
-        // data.getCurrentPlayerObjectiveCard(),
-        // data.getCurrentPlayerGameCards(),
-        // controller);
-        this.cardPanel = getDebugCardPanel(controller);
-
-        this.actionPanel = new ActionJPanel();
+        this.actionPanel = new ActionJPanel(controller);
+        this.mapPanel = new MapJPanel(actionPanel, controller);
 
         setLayout(new GridBagLayout());
         setGridBagConstraints();
@@ -77,37 +70,47 @@ public final class MapSceneImpl extends JPanel implements MapScene {
                 new Color(playerColor.r(), playerColor.g(), playerColor.b()));
         cardPanel.updateCurrentPlayerCards(objectiveCard, cards);
     }
-
-    private CardJpanel getDebugCardPanel(final Controller controller) {
-        return new CardJpanel(
-                new ObjectiveCard() {
-                    @Override
-                    public boolean isAchieved() {
-                        return false;
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "Conquer 24 territories.";
-                    }
-                },
-                List.of(new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(new GameManagerImpl(), "Iceland")),
-                        new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(new GameManagerImpl(), "Quebec")),
-                        new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(new GameManagerImpl(), "Scandinavia")),
-                        new WildCardImpl(),
-                        new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(new GameManagerImpl(), "Congo")),
-                        new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(new GameManagerImpl(), "East Africa")),
-                        new WildCardImpl(),
-                        new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(new GameManagerImpl(), "Kamchatka")),
-                        new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(new GameManagerImpl(), "Siberia")),
-                        new WildCardImpl(),
-                        new WildCardImpl(),
-                        new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(new GameManagerImpl(), "Argentina")),
-                        new WildCardImpl(),
-                        new WildCardImpl(),
-                        new WildCardImpl()),
-                controller);
-    }
+    /*
+     * private CardJpanel getDebugCardPanel(final Controller controller) {
+     * return new CardJpanel(
+     * new ObjectiveCard() {
+     * 
+     * @Override
+     * public boolean isAchieved() {
+     * return false;
+     * }
+     * 
+     * @Override
+     * public String getDescription() {
+     * return "Conquer 24 territories.";
+     * }
+     * },
+     * List.of(new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(new
+     * GameManagerImpl(), "Iceland")),
+     * new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(new
+     * GameManagerImpl(), "Quebec")),
+     * new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(new
+     * GameManagerImpl(), "Scandinavia")),
+     * new WildCardImpl(),
+     * new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(new
+     * GameManagerImpl(), "Congo")),
+     * new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(new
+     * GameManagerImpl(), "East Africa")),
+     * new WildCardImpl(),
+     * new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(new
+     * GameManagerImpl(), "Kamchatka")),
+     * new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(new
+     * GameManagerImpl(), "Siberia")),
+     * new WildCardImpl(),
+     * new WildCardImpl(),
+     * new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(new GameManagerImpl(),
+     * "Argentina")),
+     * new WildCardImpl(),
+     * new WildCardImpl(),
+     * new WildCardImpl()),
+     * controller);
+     * }
+     */
 
     private void setGridBagConstraints() {
         final GridBagConstraints gbc = new GridBagConstraints();
@@ -167,4 +170,10 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         gbc.weighty = SMALL_PANEL_PROPORTION;
         rightPanel.add(this.actionPanel, gbc);
     }
+
+    @Override
+    public void changeTerritoryUnits(String territoryName, int units) {
+        mapPanel.changeUnitsOfTerritory(territoryName, units);
+    }
+
 }

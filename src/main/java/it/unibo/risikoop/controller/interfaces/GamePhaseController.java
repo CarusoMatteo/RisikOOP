@@ -14,7 +14,6 @@ import it.unibo.risikoop.model.interfaces.TurnManager;
  * </p>
  */
 public interface GamePhaseController {
-
     /**
      * Selects a territory to perform the current phase's action on.
      *
@@ -77,4 +76,5 @@ public interface GamePhaseController {
     void nextPlayer();
 
     GamePhase getCurrentPhase();
+
 }

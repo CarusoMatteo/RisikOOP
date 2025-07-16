@@ -41,6 +41,7 @@ public final class MovementPhase implements GamePhase {
     }
 
     private final TurnManager turnManager;
+    private final GamePhaseController gpc;
     private Territory source;
     private Territory destination;
     private int unitsToMove;
@@ -54,6 +55,7 @@ public final class MovementPhase implements GamePhase {
      * @param gpc the game phase manager
      */
     public MovementPhase(final GamePhaseController gpc) {
+        this.gpc = gpc;
         this.turnManager = gpc.getTurnManager();
         this.source = null;
         this.destination = null;

@@ -51,4 +51,14 @@ public interface Controller {
      */
     void gameOver();
 
+    /**
+     * Tells you if the territory with that name is owned by the player with that
+     * name.
+     * 
+     * @param territoryName the territory's name
+     * @param playerName    the player's name
+     * @return
+     */
+    boolean isOwned(String territoryName, String playerName);
+
 }

@@ -1,5 +1,6 @@
 package it.unibo.risikoop.model.implementations.gamecards.objectivecards;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,16 +13,19 @@ import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Specification;
 
 /**
- * Builder for an objective card that requires conquering a specified number of continents.
- * The continents are randomly selected from the available continents in the game.
+ * Builder for an objective card that requires conquering a specified number of
+ * continents.
+ * The continents are randomly selected from the available continents in the
+ * game.
  */
 public final class ConquerNContinetsBuilder extends AbstractObjectiveCardBuilder {
 
-    private static final int MIN_TERRITORIES = 10;
+    private static final int MIN_TERRITORIES = 2;
     private final Set<Continent> continents;
 
     /**
-     * Constructs a ConquerNContinetsBuilder with the specified GameManager and owner.
+     * Constructs a ConquerNContinetsBuilder with the specified GameManager and
+     * owner.
      * The continents are randomly selected to ensure a balanced objective.
      *
      * @param gameManager the GameManager that manages the game state
@@ -49,7 +53,7 @@ public final class ConquerNContinetsBuilder extends AbstractObjectiveCardBuilder
 
     private Set<Continent> createBalanceObjective() {
         int territories = 0;
-        final Set<Continent> selectedContinents = Set.of();
+        final Set<Continent> selectedContinents = new HashSet<>();
         while (territories < MIN_TERRITORIES) {
             final Optional<Continent> continent = getRandomContinent(selectedContinents);
             if (continent.isPresent()) {

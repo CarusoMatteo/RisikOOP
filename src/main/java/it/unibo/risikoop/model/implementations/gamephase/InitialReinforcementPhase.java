@@ -1,7 +1,5 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
-import java.io.Serial;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
@@ -70,6 +68,7 @@ public final class InitialReinforcementPhase implements GamePhase {
             t.addUnits(1);
             p.removeUnitsToPlace(1);
         }
+
     }
 
     @Override

@@ -173,4 +173,5 @@ public final class PlayerImpl implements Player {
     public void setObjectiveCard(final ObjectiveCard objectiveCard) {
         this.objectiveCard = Optional.ofNullable(objectiveCard);
     }
+
 }

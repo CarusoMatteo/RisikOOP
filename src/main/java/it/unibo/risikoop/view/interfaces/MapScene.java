@@ -12,16 +12,24 @@ import it.unibo.risikoop.model.interfaces.cards.GameCard;
  */
 public interface MapScene {
 
-    /**
-     * Updates the current player information displayed in the MapScene.
-     * 
-     * @param playerName    The name of the current player.
-     * @param playerColor   The color of the current player.
-     * @param objectiveCard The objective card of the current player.
-     * @param cards         The cards of the current player.
-     */
-    void updateCurrentPlayer(String playerName,
-            Color playerColor,
-            ObjectiveCard objectiveCard,
-            List<GameCard> cards);
+        /**
+         * Updates the current player information displayed in the MapScene.
+         * 
+         * @param playerName    The name of the current player.
+         * @param playerColor   The color of the current player.
+         * @param objectiveCard The objective card of the current player.
+         * @param cards         The cards of the current player.
+         */
+        void updateCurrentPlayer(String playerName,
+                        Color playerColor,
+                        ObjectiveCard objectiveCard,
+                        List<GameCard> cards);
+
+        /**
+         * change the displayed units for the the specific territory;
+         * 
+         * @param territoryName
+         */
+        public void changeTerritoryUnits(String territoryName, int units);
+
 }

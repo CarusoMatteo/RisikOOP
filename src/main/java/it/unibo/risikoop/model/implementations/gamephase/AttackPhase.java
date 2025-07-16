@@ -2,7 +2,6 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
 import java.util.List;
-import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
@@ -107,6 +106,7 @@ public final class AttackPhase implements GamePhase {
             logic.attack(attacker, defender, attackerSrc, defenderDst, unitsToUse);
             isEnd = true; // Mark that an attack has been executed
             state = PhaseState.SELECT_ATTACKER; // Reset to allow for another attack
+            System.out.println("attack");
         }
     }
 
@@ -120,6 +120,7 @@ public final class AttackPhase implements GamePhase {
             this.defender = t.getOwner();
             this.defenderDst = t;
         }
+
     }
 
     @Override
