@@ -33,7 +33,5 @@ public final class KillPlayerSpec implements Specification<PlayerGameContext> {
         return target.getKiller()
                 .filter(killer -> killer.equals(ctx.player()))
                 .isPresent();
-
-        // 3703685093
     }
 }
