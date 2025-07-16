@@ -16,3 +16,8 @@ bin/
 # Ignore mvc template project
 src/main/java/it/unibo/mvc
 .LCK*
+
+# Ignore all generated latex files except the source and output pdf
+report/*
+!report/report.tex
+!report/report.pdf

@@ -1,0 +1,59 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{alltt, fancyvrb, url}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% Questo commentalo se vuoi scrivere in inglese.
+\usepackage[italian]{babel}
+
+\usepackage[italian]{cleveref}
+
+\title{
+RisiK-OOP \\
+\begin{large}
+Il gioco strategico per la conquista del mondo
+\end{large}
+}
+
+\author{Matteo Caruso, Matteo Ceccarelli, Franceso Sacripante}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Analisi}
+
+\section{Descrizione e requisiti}
+
+Il software mira a replicare il gioco Risiko, un gioco da tavolo di strategia a turni dove ogni giocatore controlla una squadra di truppe allo scopo di completare un obiettivo determinato da una Carta Obiettivo pescata a inizio partita.
+Questa richiederà di conquistare dei continenti, annientare un'altra armata oppure conquistare un certo numero di stati.
+Il gioco inizia spartendo tutti gli stati tra i giocatori e dei carri armati iniziali.
+Ogni turno turno, il giocatore otterrà vari carri armati da posizionare sui suoi territori.
+Potrà poi attaccare stati confinanti ai propri territori oppure raggiungibili via percorsi navali.
+Se riesce a conquistare almeno uno stato otterrà una Carta Territorio, utilizzabile per ottenere ulteriori carri armati nei successivi turni.
+Infine avrà l'opportunità di spostare delle unità fra i suoi territori.
+
+\subsubsection{Requisiti funzionali}
+\begin{itemize}
+	\item Il software dovrà permettere di giocare a una semplice versione di Risiko.
+	\item La mappa è selezionabile, scelta dai giocatori a inizio partita.
+	\item Ogni giocatore ha una sua Carta Obiettivo e varie Carte Territorio segrete.
+	\item L'attacco avviene tramite il tiro di dadi, il cui confronto ne determinerà l'esito.
+\end{itemize}
+
+\subsubsection{Requisiti non funzionali}
+\begin{itemize}
+	\item Giocare contro una rudimentale intelligenza artificiale, in grado di simulare i comportamenti di un giocatore.
+	\item Salvare la partita, in modo da poterla riprendere in futuro.
+\end{itemize}
+
+
+\end{document}
