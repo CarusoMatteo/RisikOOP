@@ -81,7 +81,6 @@ public final class MovementPhase implements GamePhase {
                     && !t.equals(source)
                     && t.getOwner().equals(turnManager.getCurrentPlayer())) {
                 this.destination = t;
-                gpc.updateDstTerritory(t.getName());
             }
         }
     }

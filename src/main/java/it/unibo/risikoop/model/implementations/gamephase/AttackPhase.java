@@ -106,6 +106,7 @@ public final class AttackPhase implements GamePhase {
             logic.attack(attacker, defender, attackerSrc, defenderDst, unitsToUse);
             isEnd = true; // Mark that an attack has been executed
             state = PhaseState.SELECT_ATTACKER; // Reset to allow for another attack
+            System.out.println("attack");
         }
     }
 

@@ -60,8 +60,7 @@ public final class ControllerImpl implements Controller {
         turnManager = new TurnManagerImpl(gameManager.getPlayers());
         gamePhaseController = new GamePhaseControllerImpl(viewList, turnManager, gameManager);
         viewList.forEach(RisikoView::beginPlay);
-        viewList.forEach(i -> i.getMapScene()
-                .ifPresent(m -> m.enableAction(false)));
+
     }
 
     @Override
@@ -99,8 +98,7 @@ public final class ControllerImpl implements Controller {
                 int numRandom = new Random().nextInt(0, 3);
                 UnitType t = numRandom == 0 ? UnitType.CANNON : (numRandom == 1 ? UnitType.JACK : UnitType.KNIGHT);
                 p.addGameCard(new TerritoryCardImpl(t, i));
-            });
-            /** ------------------ */
+            });/** ------------------ */
         });
 
     }
@@ -115,4 +113,15 @@ public final class ControllerImpl implements Controller {
         return new CardGameControllerImpl(gameManager);
     }
 
+    @Override
+    public boolean isOwned(String territoryName, String playerName) {
+        var territoryOptional = gameManager.getTerritory(territoryName);
+        var playerOptional = gameManager.getPlayers()
+            .stream()
+            .filter(p -> p.getName().equals(playerName))
+            .findFirst();
+        return playerOptional.isPresent() 
+            && territoryOptional.isPresent() 
+            && playerOptional.get().getTerritories().contains(territoryOptional.get());
+    }
 }

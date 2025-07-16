@@ -28,11 +28,6 @@ import it.unibo.risikoop.view.interfaces.RisikoView;
  */
 public final class GamePhaseControllerImpl implements GamePhaseController {
 
-    @Override
-    public void updateDstTerritory(String name) {
-        viewList.forEach(i -> i.getMapScene().ifPresent(m -> m.updateDstTerritory(name)));
-    }
-
     /**
      * 
      */

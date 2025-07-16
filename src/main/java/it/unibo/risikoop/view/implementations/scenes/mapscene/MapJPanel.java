@@ -110,6 +110,7 @@ public final class MapJPanel extends JPanel implements ViewerListener {
     public void buttonPushed(final String id) {
         controller.getGamePhaseController()
                 .selectTerritory(controller.getDataRetrieveController().getTerritoryFromName(id).get());
+        ap.clickTerritory(id);
         ap.updateStateLabel();
 
     }

@@ -7,6 +7,7 @@ import java.awt.Insets;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -27,6 +28,7 @@ public final class ActionJPanel extends JPanel {
     private final JLabel stateLabel;
     private final JTextField unitsTextField = new JTextField();
     private final JPanel statePanel = labelButton();
+    private ClickingTerritoryMovementState internalViewState = ClickingTerritoryMovementState.SELECTING_ATTACKER;
     private final Controller controller;
 
     /**
@@ -40,13 +42,30 @@ public final class ActionJPanel extends JPanel {
                 + controller.getGamePhaseController().getInnerStatePhaseDescription());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        add(statePanel());
+        add(movmentPanel());
         add(stateLabel);
         add(changeStateButton);
         changeStateButton.addActionListener(i -> {
-
             changeStateButtonBehavior();
         });
+        changeStateButtonBehavior();
+    }
+
+    private void switchInternalState() {
+        switch (internalViewState) {
+            case SELECTING_DEFENDER -> {
+                internalViewState = ClickingTerritoryMovementState.SELECTING_UNITS;
+            }
+            case SELECTING_ATTACKER -> {
+                internalViewState = ClickingTerritoryMovementState.SELECTING_DEFENDER;
+            }
+            case SELECTING_UNITS -> {
+                internalViewState = ClickingTerritoryMovementState.SELECTING_ATTACKER;
+            }
+
+            default -> {
+            }
+        }
     }
 
     private void changeStateButtonBehavior() {
@@ -54,12 +73,10 @@ public final class ActionJPanel extends JPanel {
         updateStateLabel();
         this.setButtons();
         statePanel.setVisible(
-                controller.getGamePhaseController().getStateDescription().equals("Fase di gestione attacchi")
-                        || controller.getGamePhaseController().getStateDescription()
-                                .equals("Fase di gestione spostamenti"));
+                inMovementBasedState());
     }
 
-    private JPanel statePanel() {
+    private JPanel movmentPanel() {
         final JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         final GridBagConstraints gbc = new GridBagConstraints();
@@ -76,14 +93,44 @@ public final class ActionJPanel extends JPanel {
         gbc.insets = new Insets(5, 0, 5, 5);
         panel.add(performeActionButton, gbc);
         performeActionButton.addActionListener(i -> {
-            controller.getGamePhaseController().performAction();
-            updateStateLabel();
-            this.setButtons();
-            if (controller.getGamePhaseController().getCurrentPhase().isComplete()) {
-                changeStateButtonBehavior();
-            }
+            performeActionButtonBehavior();
         });
         return panel;
+    }
+
+    private void performeActionButtonBehavior() {
+        if (inMovementBasedState()) {
+            switchInternalState();
+            if (internalViewState == ClickingTerritoryMovementState.SELECTING_UNITS)
+                try {
+                    Integer units = Integer.valueOf(unitsTextField.getText());
+                    controller.getGamePhaseController().setUnitsToUse(units);
+
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Errore, inserire un numero di cifre",
+                            "Errore valore non numerico", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+        }
+        controller.getGamePhaseController().performAction();
+        updateStateLabel();
+        this.setButtons();
+        if (controller.getGamePhaseController().getCurrentPhase().isComplete()) {
+            changeStateButtonBehavior();
+        }
+
+    }
+
+    private boolean inMovementBasedState() {
+        return inAttackState() || inMovementState();
+    }
+
+    private boolean inAttackState() {
+        return controller.getGamePhaseController().getStateDescription().equals("Fase di gestione attacchi");
+    }
+
+    private boolean inMovementState() {
+        return controller.getGamePhaseController().getStateDescription().equals("Fase di gestione spostamenti");
     }
 
     private JPanel labelButton() {
@@ -132,45 +179,19 @@ public final class ActionJPanel extends JPanel {
         return panel;
     }
 
-    /**
-     * change the displayed source territory.
-     * 
-     * @param srcTerritoryName the new text
-     */
-    public void updateSrcTerritory(String srcTerritoryName) {
-        this.srcTerritoryLabel.setText(srcTerritoryName);
-    }
+    public void clickTerritory(final String territoryName) {
+        if (inMovementBasedState()) {
+            if (internalViewState == ClickingTerritoryMovementState.SELECTING_ATTACKER) {
+                if (controller.isOwned(territoryName, controller.getDataRetrieveController().getCurrentPlayerName())) {
+                    srcTerritoryLabel.setText(territoryName);
+                }
+            } else if (internalViewState == ClickingTerritoryMovementState.SELECTING_DEFENDER) {
+                if (!controller.isOwned(territoryName, controller.getDataRetrieveController().getCurrentPlayerName())) {
+                    dstTerritoryLabel.setText(territoryName);
+                }
 
-    /**
-     * change the displayed destination territory.
-     * 
-     * @param srcTerritoryName the new text
-     */
-    public void updateDstTerritory(String dstTerritoryName) {
-        this.dstTerritoryLabel.setText(dstTerritoryName);
-    }
-
-    /**
-     * change the displayed phase related text.
-     * 
-     * @param srcTerritoryKindString
-     * @param dstterritoryKindString
-     * @param changeStateButonString
-     */
-    public void updatePhaseRelatedText(String srcTerritoryKindString, String dstterritoryKindString,
-            String changeStateButonString) {
-        this.srcTerritoryDesc.setText(srcTerritoryKindString);
-        this.dstTerritoryDesc.setText(dstterritoryKindString);
-        this.changeStateButton.setText(changeStateButonString);
-    }
-
-    /**
-     * set if the action panel should be enabled.
-     * 
-     * @param toEnable
-     */
-    public void enableActionPanel(boolean toEnable) {
-        statePanel.setVisible(toEnable);
+            }
+        }
     }
 
     /**
@@ -193,5 +214,14 @@ public final class ActionJPanel extends JPanel {
                 !controller.getGamePhaseController().getStateDescription()
                         .equals("Fase di gestione combo")
                         || !(controller.getGamePhaseController().getCurrentPhase().isComplete()));
+    }
+
+    /**
+     * A enum that is used for updating the
+     */
+    private enum ClickingTerritoryMovementState {
+        SELECTING_DEFENDER,
+        SELECTING_ATTACKER,
+        SELECTING_UNITS;
     }
 }

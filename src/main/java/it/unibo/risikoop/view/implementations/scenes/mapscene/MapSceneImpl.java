@@ -171,46 +171,9 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         rightPanel.add(this.actionPanel, gbc);
     }
 
-    /**
-     * change the displayed source territory.
-     * 
-     * @param srcTerritoryName the new text
-     */
-    @Override
-    public void updateSrcTerritory(String srcTerritoryName) {
-        actionPanel.updateSrcTerritory(srcTerritoryName);
-    }
-
-    /**
-     * change the displayed destination territory.
-     * 
-     * @param srcTerritoryName the new text
-     */
-    @Override
-    public void updateDstTerritory(String dstTerritoryName) {
-        actionPanel.updateDstTerritory(dstTerritoryName);
-    }
-
-    /**
-     * change the displayed phase related text.
-     * 
-     * @param srcTerritoryKindString
-     * @param dstterritoryKindString
-     * @param changeStateButonString
-     */
-    @Override
-    public void updatePhaseRelatedText(String srcTerritoryKindString, String dstterritoryKindString,
-            String changeStateButonString) {
-        actionPanel.updatePhaseRelatedText(srcTerritoryKindString, dstterritoryKindString, changeStateButonString);
-    }
-
     @Override
     public void changeTerritoryUnits(String territoryName, int units) {
         mapPanel.changeUnitsOfTerritory(territoryName, units);
     }
 
-    @Override
-    public void enableAction(boolean toEnable) {
-        actionPanel.enableActionPanel(toEnable);
-    }
 }

@@ -26,40 +26,10 @@ public interface MapScene {
                         List<GameCard> cards);
 
         /**
-         * change the displayed source territory.
-         * 
-         * @param srcTerritoryName the new text
-         */
-        public void updateSrcTerritory(String srcTerritoryName);
-
-        /**
-         * change the displayed destination territory.
-         * 
-         * @param srcTerritoryName the new text
-         */
-        public void updateDstTerritory(String dstTerritoryName);
-
-        /**
-         * change the displayed phase related text.
-         * 
-         * @param srcTerritoryKindString
-         * @param dstterritoryKindString
-         * @param changeStateButonString
-         */
-        public void updatePhaseRelatedText(String srcTerritoryKindString, String dstterritoryKindString,
-                        String changeStateButonString);
-
-        /**
          * change the displayed units for the the specific territory;
          * 
          * @param territoryName
          */
         public void changeTerritoryUnits(String territoryName, int units);
 
-        /**
-         * set if you can move troups or attack.
-         * 
-         * @param toEnable
-         */
-        public void enableAction(boolean toEnable);
 }
