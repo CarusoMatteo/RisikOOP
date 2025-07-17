@@ -67,11 +67,7 @@ public final class MapJPanel extends JPanel implements ViewerListener {
 
     }
 
-    /**
-     * this method is public because it has to be accessed by the action panel every
-     * time there is a change of a territory owner.
-     */
-    public void assignNewNodesColor() {
+    private void assignNewNodesColor() {
         for (Node n : graph.nodes().toList()) {
             Color territoryColor = controller.getDataRetrieveController().getTerritoryFromName(n.getId()).get()
                     .getOwner().getColor();
@@ -128,6 +124,7 @@ public final class MapJPanel extends JPanel implements ViewerListener {
                 .selectTerritory(controller.getDataRetrieveController().getTerritoryFromName(id).get())) {
             ap.clickTerritory(id);
             ap.updateStateLabel();
+            assignNewNodesColor();
         }
 
     }
