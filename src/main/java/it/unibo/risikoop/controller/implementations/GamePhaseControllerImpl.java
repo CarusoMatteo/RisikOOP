@@ -99,7 +99,8 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         phases.put(PhaseKey.MOVEMENT, new MovementPhase(this));
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
-        phases.get(current).initializationPhase();
+        currentPhaseAs(PhaseWithInitialization.class)
+                .ifPresent(PhaseWithInitialization::initializationPhase);
 
         this.initialDone = false;
     }
@@ -164,13 +165,13 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     }
 
     @Override
-    public Optional<AttackResult> showAttackResults(){
+    public Optional<AttackResult> showAttackResults() {
         return currentPhaseAs(PhaseWithAttack.class)
                 .flatMap(PhaseWithAttack::showAttackResults);
     }
     
     @Override
-    public void enableFastAttack(){
+    public void enableFastAttack() {
         currentPhaseAs(PhaseWithAttack.class)
                 .ifPresent(PhaseWithAttack::enableFastAttack);
     }
