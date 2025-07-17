@@ -42,7 +42,7 @@ public final class AttackPhase
     private Territory defenderDst;
     private int unitsToUse;
     private boolean isEnd;
-    private final GamePhaseController GamePhaseController;
+    private final GamePhaseController gamePhaseController;
     private InternalState internalState;
 
     /**
@@ -60,8 +60,8 @@ public final class AttackPhase
      */
 
     public AttackPhase(final GamePhaseController gpc, final LogicAttack logic) {
-        this.GamePhaseController = gpc;
-        this.turnManager = gpc.getTurnManager();
+        this.gamePhaseController = gpc;
+        this.turnManager = gamePhaseController.getTurnManager();
         this.logic = logic;
         this.attacker = turnManager.getCurrentPlayer();
         this.attackerSrc = null;

@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.swing_viewer.ViewPanel;
 import org.graphstream.ui.view.View;
@@ -12,6 +13,7 @@ import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
+import it.unibo.risikoop.model.implementations.Color;
 
 /**
  * Panel to dislpay the Map Ghraph in the MapScene.
@@ -20,7 +22,6 @@ public final class MapJPanel extends JPanel implements ViewerListener {
     private static final long serialVersionUID = 1L;
     private static final String COMMON_STYLE_SHEET = """
             node {
-                fill-color: orange;
                 size: 30px;
                 text-size: 15px;
                 text-color: black;
@@ -62,7 +63,22 @@ public final class MapJPanel extends JPanel implements ViewerListener {
         this.add(panel, BorderLayout.CENTER);
 
         attachPipe();
+        assignNewNodesColor();
 
+    }
+
+    /**
+     * this method is public because it has to be accessed by the action panel every
+     * time there is a change of a territory owner.
+     */
+    public void assignNewNodesColor() {
+        for (Node n : graph.nodes().toList()) {
+            Color territoryColor = controller.getDataRetrieveController().getTerritoryFromName(n.getId()).get()
+                    .getOwner().getColor();
+            String cssString = "fill-color: rgb(" + territoryColor.r() + "," + territoryColor.g() + ","
+                    + territoryColor.b() + ");";
+            n.setAttribute("ui.style", cssString);
+        }
     }
 
     private void attachPipe() {

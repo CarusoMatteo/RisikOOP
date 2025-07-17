@@ -84,6 +84,7 @@ public final class MovementPhase
             source.removeUnits(unitsToMove);
             destination.addUnits(unitsToMove);
             moved = true;
+            nextState();
         }
     }
 
