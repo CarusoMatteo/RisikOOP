@@ -26,10 +26,10 @@ import it.unibo.risikoop.model.implementations.TurnManagerImpl;
 import it.unibo.risikoop.model.implementations.gamephase.ReinforcementPhase;
 import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
-import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
 
 class ReinforcementTest {
 

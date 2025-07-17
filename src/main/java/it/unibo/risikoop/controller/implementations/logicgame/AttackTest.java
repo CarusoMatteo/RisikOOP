@@ -1,6 +1,9 @@
 package it.unibo.risikoop.controller.implementations.logicgame;
 
+import java.util.Optional;
+
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
+import it.unibo.risikoop.model.interfaces.AttackResult;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 
@@ -27,6 +30,18 @@ public final class AttackTest implements LogicAttack {
             defenderWin(src, units);
             return false;
         }
+    }
+
+    @Override
+    public void enableFastAttack() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Optional<AttackResult> showAttackResults() {
+        // TODO Auto-generated method stub
+        return Optional.empty();
     }
 
     public void selectWin(PlayerType type) {
