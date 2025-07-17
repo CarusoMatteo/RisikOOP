@@ -9,8 +9,10 @@ import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
+import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseDescribable;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithActionToPerforme;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithTransaction;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
 
 /**
@@ -19,29 +21,8 @@ import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
  * The player selects a source territory, a destination territory, and the
  * number of units to move.
  */
-public final class MovementPhase implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme {
-    public enum PhaseState {
-        SELECT_SOURCE("Select the source territory"),
-        SELECT_DESTINATION("Select the destination territory"),
-        SELECT_UNITS("Choose number of units to move"),
-        MOVE_UNITS("Execute the move");
-
-        private final String description;
-
-        PhaseState(String description) {
-            this.description = description;
-        }
-
-        /** Restituisce la descrizione associata a questo stato */
-        public String getDescription() {
-            return description;
-        }
-
-        @Override
-        public String toString() {
-            return description;
-        }
-    }
+public final class MovementPhase
+        implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme, PhaseWithTransaction {
 
     private final TurnManager turnManager;
     private final GamePhaseController gpc;
@@ -49,7 +30,7 @@ public final class MovementPhase implements GamePhase, PhaseDescribable, PhaseWi
     private Territory destination;
     private int unitsToMove;
     private boolean moved;
-    private PhaseState state;
+    private InternalState internalState;
 
     /**
      * Constructs a MovementPhase with the specified TurnManager.
@@ -64,39 +45,42 @@ public final class MovementPhase implements GamePhase, PhaseDescribable, PhaseWi
         this.destination = null;
         this.unitsToMove = 0;
         this.moved = true;
-        this.state = PhaseState.SELECT_SOURCE;
+        internalState = InternalState.SELECT_SRC;
     }
 
     @Override
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
-    public void selectTerritory(final Territory t) {
+    public boolean selectTerritory(final Territory t) {
         final Player p = turnManager.getCurrentPlayer();
         final Set<Territory> owned = p.getTerritories().stream().collect(Collectors.toSet());
 
-        if (state == PhaseState.SELECT_SOURCE) {
+        if (internalState == InternalState.SELECT_SRC) {
             if (owned.contains(t) && t.getUnits() >= 2) {
                 this.source = t;
                 unitsToMove = 0;
                 moved = false;
+                return true;
             }
-        } else if (state == PhaseState.SELECT_DESTINATION) {
+        } else if (internalState == InternalState.SELECT_DST) {
             if (source.getNeightbours().contains(t)
                     && !t.equals(source)
                     && t.getOwner().equals(turnManager.getCurrentPlayer())) {
                 this.destination = t;
+                return true;
             }
         }
+        return false;
     }
 
     @Override
     public void performAction() {
-        if (state == PhaseState.SELECT_SOURCE && source != null) {
-            state = PhaseState.SELECT_DESTINATION;
-        } else if (state == PhaseState.SELECT_DESTINATION && destination != null) {
-            state = PhaseState.SELECT_UNITS;
-        } else if (state == PhaseState.SELECT_UNITS && unitsToMove > 0) {
-            state = PhaseState.MOVE_UNITS;
-        } else if (state == PhaseState.MOVE_UNITS) {
+        if (internalState == InternalState.SELECT_SRC && source != null) {
+            nextState();
+        } else if (internalState == InternalState.SELECT_DST && destination != null) {
+            nextState();
+        } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToMove > 0) {
+            nextState();
+        } else if (internalState == InternalState.EXECUTE) {
             source.removeUnits(unitsToMove);
             destination.addUnits(unitsToMove);
             moved = true;
@@ -111,7 +95,7 @@ public final class MovementPhase implements GamePhase, PhaseDescribable, PhaseWi
 
     @Override
     public void setUnitsToUse(final int units) {
-        if (state == PhaseState.SELECT_UNITS
+        if (internalState == InternalState.SELECT_UNITS_QUANTITY
                 && units <= source.getUnits() - 1
                 && units > 0) {
             this.unitsToMove = units;
@@ -120,6 +104,37 @@ public final class MovementPhase implements GamePhase, PhaseDescribable, PhaseWi
 
     @Override
     public String getInnerStatePhaseDescription() {
-        return state.getDescription();
+        switch (internalState) {
+
+            case SELECT_SRC -> {
+                return "Selecting the moving from territory";
+            }
+            case SELECT_DST -> {
+                return "Selecting the moving to territory ";
+            }
+            case SELECT_UNITS_QUANTITY -> {
+                return "Selecting units quantity";
+            }
+            case EXECUTE -> {
+                return "Executing the movement";
+            }
+            default -> throw new AssertionError();
+        }
+    }
+
+    @Override
+    public void nextState() {
+        switch (internalState) {
+            case SELECT_DST -> internalState = InternalState.SELECT_UNITS_QUANTITY;
+            case SELECT_SRC -> internalState = InternalState.SELECT_DST;
+            case SELECT_UNITS_QUANTITY -> internalState = InternalState.EXECUTE;
+            case EXECUTE -> internalState = InternalState.SELECT_SRC;
+            default -> throw new IllegalArgumentException("Unexpected value: " + internalState);
+        }
+    }
+
+    @Override
+    public InternalState getInternalState() {
+        return internalState;
     }
 }

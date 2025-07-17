@@ -24,6 +24,7 @@ public final class ComboPhaseImpl implements GamePhase {
     }
 
     @Override
-    public void selectTerritory(final Territory t) {
+    public boolean selectTerritory(final Territory t) {
+        return false;
     }
 }

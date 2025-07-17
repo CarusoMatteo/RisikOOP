@@ -60,13 +60,15 @@ public final class InitialReinforcementPhase
     }
 
     @Override
-    public void selectTerritory(final Territory t) {
+    public boolean selectTerritory(final Territory t) {
         final Player p = gpc.getTurnManager().getCurrentPlayer();
 
         if (p.getUnitsToPlace() > 0 && p.getTerritories().contains(t)) {
             t.addUnits(1);
             p.removeUnitsToPlace(1);
+            return true;
         }
+        return false;
 
     }
 

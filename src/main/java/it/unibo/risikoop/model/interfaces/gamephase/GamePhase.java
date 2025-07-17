@@ -14,8 +14,7 @@ public interface GamePhase {
      * 
      * @param t the Territory to select
      */
-    void selectTerritory(Territory t);
-
+    boolean selectTerritory(Territory t);
 
     /**
      * Check if phase is complete.

@@ -13,9 +13,11 @@ import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
+import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseDescribable;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithActionToPerforme;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithAttack;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithTransaction;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
 
 /**
@@ -29,34 +31,11 @@ import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
  * manager.
  */
 public final class AttackPhase
-        implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme, PhaseWithAttack {
-
-    private enum PhaseState {
-        SELECT_ATTACKER("Select the territory to attack from"),
-        SELECT_DEFENDER("Select the territory to attack"),
-        SELECT_UNITS("Choose how many units to use"),
-        EXECUTE_ATTACK("Resolve the attack");
-
-        private final String description;
-
-        PhaseState(String description) {
-            this.description = description;
-        }
-
-        /** Restituisce la descrizione leggibile di questo stato */
-        public String getDescription() {
-            return description;
-        }
-
-        @Override
-        public String toString() {
-            return description;
-        }
-    }
+        implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme, PhaseWithAttack,
+        PhaseWithTransaction {
 
     private final TurnManager turnManager;
     private final LogicAttack logic;
-    private PhaseState state;
     private final Player attacker;
     private Player defender;
     private Territory attackerSrc;
@@ -64,6 +43,7 @@ public final class AttackPhase
     private int unitsToUse;
     private boolean isEnd;
     private final GamePhaseController GamePhaseController;
+    private InternalState internalState;
 
     /**
      * Constructs a new AttackPhase associated with the given turn manager.
@@ -83,12 +63,12 @@ public final class AttackPhase
         this.GamePhaseController = gpc;
         this.turnManager = gpc.getTurnManager();
         this.logic = logic;
-        this.state = PhaseState.SELECT_ATTACKER;
         this.attacker = turnManager.getCurrentPlayer();
         this.attackerSrc = null;
         this.defenderDst = null;
         this.unitsToUse = 0;
         this.isEnd = true;
+        internalState = InternalState.SELECT_SRC;
     }
 
     public AttackPhase(final GamePhaseController gpc) {
@@ -102,36 +82,38 @@ public final class AttackPhase
 
     @Override
     public void performAction() {
-        if (state == PhaseState.SELECT_ATTACKER && attackerSrc != null) {
+        if (internalState == InternalState.SELECT_SRC && attackerSrc != null) {
             isEnd = false;
-            state = PhaseState.SELECT_DEFENDER;
-        } else if (state == PhaseState.SELECT_DEFENDER && defenderDst != null) {
-            state = PhaseState.SELECT_UNITS;
-        } else if (state == PhaseState.SELECT_UNITS && unitsToUse > 0) {
-            state = PhaseState.EXECUTE_ATTACK;
-        } else if (state == PhaseState.EXECUTE_ATTACK) {
+            nextState();
+        } else if (internalState == InternalState.SELECT_DST && defenderDst != null) {
+            nextState();
+        } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToUse > 0) {
+            nextState();
+        } else if (internalState == InternalState.EXECUTE) {
             logic.attack(attacker, defender, attackerSrc, defenderDst, unitsToUse);
             isEnd = true; // Mark that an attack has been executed
-            state = PhaseState.SELECT_ATTACKER; // Reset to allow for another attack
+            nextState();
         }
     }
 
     @Override
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
-    public void selectTerritory(final Territory t) {
-        if (state == PhaseState.SELECT_ATTACKER && isValidAttacker(t)) {
+    public boolean selectTerritory(final Territory t) {
+        if (internalState == InternalState.SELECT_SRC && isValidAttacker(t)) {
             this.attackerSrc = t;
             unitsToUse = 0;
-        } else if (state == PhaseState.SELECT_DEFENDER && isValidDefender(t)) {
+            return true;
+        } else if (internalState == InternalState.SELECT_DST && isValidDefender(t)) {
             this.defender = t.getOwner();
             this.defenderDst = t;
+            return true;
         }
-
+        return false;
     }
 
     @Override
     public void setUnitsToUse(final int units) {
-        if (state == PhaseState.SELECT_UNITS
+        if (internalState == InternalState.SELECT_UNITS_QUANTITY
                 && units <= attackerSrc.getUnits() - 1
                 && units > 0) {
             unitsToUse = units;
@@ -140,7 +122,22 @@ public final class AttackPhase
 
     @Override
     public String getInnerStatePhaseDescription() {
-        return state.getDescription();
+        switch (internalState) {
+
+            case SELECT_SRC -> {
+                return "Selecting attacker";
+            }
+            case SELECT_DST -> {
+                return "Selecting defender";
+            }
+            case SELECT_UNITS_QUANTITY -> {
+                return "Selecting units quantity";
+            }
+            case EXECUTE -> {
+                return "Executing the attack";
+            }
+            default -> throw new AssertionError();
+        }
     }
 
     // Orredno serev per testare gli attacchi
@@ -181,5 +178,21 @@ public final class AttackPhase
     @Override
     public void enableFastAttack() {
         logic.enableFastAttack();
+    }
+
+    @Override
+    public void nextState() {
+        switch (internalState) {
+            case SELECT_SRC -> internalState = InternalState.SELECT_DST;
+            case SELECT_DST -> internalState = InternalState.SELECT_UNITS_QUANTITY;
+            case SELECT_UNITS_QUANTITY -> internalState = InternalState.EXECUTE;
+            case EXECUTE -> internalState = InternalState.SELECT_SRC;
+            default -> throw new IllegalArgumentException("Unexpected value: " + internalState);
+        }
+    }
+
+    @Override
+    public InternalState getInternalState() {
+        return internalState;
     }
 }

@@ -6,6 +6,7 @@ import it.unibo.risikoop.model.interfaces.AttackResult;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
+import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
 
 /**
  * Controller interface for managing the different phases of the game.
@@ -18,12 +19,44 @@ import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
  */
 public interface GamePhaseController {
     /**
+    * 
+    */
+    public enum PhaseKey {
+        INITIAL_REINFORCEMENT("Fase di rinforzo iniziale"),
+        COMBO("Fase di gestione combo"),
+        REINFORCEMENT("Fase di rinforzo"),
+        ATTACK("Fase di gestione attacchi"),
+        MOVEMENT("Fase di gestione spostamenti");
+
+        private final String desc;
+
+        PhaseKey(final String desc) {
+            this.desc = desc;
+        }
+
+        /**
+         * a method that returns the description of the phase.
+         * 
+         * @return a string holding the description
+         */
+        @SuppressWarnings("unused")
+        public String getLabelDesc() {
+            return String.copyValueOf(desc.toCharArray());
+        }
+
+        public PhaseKey next() {
+            final int idx = (this.ordinal() + 1) % values().length;
+            return values()[idx];
+        }
+    }
+
+    /**
      * Selects a territory to perform the current phase's action on.
      *
      * @param territory the {@link Territory} to select
-     * @throws IllegalArgumentException when territory selected is unusable
+     * @return if the selected territory is suitable for whatever phase you are in
      */
-    void selectTerritory(Territory territory);
+    boolean selectTerritory(Territory territory);
 
     /**
      * Executes the action defined by the current game phase.
@@ -98,4 +131,18 @@ public interface GamePhaseController {
      * in quick succession without waiting for confirmation after each attack.
      */
     void enableFastAttack();
+
+    /**
+     * return the internal state of the current state.
+     * 
+     * @return an optional that describe the internal state
+     */
+    Optional<InternalState> getInternalState();
+
+    /**
+     * return the Phase that we are current in.
+     * 
+     * @return the {@link PhaseKey}
+     */
+    PhaseKey getPhaseKey();
 }

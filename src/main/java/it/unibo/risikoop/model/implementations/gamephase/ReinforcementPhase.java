@@ -40,12 +40,14 @@ public final class ReinforcementPhase implements GamePhase, PhaseDescribable, Ph
     }
 
     @Override
-    public void selectTerritory(final Territory t) {
+    public boolean selectTerritory(final Territory t) {
         final Player current = turnManager.getCurrentPlayer();
         if (current.getUnitsToPlace() > 0 && current.getTerritories().contains(t)) {
             t.addUnits(1);
             current.removeUnitsToPlace(1);
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -54,7 +56,6 @@ public final class ReinforcementPhase implements GamePhase, PhaseDescribable, Ph
         final Player current = turnManager.getCurrentPlayer();
         return current.getUnitsToPlace() == 0;
     }
-
 
     @Override
     public void initializationPhase() {

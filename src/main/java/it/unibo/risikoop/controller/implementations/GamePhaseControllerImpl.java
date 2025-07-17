@@ -17,10 +17,12 @@ import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
+import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseDescribable;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithActionToPerforme;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithAttack;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithInitialization;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithTransaction;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
@@ -34,38 +36,6 @@ import it.unibo.risikoop.view.interfaces.RisikoView;
  * </p>
  */
 public final class GamePhaseControllerImpl implements GamePhaseController {
-
-    /**
-     * 
-     */
-    public enum PhaseKey {
-        INITIAL_REINFORCEMENT("Fase di rinforzo iniziale"),
-        COMBO("Fase di gestione combo"),
-        REINFORCEMENT("Fase di rinforzo"),
-        ATTACK("Fase di gestione attacchi"),
-        MOVEMENT("Fase di gestione spostamenti");
-
-        private final String desc;
-
-        PhaseKey(final String desc) {
-            this.desc = desc;
-        }
-
-        /**
-         * a method that returns the description of the phase.
-         * 
-         * @return a string holding the description
-         */
-        @SuppressWarnings("unused")
-        public String getLabelDesc() {
-            return String.copyValueOf(desc.toCharArray());
-        }
-
-        PhaseKey next() {
-            final int idx = (this.ordinal() + 1) % values().length;
-            return values()[idx];
-        }
-    }
 
     private final TurnManager turnManager;
     private final Map<PhaseKey, GamePhase> phases;
@@ -110,9 +80,10 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     }
 
     @Override
-    public void selectTerritory(final Territory t) {
-        phase().selectTerritory(t);
+    public boolean selectTerritory(final Territory t) {
+        final var results = phase().selectTerritory(t);
         viewUpdate();
+        return results;
     }
 
     @Override
@@ -169,7 +140,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         return currentPhaseAs(PhaseWithAttack.class)
                 .flatMap(PhaseWithAttack::showAttackResults);
     }
-    
+
     @Override
     public void enableFastAttack() {
         currentPhaseAs(PhaseWithAttack.class)
@@ -222,4 +193,13 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         return Optional.empty();
     }
 
+    @Override
+    public Optional<InternalState> getInternalState() {
+        return currentPhaseAs(PhaseWithTransaction.class).map(i -> i.getInternalState());
+    }
+
+    @Override
+    public PhaseKey getPhaseKey() {
+        return current;
+    }
 }
