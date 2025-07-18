@@ -8,6 +8,8 @@ import java.util.Random;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
+import it.unibo.risikoop.model.implementations.AttackResultImpl;
+import it.unibo.risikoop.model.interfaces.AttackResult;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 
@@ -30,6 +32,8 @@ public final class LogicAttackImpl implements LogicAttack {
     private Territory dst;
     private Optional<List<Integer>> attackerDice;
     private Optional<List<Integer>> defenderDice;
+    private boolean isFastAttackEnabled;
+    private Optional<AttackResult> attackResult;
 
     /**
      * Constructs a new {@code LogicAttackImpl} instance with no preconfigured
@@ -42,6 +46,8 @@ public final class LogicAttackImpl implements LogicAttack {
         this.dst = null;
         attackerDice = Optional.empty();
         defenderDice = Optional.empty();
+        attackResult = Optional.empty();
+        isFastAttackEnabled = false;
     }
 
     @Override
@@ -63,7 +69,7 @@ public final class LogicAttackImpl implements LogicAttack {
         int attackerUnits = units;
         final int defenderUnits = dst.getUnits();
 
-        while (true) {
+        do {
             // Simula il lancio dei dadi
             final List<Integer> attackerDice = this.attackerDice.isEmpty()
                     ? rollDice(Math.min(MAX_DICE_USE, attackerUnits))
@@ -75,6 +81,8 @@ public final class LogicAttackImpl implements LogicAttack {
 
             final int attackerLosses = compareDiceRolls(attackerDice, defenderDice);
 
+            attackResult = Optional.of(new AttackResultImpl(attackerDice, defenderDice));
+
             // Se il difensore perde tutte le unità, l'attaccante conquista il territorio
             if (dst.getUnits() == 0) {
                 dst.setOwner(attacker);
@@ -82,17 +90,18 @@ public final class LogicAttackImpl implements LogicAttack {
                 src.removeUnits(attackerUnits - attackerLosses);
                 attacker.addTerritory(dst);
                 defender.removeTerritory(dst);
-                return true;
+                return attackEnd(true);
             }
 
             // se l'attancante finisce tutte le truppe con cui attacare l'attacco e concluso
             // e ha vinto il difensore
             attackerUnits = attackerUnits - attackerLosses;
             if (attackerUnits == 0) {
-                return true;
+                return attackEnd(true);
             }
-        }
+        } while (isFastAttackEnabled);
 
+        return attackEnd(false);
     }
 
     public void setAttackerDice(List<Integer> dice) {
@@ -131,4 +140,22 @@ public final class LogicAttackImpl implements LogicAttack {
 
         return attackerLosses;
     }
+
+    @Override
+    public void enableFastAttack() {
+        this.isFastAttackEnabled = true;
+    }
+
+    @Override
+    public Optional<AttackResult> showAttackResults() {
+        return attackResult;
+    }
+
+    private boolean attackEnd(boolean attackRes) {
+        isFastAttackEnabled = false;
+        this.attackerDice = Optional.empty();
+        this.defenderDice = Optional.empty();
+        return attackRes;
+    }
+
 }

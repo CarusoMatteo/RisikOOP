@@ -18,7 +18,7 @@ import it.unibo.risikoop.view.implementations.SwingView;
 public final class MapChoserScene extends JPanel {
     private static final long serialVersionUID = 1L;
     private final transient Controller controller;
-    private final JPanel mapPreview = new JPanel();
+    private final MapPreviewPanel mapPreview;
     private boolean firstSelectionMade;
 
     /**
@@ -28,6 +28,7 @@ public final class MapChoserScene extends JPanel {
      */
     public MapChoserScene(final Controller controller) {
         this.controller = controller;
+        this.mapPreview = new MapPreviewPanel(controller);
         setLayout(new BorderLayout());
         /*
          * Adding button for the default map.
@@ -46,7 +47,7 @@ public final class MapChoserScene extends JPanel {
         /*
          * Adding the selected map preview panel.
          */
-        add(mapPreview);
+        add(mapPreview, BorderLayout.CENTER);
         final JButton begiGameButton = new JButton("Begin to Play");
         begiGameButton.addActionListener(i -> {
             if (firstSelectionMade) {
@@ -78,6 +79,7 @@ public final class MapChoserScene extends JPanel {
         if (result == JFileChooser.APPROVE_OPTION) {
             firstSelectionMade = controller.getDataAddingController().loadWorldFromFile(fileChooser.getSelectedFile());
             if (firstSelectionMade) {
+                mapPreview.updatePreview();
                 JOptionPane.showMessageDialog(this.getParent(),
                         "Mappa selezionata correttamente, puoi passare alla prossima fase di gioco"
                                 + " oppure selezionare un'altra mappa");
@@ -93,6 +95,7 @@ public final class MapChoserScene extends JPanel {
 
     private void selectedDefaultMap() {
         controller.getDataAddingController().setDefaultMap();
+        mapPreview.updatePreview();
         firstSelectionMade = true;
     }
 

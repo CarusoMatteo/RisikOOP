@@ -55,9 +55,10 @@ public final class CurrentPlayerJPanel extends JPanel {
      */
     public void updateCurrentPlayer(final String playerName, final Color playerColor) {
         this.setBackground(playerColor);
-        this.playerNameLabel.setText("<html><div style='text-align: center; word-wrap: break-word;'>"
-                + playerName
-                + "</div></html>");
+        this.playerNameLabel
+                .setText("<html><div style='width: 100%; font-size: 2vw; text-align: center; word-wrap: break-word;'>"
+                        + playerName
+                        + "</div></html>");
         this.playerNameLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, FONT_SIZE));
         this.playerNameLabel.setForeground(getContrastingColor(playerColor));
 

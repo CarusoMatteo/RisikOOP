@@ -67,5 +67,4 @@ public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
         final ObjectiveType[] types = ObjectiveType.values();
         return types[random.nextInt(types.length)];
     }
-
 }

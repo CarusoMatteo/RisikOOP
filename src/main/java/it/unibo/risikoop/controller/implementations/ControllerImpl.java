@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import it.unibo.risikoop.controller.interfaces.CardGameController;
 import it.unibo.risikoop.controller.interfaces.Controller;
@@ -14,11 +13,9 @@ import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
 import it.unibo.risikoop.model.implementations.ObjectiveCardFactoryImpl;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
-import it.unibo.risikoop.model.implementations.gamecards.territorycard.TerritoryCardImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
-import it.unibo.risikoop.model.interfaces.cards.UnitType;
 import it.unibo.risikoop.view.implementations.SwingView;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
@@ -93,12 +90,12 @@ public final class ControllerImpl implements Controller {
         }
         players.forEach(p -> {
             p.setObjectiveCard(new ObjectiveCardFactoryImpl(gameManager).createObjectiveCard(p));
-            /** for debug only */
-            p.getTerritories().forEach(i -> {
-                int numRandom = new Random().nextInt(0, 3);
-                UnitType t = numRandom == 0 ? UnitType.CANNON : (numRandom == 1 ? UnitType.JACK : UnitType.KNIGHT);
-                p.addGameCard(new TerritoryCardImpl(t, i));
-            });/** ------------------ */
+            /**
+             * for debug only
+             * p.getTerritories().forEach(i -> p.addGameCard(new
+             * TerritoryCardImpl(UnitType.CANNON, i)));
+             * /** ------------------
+             */
         });
 
     }
@@ -117,11 +114,11 @@ public final class ControllerImpl implements Controller {
     public boolean isOwned(String territoryName, String playerName) {
         var territoryOptional = gameManager.getTerritory(territoryName);
         var playerOptional = gameManager.getPlayers()
-            .stream()
-            .filter(p -> p.getName().equals(playerName))
-            .findFirst();
-        return playerOptional.isPresent() 
-            && territoryOptional.isPresent() 
-            && playerOptional.get().getTerritories().contains(territoryOptional.get());
+                .stream()
+                .filter(p -> p.getName().equals(playerName))
+                .findFirst();
+        return playerOptional.isPresent()
+                && territoryOptional.isPresent()
+                && playerOptional.get().getTerritories().contains(territoryOptional.get());
     }
 }

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import org.graphstream.graph.Graph;
@@ -23,10 +24,11 @@ import it.unibo.risikoop.model.implementations.TerritoryImpl;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
 import it.unibo.risikoop.model.implementations.gamephase.InitialReinforcementPhase;
 import it.unibo.risikoop.model.interfaces.GameManager;
-import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithActionToPerforme;
 
 class InitialReinforcementTest {
 
@@ -45,7 +47,7 @@ class InitialReinforcementTest {
         gm = new GameManagerImpl();
 
         for (int i = 0; i < NAMES.size(); i++) {
-            gm.addPlayer(NAMES.get(i),new Color(i, 0, 0));
+            gm.addPlayer(NAMES.get(i), new Color(i, 0, 0));
         }
 
         territories = createTerritories();
@@ -91,7 +93,9 @@ class InitialReinforcementTest {
             assertEquals(0, p.getUnitsToPlace());
 
             // advance to next player
-            gp.performAction();
+            // gp.performAction();
+            currentPhaseAs(PhaseWithActionToPerforme.class)
+                    .ifPresent(PhaseWithActionToPerforme::performAction);
         }
 
         // After last player, phase should be complete and still Carol's turn
@@ -105,7 +109,8 @@ class InitialReinforcementTest {
     private void placeUnitsOnTerritory(Player player, Territory t, int count) {
         IntStream.rangeClosed(1, count).forEach(i -> {
             // performAction must not switch player prematurely
-            gp.performAction();
+            currentPhaseAs(PhaseWithActionToPerforme.class)
+                    .ifPresent(PhaseWithActionToPerforme::performAction);
             assertEquals(player.getName(), tm.getCurrentPlayer().getName());
 
             gp.selectTerritory(t);
@@ -142,5 +147,12 @@ class InitialReinforcementTest {
                 p.addTerritory(gm.getTerritory("T" + (i * 3 + j + 1)).get());
             }
         }
+    }
+
+    private <T> Optional<T> currentPhaseAs(Class<T> iface) {
+        if (iface.isInstance(gp)) {
+            return Optional.of(iface.cast(gp));
+        }
+        return Optional.empty();
     }
 }

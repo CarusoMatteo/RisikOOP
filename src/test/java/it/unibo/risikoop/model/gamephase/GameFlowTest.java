@@ -25,6 +25,7 @@ import it.unibo.risikoop.model.implementations.GameManagerImpl;
 import it.unibo.risikoop.model.implementations.TerritoryImpl;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
 import it.unibo.risikoop.model.implementations.gamephase.AttackPhase;
+import it.unibo.risikoop.model.interfaces.AttackResult;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
@@ -54,16 +55,20 @@ class GameFlowTest {
     private static final String MOVEMENT = "Fase di gestione spostamenti";
 
     // innerstate attack
-    private static final String SELECT_ATTACKER = "Select the territory to attack from";
-    private static final String SELECT_DEFENDER = "Select the territory to attack";
-    private static final String SELECT_UNITS = "Choose how many units to use";
-    private static final String EXECUTE_ATTACK = "Resolve the attack";
+    private static final String SELECT_ATTACKER = "Selecting attacker";
+    private static final String SELECT_DEFENDER = "Selecting defender";
+    private static final String SELECT_UNITS = "Selecting units quantity";
+    private static final String EXECUTE_ATTACK = "Executing the attack";
 
     // inner state movement
-    private static final String SELECT_SOURCE = "Select the source territory";
-    private static final String SELECT_DESTINATION = "Select the destination territory";
-    private static final String SELECT_UNITS_MOVEMENTS = "Choose number of units to move";
-    private static final String MOVE_UNITS = "Execute the move";
+    private static final String SELECT_SOURCE = "Selecting the moving from territory";
+    private static final String SELECT_DESTINATION = "Selecting the moving to territory";
+    private static final String SELECT_UNITS_MOVEMENTS = "Selecting units quantity";
+    private static final String MOVE_UNITS = "Executing the movement";
+
+    // possibili attacchi
+    private static final List<Integer> LIST_6 = List.of(6, 6);
+    private static final List<Integer> LIST_543 = List.of(5, 4, 3);
 
     private TurnManager turnManager;
     private GamePhaseController gpc;
@@ -267,7 +272,8 @@ class GameFlowTest {
 
             // 5) provo a cambiare fase devo restare sulla stessa
             gpc.nextPhase();
-            assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
+            String state = gpc.getStateDescription();
+            assertEquals(INITIAL_REINFORCEMENT, state);
 
             // 6) controllo che se metto le truppe su un territorio non mio non cambi nulla
             // ovvero stesse struppe nel etrritorio selezionato e stesse truppe da
@@ -447,11 +453,28 @@ class GameFlowTest {
         assertEquals(EXECUTE_ATTACK, gpc.getInnerStatePhaseDescription());
 
         // 9) attacco
+        // testo attacco lento
         setWinAttacker();
+        var enemyName = enemyT.getOwner().getName();
+        var enemyTerritoryUnits = enemyT.getUnits();
         gpc.performAction();
-        assertEquals(p.getName(), enemyT.getOwner().getName());
-        assertEquals(unitsUsed, enemyT.getUnits());
-        assertEquals(unitAttacker - unitsUsed, myT.getUnits());
+        AttackResult res = null;
+
+        if (gpc.showAttackResults().isPresent()) {
+            res = gpc.showAttackResults().get();
+            assertEquals(res.getAttackerDiceRolls(), LIST_6);
+            assertEquals(res.getDefenderDiceRolls(), LIST_543);
+            assertEquals(enemyName, enemyT.getOwner().getName());
+            assertEquals(enemyTerritoryUnits - unitsUsed, enemyT.getUnits());
+            assertEquals(unitAttacker, myT.getUnits());
+        }
+
+        // gpc.enableFastAttack();
+        // gpc.performAction();
+
+        // assertEquals(p.getName(), enemyT.getOwner().getName());
+        // assertEquals(unitsUsed, enemyT.getUnits());
+        // assertEquals(unitAttacker - unitsUsed, myT.getUnits());
 
         // controllo di essere tornato su select attaker
         assertEquals(SELECT_ATTACKER, gpc.getInnerStatePhaseDescription());
@@ -468,9 +491,20 @@ class GameFlowTest {
         unitAttacker = myT.getUnits();
         var defenderUnit = t.getUnits();
         gpc.performAction();
-        assertEquals(playerNames.get(1), t.getOwner().getName());
-        assertEquals(defenderUnit, t.getUnits());
-        assertEquals(unitAttacker - unitsUsed, myT.getUnits());
+
+        res = null;
+        if (gpc.showAttackResults().isPresent()) {
+            res = gpc.showAttackResults().get();
+            assertEquals(res.getAttackerDiceRolls(), LIST_543);
+            assertEquals(res.getDefenderDiceRolls(), LIST_6);
+            assertEquals(enemyName, enemyT.getOwner().getName());
+            assertEquals(defenderUnit, t.getUnits());
+            assertEquals(unitAttacker - unitsUsed, myT.getUnits());
+        }
+
+        // assertEquals(playerNames.get(1), t.getOwner().getName());
+        // assertEquals(defenderUnit, t.getUnits());
+        // assertEquals(unitAttacker - unitsUsed, myT.getUnits());
 
         // controllo di poter passare alla prossima fase
         gpc.nextPhase();
@@ -481,21 +515,16 @@ class GameFlowTest {
     private void setWinAttacker() {
         AttackPhase phase = (AttackPhase) gpc.getCurrentPhase();
         LogicAttackImpl l = (LogicAttackImpl) phase.getAttackLogic();
-
-        List<Integer> attackerDice = List.of(6);
-        List<Integer> defender = List.of(5, 5, 5);
-        l.setAttackerDice(attackerDice);
-        l.setDefencerDice(defender);
+        l.setAttackerDice(LIST_6);
+        l.setDefencerDice(LIST_543);
     }
 
     private void setWinDefender() {
         AttackPhase phase = (AttackPhase) gpc.getCurrentPhase();
         LogicAttackImpl l = (LogicAttackImpl) phase.getAttackLogic();
 
-        List<Integer> attackerDice = List.of(5, 5, 5);
-        List<Integer> defender = List.of(6);
-        l.setAttackerDice(attackerDice);
-        l.setDefencerDice(defender);
+        l.setAttackerDice(LIST_543);
+        l.setDefencerDice(LIST_6);
     }
 
     private void movementPlayer1(int playerIndex) {

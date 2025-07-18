@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
+import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
 
 /**
  * Panel for the Action Buttons in the MapScene.
@@ -28,7 +30,6 @@ public final class ActionJPanel extends JPanel {
     private final JLabel stateLabel;
     private final JTextField unitsTextField = new JTextField();
     private final JPanel statePanel = labelButton();
-    private ClickingTerritoryMovementState internalViewState = ClickingTerritoryMovementState.SELECTING_ATTACKER;
     private final Controller controller;
 
     /**
@@ -49,23 +50,7 @@ public final class ActionJPanel extends JPanel {
             changeStateButtonBehavior();
         });
         changeStateButtonBehavior();
-    }
 
-    private void switchInternalState() {
-        switch (internalViewState) {
-            case SELECTING_DEFENDER -> {
-                internalViewState = ClickingTerritoryMovementState.SELECTING_UNITS;
-            }
-            case SELECTING_ATTACKER -> {
-                internalViewState = ClickingTerritoryMovementState.SELECTING_DEFENDER;
-            }
-            case SELECTING_UNITS -> {
-                internalViewState = ClickingTerritoryMovementState.SELECTING_ATTACKER;
-            }
-
-            default -> {
-            }
-        }
     }
 
     private void changeStateButtonBehavior() {
@@ -100,8 +85,9 @@ public final class ActionJPanel extends JPanel {
 
     private void performeActionButtonBehavior() {
         if (inMovementBasedState()) {
-            switchInternalState();
-            if (internalViewState == ClickingTerritoryMovementState.SELECTING_UNITS)
+            if (controller.getGamePhaseController().getInternalState().isPresent()
+                    && controller.getGamePhaseController().getInternalState()
+                            .get() == InternalState.SELECT_UNITS_QUANTITY)
                 try {
                     Integer units = Integer.valueOf(unitsTextField.getText());
                     controller.getGamePhaseController().setUnitsToUse(units);
@@ -115,8 +101,15 @@ public final class ActionJPanel extends JPanel {
         controller.getGamePhaseController().performAction();
         updateStateLabel();
         this.setButtons();
-        if (controller.getGamePhaseController().getCurrentPhase().isComplete()) {
+        if (controller.getGamePhaseController().getCurrentPhase().isComplete() && !inAttackState()) {
             changeStateButtonBehavior();
+        }
+        if (controller.getGamePhaseController().showAttackResults().isPresent()) {
+            var res = controller.getGamePhaseController().showAttackResults().get();
+            String s = "Attacker: " + res.getAttackerDiceRolls()
+                    + "\nDefender: "
+                    + res.getDefenderDiceRolls();
+            JOptionPane.showMessageDialog(this, s);
         }
 
     }
@@ -126,11 +119,11 @@ public final class ActionJPanel extends JPanel {
     }
 
     private boolean inAttackState() {
-        return controller.getGamePhaseController().getStateDescription().equals("Fase di gestione attacchi");
+        return controller.getGamePhaseController().getPhaseKey() == GamePhaseController.PhaseKey.ATTACK;
     }
 
     private boolean inMovementState() {
-        return controller.getGamePhaseController().getStateDescription().equals("Fase di gestione spostamenti");
+        return controller.getGamePhaseController().getPhaseKey() == GamePhaseController.PhaseKey.MOVEMENT;
     }
 
     private JPanel labelButton() {
@@ -179,19 +172,16 @@ public final class ActionJPanel extends JPanel {
         return panel;
     }
 
+    @SuppressWarnings("incomplete-switch")
     public void clickTerritory(final String territoryName) {
-        if (inMovementBasedState()) {
-            if (internalViewState == ClickingTerritoryMovementState.SELECTING_ATTACKER) {
-                if (controller.isOwned(territoryName, controller.getDataRetrieveController().getCurrentPlayerName())) {
-                    srcTerritoryLabel.setText(territoryName);
-                }
-            } else if (internalViewState == ClickingTerritoryMovementState.SELECTING_DEFENDER) {
-                if (!controller.isOwned(territoryName, controller.getDataRetrieveController().getCurrentPlayerName())) {
-                    dstTerritoryLabel.setText(territoryName);
-                }
-
-            }
-        }
+        controller.getGamePhaseController()
+                .getInternalState()
+                .ifPresent(i -> {
+                    switch (i) {
+                        case SELECT_SRC -> this.srcTerritoryLabel.setText(territoryName);
+                        case SELECT_DST -> this.dstTerritoryLabel.setText(territoryName);
+                    }
+                });
     }
 
     /**
@@ -211,17 +201,8 @@ public final class ActionJPanel extends JPanel {
         changeStateButton.setVisible(
                 controller.getGamePhaseController().getCurrentPhase().isComplete());
         performeActionButton.setVisible(
-                !controller.getGamePhaseController().getStateDescription()
-                        .equals("Fase di gestione combo")
+                controller.getGamePhaseController().getPhaseKey() != GamePhaseController.PhaseKey.COMBO
                         || !(controller.getGamePhaseController().getCurrentPhase().isComplete()));
     }
 
-    /**
-     * A enum that is used for updating the
-     */
-    private enum ClickingTerritoryMovementState {
-        SELECTING_DEFENDER,
-        SELECTING_ATTACKER,
-        SELECTING_UNITS;
-    }
 }

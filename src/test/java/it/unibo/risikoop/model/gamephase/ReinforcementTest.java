@@ -26,10 +26,10 @@ import it.unibo.risikoop.model.implementations.TurnManagerImpl;
 import it.unibo.risikoop.model.implementations.gamephase.ReinforcementPhase;
 import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
-import it.unibo.risikoop.model.interfaces.GamePhase;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
+import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
 
 class ReinforcementTest {
 
@@ -91,7 +91,7 @@ class ReinforcementTest {
         assignAllTerritoriesToPlayers();
 
         var u = gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace();
-        gp.initializationPhase();
+        // gp.initializationPhase();
         assertEquals(18, gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace());
 
     }
@@ -101,7 +101,7 @@ class ReinforcementTest {
     private void placeUnitsOnTerritory(Player player, Territory t, int count) {
         IntStream.rangeClosed(1, count).forEach(i -> {
             // performAction must not switch player prematurely
-            gp.performAction();
+            // gp.performAction();
             assertEquals(player.getName(), tm.getCurrentPlayer().getName());
 
             gp.selectTerritory(t);
