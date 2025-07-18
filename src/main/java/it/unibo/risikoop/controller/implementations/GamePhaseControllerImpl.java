@@ -65,7 +65,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
         phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(gm, this));
-        phases.put(PhaseKey.ATTACK, new AttackPhase(this));
+        phases.put(PhaseKey.ATTACK, new AttackPhase(this, gm));
         phases.put(PhaseKey.MOVEMENT, new MovementPhase(this));
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;

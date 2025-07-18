@@ -6,10 +6,12 @@ import java.util.Optional;
 import java.util.Set;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.risikoop.controller.implementations.CardGameControllerImpl;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.AttackResult;
+import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
@@ -37,7 +39,7 @@ public final class AttackPhase
 
     private final TurnManager turnManager;
     private final LogicAttack logic;
-    private final Player attacker;
+    private Player attacker;
     private Player defender;
     private Optional<Territory> attackerSrc;
     private Optional<Territory> defenderDst;
@@ -45,6 +47,7 @@ public final class AttackPhase
     private boolean isEnd;
     private final GamePhaseController gamePhaseController;
     private InternalState internalState;
+    private final GameManager gameManager;
 
     /**
      * Constructs a new AttackPhase associated with the given turn manager.
@@ -56,12 +59,14 @@ public final class AttackPhase
      * territory selected, zero units to use). The phase is marked as complete
      * until an attacker territory is chosen.
      * </p>
-     *
+     * 
+     * @param gm  the {@link GameManager}
      * @param gpc the {@link GamePhaseController}
      */
 
-    public AttackPhase(final GamePhaseController gpc) {
+    public AttackPhase(final GamePhaseController gpc, final GameManager gm) {
         this.gamePhaseController = gpc;
+        this.gameManager = gm;
         this.turnManager = gamePhaseController.getTurnManager();
         this.logic = new LogicAttackImpl();
         this.attacker = turnManager.getCurrentPlayer();
@@ -88,6 +93,7 @@ public final class AttackPhase
             nextState();
         } else if (internalState == InternalState.EXECUTE) {
             if (logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse)) {
+                attacker.addGameCard(new CardGameControllerImpl(gameManager).drawCard());
             }
             isEnd = true; // Mark that an attack has been executed
             nextState();
@@ -99,6 +105,7 @@ public final class AttackPhase
     public boolean selectTerritory(final Territory t) {
         if (internalState == InternalState.SELECT_SRC && isValidAttacker(t)) {
             this.attackerSrc = Optional.ofNullable(t);
+            this.attacker = t.getOwner();
             unitsToUse = 0;
             return true;
         } else if (internalState == InternalState.SELECT_DST && isValidDefender(t)) {
