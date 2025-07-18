@@ -12,6 +12,7 @@ import it.unibo.risikoop.model.interfaces.gamephase.GamePhase;
 import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseDescribable;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithActionToPerforme;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithInitialization;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithTransaction;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
 
@@ -22,7 +23,8 @@ import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
  * number of units to move.
  */
 public final class MovementPhase
-        implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme, PhaseWithTransaction {
+        implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme, PhaseWithInitialization,
+        PhaseWithTransaction {
 
     private final TurnManager turnManager;
     private final GamePhaseController gpc;
@@ -84,7 +86,6 @@ public final class MovementPhase
             source.removeUnits(unitsToMove);
             destination.addUnits(unitsToMove);
             moved = true;
-            nextState();
         }
     }
 
@@ -138,4 +139,10 @@ public final class MovementPhase
     public InternalState getInternalState() {
         return internalState;
     }
+
+    @Override
+    public void initializationPhase() {
+        internalState = InternalState.SELECT_SRC;
+    }
+
 }
