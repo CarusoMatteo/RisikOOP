@@ -13,11 +13,9 @@ import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
 import it.unibo.risikoop.model.implementations.ObjectiveCardFactoryImpl;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
-import it.unibo.risikoop.model.implementations.gamecards.territorycard.TerritoryCardImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
-import it.unibo.risikoop.model.interfaces.cards.UnitType;
 import it.unibo.risikoop.view.implementations.SwingView;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
@@ -92,9 +90,12 @@ public final class ControllerImpl implements Controller {
         }
         players.forEach(p -> {
             p.setObjectiveCard(new ObjectiveCardFactoryImpl(gameManager).createObjectiveCard(p));
-            p.getTerritories().forEach(i -> p.addGameCard(new TerritoryCardImpl(UnitType.CANNON, i)));
-            /** for debug only */
-            /** ------------------ */
+            /**
+             * for debug only
+             * p.getTerritories().forEach(i -> p.addGameCard(new
+             * TerritoryCardImpl(UnitType.CANNON, i)));
+             * /** ------------------
+             */
         });
 
     }
