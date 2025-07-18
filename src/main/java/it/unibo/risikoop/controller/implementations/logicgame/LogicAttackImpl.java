@@ -103,8 +103,12 @@ public final class LogicAttackImpl implements LogicAttack {
 
     @Override
     public Optional<AttackResult> showAttackResults() {
-
-        return attackResult;
+        Optional<AttackResult> returned = Optional.empty();
+        if (attackResult.isPresent()) {
+            returned = Optional.of(attackResult.get());
+            attackResult = Optional.empty();
+        }
+        return returned;
     }
 
     public void setAttackerDice(List<Integer> dice) {
