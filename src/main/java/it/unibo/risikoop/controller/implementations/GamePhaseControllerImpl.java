@@ -24,6 +24,7 @@ import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithAttack;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithInitialization;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithTransaction;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
+import it.unibo.risikoop.view.interfaces.MapScene;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
 /**
@@ -218,5 +219,13 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     @Override
     public PhaseKey getPhaseKey() {
         return current;
+    }
+
+    @Override
+    public void uodateViewTerritoryOwner() {
+        viewList
+                .stream()
+                .map(v -> v.getMapScene())
+                .forEach(m -> m.ifPresent(MapScene::updateTerritoryOwner));
     }
 }

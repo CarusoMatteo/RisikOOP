@@ -145,4 +145,9 @@ public interface GamePhaseController {
      * @return the {@link PhaseKey}
      */
     PhaseKey getPhaseKey();
+
+    /**
+     * make the view update when showing the territory's owner.
+     */
+    void uodateViewTerritoryOwner();
 }

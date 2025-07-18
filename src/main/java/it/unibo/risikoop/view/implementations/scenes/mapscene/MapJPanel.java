@@ -67,7 +67,10 @@ public final class MapJPanel extends JPanel implements ViewerListener {
 
     }
 
-    private void assignNewNodesColor() {
+    /**
+     * method to change the color of each node based on the territory's owner.
+     */
+    public void assignNewNodesColor() {
         for (Node n : graph.nodes().toList()) {
             Color territoryColor = controller.getDataRetrieveController().getTerritoryFromName(n.getId()).get()
                     .getOwner().getColor();

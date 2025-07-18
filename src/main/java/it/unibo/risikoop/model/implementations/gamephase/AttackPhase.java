@@ -94,6 +94,7 @@ public final class AttackPhase
         } else if (internalState == InternalState.EXECUTE) {
             if (logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse)) {
                 attacker.addGameCard(new CardGameControllerImpl(gameManager).drawCard());
+                this.gamePhaseController.uodateViewTerritoryOwner();
             }
             isEnd = true; // Mark that an attack has been executed
             nextState();

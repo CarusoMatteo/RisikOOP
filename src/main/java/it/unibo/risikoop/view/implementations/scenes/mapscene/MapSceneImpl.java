@@ -177,4 +177,9 @@ public final class MapSceneImpl extends JPanel implements MapScene {
         mapPanel.changeUnitsOfTerritory(territoryName, units);
     }
 
+    @Override
+    public void updateTerritoryOwner() {
+        mapPanel.assignNewNodesColor();
+    }
+
 }

@@ -32,4 +32,10 @@ public interface MapScene {
          */
         public void changeTerritoryUnits(String territoryName, int units);
 
+        /**
+         * change the way
+         *          */
+         
+        public void updateTerritoryOwner();
+
 }
