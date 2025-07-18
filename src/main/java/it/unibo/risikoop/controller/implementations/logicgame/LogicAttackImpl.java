@@ -90,21 +90,18 @@ public final class LogicAttackImpl implements LogicAttack {
                 src.removeUnits(attackerUnits - attackerLosses);
                 attacker.addTerritory(dst);
                 defender.removeTerritory(dst);
-                isFastAttackEnabled = false;
-                return true;
+                return attackEnd(true);
             }
 
             // se l'attancante finisce tutte le truppe con cui attacare l'attacco e concluso
             // e ha vinto il difensore
             attackerUnits = attackerUnits - attackerLosses;
             if (attackerUnits == 0) {
-                isFastAttackEnabled = false;
-                return true;
+                return attackEnd(true);
             }
         } while (isFastAttackEnabled);
 
-        isFastAttackEnabled = false;
-        return false;
+        return attackEnd(false);
     }
 
     public void setAttackerDice(List<Integer> dice) {
@@ -153,4 +150,12 @@ public final class LogicAttackImpl implements LogicAttack {
     public Optional<AttackResult> showAttackResults() {
         return attackResult;
     }
+
+    private boolean attackEnd(boolean attackRes) {
+        isFastAttackEnabled = false;
+        this.attackerDice = Optional.empty();
+        this.defenderDice = Optional.empty();
+        return attackRes;
+    }
+
 }
