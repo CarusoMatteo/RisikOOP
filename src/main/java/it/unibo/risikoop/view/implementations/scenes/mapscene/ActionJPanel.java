@@ -50,6 +50,7 @@ public final class ActionJPanel extends JPanel {
             changeStateButtonBehavior();
         });
         changeStateButtonBehavior();
+
     }
 
     private void changeStateButtonBehavior() {

@@ -52,17 +52,19 @@ public final class ObjectiveCardJPanel extends JPanel {
      * Hides the ObjectiveCard information.
      */
     public void hideInfo() {
-        this.descriptionLabel.setText("<html><div style='text-align: center; word-wrap: break-word;'>"
-                + CARD_HIDDEN_TEXT
-                + "</div></html>");
+        this.descriptionLabel
+                .setText("<html><div style='width: 100%; font-size: 6vw; text-align: center; word-wrap: break-word;'>"
+                        + CARD_HIDDEN_TEXT
+                        + "</div></html>");
     }
 
     /**
      * Shows the ObjectiveCard information.
      */
     public void showInfo() {
-        this.descriptionLabel.setText("<html><div style='text-align: center; word-wrap: break-word;'>"
-                + this.currenObjectiveCard.getDescription()
-                + "</div></html>");
+        this.descriptionLabel
+                .setText("<html><div style='width: 100%; font-size: 2vw; text-align: center; word-wrap: break-word;'>"
+                        + this.currenObjectiveCard.getDescription()
+                        + "</div></html>");
     }
 }
