@@ -111,7 +111,7 @@ public final class MovementPhase
                 return "Selecting the moving from territory";
             }
             case SELECT_DST -> {
-                return "Selecting the moving to territory ";
+                return "Selecting the moving to territory";
             }
             case SELECT_UNITS_QUANTITY -> {
                 return "Selecting units quantity";

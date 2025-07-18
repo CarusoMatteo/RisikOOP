@@ -54,16 +54,16 @@ class GameFlowTest {
     private static final String MOVEMENT = "Fase di gestione spostamenti";
 
     // innerstate attack
-    private static final String SELECT_ATTACKER = "Select the territory to attack from";
-    private static final String SELECT_DEFENDER = "Select the territory to attack";
-    private static final String SELECT_UNITS = "Choose how many units to use";
-    private static final String EXECUTE_ATTACK = "Resolve the attack";
+    private static final String SELECT_ATTACKER = "Selecting attacker";
+    private static final String SELECT_DEFENDER = "Selecting defender";
+    private static final String SELECT_UNITS = "Selecting units quantity";
+    private static final String EXECUTE_ATTACK = "Executing the attack";
 
     // inner state movement
-    private static final String SELECT_SOURCE = "Select the source territory";
-    private static final String SELECT_DESTINATION = "Select the destination territory";
-    private static final String SELECT_UNITS_MOVEMENTS = "Choose number of units to move";
-    private static final String MOVE_UNITS = "Execute the move";
+    private static final String SELECT_SOURCE = "Selecting the moving from territory";
+    private static final String SELECT_DESTINATION = "Selecting the moving to territory";
+    private static final String SELECT_UNITS_MOVEMENTS = "Selecting units quantity";
+    private static final String MOVE_UNITS = "Executing the movement";
 
     private TurnManager turnManager;
     private GamePhaseController gpc;
@@ -267,7 +267,8 @@ class GameFlowTest {
 
             // 5) provo a cambiare fase devo restare sulla stessa
             gpc.nextPhase();
-            assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription());
+            String state = gpc.getStateDescription();
+            assertEquals(INITIAL_REINFORCEMENT, state);
 
             // 6) controllo che se metto le truppe su un territorio non mio non cambi nulla
             // ovvero stesse struppe nel etrritorio selezionato e stesse truppe da
@@ -398,7 +399,8 @@ class GameFlowTest {
         assertEquals(ATTACK, gpc.getStateDescription());
 
         // 3) controllo che lo stato interno sia seleziona attacante
-        assertEquals(SELECT_ATTACKER, gpc.getInnerStatePhaseDescription());
+        String innerState = gpc.getInnerStatePhaseDescription();
+        assertEquals(SELECT_ATTACKER, innerState);
 
         // 4) seleziono come territorio uno che non sia mio (Non succede nulla)
         gpc.selectTerritory(enemyT);
