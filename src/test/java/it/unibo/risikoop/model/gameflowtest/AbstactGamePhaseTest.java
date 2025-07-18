@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import it.unibo.risikoop.controller.implementations.GamePhaseControllerImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController.PhaseKey;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
 import it.unibo.risikoop.model.implementations.Color;
@@ -18,9 +19,7 @@ import it.unibo.risikoop.model.implementations.TurnManagerImpl;
 
 /**
  * Base test fixture for all GameFlow (GamePhaseController) tests.
- * Sets up a GameManager with two players and four fully-connected territories,
- * initializes TurnManager and GamePhaseController, and provides common logic
- * calculators.
+ * Provides a template method for specifying which phase to start from in tests.
  */
 abstract class AbstractGamePhaseTest {
 
@@ -38,6 +37,11 @@ abstract class AbstractGamePhaseTest {
     protected GamePhaseController gpc;
     protected LogicCalcInitialUnitsImpl initialLogic;
     protected LogicReinforcementCalculatorImpl reinforcementLogic;
+
+    /**
+     * Template method: subclasses override to specify starting phase.
+     */
+    protected abstract PhaseKey startPhase();
 
     @BeforeEach
     void setUp() {
@@ -71,11 +75,17 @@ abstract class AbstractGamePhaseTest {
         gm.getTerritory("T3").get().setOwner(players.get(1));
         gm.getTerritory("T4").get().setOwner(players.get(1));
 
-        // 4) Initialize TurnManager and GamePhaseController
+        // 4) Initialize TurnManager
         tm = new TurnManagerImpl(players);
-        gpc = new GamePhaseControllerImpl(List.of(), tm, gm);
 
-        // 5) Prepare logic calculators for assertions
+        // 5) Initialize controller starting from template-specified phase
+        gpc = new GamePhaseControllerImpl(
+                List.of(), // no views needed for unit tests
+                tm,
+                gm,
+                startPhase());
+
+        // 6) Prepare logic calculators for assertions
         initialLogic = new LogicCalcInitialUnitsImpl(gm);
         reinforcementLogic = new LogicReinforcementCalculatorImpl(gm, tm);
     }

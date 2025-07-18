@@ -1,5 +1,7 @@
 package it.unibo.risikoop.model.gameflowtest;
 
+// package it.unibo.risikoop.model.gamephase.test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
@@ -10,14 +12,19 @@ import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 
 /**
- * Tests for the Initial Reinforcement phase of the game flow.
+ * Tests for the Reinforcement phase of the game flow.
  */
-@DisplayName("Initial Reinforcement Phase")
-class InitialReinforcementPhaseTest extends AbstractGamePhaseTest {
+@DisplayName("Reinforcement Phase")
+class ReinforcementPhaseTest extends AbstractGamePhaseTest {
+
+    @Override
+    protected PhaseKey startPhase() {
+        return PhaseKey.REINFORCEMENT;
+    }
 
     @Test
-    @DisplayName("1) Clicking on enemy territory does nothing")
-    void clickingEnemyTerritoryDoesNothing() {
+    @DisplayName("1) Selecting enemy territory does nothing")
+    void selectingEnemyTerritoryDoesNothing() {
         // Arrange
         Player current = tm.getCurrentPlayer();
         Territory enemyTerr = gm.getTerritory("T3").get();
@@ -32,18 +39,10 @@ class InitialReinforcementPhaseTest extends AbstractGamePhaseTest {
                 "Units to place should remain unchanged");
         assertEquals(beforeUnits, enemyTerr.getUnits(),
                 "Enemy territory units should remain unchanged");
+        assertEquals(REINFORCEMENT, gpc.getStateDescription(),
+                "State should remain Reinforcement");
         assertEquals(current, tm.getCurrentPlayer(),
-                "Current player should stay the same");
-
-        // Try to change player but it should not change
-        gpc.performAction();
-        assertEquals(INITIAL_REINFORCEMENT, gpc.getStateDescription(),
-                "State should remain initial reinforcement");
-    }
-
-    @Override
-    protected PhaseKey startPhase() {
-        return PhaseKey.INITIAL_REINFORCEMENT;
+                "Current player should remain unchanged");
     }
 
     @Test
@@ -63,56 +62,73 @@ class InitialReinforcementPhaseTest extends AbstractGamePhaseTest {
                 "Units to place should decrement by one");
         assertEquals(beforeTerrUnits + 1, ownTerr.getUnits(),
                 "Own territory units should increment by one");
+        assertEquals(REINFORCEMENT, gpc.getStateDescription(),
+                "State should remain Reinforcement");
         assertEquals(current, tm.getCurrentPlayer(),
-                "Current player should stay the same");
+                "Current player should remain unchanged");
     }
 
     @Test
-    @DisplayName("3) After all units placed, clicks do nothing")
-    void afterAllUnitsPlacedClicksDoNothing() {
+    @DisplayName("3) After full placement, clicks do nothing")
+    void afterFullPlacementClicksDoNothing() {
         // Arrange
         Player current = tm.getCurrentPlayer();
         Territory mine = gm.getTerritory("T1").get();
         Territory enemy = gm.getTerritory("T3").get();
 
-        // Place all units
+        // Place all units on own territory
         while (current.getUnitsToPlace() > 0) {
             gpc.selectTerritory(mine);
         }
         int mineUnits = mine.getUnits();
         int enemyUnits = enemy.getUnits();
 
-        // Act & Assert: clicks on mine
+        // Act & Assert: clicks post-placement
         gpc.selectTerritory(mine);
         assertEquals(mineUnits, mine.getUnits(),
-                "Mine territory units should not change after full placement");
-        // clicks on enemy
+                "Own territory units should not change after full placement");
         gpc.selectTerritory(enemy);
         assertEquals(enemyUnits, enemy.getUnits(),
                 "Enemy territory units should not change after full placement");
         assertEquals(0, current.getUnitsToPlace(),
-                "Units to place remain zero");
+                "Units to place should remain zero");
     }
 
     @Test
-    @DisplayName("4) Turn change only after full placement")
-    void turnChangeOnlyAfterFullPlacement() {
+    @DisplayName("4) nextPhase before full placement does nothing")
+    void nextPhaseBeforeFullPlacementDoesNothing() {
         // Arrange
         Player current = tm.getCurrentPlayer();
 
-        // Act & Assert: premature performAction
-        gpc.performAction();
-        assertEquals(current, tm.getCurrentPlayer(),
-                "Turn should not change before full placement");
+        // Act
+        gpc.nextPhase();
 
-        // Complete placement
+        // Assert
+        assertEquals(REINFORCEMENT, gpc.getStateDescription(),
+                "State should remain Reinforcement");
+        assertEquals(current, tm.getCurrentPlayer(),
+                "Current player should remain unchanged");
+    }
+
+    @Test
+    @DisplayName("5) nextPhase after full placement advances to Attack phase")
+    void nextPhaseAfterFullPlacementAdvancesToAttack() {
+        // Arrange
+        Player current = tm.getCurrentPlayer();
         Territory mine = gm.getTerritory("T1").get();
+
+        // Place all units
         while (current.getUnitsToPlace() > 0) {
             gpc.selectTerritory(mine);
         }
-        // Now perform action to change turn
-        gpc.performAction();
-        assertNotEquals(current, tm.getCurrentPlayer(),
-                "Turn should change after full placement");
+
+        // Act
+        gpc.nextPhase();
+
+        // Assert
+        assertEquals(ATTACK, gpc.getStateDescription(),
+                "State should advance to Attack");
+        assertEquals(current, tm.getCurrentPlayer(),
+                "Current player should remain unchanged");
     }
 }

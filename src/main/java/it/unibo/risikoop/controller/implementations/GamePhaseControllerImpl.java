@@ -75,6 +75,23 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         this.initialDone = false;
     }
 
+    // Use only for testing
+    public GamePhaseControllerImpl(
+            final List<RisikoView> viewList,
+            final TurnManager tm,
+            final GameManager gm,
+            final PhaseKey startPhase) {
+        this(viewList, tm, gm);
+        // Forza la fase corrente a quella indicata
+        this.current = startPhase;
+        // Segna come già inizializzata la fase iniziale per evitare doppie
+        // inizializzazioni
+        this.initialDone = true;
+        // Se necessario, inizializza il nuovo stato di fase
+        currentPhaseAs(PhaseWithInitialization.class)
+                .ifPresent(PhaseWithInitialization::initializationPhase);
+    }
+
     private GamePhase phase() {
         return phases.get(current);
     }
