@@ -55,14 +55,6 @@ public final class LogicAttackImpl implements LogicAttack {
     public boolean attack(final Player attacker, final Player defender, final Territory src, final Territory dst,
             final int units) {
 
-        // non è necessario che le contrlli sono già verificate a priori
-        if (!src.getOwner().equals(attacker) || !dst.getOwner().equals(defender)) {
-            return false;
-        }
-        if (units < 1 || units >= src.getUnits()) {
-            return false;
-        }
-
         this.src = src;
         this.dst = dst;
 
@@ -97,11 +89,21 @@ public final class LogicAttackImpl implements LogicAttack {
             // e ha vinto il difensore
             attackerUnits = attackerUnits - attackerLosses;
             if (attackerUnits == 0) {
-                return attackEnd(true);
+                return attackEnd(false);
             }
         } while (isFastAttackEnabled);
 
         return attackEnd(false);
+    }
+
+    @Override
+    public void enableFastAttack() {
+        this.isFastAttackEnabled = true;
+    }
+
+    @Override
+    public Optional<AttackResult> showAttackResults() {
+        return attackResult;
     }
 
     public void setAttackerDice(List<Integer> dice) {
@@ -141,21 +143,10 @@ public final class LogicAttackImpl implements LogicAttack {
         return attackerLosses;
     }
 
-    @Override
-    public void enableFastAttack() {
-        this.isFastAttackEnabled = true;
-    }
-
-    @Override
-    public Optional<AttackResult> showAttackResults() {
-        return attackResult;
-    }
-
     private boolean attackEnd(boolean attackRes) {
         isFastAttackEnabled = false;
         this.attackerDice = Optional.empty();
         this.defenderDice = Optional.empty();
         return attackRes;
     }
-
 }

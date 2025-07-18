@@ -105,11 +105,7 @@ public final class ActionJPanel extends JPanel {
             changeStateButtonBehavior();
         }
         if (controller.getGamePhaseController().showAttackResults().isPresent()) {
-            var res = controller.getGamePhaseController().showAttackResults().get();
-            String s = "Attacker: " + res.getAttackerDiceRolls()
-                    + "\nDefender: "
-                    + res.getDefenderDiceRolls();
-            JOptionPane.showMessageDialog(this, s);
+            JOptionPane.showMessageDialog(this, controller.getGamePhaseController().showAttackResults().get());
         }
 
     }
