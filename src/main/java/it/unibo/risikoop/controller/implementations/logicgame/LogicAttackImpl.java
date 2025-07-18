@@ -103,6 +103,7 @@ public final class LogicAttackImpl implements LogicAttack {
 
     @Override
     public Optional<AttackResult> showAttackResults() {
+
         return attackResult;
     }
 

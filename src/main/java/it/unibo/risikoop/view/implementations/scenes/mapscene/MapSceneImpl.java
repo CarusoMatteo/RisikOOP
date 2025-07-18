@@ -3,8 +3,6 @@ package it.unibo.risikoop.view.implementations.scenes.mapscene;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -13,7 +11,6 @@ import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
-import it.unibo.risikoop.view.implementations.SwingView;
 import it.unibo.risikoop.view.implementations.scenes.mapscene.cardpanel.CardJpanel;
 import it.unibo.risikoop.view.interfaces.MapScene;
 
@@ -59,17 +56,7 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
         setLayout(new GridBagLayout());
         setGridBagConstraints();
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(final ComponentEvent e) {
-                final int width = getWidth();
-                final int newSize = Math.max(3, width / 100); // Logica semplice
-                SwingView.setFontRecursively(cardPanel, newSize);
-                SwingView.setFontRecursively(actionPanel, newSize);
-                SwingView.setFontRecursively(currentPlayerPanel, newSize);
 
-            }
-        });
     }
 
     @Override

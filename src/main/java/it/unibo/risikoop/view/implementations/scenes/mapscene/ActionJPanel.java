@@ -101,11 +101,13 @@ public final class ActionJPanel extends JPanel {
         controller.getGamePhaseController().performAction();
         updateStateLabel();
         this.setButtons();
-        if (controller.getGamePhaseController().getCurrentPhase().isComplete() && !inAttackState()) {
-            changeStateButtonBehavior();
-        }
-        if (controller.getGamePhaseController().showAttackResults().isPresent()) {
-            JOptionPane.showMessageDialog(this, controller.getGamePhaseController().showAttackResults().get());
+        if (controller.getGamePhaseController().getCurrentPhase().isComplete()) {
+            if (!inAttackState()) {
+                changeStateButtonBehavior();
+            }
+            controller.getGamePhaseController().showAttackResults().ifPresent(m -> {
+                JOptionPane.showMessageDialog(this, m);
+            });
         }
 
     }

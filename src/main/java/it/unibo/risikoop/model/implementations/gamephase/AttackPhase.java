@@ -60,20 +60,16 @@ public final class AttackPhase
      * @param gpc the {@link GamePhaseController}
      */
 
-    public AttackPhase(final GamePhaseController gpc, final LogicAttack logic) {
+    public AttackPhase(final GamePhaseController gpc) {
         this.gamePhaseController = gpc;
         this.turnManager = gamePhaseController.getTurnManager();
-        this.logic = logic;
+        this.logic = new LogicAttackImpl();
         this.attacker = turnManager.getCurrentPlayer();
         this.attackerSrc = Optional.empty();
         this.defenderDst = Optional.empty();
         this.unitsToUse = 0;
         this.isEnd = true;
         internalState = InternalState.SELECT_SRC;
-    }
-
-    public AttackPhase(final GamePhaseController gpc) {
-        this(gpc, new LogicAttackImpl());
     }
 
     @Override
@@ -91,7 +87,8 @@ public final class AttackPhase
         } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToUse > 0) {
             nextState();
         } else if (internalState == InternalState.EXECUTE) {
-            logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse);
+            if (logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse)) {
+            }
             isEnd = true; // Mark that an attack has been executed
             nextState();
         }
