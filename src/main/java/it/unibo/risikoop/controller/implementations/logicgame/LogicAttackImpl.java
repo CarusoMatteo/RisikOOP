@@ -69,7 +69,7 @@ public final class LogicAttackImpl implements LogicAttack {
         int attackerUnits = units;
         final int defenderUnits = dst.getUnits();
 
-        while (isFastAttackEnabled) {
+        do {
             // Simula il lancio dei dadi
             final List<Integer> attackerDice = this.attackerDice.isEmpty()
                     ? rollDice(Math.min(MAX_DICE_USE, attackerUnits))
@@ -101,7 +101,7 @@ public final class LogicAttackImpl implements LogicAttack {
                 isFastAttackEnabled = false;
                 return true;
             }
-        }
+        } while (isFastAttackEnabled);
 
         isFastAttackEnabled = false;
         return false;

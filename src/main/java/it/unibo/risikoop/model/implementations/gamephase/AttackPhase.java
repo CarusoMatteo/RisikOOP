@@ -3,6 +3,7 @@ package it.unibo.risikoop.model.implementations.gamephase;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
@@ -38,8 +39,8 @@ public final class AttackPhase
     private final LogicAttack logic;
     private final Player attacker;
     private Player defender;
-    private Territory attackerSrc;
-    private Territory defenderDst;
+    private Optional<Territory> attackerSrc;
+    private Optional<Territory> defenderDst;
     private int unitsToUse;
     private boolean isEnd;
     private final GamePhaseController gamePhaseController;
@@ -64,8 +65,8 @@ public final class AttackPhase
         this.turnManager = gamePhaseController.getTurnManager();
         this.logic = logic;
         this.attacker = turnManager.getCurrentPlayer();
-        this.attackerSrc = null;
-        this.defenderDst = null;
+        this.attackerSrc = Optional.empty();
+        this.defenderDst = Optional.empty();
         this.unitsToUse = 0;
         this.isEnd = true;
         internalState = InternalState.SELECT_SRC;
@@ -82,15 +83,15 @@ public final class AttackPhase
 
     @Override
     public void performAction() {
-        if (internalState == InternalState.SELECT_SRC && attackerSrc != null) {
+        if (internalState == InternalState.SELECT_SRC && attackerSrc.isPresent()) {
             isEnd = false;
             nextState();
-        } else if (internalState == InternalState.SELECT_DST && defenderDst != null) {
+        } else if (internalState == InternalState.SELECT_DST && defenderDst.isPresent()) {
             nextState();
         } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToUse > 0) {
             nextState();
         } else if (internalState == InternalState.EXECUTE) {
-            logic.attack(attacker, defender, attackerSrc, defenderDst, unitsToUse);
+            logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse);
             isEnd = true; // Mark that an attack has been executed
             nextState();
         }
@@ -100,12 +101,12 @@ public final class AttackPhase
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
     public boolean selectTerritory(final Territory t) {
         if (internalState == InternalState.SELECT_SRC && isValidAttacker(t)) {
-            this.attackerSrc = t;
+            this.attackerSrc = Optional.ofNullable(t);
             unitsToUse = 0;
             return true;
         } else if (internalState == InternalState.SELECT_DST && isValidDefender(t)) {
             this.defender = t.getOwner();
-            this.defenderDst = t;
+            this.defenderDst = Optional.ofNullable(t);
             return true;
         }
         return false;
@@ -114,7 +115,7 @@ public final class AttackPhase
     @Override
     public void setUnitsToUse(final int units) {
         if (internalState == InternalState.SELECT_UNITS_QUANTITY
-                && units <= attackerSrc.getUnits() - 1
+                && units <= attackerSrc.map(t -> t.getUnits()).orElse(0) - 1
                 && units > 0) {
             unitsToUse = units;
         }
@@ -166,7 +167,10 @@ public final class AttackPhase
 
     private boolean isValidDefender(final Territory t) {
         boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
-        boolean isNeightbour = attackerSrc.getNeightbours().contains(t);
+        // boolean isNeightbour = attackerSrc.getNeightbours().contains(t);
+        boolean isNeightbour = attackerSrc.map(Territory::getNeightbours)
+                .orElse(Set.of()).contains(t);
+
         return !isMy && isNeightbour;
     }
 
