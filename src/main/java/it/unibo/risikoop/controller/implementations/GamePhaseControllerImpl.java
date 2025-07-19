@@ -115,7 +115,14 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     public void performAction() {
         currentPhaseAs(PhaseWithActionToPerforme.class)
                 .ifPresent(PhaseWithActionToPerforme::performAction);
+        checkWin();
         viewUpdate();
+    }
+
+    private void checkWin() {
+        if (turnManager.getCurrentPlayer().getObjectiveCard().isAchieved()) {
+            System.out.println(turnManager.getCurrentPlayer().getName() + " has won the game!");
+        }
     }
 
     @Override

@@ -38,6 +38,7 @@ public final class ConquerNContinetsBuilder extends AbstractObjectiveCardBuilder
 
     @Override
     protected String buildDescription() {
+        // nice
         return continents.stream()
                 .map(Continent::getName)
                 .collect(Collectors.joining(
