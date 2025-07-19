@@ -60,8 +60,6 @@ public final class MovementPhase
         if (internalState == InternalState.SELECT_SRC) {
             if (owned.contains(t) && t.getUnits() >= 2) {
                 this.source = Optional.ofNullable(t);
-                unitsToMove = 0;
-                moved = false;
                 return true;
             }
         } else if (internalState == InternalState.SELECT_DST) {
@@ -100,7 +98,7 @@ public final class MovementPhase
     @Override
     public void setUnitsToUse(final int units) {
         if (internalState == InternalState.SELECT_UNITS_QUANTITY
-                && units <= source.getUnits() - 1
+                && units <= source.map(Territory::getUnits).orElse(0) - 1
                 && units > 0) {
             this.unitsToMove = units;
         }
@@ -145,6 +143,10 @@ public final class MovementPhase
     @Override
     public void initializationPhase() {
         internalState = InternalState.SELECT_SRC;
+        source = Optional.empty();
+        destination = Optional.empty();
+        unitsToMove = 0;
+        moved = false;
     }
 
 }
