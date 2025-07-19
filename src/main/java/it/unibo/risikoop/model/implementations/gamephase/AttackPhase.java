@@ -20,6 +20,7 @@ import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseDescribable;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithActionToPerforme;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithAttack;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithInitialization;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithTransaction;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
 
@@ -35,19 +36,20 @@ import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
  */
 public final class AttackPhase
         implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme, PhaseWithAttack,
-        PhaseWithTransaction {
+        PhaseWithTransaction, PhaseWithInitialization {
 
     private final TurnManager turnManager;
     private final LogicAttack logic;
+    private final GamePhaseController gamePhaseController;
+    private final GameManager gameManager;
     private Player attacker;
     private Player defender;
     private Optional<Territory> attackerSrc;
     private Optional<Territory> defenderDst;
     private int unitsToUse;
     private boolean isEnd;
-    private final GamePhaseController gamePhaseController;
     private InternalState internalState;
-    private final GameManager gameManager;
+    private boolean isGetCard = false;
 
     /**
      * Constructs a new AttackPhase associated with the given turn manager.
@@ -89,11 +91,14 @@ public final class AttackPhase
             nextState();
         } else if (internalState == InternalState.SELECT_DST && defenderDst.isPresent()) {
             nextState();
-        } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToUse > 0) {
+        } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToUse > 0
+                && unitsToUse <= attackerSrc.map(t -> t.getUnits()).orElse(0) - 1) {
             nextState();
         } else if (internalState == InternalState.EXECUTE) {
             if (logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse)) {
                 attacker.addGameCard(new CardGameControllerImpl(gameManager).drawCard());
+                isGetCard = true;
+                clearData();
                 this.gamePhaseController.uodateViewTerritoryOwner();
             }
             isEnd = true; // Mark that an attack has been executed
@@ -204,4 +209,18 @@ public final class AttackPhase
     public InternalState getInternalState() {
         return internalState;
     }
+
+    @Override
+    public void initializationPhase() {
+        isGetCard = false;
+        isEnd = true;
+        internalState = InternalState.SELECT_SRC;
+    }
+
+    private void clearData() {
+        attackerSrc = Optional.empty();
+        defenderDst = Optional.empty();
+        unitsToUse = 0;
+    }
+
 }
