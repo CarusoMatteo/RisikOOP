@@ -98,9 +98,9 @@ public final class AttackPhase
             if (logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse)) {
                 attacker.addGameCard(new CardGameControllerImpl(gameManager).drawCard());
                 isGetCard = true;
-                clearData();
                 this.gamePhaseController.uodateViewTerritoryOwner();
             }
+            clearData();
             isEnd = true; // Mark that an attack has been executed
             nextState();
         }

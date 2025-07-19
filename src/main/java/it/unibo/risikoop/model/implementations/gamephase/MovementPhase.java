@@ -78,6 +78,7 @@ public final class MovementPhase
     public void performAction() {
         if (internalState == InternalState.SELECT_SRC && source.isPresent()) {
             nextState();
+            moved = false                                                                                                             ;
         } else if (internalState == InternalState.SELECT_DST && destination.isPresent()) {
             nextState();
         } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToMove > 0) {
@@ -146,7 +147,7 @@ public final class MovementPhase
         source = Optional.empty();
         destination = Optional.empty();
         unitsToMove = 0;
-        moved = false;
+        moved = true;
     }
 
 }
