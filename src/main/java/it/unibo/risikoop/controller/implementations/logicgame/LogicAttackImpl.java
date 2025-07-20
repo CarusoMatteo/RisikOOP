@@ -82,6 +82,7 @@ public final class LogicAttackImpl implements LogicAttack {
                 src.removeUnits(attackerUnits - attackerLosses);
                 attacker.addTerritory(dst);
                 defender.removeTerritory(dst);
+                checkKillPlayer(defender, attacker);
                 return attackEnd(true);
             }
 
@@ -153,5 +154,11 @@ public final class LogicAttackImpl implements LogicAttack {
         this.attackerDice = Optional.empty();
         this.defenderDice = Optional.empty();
         return attackRes;
+    }
+
+    private void checkKillPlayer(Player p, Player killer) {
+        if (p.getTerritories().isEmpty()) {
+            p.setKiller(killer);
+        }
     }
 }
