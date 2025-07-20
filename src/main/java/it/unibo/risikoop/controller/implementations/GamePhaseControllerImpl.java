@@ -126,8 +126,8 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
     private void checkWin() {
         if (turnManager.getCurrentPlayer().getObjectiveCard().isAchieved()) {
-            onGameOver.run();
             System.out.println(turnManager.getCurrentPlayer().getName() + " has won the game!");
+            onGameOver.run();
         }
     }
 
@@ -136,6 +136,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         if (phase().isComplete()) {
             advancePhase();
             viewUpdate();
+            checkWin();
         }
     }
 
