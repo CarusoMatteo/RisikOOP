@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
@@ -173,13 +174,14 @@ public final class MapSceneImpl extends JPanel implements MapScene {
     }
 
     @Override
-    public void changeTerritoryUnits(String territoryName, int units) {
+    public void changeTerritoryUnits(final String territoryName, final int units) {
         mapPanel.changeUnitsOfTerritory(territoryName, units);
     }
 
     @Override
     public void updateTerritoryOwner() {
-        mapPanel.assignNewNodesColor();
+        SwingUtilities.invokeLater(() -> mapPanel.assignNewNodesColor());
+
     }
 
 }
