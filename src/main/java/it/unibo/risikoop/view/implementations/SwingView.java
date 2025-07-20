@@ -29,6 +29,7 @@ public final class SwingView implements RisikoView {
     private final JFrame frame = new JFrame();
     private final PlayerAddingView playerAddingView;
     private final MapChoserScene mapChoser;
+    private MapSceneImpl mapSceneImpl;
     private Optional<MapScene> mapScene = Optional.empty();
     // private MapScene mapScene;
 
@@ -82,15 +83,14 @@ public final class SwingView implements RisikoView {
 
     @Override
     public void beginPlay() {
-        final MapSceneImpl mapSceneImpl = new MapSceneImpl(this.controller);
+        mapSceneImpl = new MapSceneImpl(this.controller);
         mapScene = Optional.of(mapSceneImpl);
         changePanel(frame, mapChoser, mapSceneImpl);
     }
 
     @Override
     public void gameOver() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'game_over'");
+        changePanel(frame, mapSceneImpl, new JPanel());
     }
 
     private JPanel changePanel(
