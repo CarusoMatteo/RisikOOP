@@ -44,6 +44,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     private PhaseKey current;
     private boolean initialDone;
     private final GameManager gm;
+    private final Runnable onGameOver;
 
     /**
      * Creates a new GamePhaseControllerImpl that will manage game phases
@@ -57,11 +58,13 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
      * @param tm       the TurnManager that determines player turn order
      * @param gm       the GameManager providing game state and context
      */
-    public GamePhaseControllerImpl(final List<RisikoView> viewList, final TurnManager tm, final GameManager gm) {
+    public GamePhaseControllerImpl(final List<RisikoView> viewList, final TurnManager tm, final GameManager gm,
+            final Runnable onGameOver) {
         this.turnManager = tm;
         this.gm = gm;
         this.phases = new EnumMap<>(PhaseKey.class);
         this.viewList = viewList;
+        this.onGameOver = onGameOver;
 
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
@@ -81,8 +84,9 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
             final List<RisikoView> viewList,
             final TurnManager tm,
             final GameManager gm,
+            final Runnable onGameOver,
             final PhaseKey startPhase) {
-        this(viewList, tm, gm);
+        this(viewList, tm, gm, onGameOver);
         // Forza la fase corrente a quella indicata
         this.current = startPhase;
         // Segna come già inizializzata la fase iniziale per evitare doppie
@@ -101,6 +105,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     public boolean selectTerritory(final Territory t) {
         final var results = phase().selectTerritory(t);
         viewUpdate();
+        checkWin();
         return results;
     }
 
@@ -121,6 +126,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
     private void checkWin() {
         if (turnManager.getCurrentPlayer().getObjectiveCard().isAchieved()) {
+            onGameOver.run();
             System.out.println(turnManager.getCurrentPlayer().getName() + " has won the game!");
         }
     }

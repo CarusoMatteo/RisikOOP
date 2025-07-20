@@ -55,20 +55,20 @@ public final class ControllerImpl implements Controller {
     public void beginToPlay() {
         assignTerritory();
         turnManager = new TurnManagerImpl(gameManager.getPlayers());
-        gamePhaseController = new GamePhaseControllerImpl(viewList, turnManager, gameManager);
+        gamePhaseController = new GamePhaseControllerImpl(viewList, turnManager, gameManager, this::gameOver);
         viewList.forEach(RisikoView::beginPlay);
 
-    }
-
-    @Override
-    public DataRetrieveController getDataRetrieveController() {
-        return new DataRetrieveControllerImpl(turnManager, gameManager);
     }
 
     @Override
     public void gameOver() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'gameOver'");
+    }
+
+    @Override
+    public DataRetrieveController getDataRetrieveController() {
+        return new DataRetrieveControllerImpl(turnManager, gameManager);
     }
 
     /*
