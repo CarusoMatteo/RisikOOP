@@ -81,7 +81,7 @@ public final class DataAddingControllerImpl implements DataAddingController {
 
     @Override
     public void setDefaultMap() {
-        gameManager.setDefaultWorld();
+        this.loadFromJson(new File(getClass().getResource("/CanonicalMap.json").getPath()));
     }
 
     private record JsonResult(List<List<String>> edges, Map<String, Integer> continents,
