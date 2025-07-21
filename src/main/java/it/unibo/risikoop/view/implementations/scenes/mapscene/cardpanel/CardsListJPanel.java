@@ -119,6 +119,8 @@ public final class CardsListJPanel extends JPanel {
                 selectedCards);
         this.updateCards(
                 controller.getDataRetrieveController().getCurrentPlayerGameCards());
+        this.selectedCards.clear();
+        this.playComboButton.setEnabled(false);
     }
 
     /**
