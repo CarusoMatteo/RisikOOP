@@ -7,6 +7,9 @@ import it.unibo.risikoop.model.interfaces.AttackResult;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 
+/**
+ * 
+ */
 public final class AttackTest implements LogicAttack {
 
     public enum PlayerType {
@@ -17,7 +20,8 @@ public final class AttackTest implements LogicAttack {
     private PlayerType playerType;
 
     @Override
-    public boolean attack(Player attacker, Player defender, Territory src, Territory dst, int units) {
+    public boolean attack(final Player attacker, final Player defender, final Territory src, final Territory dst,
+            final int units) {
 
         if (!checkConditionAttack(src, units)) {
             return false;
@@ -44,19 +48,20 @@ public final class AttackTest implements LogicAttack {
         return Optional.empty();
     }
 
-    public void selectWin(PlayerType type) {
+    public void selectWin(final PlayerType type) {
         playerType = type;
     }
 
-    private boolean checkConditionAttack(Territory src, int units) {
+    private boolean checkConditionAttack(final Territory src, final int units) {
         return units > 1 && units < src.getUnits();
     }
 
-    private void defenderWin(Territory src, int units) {
+    private void defenderWin(final Territory src, final int units) {
         src.removeUnits(units);
     }
 
-    private void attackerWin(Player attacker, Player defender, Territory src, Territory dst, int units) {
+    private void attackerWin(final Player attacker, final Player defender, final Territory src, final Territory dst,
+            final int units) {
 
         // rimuvo il territorio dal difensore e lo do all'attancante
         dst.removeUnits(dst.getUnits());

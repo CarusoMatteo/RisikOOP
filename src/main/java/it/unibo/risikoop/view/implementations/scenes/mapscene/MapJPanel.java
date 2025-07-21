@@ -41,9 +41,9 @@ public final class MapJPanel extends JPanel implements ViewerListener {
     /**
      * Constructor for MapJPanel.
      * 
-     * @param actionPanel The ActionPanel that will be used when we click a
-     *                    territory for updating the state labels
-     * @param controller  The controller to retrieve graph data and unit count.
+     * @param actonPanel The ActionPanel that will be used when we click a
+     *                   territory for updating the state labels
+     * @param controller The controller to retrieve graph data and unit count.
      */
     public MapJPanel(final ActionJPanel actonPanel, final Controller controller) {
         this.ap = actonPanel;
@@ -67,11 +67,14 @@ public final class MapJPanel extends JPanel implements ViewerListener {
 
     }
 
-    private void assignNewNodesColor() {
-        for (Node n : graph.nodes().toList()) {
-            Color territoryColor = controller.getDataRetrieveController().getTerritoryFromName(n.getId()).get()
+    /**
+     * method to change the color of each node based on the territory's owner.
+     */
+    public void assignNewNodesColor() {
+        for (final Node n : graph.nodes().toList()) {
+            final Color territoryColor = controller.getDataRetrieveController().getTerritoryFromName(n.getId()).get()
                     .getOwner().getColor();
-            String cssString = "fill-color: rgb(" + territoryColor.r() + "," + territoryColor.g() + ","
+            final String cssString = "fill-color: rgb(" + territoryColor.r() + "," + territoryColor.g() + ","
                     + territoryColor.b() + ");";
             n.setAttribute("ui.style", cssString);
         }
@@ -149,7 +152,7 @@ public final class MapJPanel extends JPanel implements ViewerListener {
      * @param territoryName
      * @param units
      */
-    public void changeUnitsOfTerritory(String territoryName, int units) {
+    public void changeUnitsOfTerritory(final String territoryName, final int units) {
         this.graph.nodes().filter(i -> i.getId().equals(territoryName)).forEach(i -> i.setAttribute("ui.label",
                 i.getId() + " - " + getUnits(i.getId()) + " units"));
     }

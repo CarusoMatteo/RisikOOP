@@ -111,9 +111,4 @@ public interface GameManager {
      */
     Graph getActualWorldMap();
 
-    /**
-     * 
-     */
-    void setDefaultWorld();
-
 }

@@ -10,6 +10,7 @@ import org.graphstream.graph.Graph;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.DataRetrieveController;
 import it.unibo.risikoop.model.implementations.Color;
+import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.Player;
@@ -82,7 +83,12 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     }
 
     @Override
-    public Optional<Territory> getTerritoryFromName(String name) {
+    public Optional<Territory> getTerritoryFromName(final String name) {
         return gm.getTerritory(name);
+    }
+
+    @Override
+    public Set<Continent> getContinents() {
+        return gm.getContinents();
     }
 }

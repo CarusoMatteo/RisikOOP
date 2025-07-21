@@ -8,7 +8,11 @@ import java.awt.GridBagLayout;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
@@ -45,7 +49,7 @@ public final class CardJpanel extends JPanel {
     public CardJpanel(final ObjectiveCard objectiveCard, final List<GameCard> cards, final Controller controller) {
         this.hideButtonPanel = new HideButtonJPanel();
         this.objectiveCardPanel = new ObjectiveCardJPanel(objectiveCard);
-        this.playComboPanel = new PlayComboJPanel();
+        this.playComboPanel = new PlayComboJPanel(controller);
         this.cardsListPanel = new CardsListJPanel(cards, controller, playComboPanel.getPlayComboButton());
 
         setupPanels();
@@ -167,23 +171,44 @@ public final class CardJpanel extends JPanel {
      */
     private final class PlayComboJPanel extends JPanel {
         private static final long serialVersionUID = 1L;
-
+        private static final int DIALOG_RATIO = 3;
         private static final String PLAY_COMBO_TEXT = "Play combo";
+        private static final String GUIDE_TEXT = "Guide";
         private final JButton playComboButton;
+        private final JButton guideButton;
+        private final Controller controller;
 
         /**
          * Constructor for PlayComboJPanel.
+         * 
+         * @param controller
          */
-        PlayComboJPanel() {
+        PlayComboJPanel(final Controller controller) {
             this.setLayout(new BorderLayout());
+            this.controller = controller;
             this.playComboButton = new JButton(PLAY_COMBO_TEXT);
+            this.guideButton = new JButton(GUIDE_TEXT);
             this.playComboButton.setPreferredSize(new Dimension(1, 1));
             this.playComboButton.setMinimumSize(new Dimension(1, 1));
             this.playComboButton.setEnabled(false);
             this.playComboButton.addActionListener(e -> {
                 cardsListPanel.playCombo();
             });
+            this.guideButton.addActionListener(i -> {
+                showGuidePanel();
+            });
             this.add(this.playComboButton, BorderLayout.CENTER);
+            this.add(guideButton, BorderLayout.EAST);
+        }
+
+        private void showGuidePanel() {
+            final JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            final JDialog dialog = new JDialog(frame, "Prenotazioni associate", true);
+            dialog.setSize(frame.getWidth() / DIALOG_RATIO, frame.getHeight() / DIALOG_RATIO);
+            dialog.setLocationRelativeTo(frame);
+            final JScrollPane scrollPane = new JScrollPane(new GuidePanel(controller));
+            dialog.add(scrollPane);
+            dialog.setVisible(true);
         }
 
         /**

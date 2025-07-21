@@ -30,7 +30,8 @@ public final class LogicReinforcementCalculatorImpl implements LogicReinforcemen
      * @param turnManager the {@link TurnManager} used to identify the current
      *                    player
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentionally storing the external GameManager for ongoing calculations")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentionally storing the external"
+            + "GameManager for ongoing calculations")
     public LogicReinforcementCalculatorImpl(final GameManager gameMenager, final TurnManager turnManager) {
         this.gameMenager = gameMenager;
         this.turnManager = turnManager;

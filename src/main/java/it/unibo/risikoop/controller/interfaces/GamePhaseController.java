@@ -19,13 +19,31 @@ import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
  */
 public interface GamePhaseController {
     /**
-    * 
-    */
-    public enum PhaseKey {
+     * an enum to keep truck of the phase we are currently in.
+     */
+    enum PhaseKey {
+        /**
+         * describe the initial reinformecemt state.
+         */
         INITIAL_REINFORCEMENT("Fase di rinforzo iniziale"),
+        /**
+         * describe the play combo phase, a phase where you can play combo cards.
+         */
         COMBO("Fase di gestione combo"),
+        /**
+         * describe the reinformecemt phase the phase at which you can give some new
+         * units to your teritory.
+         */
         REINFORCEMENT("Fase di rinforzo"),
+        /**
+         * describe the attack phase, the phase at which you can attack any other
+         * territory that you don't own.
+         */
         ATTACK("Fase di gestione attacchi"),
+        /**
+         * describe the movement phase, the phase where you can move (once per phase)
+         * some troups frome one territory of your own to another.
+         */
         MOVEMENT("Fase di gestione spostamenti");
 
         private final String desc;
@@ -44,6 +62,11 @@ public interface GamePhaseController {
             return String.copyValueOf(desc.toCharArray());
         }
 
+        /**
+         * go to the next phase.
+         * 
+         * @return the next phase.
+         */
         public PhaseKey next() {
             final int idx = (this.ordinal() + 1) % values().length;
             return values()[idx];
@@ -145,4 +168,9 @@ public interface GamePhaseController {
      * @return the {@link PhaseKey}
      */
     PhaseKey getPhaseKey();
+
+    /**
+     * make the view update when showing the territory's owner.
+     */
+    void uodateViewTerritoryOwner();
 }

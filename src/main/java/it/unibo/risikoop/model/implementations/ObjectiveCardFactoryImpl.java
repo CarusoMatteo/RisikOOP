@@ -34,7 +34,8 @@ public final class ObjectiveCardFactoryImpl implements ObjectiveCardFactory {
      *
      * @param gameManager the GameManager that manages the game state
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentionally returning the Territory reference; mutability managed elsewhere")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentionally returning the Territory reference;"
+            + " mutability managed elsewhere")
     public ObjectiveCardFactoryImpl(final GameManager gameManager) {
         this.random = new Random();
         this.gameManager = gameManager;

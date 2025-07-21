@@ -24,6 +24,7 @@ import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithAttack;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithInitialization;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithTransaction;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
+import it.unibo.risikoop.view.interfaces.MapScene;
 import it.unibo.risikoop.view.interfaces.RisikoView;
 
 /**
@@ -43,6 +44,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     private PhaseKey current;
     private boolean initialDone;
     private final GameManager gm;
+    private final Runnable onGameOver;
 
     /**
      * Creates a new GamePhaseControllerImpl that will manage game phases
@@ -52,20 +54,24 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
      * to INITIAL_REINFORCEMENT, and calls initializationPhase() on it.
      * </p>
      * 
-     * @param viewList the list of every view
-     * @param tm       the TurnManager that determines player turn order
-     * @param gm       the GameManager providing game state and context
+     * @param viewList   the list of every view
+     * @param tm         the TurnManager that determines player turn order
+     * @param gm         the GameManager providing game state and context
+     * @param onGameOver the {@link Runnable} descriving the method to call when
+     *                   some player wins
      */
-    public GamePhaseControllerImpl(final List<RisikoView> viewList, final TurnManager tm, final GameManager gm) {
+    public GamePhaseControllerImpl(final List<RisikoView> viewList, final TurnManager tm, final GameManager gm,
+            final Runnable onGameOver) {
         this.turnManager = tm;
         this.gm = gm;
         this.phases = new EnumMap<>(PhaseKey.class);
         this.viewList = viewList;
+        this.onGameOver = onGameOver;
 
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, gm));
         phases.put(PhaseKey.COMBO, new ComboPhaseImpl());
         phases.put(PhaseKey.REINFORCEMENT, new ReinforcementPhase(gm, this));
-        phases.put(PhaseKey.ATTACK, new AttackPhase(this));
+        phases.put(PhaseKey.ATTACK, new AttackPhase(this, gm));
         phases.put(PhaseKey.MOVEMENT, new MovementPhase(this));
 
         this.current = PhaseKey.INITIAL_REINFORCEMENT;
@@ -75,13 +81,22 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         this.initialDone = false;
     }
 
-    // Use only for testing
+    /**
+     * Only used for testing.
+     * 
+     * @param viewList
+     * @param tm
+     * @param gm
+     * @param onGameOver
+     * @param startPhase
+     */
     public GamePhaseControllerImpl(
             final List<RisikoView> viewList,
             final TurnManager tm,
             final GameManager gm,
+            final Runnable onGameOver,
             final PhaseKey startPhase) {
-        this(viewList, tm, gm);
+        this(viewList, tm, gm, onGameOver);
         // Forza la fase corrente a quella indicata
         this.current = startPhase;
         // Segna come già inizializzata la fase iniziale per evitare doppie
@@ -100,6 +115,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     public boolean selectTerritory(final Territory t) {
         final var results = phase().selectTerritory(t);
         viewUpdate();
+        checkWin();
         return results;
     }
 
@@ -114,7 +130,15 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     public void performAction() {
         currentPhaseAs(PhaseWithActionToPerforme.class)
                 .ifPresent(PhaseWithActionToPerforme::performAction);
+        checkWin();
         viewUpdate();
+    }
+
+    private void checkWin() {
+        if (turnManager.getCurrentPlayer().getObjectiveCard().isAchieved()) {
+            System.out.println(turnManager.getCurrentPlayer().getName() + " has won the game!");
+            onGameOver.run();
+        }
     }
 
     @Override
@@ -122,6 +146,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         if (phase().isComplete()) {
             advancePhase();
             viewUpdate();
+            checkWin();
         }
     }
 
@@ -165,7 +190,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     }
 
     private void viewUpdate() {
-        Player p = turnManager.getCurrentPlayer();
+        final Player p = turnManager.getCurrentPlayer();
         gm.getTerritories().forEach(t -> viewList
                 .forEach(i -> i.getMapScene().ifPresent(m -> m.changeTerritoryUnits(t.getName(), t.getUnits()))));
         viewList.stream().map(v -> v.getMapScene())
@@ -203,7 +228,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         }
     }
 
-    private <T> Optional<T> currentPhaseAs(Class<T> iface) {
+    private <T> Optional<T> currentPhaseAs(final Class<T> iface) {
         if (iface.isInstance(phase())) {
             return Optional.of(iface.cast(phase()));
         }
@@ -218,5 +243,13 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     @Override
     public PhaseKey getPhaseKey() {
         return current;
+    }
+
+    @Override
+    public void uodateViewTerritoryOwner() {
+        viewList
+                .stream()
+                .map(v -> v.getMapScene())
+                .forEach(m -> m.ifPresent(MapScene::updateTerritoryOwner));
     }
 }

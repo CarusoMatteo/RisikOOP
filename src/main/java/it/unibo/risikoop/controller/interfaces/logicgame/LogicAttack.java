@@ -9,7 +9,7 @@ import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithAttack;
  * Implementations should encapsulate the dice rolls, unit losses, and territory
  * conquest rules of the game.
  */
-public interface LogicAttack extends PhaseWithAttack{
+public interface LogicAttack extends PhaseWithAttack {
 
     /**
      * Executes an attack from one territory to another, resolving combat

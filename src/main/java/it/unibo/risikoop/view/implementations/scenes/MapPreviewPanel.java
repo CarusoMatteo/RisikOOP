@@ -34,7 +34,8 @@ public final class MapPreviewPanel extends JPanel {
         this.controller = controller;
         setLayout(new BorderLayout());
         setVisible(true);
-        add(new JLabel("preview"),BorderLayout.NORTH);
+        add(new JLabel("preview"), BorderLayout.NORTH);
+
     }
 
     /**
@@ -44,14 +45,14 @@ public final class MapPreviewPanel extends JPanel {
         if (panel != null) {
             this.remove(panel);
         }
-        var graph = this.controller.getDataRetrieveController().getActualMap();
+        final var graph = this.controller.getDataRetrieveController().getActualMap();
         graph.nodes().forEach(
                 node -> node.setAttribute("ui.label", node.getId()));
 
         graph.setAttribute("ui.stylesheet", COMMON_STYLE_SHEET);
-        var viewer = new SwingViewer(graph, SwingViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+        final var viewer = new SwingViewer(graph, SwingViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         viewer.enableAutoLayout();
-        var view = viewer.addDefaultView(false);
+        final var view = viewer.addDefaultView(false);
         this.panel = (ViewPanel) view;
         add(this.panel, BorderLayout.CENTER);
         revalidate();

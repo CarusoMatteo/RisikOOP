@@ -7,6 +7,7 @@ import java.util.Set;
 import org.graphstream.graph.Graph;
 
 import it.unibo.risikoop.model.implementations.Color;
+import it.unibo.risikoop.model.interfaces.Continent;
 import it.unibo.risikoop.model.interfaces.ObjectiveCard;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
@@ -79,5 +80,12 @@ public interface DataRetrieveController {
      * @return the current player
      */
     Player getCurrentPlayer();
+
+    /**
+     * gives the current set of continents.
+     * 
+     * @return a {@link Set} of {@linkCcontinent}
+     */
+    Set<Continent> getContinents();
 
 }

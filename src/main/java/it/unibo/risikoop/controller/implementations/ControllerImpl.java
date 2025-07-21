@@ -24,7 +24,7 @@ import it.unibo.risikoop.view.interfaces.RisikoView;
  */
 public final class ControllerImpl implements Controller {
 
-    private final GameManager gameManager = new GameManagerImpl();
+    private GameManager gameManager;
     private final List<RisikoView> viewList = new LinkedList<>();
     private TurnManager turnManager;
     private GamePhaseController gamePhaseController;
@@ -43,6 +43,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void start() {
+        gameManager = new GameManagerImpl();
         viewList.forEach(RisikoView::start);
     }
 
@@ -55,9 +56,14 @@ public final class ControllerImpl implements Controller {
     public void beginToPlay() {
         assignTerritory();
         turnManager = new TurnManagerImpl(gameManager.getPlayers());
-        gamePhaseController = new GamePhaseControllerImpl(viewList, turnManager, gameManager);
+        gamePhaseController = new GamePhaseControllerImpl(viewList, turnManager, gameManager, this::gameOver);
         viewList.forEach(RisikoView::beginPlay);
 
+    }
+
+    @Override
+    public void gameOver() {
+        viewList.forEach(RisikoView::gameOver);
     }
 
     @Override
@@ -65,21 +71,6 @@ public final class ControllerImpl implements Controller {
         return new DataRetrieveControllerImpl(turnManager, gameManager);
     }
 
-    @Override
-    public void gameOver() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gameOver'");
-    }
-
-    /*
-     * private void readObject(final java.io.ObjectInputStream in) throws
-     * java.io.IOException, ClassNotFoundException {
-     * in.defaultReadObject();
-     * // Reinitialize transient fields
-     * this.gameManager = new GameManagerImpl();
-     * this.viewList = List.of(new SwingView(this));
-     * }
-     */
     private void assignTerritory() {
         final var players = gameManager.getPlayers();
         final List<Territory> territories = new ArrayList<>(gameManager.getTerritories().stream().toList());
@@ -90,12 +81,7 @@ public final class ControllerImpl implements Controller {
         }
         players.forEach(p -> {
             p.setObjectiveCard(new ObjectiveCardFactoryImpl(gameManager).createObjectiveCard(p));
-            /**
-             * for debug only
-             * p.getTerritories().forEach(i -> p.addGameCard(new
-             * TerritoryCardImpl(UnitType.CANNON, i)));
-             * /** ------------------
-             */
+
         });
 
     }
@@ -111,9 +97,9 @@ public final class ControllerImpl implements Controller {
     }
 
     @Override
-    public boolean isOwned(String territoryName, String playerName) {
-        var territoryOptional = gameManager.getTerritory(territoryName);
-        var playerOptional = gameManager.getPlayers()
+    public boolean isOwned(final String territoryName, final String playerName) {
+        final var territoryOptional = gameManager.getTerritory(territoryName);
+        final var playerOptional = gameManager.getPlayers()
                 .stream()
                 .filter(p -> p.getName().equals(playerName))
                 .findFirst();

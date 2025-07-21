@@ -22,7 +22,8 @@ public final class LogicCalcInitialUnitsImpl implements LogicReinforcementCalcul
      *
      * @param gameManager the {@link GameManager} providing current game state
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory"
+            + "reference; game logic needs mutable state.")
     public LogicCalcInitialUnitsImpl(final GameManager gameManager) {
         this.gameManager = gameManager;
     }

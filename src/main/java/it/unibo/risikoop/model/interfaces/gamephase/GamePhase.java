@@ -13,6 +13,7 @@ public interface GamePhase {
      * Select a territory to perform an action on.
      * 
      * @param t the Territory to select
+     * @return true if you could succesfully select the territory, false otherwise
      */
     boolean selectTerritory(Territory t);
 

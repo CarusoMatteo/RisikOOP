@@ -57,7 +57,7 @@ public interface Controller {
      * 
      * @param territoryName the territory's name
      * @param playerName    the player's name
-     * @return
+     * @return true if the territory is owned by the player, false otherwise
      */
     boolean isOwned(String territoryName, String playerName);
 

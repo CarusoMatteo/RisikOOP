@@ -51,17 +51,10 @@ public final class LogicAttackImpl implements LogicAttack {
     }
 
     @Override
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the"
+            + "Territory reference; game logic needs mutable state.")
     public boolean attack(final Player attacker, final Player defender, final Territory src, final Territory dst,
             final int units) {
-
-        // non è necessario che le contrlli sono già verificate a priori
-        if (!src.getOwner().equals(attacker) || !dst.getOwner().equals(defender)) {
-            return false;
-        }
-        if (units < 1 || units >= src.getUnits()) {
-            return false;
-        }
 
         this.src = src;
         this.dst = dst;
@@ -90,6 +83,7 @@ public final class LogicAttackImpl implements LogicAttack {
                 src.removeUnits(attackerUnits - attackerLosses);
                 attacker.addTerritory(dst);
                 defender.removeTerritory(dst);
+                checkKillPlayer(defender, attacker);
                 return attackEnd(true);
             }
 
@@ -97,18 +91,43 @@ public final class LogicAttackImpl implements LogicAttack {
             // e ha vinto il difensore
             attackerUnits = attackerUnits - attackerLosses;
             if (attackerUnits == 0) {
-                return attackEnd(true);
+                return attackEnd(false);
             }
         } while (isFastAttackEnabled);
 
         return attackEnd(false);
     }
 
-    public void setAttackerDice(List<Integer> dice) {
+    @Override
+    public void enableFastAttack() {
+        this.isFastAttackEnabled = true;
+    }
+
+    @Override
+    public Optional<AttackResult> showAttackResults() {
+        Optional<AttackResult> returned = Optional.empty();
+        if (attackResult.isPresent()) {
+            returned = Optional.of(attackResult.get());
+            attackResult = Optional.empty();
+        }
+        return returned;
+    }
+
+    /**
+     * set the attacker dice.
+     * 
+     * @param dice a List of integer
+     */
+    public void setAttackerDice(final List<Integer> dice) {
         this.attackerDice = Optional.ofNullable(dice);
     }
 
-    public void setDefencerDice(List<Integer> dice) {
+    /**
+     * set the defender dice.
+     * 
+     * @param dice
+     */
+    public void setDefencerDice(final List<Integer> dice) {
         this.defenderDice = Optional.ofNullable(dice);
     }
 
@@ -141,21 +160,16 @@ public final class LogicAttackImpl implements LogicAttack {
         return attackerLosses;
     }
 
-    @Override
-    public void enableFastAttack() {
-        this.isFastAttackEnabled = true;
-    }
-
-    @Override
-    public Optional<AttackResult> showAttackResults() {
-        return attackResult;
-    }
-
-    private boolean attackEnd(boolean attackRes) {
+    private boolean attackEnd(final boolean attackRes) {
         isFastAttackEnabled = false;
         this.attackerDice = Optional.empty();
         this.defenderDice = Optional.empty();
         return attackRes;
     }
 
+    private void checkKillPlayer(final Player p, final Player killer) {
+        if (p.getTerritories().isEmpty()) {
+            p.setKiller(killer);
+        }
+    }
 }

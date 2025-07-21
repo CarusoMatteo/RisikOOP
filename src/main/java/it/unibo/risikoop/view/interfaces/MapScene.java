@@ -26,10 +26,16 @@ public interface MapScene {
                         List<GameCard> cards);
 
         /**
-         * change the displayed units for the the specific territory;
+         * change the displayed units for the the specific territory.
          * 
          * @param territoryName
          */
-        public void changeTerritoryUnits(String territoryName, int units);
+        void changeTerritoryUnits(String territoryName, int units);
+
+        /**
+         * change the way.
+         */
+
+        void updateTerritoryOwner();
 
 }

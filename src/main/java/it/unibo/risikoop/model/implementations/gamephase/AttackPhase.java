@@ -6,10 +6,12 @@ import java.util.Optional;
 import java.util.Set;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.risikoop.controller.implementations.CardGameControllerImpl;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.model.interfaces.AttackResult;
+import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.Player;
 import it.unibo.risikoop.model.interfaces.Territory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
@@ -18,6 +20,7 @@ import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseDescribable;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithActionToPerforme;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithAttack;
+import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithInitialization;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithTransaction;
 import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
 
@@ -33,18 +36,20 @@ import it.unibo.risikoop.model.interfaces.gamephase.PhaseWithUnits;
  */
 public final class AttackPhase
         implements GamePhase, PhaseDescribable, PhaseWithUnits, PhaseWithActionToPerforme, PhaseWithAttack,
-        PhaseWithTransaction {
+        PhaseWithTransaction, PhaseWithInitialization {
 
     private final TurnManager turnManager;
     private final LogicAttack logic;
-    private final Player attacker;
+    private final GamePhaseController gamePhaseController;
+    private final GameManager gameManager;
+    private Player attacker;
     private Player defender;
     private Optional<Territory> attackerSrc;
     private Optional<Territory> defenderDst;
     private int unitsToUse;
     private boolean isEnd;
-    private final GamePhaseController gamePhaseController;
     private InternalState internalState;
+    private boolean isGetCard;
 
     /**
      * Constructs a new AttackPhase associated with the given turn manager.
@@ -56,24 +61,22 @@ public final class AttackPhase
      * territory selected, zero units to use). The phase is marked as complete
      * until an attacker territory is chosen.
      * </p>
-     *
+     * 
+     * @param gm  the {@link GameManager}
      * @param gpc the {@link GamePhaseController}
      */
 
-    public AttackPhase(final GamePhaseController gpc, final LogicAttack logic) {
+    public AttackPhase(final GamePhaseController gpc, final GameManager gm) {
         this.gamePhaseController = gpc;
+        this.gameManager = gm;
         this.turnManager = gamePhaseController.getTurnManager();
-        this.logic = logic;
+        this.logic = new LogicAttackImpl();
         this.attacker = turnManager.getCurrentPlayer();
         this.attackerSrc = Optional.empty();
         this.defenderDst = Optional.empty();
         this.unitsToUse = 0;
         this.isEnd = true;
         internalState = InternalState.SELECT_SRC;
-    }
-
-    public AttackPhase(final GamePhaseController gpc) {
-        this(gpc, new LogicAttackImpl());
     }
 
     @Override
@@ -88,20 +91,28 @@ public final class AttackPhase
             nextState();
         } else if (internalState == InternalState.SELECT_DST && defenderDst.isPresent()) {
             nextState();
-        } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToUse > 0) {
+        } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToUse > 0
+                && unitsToUse <= attackerSrc.map(t -> t.getUnits()).orElse(0) - 1) {
             nextState();
         } else if (internalState == InternalState.EXECUTE) {
-            logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse);
+            if (logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse)) {
+                attacker.addGameCard(new CardGameControllerImpl(gameManager).drawCard());
+                isGetCard = true;
+                this.gamePhaseController.uodateViewTerritoryOwner();
+            }
+            clearData();
             isEnd = true; // Mark that an attack has been executed
             nextState();
         }
     }
 
     @Override
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference;"
+            + "game logic needs mutable state.")
     public boolean selectTerritory(final Territory t) {
         if (internalState == InternalState.SELECT_SRC && isValidAttacker(t)) {
             this.attackerSrc = Optional.ofNullable(t);
+            this.attacker = t.getOwner();
             unitsToUse = 0;
             return true;
         } else if (internalState == InternalState.SELECT_DST && isValidDefender(t)) {
@@ -141,18 +152,33 @@ public final class AttackPhase
         }
     }
 
-    // Orredno serev per testare gli attacchi
-    public void setAttackerDice(List<Integer> dice) {
-        LogicAttackImpl l = (LogicAttackImpl) logic;
+    //
+    /**
+     * Orredno serev per testare gli attacchi.
+     * 
+     * @param dice
+     */
+    public void setAttackerDice(final List<Integer> dice) {
+        final LogicAttackImpl l = (LogicAttackImpl) logic;
         l.setAttackerDice(dice);
     }
 
-    // Orrendo serve per testare gli attacchi
-    public void setDefencerDice(List<Integer> dice) {
-        LogicAttackImpl l = (LogicAttackImpl) logic;
+    //
+    /**
+     * Orrendo serve per testare gli attacchi.
+     * 
+     * @param dice
+     */
+    public void setDefencerDice(final List<Integer> dice) {
+        final LogicAttackImpl l = (LogicAttackImpl) logic;
         l.setDefencerDice(dice);
     }
 
+    /**
+     * get the attack logic.
+     * 
+     * @return a {@link LogicAttack} instance
+     */
     public LogicAttack getAttackLogic() {
         return logic;
     }
@@ -166,9 +192,9 @@ public final class AttackPhase
     }
 
     private boolean isValidDefender(final Territory t) {
-        boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
+        final boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
         // boolean isNeightbour = attackerSrc.getNeightbours().contains(t);
-        boolean isNeightbour = attackerSrc.map(Territory::getNeightbours)
+        final boolean isNeightbour = attackerSrc.map(Territory::getNeightbours)
                 .orElse(Set.of()).contains(t);
 
         return !isMy && isNeightbour;
@@ -199,4 +225,18 @@ public final class AttackPhase
     public InternalState getInternalState() {
         return internalState;
     }
+
+    @Override
+    public void initializationPhase() {
+        isGetCard = false;
+        isEnd = true;
+        internalState = InternalState.SELECT_SRC;
+    }
+
+    private void clearData() {
+        attackerSrc = Optional.empty();
+        defenderDst = Optional.empty();
+        unitsToUse = 0;
+    }
+
 }

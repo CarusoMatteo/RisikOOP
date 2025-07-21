@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.view.implementations.scenes.MapChoserScene;
 import it.unibo.risikoop.view.implementations.scenes.PlayerAddingView;
+import it.unibo.risikoop.view.implementations.scenes.mapscene.GameOverPanel;
 import it.unibo.risikoop.view.implementations.scenes.mapscene.MapSceneImpl;
 import it.unibo.risikoop.view.interfaces.MapScene;
 import it.unibo.risikoop.view.interfaces.RisikoView;
@@ -27,9 +28,9 @@ public final class SwingView implements RisikoView {
     private static final float RIDIM = 1.5f;
     private final Controller controller;
     private final JFrame frame = new JFrame();
-    private final PlayerAddingView playerAddingView;
-    private final MapChoserScene mapChoser;
+    private MapSceneImpl mapSceneImpl;
     private Optional<MapScene> mapScene = Optional.empty();
+    private JPanel lastPanel;
     // private MapScene mapScene;
 
     /**
@@ -39,8 +40,6 @@ public final class SwingView implements RisikoView {
      */
     public SwingView(final Controller controller) {
         this.controller = controller;
-        playerAddingView = new PlayerAddingView(this.controller);
-        mapChoser = new MapChoserScene(this.controller);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize((int) (screenSize.getWidth() / RIDIM), (int) (screenSize.getHeight() / RIDIM));
@@ -72,35 +71,34 @@ public final class SwingView implements RisikoView {
     public void start() {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize((int) (screenSize.getWidth() / 3), (int) (screenSize.getHeight() / 4));
-        changePanel(frame, null, playerAddingView);
+        changePanel(frame, new PlayerAddingView(controller));
     }
 
     @Override
     public void chooseMap() {
-        changePanel(frame, playerAddingView, mapChoser);
+        changePanel(frame, new MapChoserScene(controller));
     }
 
     @Override
     public void beginPlay() {
-        final MapSceneImpl mapSceneImpl = new MapSceneImpl(this.controller);
+        mapSceneImpl = new MapSceneImpl(this.controller);
         mapScene = Optional.of(mapSceneImpl);
-        changePanel(frame, mapChoser, mapSceneImpl);
+        changePanel(frame, mapSceneImpl);
     }
 
     @Override
     public void gameOver() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'game_over'");
+        changePanel(frame, new GameOverPanel(controller));
     }
 
     private JPanel changePanel(
             final Container parent,
-            final JPanel oldPanel,
             final JPanel newPanel) {
-        if (oldPanel != null) {
-            parent.remove(oldPanel);
+        if (lastPanel != null) {
+            parent.remove(lastPanel);
         }
         parent.add(newPanel);
+        lastPanel = newPanel;
         newPanel.setVisible(true);
         this.frame.revalidate();
         this.frame.repaint();
@@ -110,7 +108,7 @@ public final class SwingView implements RisikoView {
 
     @Override
     public void showErrorMessage(final String s) {
-        JOptionPane.showMessageDialog(playerAddingView, s);
+        JOptionPane.showMessageDialog(frame, s);
     }
 
     @Override
