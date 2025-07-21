@@ -24,7 +24,7 @@ import it.unibo.risikoop.view.interfaces.RisikoView;
  */
 public final class ControllerImpl implements Controller {
 
-    private final GameManager gameManager = new GameManagerImpl();
+    private GameManager gameManager;
     private final List<RisikoView> viewList = new LinkedList<>();
     private TurnManager turnManager;
     private GamePhaseController gamePhaseController;
@@ -43,6 +43,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void start() {
+        gameManager = new GameManagerImpl();
         viewList.forEach(RisikoView::start);
     }
 
