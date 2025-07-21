@@ -42,9 +42,7 @@ public final class CardsListJPanel extends JPanel {
      *                        check if a combo is vaild.
      * @param playComboButton The button that needs to be enabled to play a combo of
      *                        selected cards.
-     */
-    /*
-     * Suppressed because the comboButton is not changed.
+     *                        Suppressed because the comboButton is not changed.
      */
     @SuppressWarnings("EI_EXPOSE_REP")
     public CardsListJPanel(final List<GameCard> cards,

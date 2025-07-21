@@ -65,7 +65,7 @@ public final class ReinforcementPhase implements GamePhase, PhaseDescribable, Ph
 
     @Override
     public String getInnerStatePhaseDescription() {
-        return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " place units: " +
-                gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace();
+        return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " place units: "
+                + gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace();
     }
 }

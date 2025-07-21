@@ -30,10 +30,11 @@ public final class InitialReinforcementPhase
      * The initial number of units is calculated based on the number of territories
      * and players.
      *
-     * @param gfc         the GamePhaseController
+     * @param gpc         the GamePhaseController
      * @param gameManager the GameManager that manages the game state
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference;"
+            + "game logic needs mutable state.")
     public InitialReinforcementPhase(final GamePhaseController gpc, final GameManager gameManager) {
         this.gpc = gpc;
         this.logic = new LogicCalcInitialUnitsImpl(gameManager);
@@ -42,8 +43,8 @@ public final class InitialReinforcementPhase
 
     @Override
     public boolean isComplete() {
-        return gpc.getTurnManager().isLastPlayer() &&
-                gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace() == 0;
+        return gpc.getTurnManager().isLastPlayer()
+                && gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace() == 0;
     }
 
     @Override
@@ -79,7 +80,7 @@ public final class InitialReinforcementPhase
     }
 
     private void addOneUnitOnEachPlayerTerritory() {
-        var p = gpc.getTurnManager().getCurrentPlayer();
+        final var p = gpc.getTurnManager().getCurrentPlayer();
         p.getTerritories().forEach(t -> {
             p.removeUnitsToPlace(1);
             t.addUnits(1);
@@ -88,7 +89,7 @@ public final class InitialReinforcementPhase
 
     @Override
     public String getInnerStatePhaseDescription() {
-        return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " unit placement: " +
-                gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace();
+        return "Player " + gpc.getTurnManager().getCurrentPlayer().getName() + " unit placement: "
+                + gpc.getTurnManager().getCurrentPlayer().getUnitsToPlace();
     }
 }

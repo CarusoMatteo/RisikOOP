@@ -52,7 +52,8 @@ public final class MovementPhase
     }
 
     @Override
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; "
+            + "game logic needs mutable state.")
     public boolean selectTerritory(final Territory t) {
         final Player p = turnManager.getCurrentPlayer();
         final Set<Territory> owned = p.getTerritories().stream().collect(Collectors.toSet());
@@ -78,7 +79,7 @@ public final class MovementPhase
     public void performAction() {
         if (internalState == InternalState.SELECT_SRC && source.isPresent()) {
             nextState();
-            moved = false                                                                                                             ;
+            moved = false;
         } else if (internalState == InternalState.SELECT_DST && destination.isPresent()) {
             nextState();
         } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToMove > 0) {

@@ -54,9 +54,11 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
      * to INITIAL_REINFORCEMENT, and calls initializationPhase() on it.
      * </p>
      * 
-     * @param viewList the list of every view
-     * @param tm       the TurnManager that determines player turn order
-     * @param gm       the GameManager providing game state and context
+     * @param viewList   the list of every view
+     * @param tm         the TurnManager that determines player turn order
+     * @param gm         the GameManager providing game state and context
+     * @param onGameOver the {@link Runnable} descriving the method to call when
+     *                   some player wins
      */
     public GamePhaseControllerImpl(final List<RisikoView> viewList, final TurnManager tm, final GameManager gm,
             final Runnable onGameOver) {
@@ -79,7 +81,15 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         this.initialDone = false;
     }
 
-    // Use only for testing
+    /**
+     * Only used for testing.
+     * 
+     * @param viewList
+     * @param tm
+     * @param gm
+     * @param onGameOver
+     * @param startPhase
+     */
     public GamePhaseControllerImpl(
             final List<RisikoView> viewList,
             final TurnManager tm,
@@ -180,7 +190,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     }
 
     private void viewUpdate() {
-        Player p = turnManager.getCurrentPlayer();
+        final Player p = turnManager.getCurrentPlayer();
         gm.getTerritories().forEach(t -> viewList
                 .forEach(i -> i.getMapScene().ifPresent(m -> m.changeTerritoryUnits(t.getName(), t.getUnits()))));
         viewList.stream().map(v -> v.getMapScene())
@@ -218,7 +228,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         }
     }
 
-    private <T> Optional<T> currentPhaseAs(Class<T> iface) {
+    private <T> Optional<T> currentPhaseAs(final Class<T> iface) {
         if (iface.isInstance(phase())) {
             return Optional.of(iface.cast(phase()));
         }

@@ -51,7 +51,8 @@ public final class LogicAttackImpl implements LogicAttack {
     }
 
     @Override
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the"
+            + "Territory reference; game logic needs mutable state.")
     public boolean attack(final Player attacker, final Player defender, final Territory src, final Territory dst,
             final int units) {
 
@@ -112,11 +113,21 @@ public final class LogicAttackImpl implements LogicAttack {
         return returned;
     }
 
-    public void setAttackerDice(List<Integer> dice) {
+    /**
+     * set the attacker dice.
+     * 
+     * @param dice a List of integer
+     */
+    public void setAttackerDice(final List<Integer> dice) {
         this.attackerDice = Optional.ofNullable(dice);
     }
 
-    public void setDefencerDice(List<Integer> dice) {
+    /**
+     * set the defender dice.
+     * 
+     * @param dice
+     */
+    public void setDefencerDice(final List<Integer> dice) {
         this.defenderDice = Optional.ofNullable(dice);
     }
 
@@ -149,14 +160,14 @@ public final class LogicAttackImpl implements LogicAttack {
         return attackerLosses;
     }
 
-    private boolean attackEnd(boolean attackRes) {
+    private boolean attackEnd(final boolean attackRes) {
         isFastAttackEnabled = false;
         this.attackerDice = Optional.empty();
         this.defenderDice = Optional.empty();
         return attackRes;
     }
 
-    private void checkKillPlayer(Player p, Player killer) {
+    private void checkKillPlayer(final Player p, final Player killer) {
         if (p.getTerritories().isEmpty()) {
             p.setKiller(killer);
         }

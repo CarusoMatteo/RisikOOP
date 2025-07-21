@@ -13,7 +13,11 @@ import it.unibo.risikoop.model.interfaces.Continent;
  * and all the avalaible combos.
  */
 public final class GuidePanel extends JPanel {
-
+    /**
+     * constructor.
+     * 
+     * @param controller
+     */
     public GuidePanel(final Controller controller) {
         controller.getDataRetrieveController().getContinents().forEach(c -> {
             setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -22,7 +26,7 @@ public final class GuidePanel extends JPanel {
         });
     }
 
-    private class ContinentDisplaying extends JPanel {
+    private final class ContinentDisplaying extends JPanel {
         private ContinentDisplaying(final Continent continent) {
             setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
             add(new JLabel("Continent rewards units: " + continent.getUnitReward()));

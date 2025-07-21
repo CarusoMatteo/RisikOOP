@@ -83,7 +83,7 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     }
 
     @Override
-    public Optional<Territory> getTerritoryFromName(String name) {
+    public Optional<Territory> getTerritoryFromName(final String name) {
         return gm.getTerritory(name);
     }
 
@@ -91,6 +91,4 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     public Set<Continent> getContinents() {
         return gm.getContinents();
     }
-
-    
 }

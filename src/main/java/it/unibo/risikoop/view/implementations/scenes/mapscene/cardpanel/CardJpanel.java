@@ -180,6 +180,8 @@ public final class CardJpanel extends JPanel {
 
         /**
          * Constructor for PlayComboJPanel.
+         * 
+         * @param controller
          */
         PlayComboJPanel(final Controller controller) {
             this.setLayout(new BorderLayout());

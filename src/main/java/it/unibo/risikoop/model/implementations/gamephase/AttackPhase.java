@@ -49,7 +49,7 @@ public final class AttackPhase
     private int unitsToUse;
     private boolean isEnd;
     private InternalState internalState;
-    private boolean isGetCard = false;
+    private boolean isGetCard;
 
     /**
      * Constructs a new AttackPhase associated with the given turn manager.
@@ -107,7 +107,8 @@ public final class AttackPhase
     }
 
     @Override
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference;"
+            + "game logic needs mutable state.")
     public boolean selectTerritory(final Territory t) {
         if (internalState == InternalState.SELECT_SRC && isValidAttacker(t)) {
             this.attackerSrc = Optional.ofNullable(t);
@@ -151,18 +152,33 @@ public final class AttackPhase
         }
     }
 
-    // Orredno serev per testare gli attacchi
-    public void setAttackerDice(List<Integer> dice) {
-        LogicAttackImpl l = (LogicAttackImpl) logic;
+    //
+    /**
+     * Orredno serev per testare gli attacchi.
+     * 
+     * @param dice
+     */
+    public void setAttackerDice(final List<Integer> dice) {
+        final LogicAttackImpl l = (LogicAttackImpl) logic;
         l.setAttackerDice(dice);
     }
 
-    // Orrendo serve per testare gli attacchi
-    public void setDefencerDice(List<Integer> dice) {
-        LogicAttackImpl l = (LogicAttackImpl) logic;
+    //
+    /**
+     * Orrendo serve per testare gli attacchi.
+     * 
+     * @param dice
+     */
+    public void setDefencerDice(final List<Integer> dice) {
+        final LogicAttackImpl l = (LogicAttackImpl) logic;
         l.setDefencerDice(dice);
     }
 
+    /**
+     * get the attack logic.
+     * 
+     * @return a {@link LogicAttack} instance
+     */
     public LogicAttack getAttackLogic() {
         return logic;
     }
@@ -176,9 +192,9 @@ public final class AttackPhase
     }
 
     private boolean isValidDefender(final Territory t) {
-        boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
+        final boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
         // boolean isNeightbour = attackerSrc.getNeightbours().contains(t);
-        boolean isNeightbour = attackerSrc.map(Territory::getNeightbours)
+        final boolean isNeightbour = attackerSrc.map(Territory::getNeightbours)
                 .orElse(Set.of()).contains(t);
 
         return !isMy && isNeightbour;

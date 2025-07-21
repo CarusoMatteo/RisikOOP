@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import it.unibo.risikoop.controller.interfaces.Controller;
 
 /**
- * A class that is for the jpanel of when showing the winner
+ * A class that is for the jpanel of when showing the winner.
  */
 public final class GameOverPanel extends JPanel {
 
@@ -25,7 +25,7 @@ public final class GameOverPanel extends JPanel {
         add(new WinnerButtonsPanel(controller), BorderLayout.PAGE_END);
     }
 
-    private class WinnerButtonsPanel extends JPanel {
+    private final class WinnerButtonsPanel extends JPanel {
         private final JButton playAgainButton = new JButton("Play Again");
         private final JButton closeButton = new JButton("Close");
 

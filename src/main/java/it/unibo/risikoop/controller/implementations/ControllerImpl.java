@@ -97,9 +97,9 @@ public final class ControllerImpl implements Controller {
     }
 
     @Override
-    public boolean isOwned(String territoryName, String playerName) {
-        var territoryOptional = gameManager.getTerritory(territoryName);
-        var playerOptional = gameManager.getPlayers()
+    public boolean isOwned(final String territoryName, final String playerName) {
+        final var territoryOptional = gameManager.getTerritory(territoryName);
+        final var playerOptional = gameManager.getPlayers()
                 .stream()
                 .filter(p -> p.getName().equals(playerName))
                 .findFirst();

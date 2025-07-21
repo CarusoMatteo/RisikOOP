@@ -82,7 +82,7 @@ public interface DataRetrieveController {
     Player getCurrentPlayer();
 
     /**
-     * gives the current set of continents
+     * gives the current set of continents.
      * 
      * @return a {@link Set} of {@linkCcontinent}
      */

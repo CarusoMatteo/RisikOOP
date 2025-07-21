@@ -28,7 +28,8 @@ public final class ObjectiveCardImpl implements ObjectiveCard {
      * @param winCond     the specification defining the win condition for this
      *                    objective card
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference; game logic needs mutable state.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We intentionally store the Territory reference;"
+            + "game logic needs mutable state.")
     public ObjectiveCardImpl(final String description, final Player owner, final GameManager gameManager,
             final Specification<PlayerGameContext> winCond) {
         this.description = description;

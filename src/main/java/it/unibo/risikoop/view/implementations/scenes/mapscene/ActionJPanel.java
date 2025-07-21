@@ -20,6 +20,7 @@ import it.unibo.risikoop.model.interfaces.gamephase.InternalState;
  */
 // commit before merge
 public final class ActionJPanel extends JPanel {
+    private static final int INSECT_COSTANT = 5;
     private static final long serialVersionUID = 1L;
     private final JLabel srcTerritoryLabel = new JLabel("Prova src");
     private final JLabel srcTerritoryDesc = new JLabel("Territorio partenza");
@@ -75,7 +76,7 @@ public final class ActionJPanel extends JPanel {
         gbc.gridy = 0;
         gbc.weightx = 0;
         gbc.weighty = 1;
-        gbc.insets = new Insets(5, 0, 5, 5);
+        gbc.insets = new Insets(INSECT_COSTANT, 0, INSECT_COSTANT, INSECT_COSTANT);
         panel.add(performeActionButton, gbc);
         performeActionButton.addActionListener(i -> {
             performeActionButtonBehavior();
@@ -87,16 +88,18 @@ public final class ActionJPanel extends JPanel {
         if (inMovementBasedState()) {
             if (controller.getGamePhaseController().getInternalState().isPresent()
                     && controller.getGamePhaseController().getInternalState()
-                            .get() == InternalState.SELECT_UNITS_QUANTITY)
+                            .get() == InternalState.SELECT_UNITS_QUANTITY) {
+
                 try {
-                    Integer units = Integer.valueOf(unitsTextField.getText());
+                    final Integer units = Integer.valueOf(unitsTextField.getText());
                     controller.getGamePhaseController().setUnitsToUse(units);
 
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     JOptionPane.showMessageDialog(this, "Errore, inserire un numero di cifre",
                             "Errore valore non numerico", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+            }
         }
         controller.getGamePhaseController().performAction();
         updateStateLabel();
@@ -170,6 +173,11 @@ public final class ActionJPanel extends JPanel {
         return panel;
     }
 
+    /**
+     * it is called whenever you click on some territory.
+     * 
+     * @param territoryName
+     */
     @SuppressWarnings("incomplete-switch")
     public void clickTerritory(final String territoryName) {
         controller.getGamePhaseController()
