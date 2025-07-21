@@ -12,7 +12,6 @@ import it.unibo.risikoop.controller.interfaces.Controller;
  * A class that is for the jpanel of when showing the winner
  */
 public final class GameOverPanel extends JPanel {
-    private final Controller controller;
 
     /**
      * the constructor.
@@ -20,7 +19,6 @@ public final class GameOverPanel extends JPanel {
      * @param controller the controller for the application
      */
     public GameOverPanel(final Controller controller) {
-        this.controller = controller;
         setLayout(new BorderLayout());
         add(new JLabel("Winner: " + controller.getDataRetrieveController().getCurrentPlayerName()),
                 BorderLayout.CENTER);
@@ -28,8 +26,8 @@ public final class GameOverPanel extends JPanel {
     }
 
     private class WinnerButtonsPanel extends JPanel {
-        private JButton playAgainButton = new JButton("Play Again");
-        private JButton closeButton = new JButton("Close");
+        private final JButton playAgainButton = new JButton("Play Again");
+        private final JButton closeButton = new JButton("Close");
 
         private WinnerButtonsPanel(final Controller controller) {
             setLayout(new BorderLayout());
