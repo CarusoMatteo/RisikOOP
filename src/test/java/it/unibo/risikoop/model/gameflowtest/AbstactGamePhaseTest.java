@@ -18,6 +18,7 @@ import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.ObjectiveCardFactory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
+import it.unibo.risikoop.model.implementations.gamecards.objectivecards.KillPlayerOrConquer24Builder;
 
 /**
  * Base test fixture for all GameFlow (GamePhaseController) tests.
@@ -56,7 +57,10 @@ abstract class AbstractGamePhaseTest {
 
         objectiveCardFactory = new ObjectiveCardFactoryImpl(gm);
         // assegno le carte obbiettivo
-        gm.getPlayers().forEach(player -> player.setObjectiveCard(objectiveCardFactory.createObjectiveCard(player)));
+
+        gm.getPlayers().forEach(player -> player.setObjectiveCard(
+            new KillPlayerOrConquer24Builder(gm, player).createCard()
+        ));
 
         // 2) Build a fully-connected map of four territories
         Graph map = new MultiGraph("testMap", false, true);
@@ -81,6 +85,7 @@ abstract class AbstractGamePhaseTest {
         gm.getTerritory("T2").get().setOwner(players.get(0));
         gm.getTerritory("T3").get().setOwner(players.get(1));
         gm.getTerritory("T4").get().setOwner(players.get(1));
+        
 
         // 4) Initialize TurnManager
         tm = new TurnManagerImpl(players);
