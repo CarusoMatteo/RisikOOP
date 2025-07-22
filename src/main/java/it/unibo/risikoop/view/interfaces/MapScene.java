@@ -29,6 +29,7 @@ public interface MapScene {
          * change the displayed units for the the specific territory.
          * 
          * @param territoryName
+         * @param units
          */
         void changeTerritoryUnits(String territoryName, int units);
 

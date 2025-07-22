@@ -180,7 +180,7 @@ public final class MapSceneImpl extends JPanel implements MapScene {
 
     @Override
     public void updateTerritoryOwner() {
-        SwingUtilities.invokeLater(() -> mapPanel.assignNewNodesColor());
+        SwingUtilities.invokeLater(mapPanel::assignNewNodesColor);
 
     }
 
