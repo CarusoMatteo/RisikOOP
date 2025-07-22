@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import it.unibo.risikoop.controller.interfaces.Controller;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
 
@@ -102,11 +103,17 @@ public final class CardsListJPanel extends JPanel {
             this.selectedCards.remove(card);
         }
 
-        if (selectedCards.size() == 3 && controller.getCardGameController().isComboValid(selectedCards)) {
+        if (selectedCards.size() == 3
+                && controller.getCardGameController().isComboValid(selectedCards)
+                && isComboPhase()) {
             this.playComboButton.setEnabled(true);
         } else {
             this.playComboButton.setEnabled(false);
         }
+    }
+
+    private boolean isComboPhase() {
+        return controller.getGamePhaseController().getPhaseKey() == GamePhaseController.PhaseKey.COMBO;
     }
 
     /**
