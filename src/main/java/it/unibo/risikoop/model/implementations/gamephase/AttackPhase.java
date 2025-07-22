@@ -95,7 +95,7 @@ public final class AttackPhase
                 && unitsToUse <= attackerSrc.map(t -> t.getUnits()).orElse(0) - 1) {
             nextState();
         } else if (internalState == InternalState.EXECUTE) {
-            if (logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse)) {
+            if (logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse) && !isGetCard) {
                 attacker.addGameCard(new CardGameControllerImpl(gameManager).drawCard());
                 isGetCard = true;
                 this.gamePhaseController.uodateViewTerritoryOwner();
