@@ -1,15 +1,10 @@
 package it.unibo.risikoop.model.gamephase;
 
-import java.lang.reflect.Field;
 import java.util.List;
-
-import javax.print.DocFlavor.SERVICE_FORMATTED;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +13,6 @@ import it.unibo.risikoop.controller.implementations.logicgame.LogicAttackImpl;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
-import it.unibo.risikoop.controller.interfaces.logicgame.LogicAttack;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
@@ -111,7 +105,7 @@ class GameFlowTest {
         gameManager.getTerritory("T4").get().setOwner(gameManager.getPlayers().get(1));
 
         turnManager = new TurnManagerImpl(players);
-        gpc = new GamePhaseControllerImpl(List.of(), turnManager, gameManager);
+        gpc = new GamePhaseControllerImpl(List.of(), turnManager, gameManager, ()->{});
         initialLogic = new LogicCalcInitialUnitsImpl(gameManager);
         renforcementLogic = new LogicReinforcementCalculatorImpl(gameManager, turnManager);
     }

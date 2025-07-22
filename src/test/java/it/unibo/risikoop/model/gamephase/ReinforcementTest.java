@@ -1,8 +1,7 @@
 package it.unibo.risikoop.model.gamephase;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,7 @@ class ReinforcementTest {
         gm.setContinents(createContinents());
 
         tm = new TurnManagerImpl(gm.getPlayers());
-        gpc = new GamePhaseControllerImpl(List.of(), tm, gm);
+        gpc = new GamePhaseControllerImpl(List.of(), tm, gm, ()->{});
         gp = new ReinforcementPhase(gm, gpc);
         logic = new LogicReinforcementCalculatorImpl(gm, tm);
     }

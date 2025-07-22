@@ -13,7 +13,9 @@ import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUn
 import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
+import it.unibo.risikoop.model.implementations.ObjectiveCardFactoryImpl;
 import it.unibo.risikoop.model.interfaces.GameManager;
+import it.unibo.risikoop.model.interfaces.ObjectiveCardFactory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
 import it.unibo.risikoop.model.implementations.TurnManagerImpl;
 
@@ -37,6 +39,7 @@ abstract class AbstractGamePhaseTest {
     protected GamePhaseController gpc;
     protected LogicCalcInitialUnitsImpl initialLogic;
     protected LogicReinforcementCalculatorImpl reinforcementLogic;
+    protected ObjectiveCardFactory objectiveCardFactory;
 
     /**
      * Template method: subclasses override to specify starting phase.
@@ -50,6 +53,10 @@ abstract class AbstractGamePhaseTest {
         for (int i = 0; i < PLAYER_NAMES.size(); i++) {
             gm.addPlayer(PLAYER_NAMES.get(i), new Color(i, 0, 0));
         }
+
+        objectiveCardFactory = new ObjectiveCardFactoryImpl(gm);
+        // assegno le carte obbiettivo
+        gm.getPlayers().forEach(player -> player.setObjectiveCard(objectiveCardFactory.createObjectiveCard(player)));
 
         // 2) Build a fully-connected map of four territories
         Graph map = new MultiGraph("testMap", false, true);
@@ -83,6 +90,7 @@ abstract class AbstractGamePhaseTest {
                 List.of(), // no views needed for unit tests
                 tm,
                 gm,
+                () -> {}, 
                 startPhase());
 
         // 6) Prepare logic calculators for assertions

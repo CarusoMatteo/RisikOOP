@@ -55,7 +55,7 @@ class InitialReinforcementTest {
         assignTerritoriesToPlayers();
 
         tm = new TurnManagerImpl(gm.getPlayers());
-        gpc = new GamePhaseControllerImpl(List.of(), tm, gm);
+        gpc = new GamePhaseControllerImpl(List.of(), tm, gm, () -> {});
         gp = new InitialReinforcementPhase(gpc, gm);
         logic = new LogicCalcInitialUnitsImpl(gm);
     }
