@@ -25,6 +25,7 @@ public final class MapPreviewPanel extends JPanel {
             """;
     private final transient Controller controller;
     private JPanel panel;
+    private SwingViewer viewer;
 
     /**
      * 
@@ -50,12 +51,16 @@ public final class MapPreviewPanel extends JPanel {
                 node -> node.setAttribute("ui.label", node.getId()));
 
         graph.setAttribute("ui.stylesheet", COMMON_STYLE_SHEET);
-        final var viewer = new SwingViewer(graph, SwingViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+        viewer = new SwingViewer(graph, SwingViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         viewer.enableAutoLayout();
         final var view = viewer.addDefaultView(false);
         this.panel = (ViewPanel) view;
         add(this.panel, BorderLayout.CENTER);
         revalidate();
         repaint();
+    }
+
+    public void closeMapPreview() {
+        this.viewer.close();
     }
 }

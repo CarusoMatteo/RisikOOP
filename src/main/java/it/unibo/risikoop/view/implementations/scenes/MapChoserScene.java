@@ -51,6 +51,7 @@ public final class MapChoserScene extends JPanel {
         final JButton begiGameButton = new JButton("Begin to Play");
         begiGameButton.addActionListener(i -> {
             if (firstSelectionMade) {
+                mapPreview.closeMapPreview();
                 controller.beginToPlay();
             } else {
                 JOptionPane.showMessageDialog(this.getParent(),
