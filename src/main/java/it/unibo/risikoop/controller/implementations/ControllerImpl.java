@@ -85,7 +85,7 @@ public final class ControllerImpl implements Controller {
         });
 
     }
-
+    
     @Override
     public GamePhaseController getGamePhaseController() {
         return gamePhaseController;
