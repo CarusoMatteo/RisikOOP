@@ -5,12 +5,10 @@ classDiagram
 direction TB
 	class ComboCheckerImpl {
 		- List~ComboCheckStrategy~ strategies
-		+ anyComboIsPossible() boolean
         + useCombo(Set~GameCard~ cards) Optional~Integer~
 	}
     class ComboCheckStrategy { <<interface>>
-        + comboIsValid(Set cards) boolean
-        + comboIsPossibile(PlayerHand hand) boolean
+        + comboIsValid(Set~GameCard~ cards) boolean
         + getUnitRewardAmount() int
     }
     class AllDifferentCombo {
@@ -33,8 +31,7 @@ direction TB
 classDiagram
 direction TB
     class ComboCheckStrategy { <<interface>>
-        + comboIsValid(Set cards) boolean
-        + comboIsPossibile(PlayerHand hand) boolean
+        + comboIsValid(Set~GameCard~ cards) boolean
         + getUnitRewardAmount() int
     }
     class AllEqualCombo { <<abstract>> 

@@ -90,7 +90,7 @@ Il vantaggio di questo approccio è che ogni stato è appunto una logica diversa
 % TODO: UML delle interfacce per tutti i controller, il game manager e la risiko view.
 
 \section{Design dettagliato}
-\subsection{Matteo Carudo}
+\subsection{Matteo Caruso}
 \subsubsection{Validare le combo di carte}
 \paragraph{Problema}
 Bisogna validare vari tipi di combo di carte, ognuna con requisiti diversi. Inoltre ogni combo ricompensa il giocatore con un numero di unità diverso.
@@ -113,7 +113,7 @@ Bisogna validare le combo di carte dove hanno tutte lo stesso tipo.
 	\includesvg[width=1\textwidth]{svg/detailed_design-all_equal_combo_template_method.svg}
 	\caption{UML del pattern Template Method per la validazione delle combo di carte con tipo uguale.}
 \end{figure}
-Qui è possibile usare il pattern \begin{itshape}Template Method\end{itshape}, dove la classe astratta \texttt{AllEqualCombo} definisce i template method \texttt{comboIsValid} e \texttt{comboIsPossibile} e l'operazione primitiva \texttt{getUnitType} \footnote{Restituisce \texttt{UnitType}, un enumeratore che rappresenta i semi delle carte.}.
+Qui è possibile usare il pattern \begin{itshape}Template Method\end{itshape}, dove la classe astratta \texttt{AllEqualCombo} definisce il template method \texttt{comboIsValid} e l'operazione primitiva \texttt{getUnitType} \footnote{Restituisce \texttt{UnitType}, un enumeratore che rappresenta i semi delle carte.}.
 \\
 Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}. Le classi che estendono questa classe astratta sono \texttt{AllCannonEqualCombo}, \texttt{AllJackEqualCombo} e \texttt{AllKnightEqualCombo}, che implementano le operazioni primitive sopracitate.
 
