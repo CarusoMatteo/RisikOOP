@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
 direction RL
     class ControllerImpl {
@@ -30,4 +31,4 @@ direction RL
 
     ControllerImpl *--* RisikoView
     GameManager --* ControllerImpl
-
+```

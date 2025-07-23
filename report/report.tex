@@ -128,20 +128,23 @@ Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}
 \paragraph{Problema}
 Le prime due fasi hanno due logiche diverse tra loro e tra il resto del gioco
 \paragraph{Soluzione}
-Scomporre il controller in diversi dipi di controller
+Scomporre il controller in diversi dipi di controller.
+\\
 Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingContrller} permette di impostare giocatori e la mappa;
 
 \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente; \texttt{TurnManager} permette di gestire le fasi del gioco.
 \subsubsection{Aggiornamento dei colori dei territori della view}
 \paragraph{Problema}
-Durante il gioco, se un giocatore conquista un territorio, questo deve istantaneamente cambiare colore nel colore del nuovo proprietario
+Durante il gioco, se un giocatore conquista un territorio, questo deve istantaneamente cambiare colore nel colore del nuovo proprietario.
 \paragraph{Soluzione}
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/Observer-view-Sacripante.svg}
 	\caption{UML del pattern Template Method per la validazione delle combo di carte con tipo uguale.}
 \end{figure}
-Usare un'interfaccia dedita proprio agli aggiornamenti della view. ogni volta che al model succede una cosa, il controller chiama i metodi dell'interfaccia per aggiornare la view
+Usare un'interfaccia dedicata agli aggiornamenti della view.
+\\
+Ogni volta che al model succede una cosa, il controller chiama i metodi dell'interfaccia per aggiornare la view
 Il patter usato quì è una sorta di observer pattern, dove l'observer è la view che viene "notificata" quando un territorio cambia proprietà e il soggetto è il territorio
 
 % TODO: Design individuale da fare.
