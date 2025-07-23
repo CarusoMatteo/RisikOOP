@@ -6,8 +6,8 @@
 \usepackage{float}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage[inkscapelatex=false]{svg}
 
-% Questo commentalo se vuoi scrivere in inglese.
 \usepackage[italian]{babel}
 
 \usepackage[italian]{cleveref}
@@ -38,9 +38,18 @@ Questa richiederà di conquistare dei continenti, annientare un'altra armata opp
 Il gioco inizia spartendo tutti i territori tra i giocatori e dà dei territori iniziali con cui rinforzarli.
 Ogni turno turno, il giocatore otterrà vari carri armati da posizionare sui suoi territori.
 Potrà poi attaccare territori adiacenti ai propri.
-Se riesce a conquistare almeno uno stato otterrà una Carta Territorio, utilizzabile per giocare combo
-\footnote{Le combo sono tris di carte. Saranno approfondite in dettaglio sucecssivamente.} al fine di ottenere ulteriori unità nei successivi turni.
+Se riesce a conquistare almeno uno stato otterrà una Carta Territorio, utilizzabile per giocare combo al fine di ottenere ulteriori unità nei successivi turni.
 Infine avrà l'opportunità di spostare delle unità fra i suoi territori.
+
+\subsubsection{Tipi di Combo}
+Le combo sono sempre tris di carte territorio, ognuna ricompensa un certo numero di unità:
+\begin{itemize}
+	\item 3 cannoni: 4 unità.
+	\item 3 fanti: 6 unità.
+	\item 3 cavalieri: 8 unità.
+	\item Un fante, un cannone e un cavaliere: 10 unità. \footnote{\label{note1}Non è possibile sostituire una delle carte con un Jolly in questa combo.}
+	\item Un Jolly e due carte uguali: 12 unità.
+\end{itemize}
 
 \subsubsection{Requisiti funzionali}
 \begin{itemize}
@@ -71,7 +80,7 @@ Ora inizia il game-loop del gioco, che si ripete fino a quando un giocatore non 
 
 \chapter{Design}
 
-\section{Architettura}
+\section{Architetura}
 
 L'architettura del software è basata su un pattern Model-View-Controller (MVC).
 L'entry point dell'applicazione è il \texttt{Controller}, che si occupa di avviare il model, che eredita da \texttt{GameManager}, e le view registrate, che eredtano da \texttt{RisikoView}.
@@ -81,15 +90,47 @@ Il vantaggio di questo approccio è che ogni stato è appunto una logica diversa
 % TODO: UML delle interfacce per tutti i controller, il game manager e la risiko view.
 
 \section{Design dettagliato}
-Francesco Sacripante:
-Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingContrller} permette di impostare giocatori e la mappa; \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente; \texttt{TurnManager} permette di gestire le fasi del gioco.
+\subsection{Matteo Carudo}
+\subsubsection{Validare le combo di carte}
+\paragraph{Problema}
+Bisogna validare vari tipi di combo di carte, ognuna con requisiti diversi. Inoltre ogni combo ricompensa il giocatore con un numero di unità diverso.
+\paragraph{Soluzione}
+\begin{figure}[H]
+	\centering
+	\includesvg[width=1\textwidth]{svg/detailed_design-combo_check_strategy.svg}
+	\caption{UML del pattern Strategy per la validazione delle combo.}
+\end{figure}
+La validazione delle combo usa il pattern \begin{itshape}Strategy\end{itshape}, in cui ogni validatore di combo è una strategia diversa.
+\\
+Il pattern \begin{itshape}Strategy\end{itshape} è più adatto rispeto al pattern \begin{itshape}Template Method\end{itshape}, siccome ogni combo ogni validatore di combo differisce molto dagli altri, fatta eccezione dei validatori \texttt{AllEqualCombo}.
 
+\subsubsection{Validare le \texttt{AllEqualCombo}}
+\paragraph{Problema}
+Bisogna validare le combo di carte dove hanno tutte lo stesso tipo.
+\paragraph{Soluzione}
+\begin{figure}[H]
+	\centering
+	\includesvg[width=1\textwidth]{svg/detailed_design-all_equal_combo_template_method.svg}
+	\caption{UML del pattern Template Method per la validazione delle combo di carte con tipo uguale.}
+\end{figure}
+Qui è possibile usare il pattern \begin{itshape}Template Method\end{itshape}, dove la classe astratta \texttt{AllEqualCombo} definisce i template method \texttt{comboIsValid} e \texttt{comboIsPossibile} e l'operazione primitiva \texttt{getUnitType} \footnote{Restituisce \texttt{UnitType}, un enumeratore che rappresenta i semi delle carte.}.
+\\
+Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}. Le classi che estendono questa classe astratta sono \texttt{AllCannonEqualCombo}, \texttt{AllJackEqualCombo} e \texttt{AllKnightEqualCombo}, che implementano le operazioni primitive sopracitate.
+
+\subsection{Matteo Ceccarelli}
 % TODO: Design individuale da fare.
+\subsection{Francesco Sacripante}
+Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingContrller} permette di impostare giocatori e la mappa;
+\\
+\texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente; \texttt{TurnManager} permette di gestire le fasi del gioco.
+% TODO: Design individuale da fare.
+
 
 \chapter{Sviluppo}
 
 \section{Testing automatizzato}
 Il testing automatizzato è stato realizzato tramite JUnit, focalizzato principalmente sul model, come l'insermineto della mappa, la gestione dei giocatori, la validazione delle combo di carte, e sulla gestione delle fasi di gioco.
+L'interfaccia grafica è stata testata manualmente durante lo sviluppo del software.
 
 \section{Note di sviluppo}
 % TODO: Note di sviluppo individuale da fare con permalink a github su feature di linguaggio di cui vai fiero.
@@ -99,7 +140,7 @@ Il testing automatizzato è stato realizzato tramite JUnit, focalizzato principa
 \section{Autovalutazione e lavori futuri}
 % Obbligatorio individuale.
 
-\section{Difficoltà incontrate e commenit per i docenti}
+\section{Difficoltà incontrate e commenti per i docenti}
 % Opzionale individuale.
 
 \appendix

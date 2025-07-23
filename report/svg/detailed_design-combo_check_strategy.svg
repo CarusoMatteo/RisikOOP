@@ -1,0 +1,990 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" type="text/css"?><svg
+   id="graph-586"
+   width="100%"
+   class="classDiagram"
+   style="overflow: hidden; max-width: 100%; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
+   role="graphics-document document"
+   aria-roledescription="class"
+   height="100%"
+   version="1.1"
+   sodipodi:docname="detailed-design-combo_check_strategy.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <defs
+     id="defs86" />
+  <sodipodi:namedview
+     id="namedview86"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.66350186"
+     inkscape:cx="1742.2709"
+     inkscape:cy="375.28154"
+     inkscape:window-width="3840"
+     inkscape:window-height="2036"
+     inkscape:window-x="2676"
+     inkscape:window-y="-12"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="graph-586" />
+  <g
+     id="viewport-20250723090455733"
+     class="svg-pan-zoom_viewport"
+     transform="matrix(0.86242587,0,0,0.86242587,-6.468194,-6.468194)">
+    <style
+       id="style1">#graph-586{font-family:&quot;trebuchet ms&quot;,verdana,arial,sans-serif;font-size:16px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#graph-586 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#graph-586 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#graph-586 .error-icon{fill:#552222;}#graph-586 .error-text{fill:#552222;stroke:#552222;}#graph-586 .edge-thickness-normal{stroke-width:1px;}#graph-586 .edge-thickness-thick{stroke-width:3.5px;}#graph-586 .edge-pattern-solid{stroke-dasharray:0;}#graph-586 .edge-thickness-invisible{stroke-width:0;fill:none;}#graph-586 .edge-pattern-dashed{stroke-dasharray:3;}#graph-586 .edge-pattern-dotted{stroke-dasharray:2;}#graph-586 .marker{fill:#666;stroke:#666;}#graph-586 .marker.cross{stroke:#666;}#graph-586 svg{font-family:&quot;trebuchet ms&quot;,verdana,arial,sans-serif;font-size:16px;}#graph-586 p{margin:0;}#graph-586 g.classGroup text{fill:#999;stroke:none;font-family:&quot;trebuchet ms&quot;,verdana,arial,sans-serif;font-size:10px;}#graph-586 g.classGroup text .title{font-weight:bolder;}#graph-586 .nodeLabel,#graph-586 .edgeLabel{color:#111111;}#graph-586 .edgeLabel .label rect{fill:#eee;}#graph-586 .label text{fill:#111111;}#graph-586 .labelBkg{background:#eee;}#graph-586 .edgeLabel .label span{background:#eee;}#graph-586 .classTitle{font-weight:bolder;}#graph-586 .node rect,#graph-586 .node circle,#graph-586 .node ellipse,#graph-586 .node polygon,#graph-586 .node path{fill:#eee;stroke:#999;stroke-width:1px;}#graph-586 .divider{stroke:#999;stroke-width:1;}#graph-586 g.clickable{cursor:pointer;}#graph-586 g.classGroup rect{fill:#eee;stroke:#999;}#graph-586 g.classGroup line{stroke:#999;stroke-width:1;}#graph-586 .classLabel .box{stroke:none;stroke-width:0;fill:#eee;opacity:0.5;}#graph-586 .classLabel .label{fill:#999;font-size:10px;}#graph-586 .relation{stroke:#666;stroke-width:1;fill:none;}#graph-586 .dashed-line{stroke-dasharray:3;}#graph-586 .dotted-line{stroke-dasharray:1 2;}#graph-586 #compositionStart,#graph-586 .composition{fill:#666!important;stroke:#666!important;stroke-width:1;}#graph-586 #compositionEnd,#graph-586 .composition{fill:#666!important;stroke:#666!important;stroke-width:1;}#graph-586 #dependencyStart,#graph-586 .dependency{fill:#666!important;stroke:#666!important;stroke-width:1;}#graph-586 #dependencyStart,#graph-586 .dependency{fill:#666!important;stroke:#666!important;stroke-width:1;}#graph-586 #extensionStart,#graph-586 .extension{fill:transparent!important;stroke:#666!important;stroke-width:1;}#graph-586 #extensionEnd,#graph-586 .extension{fill:transparent!important;stroke:#666!important;stroke-width:1;}#graph-586 #aggregationStart,#graph-586 .aggregation{fill:transparent!important;stroke:#666!important;stroke-width:1;}#graph-586 #aggregationEnd,#graph-586 .aggregation{fill:transparent!important;stroke:#666!important;stroke-width:1;}#graph-586 #lollipopStart,#graph-586 .lollipop{fill:#eee!important;stroke:#666!important;stroke-width:1;}#graph-586 #lollipopEnd,#graph-586 .lollipop{fill:#eee!important;stroke:#666!important;stroke-width:1;}#graph-586 .edgeTerminals{font-size:11px;line-height:initial;}#graph-586 .classTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#graph-586 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#graph-586 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#graph-586 :root{mermaid-font-family:&quot;trebuchet ms&quot;,verdana,arial,sans-serif;}</style>
+    <g
+       id="g86">
+      <defs
+         id="defs1">
+        <marker
+           id="graph-586_class-aggregationStart"
+           class="marker aggregation class"
+           refX="18"
+           refY="7"
+           markerWidth="190"
+           markerHeight="240"
+           orient="auto">
+          <path
+             d="M 18,7 9,13 1,7 9,1 Z"
+             id="path1" />
+        </marker>
+      </defs>
+      <defs
+         id="defs2">
+        <marker
+           id="graph-586_class-aggregationEnd"
+           class="marker aggregation class"
+           refX="1"
+           refY="7"
+           markerWidth="20"
+           markerHeight="28"
+           orient="auto">
+          <path
+             d="M 18,7 9,13 1,7 9,1 Z"
+             id="path2" />
+        </marker>
+      </defs>
+      <defs
+         id="defs3">
+        <marker
+           id="graph-586_class-extensionStart"
+           class="marker extension class"
+           refX="18"
+           refY="7"
+           markerWidth="190"
+           markerHeight="240"
+           orient="auto">
+          <path
+             d="m 1,7 17,6 V 1 Z"
+             id="path3" />
+        </marker>
+      </defs>
+      <defs
+         id="defs4">
+        <marker
+           id="graph-586_class-extensionEnd"
+           class="marker extension class"
+           refX="1"
+           refY="7"
+           markerWidth="20"
+           markerHeight="28"
+           orient="auto">
+          <path
+             d="M 1,1 V 13 L 18,7 Z"
+             id="path4" />
+        </marker>
+      </defs>
+      <defs
+         id="defs5">
+        <marker
+           id="graph-586_class-compositionStart"
+           class="marker composition class"
+           refX="18"
+           refY="7"
+           markerWidth="190"
+           markerHeight="240"
+           orient="auto">
+          <path
+             d="M 18,7 9,13 1,7 9,1 Z"
+             id="path5" />
+        </marker>
+      </defs>
+      <defs
+         id="defs6">
+        <marker
+           id="graph-586_class-compositionEnd"
+           class="marker composition class"
+           refX="1"
+           refY="7"
+           markerWidth="20"
+           markerHeight="28"
+           orient="auto">
+          <path
+             d="M 18,7 9,13 1,7 9,1 Z"
+             id="path6" />
+        </marker>
+      </defs>
+      <defs
+         id="defs7">
+        <marker
+           id="graph-586_class-dependencyStart"
+           class="marker dependency class"
+           refX="6"
+           refY="7"
+           markerWidth="190"
+           markerHeight="240"
+           orient="auto">
+          <path
+             d="M 5,7 9,13 1,7 9,1 Z"
+             id="path7" />
+        </marker>
+      </defs>
+      <defs
+         id="defs8">
+        <marker
+           id="graph-586_class-dependencyEnd"
+           class="marker dependency class"
+           refX="13"
+           refY="7"
+           markerWidth="20"
+           markerHeight="28"
+           orient="auto">
+          <path
+             d="M 18,7 9,13 14,7 9,1 Z"
+             id="path8" />
+        </marker>
+      </defs>
+      <defs
+         id="defs9">
+        <marker
+           id="graph-586_class-lollipopStart"
+           class="marker lollipop class"
+           refX="13"
+           refY="7"
+           markerWidth="190"
+           markerHeight="240"
+           orient="auto">
+          <circle
+             stroke="#000000"
+             fill="transparent"
+             cx="7"
+             cy="7"
+             r="6"
+             id="circle8" />
+        </marker>
+      </defs>
+      <defs
+         id="defs10">
+        <marker
+           id="graph-586_class-lollipopEnd"
+           class="marker lollipop class"
+           refX="1"
+           refY="7"
+           markerWidth="190"
+           markerHeight="240"
+           orient="auto">
+          <circle
+             stroke="#000000"
+             fill="transparent"
+             cx="7"
+             cy="7"
+             r="6"
+             id="circle9" />
+        </marker>
+      </defs>
+      <g
+         class="root"
+         id="g85">
+        <g
+           class="clusters"
+           id="g10" />
+        <g
+           class="edgePaths"
+           id="g11">
+          <path
+             d="m 289.243,174.143 v 3.167 c 0,3.166 0,9.5 0,18.833 0,9.333 0,21.667 0,27.833 v 6.167"
+             id="id_ComboCheckerImpl_ComboCheckStrategy_1"
+             class="edge-thickness-normal edge-pattern-solid relation"
+             marker-start="url(#graph-586_class-compositionStart)" />
+          <path
+             d="m 118.159,414.419 -4.77,2.692 c -4.769,2.692 -14.309,8.076 -19.079,16.459 -4.769,8.382 -4.769,19.763 -4.769,25.454 v 5.69"
+             id="id_ComboCheckStrategy_AllDifferentCombo_2"
+             class="edge-thickness-normal edge-pattern-solid relation"
+             marker-start="url(#graph-586_class-extensionStart)" />
+          <path
+             d="m 289.243,423.571 v 1.167 c 0,1.167 0,3.5 0,8.833 0,5.334 0,13.667 0,17.834 v 4.166"
+             id="id_ComboCheckStrategy_AllEqualCombo_3"
+             class="edge-thickness-normal edge-pattern-solid relation"
+             marker-start="url(#graph-586_class-extensionStart)" />
+          <path
+             d="m 442.38,415.23 4.021,2.557 c 4.022,2.557 12.064,7.671 16.086,15.918 4.021,8.247 4.021,19.628 4.021,25.319 v 5.69"
+             id="id_ComboCheckStrategy_WildAllEqual_4"
+             class="edge-thickness-normal edge-pattern-solid relation"
+             marker-start="url(#graph-586_class-extensionStart)" />
+        </g>
+        <g
+           class="edgeLabels"
+           id="g22">
+          <g
+             class="edgeLabel"
+             transform="translate(289.24332,193.14287)"
+             id="g13">
+            <g
+               class="label"
+               transform="translate(-15.214288,-12.000001)"
+               id="g12">
+              <foreignObject
+                 width="30.42857551574707"
+                 height="24.000001907348633">
+                <xhtml:div
+                   style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"
+                   class="labelBkg">
+                  <xhtml:span
+                     style=";display: inline-block"
+                     class="edgeLabel">
+                    <xhtml:p>uses</xhtml:p>
+                  </xhtml:span>
+                </xhtml:div>
+              </foreignObject>
+            </g>
+          </g>
+          <g
+             class="edgeLabel"
+             id="g15">
+            <g
+               class="label"
+               transform="translate(0,-12.000001)"
+               id="g14">
+              <foreignObject
+                 width="0"
+                 height="24.000001907348633">
+                <xhtml:div
+                   style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"
+                   class="labelBkg">
+                  <xhtml:span
+                     style=";display: inline-block"
+                     class="edgeLabel" />
+                </xhtml:div>
+              </foreignObject>
+            </g>
+          </g>
+          <g
+             class="edgeLabel"
+             id="g17">
+            <g
+               class="label"
+               transform="translate(0,-12.000001)"
+               id="g16">
+              <foreignObject
+                 width="0"
+                 height="24.000001907348633">
+                <xhtml:div
+                   style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"
+                   class="labelBkg">
+                  <xhtml:span
+                     style=";display: inline-block"
+                     class="edgeLabel" />
+                </xhtml:div>
+              </foreignObject>
+            </g>
+          </g>
+          <g
+             class="edgeLabel"
+             id="g19">
+            <g
+               class="label"
+               transform="translate(0,-12.000001)"
+               id="g18">
+              <foreignObject
+                 width="0"
+                 height="24.000001907348633">
+                <xhtml:div
+                   style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"
+                   class="labelBkg">
+                  <xhtml:span
+                     style=";display: inline-block"
+                     class="edgeLabel" />
+                </xhtml:div>
+              </foreignObject>
+            </g>
+          </g>
+          <g
+             class="edgeTerminals"
+             transform="translate(299.24332,207.64287)"
+             id="g21">
+            <g
+               class="inner"
+               id="g20" />
+            <foreignObject
+               style="width: 9px; height: 12px;">
+              <xhtml:div
+                 style="display: inline-block; padding-right: 1px; white-space: nowrap;">
+                <xhtml:span
+                   class="edgeLabel"
+                   style=";display: inline-block">N</xhtml:span>
+              </xhtml:div>
+            </foreignObject>
+          </g>
+        </g>
+        <g
+           class="nodes"
+           id="g84">
+          <g
+             class="node default"
+             id="classId-ComboCheckerImpl-1465"
+             transform="translate(289.24332,82.071434)">
+            <g
+               class="basic label-container"
+               id="g23">
+              <path
+                 d="M -247.7076,-74.071434 H 247.7076 V 74.071434 h -495.4152"
+                 stroke="none"
+                 stroke-width="0"
+                 fill="#eee"
+                 id="path22" />
+              <path
+                 d="m -247.7076,-74.071434 c 164.61628,0 329.232555,0 495.4152,0 m -495.4152,0 c 172.163625,0 344.327245,0 495.4152,0 m 0,0 c 0,32.143339 0,64.2866785 0,148.142868 m 0,-148.142868 c 0,30.904971 0,61.809943 0,148.142868 m 0,0 c -116.33104,0 -232.662066,0 -495.4152,0 m 495.4152,0 c -162.320471,0 -324.640939,0 -495.4152,0 m 0,0 c 0,-47.464187 0,-94.928373 0,-148.142868 m 0,148.142868 c 0,-38.884507 0,-77.7690148 0,-148.142868"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path23" />
+            </g>
+            <g
+               class="annotation-group text"
+               transform="translate(0,-54.071434)"
+               id="g24" />
+            <g
+               class="label-group text"
+               transform="translate(-72.325897,-54.071434)"
+               id="g27">
+              <g
+                 class="label"
+                 style="font-weight:bolder"
+                 transform="translate(0,-9.1428566)"
+                 id="g26">
+                <g
+                   id="g25">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect24"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text25"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       font-weight=""
+                       id="tspan25"><tspan
+                         font-style="normal"
+                         class="text-inner-tspan"
+                         font-weight=""
+                         id="tspan24">ComboCheckerImpl</tspan></tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="members-group text"
+               transform="translate(-235.7076,-11.785721)"
+               id="g30">
+              <g
+                 class="label"
+                 transform="translate(0,-9.1428566)"
+                 id="g29">
+                <g
+                   id="g28">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect27"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text27"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       id="tspan27">- List&lt;ComboCheckStrategy&gt; strategies</tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="methods-group text"
+               transform="translate(-235.7076,30.499992)"
+               id="g35">
+              <g
+                 class="label"
+                 transform="translate(0,-9.1428566)"
+                 id="g32">
+                <g
+                   id="g31">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect30"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text30"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       id="tspan30">+ anyComboIsPossible() : boolean</tspan></text>
+                </g>
+              </g>
+              <g
+                 class="label"
+                 transform="translate(0,12.142857)"
+                 id="g34">
+                <g
+                   id="g33">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect32"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text32"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       id="tspan32">+ useCombo(Set&lt;GameCard&gt; cards) : Optional&lt;Integer&gt;</tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="divider"
+               id="g36">
+              <path
+                 d="m -247.7076,-31.785721 c 152.89705,0 305.794096,0 495.4152,0 m -495.4152,0 c 148.016597,0 296.03319,0 495.4152,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path35" />
+            </g>
+            <g
+               class="divider"
+               id="g37">
+              <path
+                 d="m -247.7076,10.499992 c 143.60652,0 287.213045,0 495.4152,0 m -495.4152,0 c 174.343203,0 348.6864,0 495.4152,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path36" />
+            </g>
+          </g>
+          <g
+             class="node default"
+             id="classId-ComboCheckStrategy-1466"
+             transform="translate(289.24332,317.85716)">
+            <g
+               class="basic label-container"
+               id="g38">
+              <path
+                 d="M -220.28294,-87.714287 H 220.28294 V 87.714287 h -440.56588"
+                 stroke="none"
+                 stroke-width="0"
+                 fill="#eee"
+                 id="path37" />
+              <path
+                 d="m -220.28294,-87.714287 c 146.979672,0 293.959347,0 440.56588,0 m -440.56588,0 c 153.057092,0 306.114187,0 440.56588,0 m 0,0 c 0,53.934598 0,107.869196 0,175.428574 m 0,-175.428574 c 0,55.652652 0,111.305303 0,175.428574 m 0,0 c -140.838297,0 -281.676599,0 -440.56588,0 m 440.56588,0 c -145.741817,0 -291.483637,0 -440.56588,0 m 0,0 c 0,-59.342214 0,-118.684428 0,-175.428574 m 0,175.428574 c 0,-61.907831 0,-123.815663 0,-175.428574"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path38" />
+            </g>
+            <g
+               class="annotation-group text"
+               transform="translate(-41.17411,-67.714287)"
+               id="g41">
+              <g
+                 class="label"
+                 transform="translate(0,-9.1428566)"
+                 id="g40">
+                <g
+                   id="g39">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect38"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text39"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       id="tspan39"><tspan
+                         font-style="normal"
+                         class="text-inner-tspan"
+                         font-weight="normal"
+                         id="tspan38">«interface»</tspan></tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="label-group text"
+               transform="translate(-78.949783,-49.428574)"
+               id="g44">
+              <g
+                 class="label"
+                 style="font-weight:bolder"
+                 transform="translate(0,-9.1428566)"
+                 id="g43">
+                <g
+                   id="g42">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect41"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text42"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       font-weight=""
+                       id="tspan42"><tspan
+                         font-style="normal"
+                         class="text-inner-tspan"
+                         font-weight=""
+                         id="tspan41">ComboCheckStrategy</tspan></tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="members-group text"
+               transform="translate(-208.28294,-7.1428604)"
+               id="g45" />
+            <g
+               class="methods-group text"
+               transform="translate(-208.28294,22.85714)"
+               id="g52">
+              <g
+                 class="label"
+                 transform="translate(0,-9.1428566)"
+                 id="g47">
+                <g
+                   id="g46">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect45"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text45"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       id="tspan45">+ comboIsValid(Set cards) : boolean</tspan></text>
+                </g>
+              </g>
+              <g
+                 class="label"
+                 transform="translate(0,12.142857)"
+                 id="g49">
+                <g
+                   id="g48">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect47"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text47"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       id="tspan47">+ comboIsPossibile(PlayerHand hand) : boolean</tspan></text>
+                </g>
+              </g>
+              <g
+                 class="label"
+                 transform="translate(0,33.42857)"
+                 id="g51">
+                <g
+                   id="g50">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect49"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text49"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       id="tspan49">+ getUnitRewardAmount() : int</tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="divider"
+               id="g53">
+              <path
+                 d="m -220.28294,-27.14286 c 135.384228,0 270.768461,0 440.56588,0 m -440.56588,0 c 94.29313,0 188.586255,0 440.56588,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path52" />
+            </g>
+            <g
+               class="divider"
+               id="g54">
+              <path
+                 d="m -220.28294,-3.1428604 c 134.538878,0 269.077759,0 440.56588,0 m -440.56588,0 c 109.84575,0 219.69150043,0 440.56588,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path53" />
+            </g>
+          </g>
+          <g
+             class="node default"
+             id="classId-AllDifferentCombo-1467"
+             transform="translate(89.540741,503.85716)">
+            <g
+               class="basic label-container"
+               id="g55">
+              <path
+                 d="M -81.540741,-39.142857 H 81.540741 V 39.142857 H -81.540741"
+                 stroke="none"
+                 stroke-width="0"
+                 fill="#eee"
+                 id="path54" />
+              <path
+                 d="m -81.540741,-39.142857 c 46.264628,0 92.529255,0 163.081482,0 m -163.081482,0 c 41.535359,0 83.070717,0 163.081482,0 m 0,0 c 0,22.66382 0,45.3276406 0,78.285714 m 0,-78.285714 c 0,15.870547 0,31.7410942 0,78.285714 m 0,0 c -50.843503,0 -101.687006,0 -163.081482,0 m 163.081482,0 c -44.551716,0 -89.1034323,0 -163.081482,0 m 0,0 c 0,-27.071522 0,-54.143043 0,-78.285714 m 0,78.285714 c 0,-21.754546 0,-43.5090917 0,-78.285714"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path55" />
+            </g>
+            <g
+               class="annotation-group text"
+               transform="translate(0,-19.142857)"
+               id="g56" />
+            <g
+               class="label-group text"
+               transform="translate(-69.540741,-19.142857)"
+               id="g59">
+              <g
+                 class="label"
+                 style="font-weight:bolder"
+                 transform="translate(0,-9.1428566)"
+                 id="g58">
+                <g
+                   id="g57">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect56"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text57"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       font-weight=""
+                       id="tspan57"><tspan
+                         font-style="normal"
+                         class="text-inner-tspan"
+                         font-weight=""
+                         id="tspan56">AllDifferentCombo</tspan></tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="members-group text"
+               transform="translate(-69.540741,23.142857)"
+               id="g60" />
+            <g
+               class="methods-group text"
+               transform="translate(-69.540741,53.142857)"
+               id="g61" />
+            <g
+               class="divider"
+               id="g62">
+              <path
+                 d="m -81.540741,3.1428566 c 62.290575,0 124.581149,0 163.081482,0 m -163.081482,0 c 33.259807,0 66.519613,0 163.081482,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path61" />
+            </g>
+            <g
+               class="divider"
+               id="g63">
+              <path
+                 d="m -81.540741,21.142857 c 56.037873,0 112.075746,0 163.081482,0 m -163.081482,0 c 42.452332,0 84.9046633,0 163.081482,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path62" />
+            </g>
+          </g>
+          <g
+             class="node default"
+             id="classId-AllEqualCombo-1468"
+             transform="translate(289.24332,503.85716)">
+            <g
+               class="basic label-container"
+               id="g64">
+              <path
+                 d="M -68.161835,-48.285713 H 68.161835 V 48.285713 H -68.161835"
+                 stroke="none"
+                 stroke-width="0"
+                 fill="#eee"
+                 id="path63" />
+              <path
+                 d="m -68.161835,-48.285713 c 50.440243,0 100.880485,0 136.32367,0 m -136.32367,0 c 50.887195,0 101.77439,0 136.32367,0 m 0,0 c 0,37.397813 0,74.795626 0,96.571426 m 0,-96.571426 c 0,34.072926 0,68.145853 0,96.571426 m 0,0 c -47.381015,0 -94.76203,0 -136.32367,0 m 136.32367,0 c -52.8206,0 -105.6412,0 -136.32367,0 m 0,0 c 0,-37.803398 0,-75.606796 0,-96.571426 m 0,96.571426 c 0,-31.37728 0,-62.75456 0,-96.571426"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path64" />
+            </g>
+            <g
+               class="annotation-group text"
+               transform="translate(-37.90625,-28.285713)"
+               id="g67">
+              <g
+                 class="label"
+                 transform="translate(0,-9.1428566)"
+                 id="g66">
+                <g
+                   id="g65">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect64"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text65"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       id="tspan65"><tspan
+                         font-style="normal"
+                         class="text-inner-tspan"
+                         font-weight="normal"
+                         id="tspan64">«abstract»</tspan></tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="label-group text"
+               transform="translate(-56.161835,-10)"
+               id="g70">
+              <g
+                 class="label"
+                 style="font-weight:bolder"
+                 transform="translate(0,-9.1428566)"
+                 id="g69">
+                <g
+                   id="g68">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect67"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text68"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       font-weight=""
+                       id="tspan68"><tspan
+                         font-style="normal"
+                         class="text-inner-tspan"
+                         font-weight=""
+                         id="tspan67">AllEqualCombo</tspan></tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="members-group text"
+               transform="translate(-56.161835,32.285713)"
+               id="g71" />
+            <g
+               class="methods-group text"
+               transform="translate(-56.161835,62.285713)"
+               id="g72" />
+            <g
+               class="divider"
+               id="g73">
+              <path
+                 d="m -68.161835,12.285713 c 32.46359,0 64.9271787,0 136.32367,0 m -136.32367,0 c 50.72726,0 101.45452,0 136.32367,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path72" />
+            </g>
+            <g
+               class="divider"
+               id="g74">
+              <path
+                 d="m -68.161835,30.285713 c 41.797932,0 83.595864,0 136.32367,0 m -136.32367,0 c 52.737286,0 105.474572,0 136.32367,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path73" />
+            </g>
+          </g>
+          <g
+             class="node default"
+             id="classId-WildAllEqual-1469"
+             transform="translate(466.50783,503.85716)">
+            <g
+               class="basic label-container"
+               id="g75">
+              <path
+                 d="M -59.10268,-39.142857 H 59.10268 V 39.142857 H -59.10268"
+                 stroke="none"
+                 stroke-width="0"
+                 fill="#eee"
+                 id="path74" />
+              <path
+                 d="m -59.10268,-39.142857 c 44.955252,0 89.910504,0 118.20536,0 m -118.20536,0 c 42.881726,0 85.763453,0 118.20536,0 m 0,0 c 0,30.9817189 0,61.963437 0,78.285714 m 0,-78.285714 c 0,19.331578 0,38.66315512 0,78.285714 m 0,0 c -28.501,0 -57.0020003,0 -118.20536,0 m 118.20536,0 c -35.637626,0 -71.275252,0 -118.20536,0 m 0,0 c 0,-28.780167 0,-57.560333 0,-78.285714 m 0,78.285714 c 0,-18.130577 0,-36.2611532 0,-78.285714"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path75" />
+            </g>
+            <g
+               class="annotation-group text"
+               transform="translate(0,-19.142857)"
+               id="g76" />
+            <g
+               class="label-group text"
+               transform="translate(-47.10268,-19.142857)"
+               id="g79">
+              <g
+                 class="label"
+                 style="font-weight:bolder"
+                 transform="translate(0,-9.1428566)"
+                 id="g78">
+                <g
+                   id="g77">
+                  <rect
+                     class="background"
+                     style="stroke:none"
+                     id="rect76"
+                     width="0"
+                     height="0"
+                     x="0"
+                     y="0" />
+                  <text
+                     y="-10.1"
+                     id="text77"><tspan
+                       class="text-outer-tspan"
+                       x="0"
+                       y="-0.1em"
+                       dy="1.1em"
+                       font-weight=""
+                       id="tspan77"><tspan
+                         font-style="normal"
+                         class="text-inner-tspan"
+                         font-weight=""
+                         id="tspan76">WildAllEqual</tspan></tspan></text>
+                </g>
+              </g>
+            </g>
+            <g
+               class="members-group text"
+               transform="translate(-47.10268,23.142857)"
+               id="g80" />
+            <g
+               class="methods-group text"
+               transform="translate(-47.10268,53.142857)"
+               id="g81" />
+            <g
+               class="divider"
+               id="g82">
+              <path
+                 d="m -59.10268,3.1428566 c 24.074512,0 48.149024,0 118.20536,0 m -118.20536,0 c 37.470173,0 74.940347,0 118.20536,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path81" />
+            </g>
+            <g
+               class="divider"
+               id="g83">
+              <path
+                 d="m -59.10268,21.142857 c 23.696722,0 47.393445,0 118.20536,0 m -118.20536,0 c 32.683511,0 65.3670212,0 118.20536,0"
+                 stroke="#999"
+                 stroke-width="1.3"
+                 fill="none"
+                 id="path82" />
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
