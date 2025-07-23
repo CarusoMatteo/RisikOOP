@@ -1,27 +1,27 @@
 ```mermaid
 classDiagram
 direction BT
-    class GameManager {
+    class GameManager { <<interface>>
 	    +getTerritories() List~Territory~
 	    +removeAllTerritoriesAndContinents()
 	    +setContinents(List~Continent~)
-	    +getContinents() Continents
+	    +getContinents() List~Continent~
 	    +getActualWorldMap() Graph
     }
 
-    class Territory {
+    class Territory { <<interface>>
 	    +getName() String
 	    +getOwner() Player
 	    +getUnits() Integer
 	    +getNeightbours() List~Territory~
     }
 
-    class Continent {
+    class Continent { <<interface>>
 	    +getName() String
 	    +getUnitReward() Integer
     }
 
-    class Player {
+    class Player { <<interface>>
 	    +getTotalUnits() Integer 
 	    +getGameCards() List~GameCard~ 
 	    +getName() String 
@@ -33,32 +33,32 @@ direction BT
 	    +getObjectiveCard() ObjectiveCard 
     }
 
-    class GameCard {
+    class GameCard { <<interface>>
 	    +getType() UnitType
 	    +Optional~Player~ getOwner()
 	    +isTerritoryCard() boolean
 	    +updateOwner(Player) boolean 
     }
 
-    class CardDeck {
+    class CardDeck { <<interface>>
 	    +drawCard() GameCard 
 	    +addCards(Set~GameCard~) boolean 
 	    +isEmpty() boolean
     }
 
-    class ObjectiveCard {
+    class ObjectiveCard { <<interface>>
 	    +isAchieved() boolean
 	    +getDescription() String 
     }
 
-    class TerritoryCard {
+    class TerritoryCard { <<interface>>
 	    +getAssociatedTerritory() Territory
     }
 
-    class TurnManager {
+    class TurnManager { <<interface>>
 	    +getCurrentPlayer() Player 
 	    +nextPlayer() Player 
-	    +isLastPlayer() Player 
+	    +isLastPlayer() boolean  
     }
 
     Territory --* GameManager
