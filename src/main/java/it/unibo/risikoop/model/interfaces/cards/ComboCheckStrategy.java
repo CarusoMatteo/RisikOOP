@@ -2,8 +2,6 @@ package it.unibo.risikoop.model.interfaces.cards;
 
 import java.util.Set;
 
-import it.unibo.risikoop.model.interfaces.PlayerHand;
-
 /**
  * Interface to check if combos are valid.
  */
@@ -17,14 +15,6 @@ public interface ComboCheckStrategy {
      * @throws IllegalArgumentException if the Set does not contain exactly 3 cards.
      */
     boolean comboIsValid(Set<GameCard> cards);
-
-    /**
-     * Returns if a player has a valid combo in their hand.
-     * 
-     * @param hand the player's hand.
-     * @return if the player has a valid combo.
-     */
-    boolean comboIsPossibile(PlayerHand hand);
 
     /**
      * Returns the amount of units rewarded for this combo.

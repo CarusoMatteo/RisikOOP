@@ -20,15 +20,6 @@ public interface CardGameController {
     GameCard drawCard();
 
     /**
-     * Finds if the player can use any combo.
-     *
-     * @param player the player for whom to find combos.
-     * @return if the player can use any combo.
-     * @throws IllegalArgumentException if the player or their hand is null.
-     */
-    boolean canPlayAnyCombo(Player player);
-
-    /**
      * Returns if the set contains a valid combo.
      * 
      * @param cards the set of cards to check for a valid combo.

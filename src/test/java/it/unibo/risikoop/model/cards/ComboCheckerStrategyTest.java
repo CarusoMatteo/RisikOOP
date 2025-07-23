@@ -47,7 +47,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -56,7 +55,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -65,7 +63,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertTrue(combo.comboIsPossibile(hand));
         assertTrue(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -74,7 +71,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -83,7 +79,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -104,7 +99,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertTrue(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -119,7 +113,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
     }
@@ -133,7 +126,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertTrue(combo.comboIsPossibile(hand));
         assertTrue(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -142,7 +134,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -151,7 +142,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -160,7 +150,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -169,7 +158,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -178,7 +166,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -187,7 +174,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -196,7 +182,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -205,7 +190,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -214,7 +198,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -223,7 +206,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -232,7 +214,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -274,7 +255,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertTrue(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -306,7 +286,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -321,7 +300,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertTrue(combo.comboIsPossibile(hand));
         assertTrue(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -330,7 +308,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -339,7 +316,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -348,7 +324,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -357,7 +332,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -366,7 +340,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -375,7 +348,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -384,7 +356,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -393,7 +364,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -402,7 +372,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -438,7 +407,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertTrue(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -462,7 +430,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
     }
@@ -476,7 +443,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -485,7 +451,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -494,7 +459,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -503,7 +467,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -512,7 +475,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -521,7 +483,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -530,7 +491,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -539,7 +499,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -548,7 +507,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertTrue(combo.comboIsPossibile(hand));
         assertTrue(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -557,7 +515,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -593,7 +550,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertTrue(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -623,7 +579,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
     }
@@ -637,7 +592,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -646,7 +600,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -655,7 +608,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -664,7 +616,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -673,7 +624,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -682,7 +632,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -691,7 +640,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new WildCardImpl(),
                 new TerritoryCardImpl(UnitType.KNIGHT, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -700,7 +648,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.CANNON, new TerritoryImpl(gameManager, ""))));
-        assertTrue(combo.comboIsPossibile(hand));
         assertTrue(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -709,7 +656,6 @@ final class ComboCheckerStrategyTest {
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, "")),
                 new TerritoryCardImpl(UnitType.JACK, new TerritoryImpl(gameManager, ""))));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -718,7 +664,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertFalse(combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -754,7 +699,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertTrue(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
 
@@ -784,7 +728,6 @@ final class ComboCheckerStrategyTest {
                 new WildCardImpl(),
                 new WildCardImpl(),
                 new WildCardImpl()));
-        assertFalse(combo.comboIsPossibile(hand));
         assertThrows(IllegalArgumentException.class, () -> combo.comboIsValid(hand.getCards()));
         hand.clear();
     }

@@ -1,11 +1,9 @@
 package it.unibo.risikoop.model.implementations.gamecards.combos;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import it.unibo.risikoop.model.interfaces.PlayerHand;
 import it.unibo.risikoop.model.interfaces.cards.ComboCheckStrategy;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.UnitType;
@@ -24,17 +22,6 @@ public final class WildAllEqualCombo implements ComboCheckStrategy {
         }
         // One WILD and two cards of equal UnitTypes.
         return countWildUnitTypes(cards) == 1 && getMostFrequentNonWildUnitTypeFrequency(cards) == 2;
-    }
-
-    @Override
-    public boolean comboIsPossibile(final PlayerHand hand) {
-        if (Objects.isNull(hand) || Objects.isNull(hand.getCards())) {
-            throw new IllegalArgumentException("The hand must not be null.");
-        }
-
-        // One WILD and two cards of equal UnitTypes.
-        return countWildUnitTypes(hand.getCards()) >= 1
-                && getMostFrequentNonWildUnitTypeFrequency(hand.getCards()) >= 2;
     }
 
     @Override

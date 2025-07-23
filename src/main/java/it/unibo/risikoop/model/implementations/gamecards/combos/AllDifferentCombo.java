@@ -3,7 +3,6 @@ package it.unibo.risikoop.model.implementations.gamecards.combos;
 import java.util.Objects;
 import java.util.Set;
 
-import it.unibo.risikoop.model.interfaces.PlayerHand;
 import it.unibo.risikoop.model.interfaces.cards.ComboCheckStrategy;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.UnitType;
@@ -24,17 +23,6 @@ public final class AllDifferentCombo implements ComboCheckStrategy {
 
         // Check if all cards in the set have different UnitTypes.
         return countDistinctNonWildUnitTypes(cards) == 3;
-    }
-
-    @Override
-    public boolean comboIsPossibile(final PlayerHand hand) {
-        if (Objects.isNull(hand) || Objects.isNull(hand.getCards())) {
-            throw new IllegalArgumentException("The hand must not be null.");
-        }
-
-        // Check if the hand contains 3 different UnitTypes.
-        // WILD can not be used in this combo.
-        return countDistinctNonWildUnitTypes(hand.getCards()) >= 3;
     }
 
     @Override

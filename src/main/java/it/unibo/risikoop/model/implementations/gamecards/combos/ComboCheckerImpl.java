@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import it.unibo.risikoop.model.interfaces.PlayerHand;
 import it.unibo.risikoop.model.interfaces.cards.ComboCheckStrategy;
 import it.unibo.risikoop.model.interfaces.cards.ComboChecker;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
@@ -21,16 +20,6 @@ public final class ComboCheckerImpl implements ComboChecker {
             new AllKnightEqualCombo(),
             new AllJackEqualCombo(),
             new AllCannonEqualCombo());
-
-    @Override
-    public boolean anyComboIsPossible(final PlayerHand hand) {
-        if (hand == null || hand.getCards() == null) {
-            throw new IllegalArgumentException("The hand must not be null.");
-        }
-
-        return strategies.stream()
-                .anyMatch(strategy -> strategy.comboIsPossibile(hand));
-    }
 
     @Override
     public Optional<Integer> useCombo(final Set<GameCard> cards) {
