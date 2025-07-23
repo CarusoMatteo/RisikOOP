@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
 direction BT
     class GameManager {
@@ -70,4 +71,4 @@ direction BT
     CardDeck *-- GameCard
     TurnManager *-- Player
     TerritoryCard *-- Territory
-
+```
