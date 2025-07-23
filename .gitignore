@@ -17,7 +17,9 @@ bin/
 src/main/java/it/unibo/mvc
 .LCK*
 
-# Ignore all generated latex files except the source and output pdf
+# Ignore all generated latex files except the source tex, output pdf and svg/md files
 report/*
 !report/report.tex
 !report/report.pdf
+!report/svg
+!report/md
