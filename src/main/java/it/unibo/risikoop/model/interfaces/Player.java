@@ -6,38 +6,12 @@ import java.util.Optional;
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
 import it.unibo.risikoop.model.interfaces.cards.TerritoryCard;
+import it.unibo.risikoop.model.interfaces.holder.TerritoryHolder;
 
 /**
  * 
  */
-public interface Player {
-    /**
-     * add a new territory to the player.
-     * 
-     * @param territories
-     * @return if it was possible to add the territory
-     * 
-     */
-    boolean addTerritories(List<Territory> territories);
-
-    /**
-     * Gives a territory to the player.
-     * 
-     * @param territory the territory to give to the player.
-     * @return if the addition was successful.
-     */
-    default boolean addTerritory(final Territory territory) {
-        return addTerritories(List.of(territory));
-    }
-
-    /**
-     * remove a territory from the player.
-     * 
-     * @param territory
-     * @return if it was possible to remove the territory
-     * 
-     */
-    boolean removeTerritory(Territory territory);
+public interface Player extends TerritoryHolder {
 
     /**
      * 
@@ -73,11 +47,6 @@ public interface Player {
      * @return player's color
      */
     Color getColor();
-
-    /**
-     * @return the player's territories
-     */
-    List<Territory> getTerritories();
 
     /**
      * Returns the player who eliminated this player.

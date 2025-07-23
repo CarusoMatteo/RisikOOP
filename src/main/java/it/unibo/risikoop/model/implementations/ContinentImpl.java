@@ -1,5 +1,7 @@
 package it.unibo.risikoop.model.implementations;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,13 +38,18 @@ public final class ContinentImpl implements Continent {
     }
 
     @Override
-    public Set<Territory> getTerritories() {
-        return Set.copyOf(territories);
+    public boolean addTerritory(final Territory item) {
+        return territories.add(item);
     }
 
     @Override
-    public void addTerritory(final Territory territory) {
-        territories.add(territory);
+    public boolean removeTerritory(final Territory item) {
+        return territories.remove(item);
+    }
+
+    @Override
+    public Collection<Territory> getTerritories() {
+        return Collections.unmodifiableCollection(territories);
     }
 
 }

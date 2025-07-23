@@ -203,7 +203,7 @@ public final class CardJpanel extends JPanel {
 
         private void showGuidePanel() {
             final JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            final JDialog dialog = new JDialog(frame, "Prenotazioni associate", true);
+            final JDialog dialog = new JDialog(frame, "Elenco continenti", true);
             dialog.setSize(frame.getWidth() / DIALOG_RATIO, frame.getHeight() / DIALOG_RATIO);
             dialog.setLocationRelativeTo(frame);
             final JScrollPane scrollPane = new JScrollPane(new GuidePanel(controller));

@@ -96,15 +96,4 @@ public final class ControllerImpl implements Controller {
         return new CardGameControllerImpl(gameManager);
     }
 
-    @Override
-    public boolean isOwned(final String territoryName, final String playerName) {
-        final var territoryOptional = gameManager.getTerritory(territoryName);
-        final var playerOptional = gameManager.getPlayers()
-                .stream()
-                .filter(p -> p.getName().equals(playerName))
-                .findFirst();
-        return playerOptional.isPresent()
-                && territoryOptional.isPresent()
-                && playerOptional.get().getTerritories().contains(territoryOptional.get());
-    }
 }

@@ -91,4 +91,16 @@ public final class DataRetrieveControllerImpl implements DataRetrieveController 
     public Set<Continent> getContinents() {
         return gm.getContinents();
     }
+
+    @Override
+    public boolean isOwned(final String territoryName, final String playerName) {
+        final var territoryOptional = gm.getTerritory(territoryName);
+        final var playerOptional = gm.getPlayers()
+                .stream()
+                .filter(p -> p.getName().equals(playerName))
+                .findFirst();
+        return playerOptional.isPresent()
+                && territoryOptional.isPresent()
+                && playerOptional.get().getTerritories().contains(territoryOptional.get());
+    }
 }

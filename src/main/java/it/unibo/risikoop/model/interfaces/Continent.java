@@ -1,11 +1,11 @@
 package it.unibo.risikoop.model.interfaces;
 
-import java.util.Set;
+import it.unibo.risikoop.model.interfaces.holder.TerritoryHolder;
 
 /**
  * continent interfaces.
  */
-public interface Continent {
+public interface Continent extends TerritoryHolder {
     /**
      * 
      * @return the name.
@@ -17,19 +17,5 @@ public interface Continent {
      * @return the unit rewards.
      */
     Integer getUnitReward();
-
-    /**
-     * 
-     * 
-     * @return the set of all the territory of the conmtinent
-     */
-    Set<Territory> getTerritories();
-
-    /**
-     * add a new territory.
-     * 
-     * @param territory
-     */
-    void addTerritory(Territory territory);
 
 }

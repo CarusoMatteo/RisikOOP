@@ -3,7 +3,6 @@ package it.unibo.risikoop.model.implementations;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -53,16 +52,6 @@ public final class PlayerImpl implements Player {
     @Override
     public Optional<Player> getKiller() {
         return killer;
-    }
-
-    @Override
-    public boolean addTerritory(final Territory territory) {
-        return territories.add(territory);
-    }
-
-    @Override
-    public List<Territory> getTerritories() {
-        return Collections.unmodifiableList(territories);
     }
 
     @Override
@@ -137,17 +126,6 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public boolean addTerritories(final List<Territory> territories) {
-        Objects.requireNonNull(territories, "territories must not be null");
-        return this.territories.addAll(territories);
-    }
-
-    @Override
-    public boolean removeTerritory(final Territory territory) {
-        return territories.remove(territory);
-    }
-
-    @Override
     public void removeUnitsToPlace(final int units) {
         if (units < 0) {
             throw new IllegalArgumentException("Cannot remove a negative number of units to place.");
@@ -172,6 +150,21 @@ public final class PlayerImpl implements Player {
     @Override
     public void setObjectiveCard(final ObjectiveCard objectiveCard) {
         this.objectiveCard = Optional.ofNullable(objectiveCard);
+    }
+
+    @Override
+    public boolean addTerritory(Territory item) {
+        return territories.add(item);
+    }
+
+    @Override
+    public boolean removeTerritory(Territory item) {
+        return territories.remove(item);
+    }
+
+    @Override
+    public List<Territory> getTerritories() {
+        return Collections.unmodifiableList(territories);
     }
 
 }
