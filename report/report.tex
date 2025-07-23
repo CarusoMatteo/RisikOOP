@@ -106,7 +106,7 @@ Bisogna validare vari tipi di combo di carte, ognuna con requisiti diversi. Inol
 \end{figure}
 La validazione delle combo usa il pattern \begin{itshape}Strategy\end{itshape}, in cui ogni validatore di combo è una strategia diversa.
 \\
-Il pattern \begin{itshape}Strategy\end{itshape} è più adatto rispeto al pattern \begin{itshape}Template Method\end{itshape}, siccome ogni combo ogni validatore di combo differisce molto dagli altri, fatta eccezione dei validatori \texttt{AllEqualCombo}.
+Il pattern \begin{itshape}Strategy\end{itshape} è più adatto rispetto al pattern \begin{itshape}Template Method\end{itshape}, siccome ogni validatore di combo differisce molto dagli altri, fatta eccezione dei validatori \texttt{AllEqualCombo}.
 
 \subsubsection{Validare le \texttt{AllEqualCombo}}
 \paragraph{Problema}
@@ -119,7 +119,7 @@ Bisogna validare le combo di carte dove hanno tutte lo stesso tipo.
 \end{figure}
 Qui è possibile usare il pattern \begin{itshape}Template Method\end{itshape}, dove la classe astratta \texttt{AllEqualCombo} definisce il template method \texttt{comboIsValid} e l'operazione primitiva \texttt{getUnitType} \footnote{Restituisce \texttt{UnitType}, un enumeratore che rappresenta i semi delle carte.}.
 \\
-Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}. Le classi che estendono questa classe astratta sono \texttt{AllCannonEqualCombo}, \texttt{AllJackEqualCombo} e \texttt{AllKnightEqualCombo}, che implementano le operazioni primitive sopracitate.
+Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}. Le classi che estendono questa classe astratta sono \texttt{AllCannonEqualCombo}, \texttt{AllJackEqualCombo} e \texttt{AllKnightEqualCombo}, che implementano l'operazione primitiva sopracitata.
 
 \subsection{Matteo Ceccarelli}
 % TODO: Design individuale da fare.
@@ -130,9 +130,7 @@ Le prime due fasi hanno due logiche diverse tra loro e tra il resto del gioco
 \paragraph{Soluzione}
 Scomporre il controller in diversi dipi di controller.
 \\
-Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingContrller} permette di impostare giocatori e la mappa;
-
-\texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente; \texttt{TurnManager} permette di gestire le fasi del gioco.
+Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingContrller} permette di impostare giocatori e la mappa, mentre \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente. Infine \texttt{TurnManager} permette di gestire le fasi del gioco.
 \subsubsection{Aggiornamento dei colori dei territori della view}
 \paragraph{Problema}
 Durante il gioco, se un giocatore conquista un territorio, questo deve istantaneamente cambiare colore nel colore del nuovo proprietario.
@@ -140,12 +138,12 @@ Durante il gioco, se un giocatore conquista un territorio, questo deve istantane
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/Observer-view-Sacripante.svg}
-	\caption{UML del pattern Template Method per la validazione delle combo di carte con tipo uguale.}
+	\caption{TODO} %TODO Add caption
 \end{figure}
 Usare un'interfaccia dedicata agli aggiornamenti della view.
 \\
-Ogni volta che al model succede una cosa, il controller chiama i metodi dell'interfaccia per aggiornare la view
-Il patter usato quì è una sorta di observer pattern, dove l'observer è la view che viene "notificata" quando un territorio cambia proprietà e il soggetto è il territorio
+Ogni volta che al model succede una cosa, il controller chiama i metodi dell'interfaccia per aggiornare la view.
+Il patter usato quì è una sorta di observer pattern, dove l'observer è la view che viene "notificata" quando un territorio cambia proprietà e il soggetto è il territorio.
 
 % TODO: Design individuale da fare.
 
