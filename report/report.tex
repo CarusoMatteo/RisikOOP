@@ -72,7 +72,7 @@ Ora inizia il game-loop del gioco, che si ripete fino a quando un giocatore non 
 % TODO: aggiungi fasi
 \begin{itemize}
 	\item Fase di rinforzo.
-	\item Fase di attacco.
+	\item Fase di attacco.	
 	\item Fase di spostamento finale.
 \end{itemize}
 
@@ -120,8 +120,13 @@ Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}
 \subsection{Matteo Ceccarelli}
 % TODO: Design individuale da fare.
 \subsection{Francesco Sacripante}
+\subsubsection{Creazione logica di due livelli}
+\paragraph{problema}
+Le prime due fasi hanno due logiche diverse tra loro e tra il resto del gioco
+\paragraph{soluzione}
+Scomporre il controller in diversi dipi di controller
 Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingContrller} permette di impostare giocatori e la mappa;
-\\
+
 \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente; \texttt{TurnManager} permette di gestire le fasi del gioco.
 % TODO: Design individuale da fare.
 

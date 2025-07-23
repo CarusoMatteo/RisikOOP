@@ -28,7 +28,6 @@ public final class MovementPhase
         PhaseWithTransaction {
 
     private final TurnManager turnManager;
-    private final GamePhaseController gpc;
     private Optional<Territory> source;
     private Optional<Territory> destination;
     private int unitsToMove;
@@ -42,7 +41,6 @@ public final class MovementPhase
      * @param gpc the game phase manager
      */
     public MovementPhase(final GamePhaseController gpc) {
-        this.gpc = gpc;
         this.turnManager = gpc.getTurnManager();
         this.source = Optional.empty();
         this.destination = Optional.empty();
