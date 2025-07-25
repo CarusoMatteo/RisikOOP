@@ -129,7 +129,11 @@ Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}
 Le prime due fasi hanno due logiche diverse tra loro e tra il resto del gioco
 \paragraph{Soluzione}
 Scomporre il controller in diversi dipi di controller.
-\\
+\begin{figure}[H]
+	\centering
+	\includesvg[width=1\textwidth]{svg/detailed-design-multiple-cont-sacripante.svg}
+	\caption{UML dei vari controller per le prime due fasi di gioco.}
+\end{figure}
 Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingContrller} permette di impostare giocatori e la mappa, mentre \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente. Infine \texttt{TurnManager} permette di gestire le fasi del gioco.
 \subsubsection{Aggiornamento dei colori dei territori della view}
 \paragraph{Problema}
@@ -138,13 +142,23 @@ Durante il gioco, se un giocatore conquista un territorio, questo deve istantane
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/Observer-view-Sacripante.svg}
-	\caption{TODO} %TODO Add caption
+	\caption{UML del observer pattern usato per aggiornare gli elementi delle view.}
 \end{figure}
 Usare un'interfaccia dedicata agli aggiornamenti della view.
 \\
 Ogni volta che al model succede una cosa, il controller chiama i metodi dell'interfaccia per aggiornare la view.
 Il patter usato quì è una sorta di observer pattern, dove l'observer è la view che viene "notificata" quando un territorio cambia proprietà e il soggetto è il territorio.
-
+\subsubsection{Accorpamento di detentori di oggetti}
+\paragraph{Problema}
+Alcuni oggetti condividono la detenzione ed alcuni tipi di operazioni su alcuni tipi di oggetti posseduti.
+Ci sono ogetti che detengono più territori o più giocatori.
+\paragraph{Soluzione}
+\begin{figure}[H]
+	\centering
+	\includesvg[width=1\textwidth]{svg/detailed-design-holders-sacripante.svg}
+	\caption{UML degli holders del gioco.}
+\end{figure}
+Si creano delle interfaccie in cui si accorpano tutte le operazione in comune riguardante un certo insieme di oggetti.
 % TODO: Design individuale da fare.
 
 
