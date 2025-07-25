@@ -12,6 +12,7 @@ import it.unibo.risikoop.controller.interfaces.Controller;
  * A class that is for the jpanel of when showing the winner.
  */
 public final class GameOverPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
 
     /**
      * the constructor.
@@ -26,6 +27,8 @@ public final class GameOverPanel extends JPanel {
     }
 
     private final class WinnerButtonsPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+
         private final JButton playAgainButton = new JButton("Play Again");
         private final JButton closeButton = new JButton("Close");
 

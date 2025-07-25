@@ -30,14 +30,14 @@ public interface TerritoryHolder {
     /**
      * add a new territory to the player.
      * 
-     * @param territories
+     * @param items the territories to add
      * @return if it was possible to add the territory
      * 
      */
-    default boolean addTerritories(Collection<Territory> items) {
+    default boolean addTerritories(final Collection<Territory> items) {
         return items
                 .stream()
-                .map(i -> addTerritory(i))
+                .map(this::addTerritory)
                 .reduce(true, (i, j) -> i && j);
     }
 }

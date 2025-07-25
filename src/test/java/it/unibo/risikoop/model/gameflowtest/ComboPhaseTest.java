@@ -26,7 +26,7 @@ class ComboPhaseTest extends AbstractGamePhaseTest {
             // calculate units to place: initialLogic - territories owned
             int unitsToPlace = initialLogic.calcPlayerUnits() -
                     player.getTerritories().size();
-            Territory t = player.getTerritories().get(0);
+            Territory t = player.getTerritories().iterator().next();
             for (int i = 0; i < unitsToPlace; i++) {
                 gpc.selectTerritory(t);
             }

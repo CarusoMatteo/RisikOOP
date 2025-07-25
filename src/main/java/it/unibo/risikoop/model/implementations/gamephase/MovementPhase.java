@@ -61,14 +61,12 @@ public final class MovementPhase
                 this.source = Optional.ofNullable(t);
                 return true;
             }
-        } else if (internalState == InternalState.SELECT_DST) {
-            if (source.map(Territory::getNeightbours).orElse(Set.of()).contains(t)
-                    && !t.equals(source.orElseGet(null))
-                    && t.getOwner().equals(turnManager.getCurrentPlayer())) {
-
-                this.destination = Optional.ofNullable(t);
-                return true;
-            }
+        } else if (internalState == InternalState.SELECT_DST
+                && source.map(Territory::getNeightbours).orElse(Set.of()).contains(t)
+                && !t.equals(source.orElseGet(null))
+                && t.getOwner().equals(turnManager.getCurrentPlayer())) {
+            this.destination = Optional.ofNullable(t);
+            return true;
         }
         return false;
     }
@@ -107,7 +105,6 @@ public final class MovementPhase
     @Override
     public String getInnerStatePhaseDescription() {
         switch (internalState) {
-
             case SELECT_SRC -> {
                 return "Selecting the moving from territory";
             }
@@ -120,8 +117,8 @@ public final class MovementPhase
             case EXECUTE -> {
                 return "Executing the movement";
             }
-            default -> throw new AssertionError();
         }
+        throw new IllegalStateException("Unexpected value: " + internalState);
     }
 
     @Override
@@ -131,7 +128,6 @@ public final class MovementPhase
             case SELECT_SRC -> internalState = InternalState.SELECT_DST;
             case SELECT_UNITS_QUANTITY -> internalState = InternalState.EXECUTE;
             case EXECUTE -> internalState = InternalState.SELECT_SRC;
-            default -> throw new IllegalArgumentException("Unexpected value: " + internalState);
         }
     }
 

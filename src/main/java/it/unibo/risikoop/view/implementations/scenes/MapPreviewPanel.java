@@ -14,6 +14,7 @@ import it.unibo.risikoop.controller.interfaces.Controller;
  * shows the preview of the selected map before starting to play.
  */
 public final class MapPreviewPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
     private static final String COMMON_STYLE_SHEET = """
             node {
                 size: 30px;

@@ -136,7 +136,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
     private void checkWin() {
         if (turnManager.getCurrentPlayer().getObjectiveCard().isAchieved()) {
-            System.out.println(turnManager.getCurrentPlayer().getName() + " has won the game!");
+            // System.out.println(turnManager.getCurrentPlayer().getName() + " has won the game!");
             onGameOver.run();
         }
     }
@@ -193,7 +193,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
         final Player p = turnManager.getCurrentPlayer();
         gm.getTerritories().forEach(t -> viewList
                 .forEach(i -> i.getMapScene().ifPresent(m -> m.changeTerritoryUnits(t.getName(), t.getUnits()))));
-        viewList.stream().map(v -> v.getMapScene())
+        viewList.stream().map(RisikoView::getMapScene)
                 .forEach(o -> o.ifPresent(m -> m.updateCurrentPlayer(
                         p.getName(),
                         p.getColor(),
@@ -237,7 +237,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
     @Override
     public Optional<InternalState> getInternalState() {
-        return currentPhaseAs(PhaseWithTransaction.class).map(i -> i.getInternalState());
+        return currentPhaseAs(PhaseWithTransaction.class).map(PhaseWithTransaction::getInternalState);
     }
 
     @Override
@@ -249,7 +249,7 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
     public void uodateViewTerritoryOwner() {
         viewList
                 .stream()
-                .map(v -> v.getMapScene())
+                .map(RisikoView::getMapScene)
                 .forEach(m -> m.ifPresent(MapScene::updateTerritoryOwner));
     }
 }

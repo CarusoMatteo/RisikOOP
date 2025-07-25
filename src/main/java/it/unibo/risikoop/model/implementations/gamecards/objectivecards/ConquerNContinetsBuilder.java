@@ -1,6 +1,5 @@
 package it.unibo.risikoop.model.implementations.gamecards.objectivecards;
 
-import java.io.Serial;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;

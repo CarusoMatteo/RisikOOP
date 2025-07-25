@@ -88,10 +88,7 @@ public final class TerritoryImpl implements Territory {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof final Territory t) {
-            return t.getName().equals(this.getName());
-        }
-        return false;
+        return obj instanceof final Territory t && t.getName().equals(this.getName());
     }
 
     @Override

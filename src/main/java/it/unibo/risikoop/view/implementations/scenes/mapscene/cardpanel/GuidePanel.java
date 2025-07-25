@@ -13,6 +13,8 @@ import it.unibo.risikoop.model.interfaces.Continent;
  * and all the avalaible combos.
  */
 public final class GuidePanel extends JPanel {
+    private static final long serialVersionUID = 1L;
+
     /**
      * constructor.
      * 
@@ -27,6 +29,8 @@ public final class GuidePanel extends JPanel {
     }
 
     private final class ContinentDisplaying extends JPanel {
+        private static final long serialVersionUID = 1L;
+
         private ContinentDisplaying(final Continent continent) {
             setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
             add(new JLabel("Continent rewards units: " + continent.getUnitReward()));

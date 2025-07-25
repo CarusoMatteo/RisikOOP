@@ -85,22 +85,20 @@ public final class ActionJPanel extends JPanel {
     }
 
     private void performeActionButtonBehavior() {
-        if (inMovementBasedState()) {
-            if (controller.getGamePhaseController().getInternalState().isPresent()
-                    && controller.getGamePhaseController().getInternalState()
-                            .get() == InternalState.SELECT_UNITS_QUANTITY) {
-
-                try {
-                    final Integer units = Integer.valueOf(unitsTextField.getText());
-                    controller.getGamePhaseController().setUnitsToUse(units);
-
-                } catch (final NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Errore, inserire un numero di cifre",
-                            "Errore valore non numerico", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+        if (inMovementBasedState()
+                && controller.getGamePhaseController().getInternalState().isPresent()
+                && controller.getGamePhaseController().getInternalState()
+                        .get() == InternalState.SELECT_UNITS_QUANTITY) {
+            try {
+                final Integer units = Integer.valueOf(unitsTextField.getText());
+                controller.getGamePhaseController().setUnitsToUse(units);
+            } catch (final NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Errore, inserire un numero di cifre",
+                        "Errore valore non numerico", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
+
         controller.getGamePhaseController().performAction();
         updateStateLabel();
         this.setButtons();
@@ -178,7 +176,6 @@ public final class ActionJPanel extends JPanel {
      * 
      * @param territoryName
      */
-    @SuppressWarnings("incomplete-switch")
     public void clickTerritory(final String territoryName) {
         controller.getGamePhaseController()
                 .getInternalState()
@@ -186,6 +183,7 @@ public final class ActionJPanel extends JPanel {
                     switch (i) {
                         case SELECT_SRC -> this.srcTerritoryLabel.setText(territoryName);
                         case SELECT_DST -> this.dstTerritoryLabel.setText(territoryName);
+                        default -> throw new IllegalStateException("Unexpected value: " + i);
                     }
                 });
     }
@@ -208,7 +206,6 @@ public final class ActionJPanel extends JPanel {
                 controller.getGamePhaseController().getCurrentPhase().isComplete());
         performeActionButton.setVisible(
                 controller.getGamePhaseController().getPhaseKey() != GamePhaseController.PhaseKey.COMBO
-                        || !(controller.getGamePhaseController().getCurrentPhase().isComplete()));
+                        || !controller.getGamePhaseController().getCurrentPhase().isComplete());
     }
-
 }

@@ -153,12 +153,12 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public boolean addTerritory(Territory item) {
+    public boolean addTerritory(final Territory item) {
         return territories.add(item);
     }
 
     @Override
-    public boolean removeTerritory(Territory item) {
+    public boolean removeTerritory(final Territory item) {
         return territories.remove(item);
     }
 

@@ -92,7 +92,7 @@ public final class AttackPhase
         } else if (internalState == InternalState.SELECT_DST && defenderDst.isPresent()) {
             nextState();
         } else if (internalState == InternalState.SELECT_UNITS_QUANTITY && unitsToUse > 0
-                && unitsToUse <= attackerSrc.map(t -> t.getUnits()).orElse(0) - 1) {
+                && unitsToUse <= attackerSrc.map(Territory::getUnits).orElse(0) - 1) {
             nextState();
         } else if (internalState == InternalState.EXECUTE) {
             if (logic.attack(attacker, defender, attackerSrc.get(), defenderDst.get(), unitsToUse) && !isGetCard) {
@@ -126,7 +126,7 @@ public final class AttackPhase
     @Override
     public void setUnitsToUse(final int units) {
         if (internalState == InternalState.SELECT_UNITS_QUANTITY
-                && units <= attackerSrc.map(t -> t.getUnits()).orElse(0) - 1
+                && units <= attackerSrc.map(Territory::getUnits).orElse(0) - 1
                 && units > 0) {
             unitsToUse = units;
         }
@@ -135,7 +135,6 @@ public final class AttackPhase
     @Override
     public String getInnerStatePhaseDescription() {
         switch (internalState) {
-
             case SELECT_SRC -> {
                 return "Selecting attacker";
             }
@@ -148,8 +147,8 @@ public final class AttackPhase
             case EXECUTE -> {
                 return "Executing the attack";
             }
-            default -> throw new AssertionError();
         }
+        throw new IllegalStateException("Unexpected value: " + internalState);
     }
 
     //
@@ -183,23 +182,6 @@ public final class AttackPhase
         return logic;
     }
 
-    private boolean isValidAttacker(final Territory t) {
-        final boolean hasEnemyNeighbor = t.getNeightbours().stream()
-                .anyMatch(neighbour -> !neighbour.getOwner().equals(turnManager.getCurrentPlayer()));
-        final boolean hasEnoughUnits = t.getUnits() >= 2;
-        final boolean isMine = t.getOwner().equals(turnManager.getCurrentPlayer());
-        return hasEnemyNeighbor && hasEnoughUnits && isMine;
-    }
-
-    private boolean isValidDefender(final Territory t) {
-        final boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
-        // boolean isNeightbour = attackerSrc.getNeightbours().contains(t);
-        final boolean isNeightbour = attackerSrc.map(Territory::getNeightbours)
-                .orElse(Set.of()).contains(t);
-
-        return !isMy && isNeightbour;
-    }
-
     @Override
     public Optional<AttackResult> showAttackResults() {
         return logic.showAttackResults();
@@ -217,7 +199,6 @@ public final class AttackPhase
             case SELECT_DST -> internalState = InternalState.SELECT_UNITS_QUANTITY;
             case SELECT_UNITS_QUANTITY -> internalState = InternalState.EXECUTE;
             case EXECUTE -> internalState = InternalState.SELECT_SRC;
-            default -> throw new IllegalArgumentException("Unexpected value: " + internalState);
         }
     }
 
@@ -233,10 +214,26 @@ public final class AttackPhase
         internalState = InternalState.SELECT_SRC;
     }
 
+    private boolean isValidAttacker(final Territory t) {
+        final boolean hasEnemyNeighbor = t.getNeightbours().stream()
+                .anyMatch(neighbour -> !neighbour.getOwner().equals(turnManager.getCurrentPlayer()));
+        final boolean hasEnoughUnits = t.getUnits() >= 2;
+        final boolean isMine = t.getOwner().equals(turnManager.getCurrentPlayer());
+        return hasEnemyNeighbor && hasEnoughUnits && isMine;
+    }
+
+    private boolean isValidDefender(final Territory t) {
+        final boolean isMy = t.getOwner().equals(turnManager.getCurrentPlayer());
+        // boolean isNeightbour = attackerSrc.getNeightbours().contains(t);
+        final boolean isNeightbour = attackerSrc.map(Territory::getNeightbours)
+                .orElse(Set.of()).contains(t);
+
+        return !isMy && isNeightbour;
+    }
+
     private void clearData() {
         attackerSrc = Optional.empty();
         defenderDst = Optional.empty();
         unitsToUse = 0;
     }
-
 }

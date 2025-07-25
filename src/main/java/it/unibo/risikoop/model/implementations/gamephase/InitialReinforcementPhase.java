@@ -51,7 +51,7 @@ public final class InitialReinforcementPhase
     public void performAction() {
         final Player p = gpc.getTurnManager().getCurrentPlayer();
 
-        System.out.println(p.getName());
+        // System.out.println(p.getName());
 
         if (p.getUnitsToPlace() == 0 && !gpc.getTurnManager().isLastPlayer()) {
             gpc.nextPlayer();

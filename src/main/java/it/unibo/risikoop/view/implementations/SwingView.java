@@ -28,10 +28,8 @@ public final class SwingView implements RisikoView {
     private static final float RIDIM = 1.5f;
     private final Controller controller;
     private final JFrame frame = new JFrame();
-    private MapSceneImpl mapSceneImpl;
     private Optional<MapScene> mapScene = Optional.empty();
     private JPanel lastPanel;
-    // private MapScene mapScene;
 
     /**
      * constructor.
@@ -81,7 +79,7 @@ public final class SwingView implements RisikoView {
 
     @Override
     public void beginPlay() {
-        mapSceneImpl = new MapSceneImpl(this.controller);
+        final MapSceneImpl mapSceneImpl = new MapSceneImpl(this.controller);
         mapScene = Optional.of(mapSceneImpl);
         changePanel(frame, mapSceneImpl);
     }
