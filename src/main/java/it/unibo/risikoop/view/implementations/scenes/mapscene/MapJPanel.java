@@ -11,6 +11,7 @@ import org.graphstream.ui.swing_viewer.ViewPanel;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
+import org.slf4j.LoggerFactory;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.Controller;
@@ -95,15 +96,11 @@ public final class MapJPanel extends JPanel implements ViewerListener {
         }).start();
     }
 
-    // Thread.sleep is used to control the loop timing,
-    // we have no logger in this project.
-    @SuppressWarnings({ "PMD.EmptyCatchBlock", "checkstyle:EmptyCatchBlock" })
     private void sleep(final int millis) {
         try {
             Thread.sleep(millis);
         } catch (final InterruptedException e) {
-            // Thread.sleep is used to control the loop timing,
-            // we have no logger in this project.
+            LoggerFactory.getLogger(MapJPanel.class).error(e.getStackTrace().toString());
         }
     }
 
