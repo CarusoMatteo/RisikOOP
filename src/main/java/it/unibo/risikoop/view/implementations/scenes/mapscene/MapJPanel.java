@@ -1,6 +1,7 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
 import java.awt.BorderLayout;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 
@@ -100,7 +101,7 @@ public final class MapJPanel extends JPanel implements ViewerListener {
         try {
             Thread.sleep(millis);
         } catch (final InterruptedException e) {
-            LoggerFactory.getLogger(MapJPanel.class).error(e.getStackTrace().toString());
+            LoggerFactory.getLogger(MapJPanel.class).error(Arrays.toString(e.getStackTrace()));
         }
     }
 
