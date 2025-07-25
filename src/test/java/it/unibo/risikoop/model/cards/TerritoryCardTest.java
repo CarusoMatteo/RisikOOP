@@ -34,11 +34,13 @@ final class TerritoryCardTest {
         type = UnitType.JACK;
         owner = new PlayerImpl("Player1", new Color(0, 2, 0));
         territory = new TerritoryImpl(new GameManagerImpl(), "TerritoryTest");
+        territory.setOwner(owner);
     }
 
     @Test
     void testTerritoryCard() {
         final TerritoryCard territoryCard = new TerritoryCardImpl(type, territory);
+        territoryCard.updateOwner(owner);
         assertEquals(type, territoryCard.getType());
         assertEquals(Optional.of(owner), territoryCard.getOwner());
         assertEquals(territory, territoryCard.getAssociatedTerritory());
@@ -51,6 +53,7 @@ final class TerritoryCardTest {
     @Test
     void testWildCard() {
         final WildCard territoryCard = new WildCardImpl();
+        territoryCard.updateOwner(owner);
         assertEquals(UnitType.WILD, territoryCard.getType());
         assertEquals(Optional.of(owner), territoryCard.getOwner());
     }
