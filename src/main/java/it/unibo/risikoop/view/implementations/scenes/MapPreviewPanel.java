@@ -61,6 +61,9 @@ public final class MapPreviewPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * A function to be called when you want to close the preview.
+     */
     public void closeMapPreview() {
         this.viewer.close();
     }
