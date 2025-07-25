@@ -33,7 +33,7 @@ public final class CardsListJPanel extends JPanel {
     private final JButton playComboButton;
     private final JScrollPane scrollPane;
     private final CardEntryListJPanel cardEntryListPanel;
-    private final transient Set<GameCard> selectedCards = new HashSet<>();
+    private final Set<GameCard> selectedCards = new HashSet<>();
 
     /**
      * Constructor for CardsListJPanel.

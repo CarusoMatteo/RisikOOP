@@ -1,6 +1,8 @@
 package it.unibo.risikoop.view.implementations.scenes.mapscene;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -37,7 +39,13 @@ public final class GameOverPanel extends JPanel {
             add(playAgainButton, BorderLayout.EAST);
             add(closeButton, BorderLayout.WEST);
             playAgainButton.addActionListener(i -> controller.start());
-            closeButton.addActionListener(i -> System.exit(0));
+            closeButton.addActionListener(new ActionListener() {
+                @Override
+                @SuppressWarnings("DM_EXIT")
+                public void actionPerformed(final ActionEvent i) {
+                    System.exit(0);
+                }
+            });
         }
     }
 }

@@ -1,3 +1,5 @@
+import com.github.spotbugs.snom.SpotBugsTask
+
 plugins {
     // Apply the java plugin to add support for Java
     java
@@ -52,9 +54,19 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
 }
 
+
 application {
     // Define the main class for the application.
     mainClass.set("it.unibo.risikoop.controller.RisikoApp")
+}
+
+tasks.withType(SpotBugsTask::class) {
+    reports.create("html") {
+        required.set(true)
+    }
+    reports.create("xml") {
+        required.set(false)
+    }
 }
 
 tasks.test {

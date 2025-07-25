@@ -1,6 +1,8 @@
 package it.unibo.risikoop.model.gameflowtest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -21,6 +23,9 @@ import it.unibo.risikoop.model.interfaces.Territory;
 @DisplayName("LogicAttackImpl Tests")
 class LogicAttackImplTest {
 
+    private static final int FIVE = 5;
+    private static final int SIX = 6;
+    private static final int NINE = 9;
     private GameManager gm;
     private Player attacker;
     private Player defender;
@@ -37,7 +42,7 @@ class LogicAttackImplTest {
         attacker = gm.getPlayers().get(0);
         defender = gm.getPlayers().get(1);
 
-        Graph map = new MultiGraph("map", false, true);
+        final Graph map = new MultiGraph("map", false, true);
         map.addNode("T1");
         map.addNode("T2");
         map.addEdge("e1", "T1", "T2", true);
@@ -58,24 +63,24 @@ class LogicAttackImplTest {
     void normalAttackNotFinished() {
         // Given: 3 attacker units, 5 defender units, using 2 units to attack
         src.addUnits(3);
-        dst.addUnits(5);
+        dst.addUnits(FIVE);
 
         // Force dice: attacker loses both rounds
         logic.setAttackerDice(List.of(1, 1));
         logic.setDefencerDice(List.of(2, 2));
 
         // When
-        boolean result = logic.attack(attacker, defender, src, dst, 2);
+        final boolean result = logic.attack(attacker, defender, src, dst, 2);
 
         // Then
         assertFalse(result, "Attack not finished should return false");
-        AttackResult res = logic.showAttackResults().orElseThrow();
+        final AttackResult res = logic.showAttackResults().orElseThrow();
         assertEquals(List.of(1, 1), res.getAttackerDiceRolls());
         assertEquals(List.of(2, 2), res.getDefenderDiceRolls());
 
         // Units updated: attacker src lost 2, defender dst unchanged
         assertEquals(3 - 2, src.getUnits());
-        assertEquals(5, dst.getUnits());
+        assertEquals(FIVE, dst.getUnits());
         assertEquals(defender, dst.getOwner());
     }
 
@@ -87,16 +92,16 @@ class LogicAttackImplTest {
         dst.addUnits(2);
 
         // Force dice: attacker wins both rounds
-        logic.setAttackerDice(List.of(6, 6));
+        logic.setAttackerDice(List.of(SIX, SIX));
         logic.setDefencerDice(List.of(1, 1));
 
         // When
-        boolean result = logic.attack(attacker, defender, src, dst, 2);
+        final boolean result = logic.attack(attacker, defender, src, dst, 2);
 
         // Then
         assertTrue(result, "Capture should return true");
-        AttackResult res = logic.showAttackResults().orElseThrow();
-        assertEquals(List.of(6, 6), res.getAttackerDiceRolls());
+        final AttackResult res = logic.showAttackResults().orElseThrow();
+        assertEquals(List.of(SIX, SIX), res.getAttackerDiceRolls());
         assertEquals(List.of(1, 1), res.getDefenderDiceRolls());
 
         // Ownership and units updated
@@ -116,7 +121,7 @@ class LogicAttackImplTest {
 
         // Force dice: defender wins both rounds
         logic.setAttackerDice(List.of(1, 1));
-        logic.setDefencerDice(List.of(6, 6));
+        logic.setDefencerDice(List.of(SIX, SIX));
 
         // When
         boolean result = logic.attack(attacker, defender, src, dst, 2);
@@ -125,7 +130,7 @@ class LogicAttackImplTest {
         assertFalse(result, "Defender win should return true");
         AttackResult res = logic.showAttackResults().orElseThrow();
         assertEquals(List.of(1, 1), res.getAttackerDiceRolls());
-        assertEquals(List.of(6, 6), res.getDefenderDiceRolls());
+        assertEquals(List.of(SIX, SIX), res.getDefenderDiceRolls());
 
         // Units updated: attacker src lost 2, defender dst unchanged
         assertEquals(10 - 2, src.getUnits());
@@ -133,17 +138,17 @@ class LogicAttackImplTest {
         assertEquals(defender, dst.getOwner(), "Owner remains defender");
 
         // Force dice: defender wins both rounds
-        logic.setAttackerDice(List.of(6, 6, 4));
-        logic.setDefencerDice(List.of(6, 5, 5));
+        logic.setAttackerDice(List.of(SIX, SIX, 4));
+        logic.setDefencerDice(List.of(SIX, FIVE, FIVE));
         result = logic.attack(attacker, defender, src, dst, 3);
-        
+
         assertFalse(result, "Defender win should return true");
         res = logic.showAttackResults().orElseThrow();
-        assertEquals(List.of(6, 6, 4), res.getAttackerDiceRolls());
-        assertEquals(List.of(6, 5, 5), res.getDefenderDiceRolls());
+        assertEquals(List.of(SIX, SIX, 4), res.getAttackerDiceRolls());
+        assertEquals(List.of(SIX, FIVE, FIVE), res.getDefenderDiceRolls());
 
-        assertEquals(6, src.getUnits());
-        assertEquals(9, dst.getUnits());
+        assertEquals(SIX, src.getUnits());
+        assertEquals(NINE, dst.getUnits());
         assertEquals(defender, dst.getOwner(), "Owner remains defender");
     }
 
@@ -155,16 +160,16 @@ class LogicAttackImplTest {
         dst.addUnits(2);
         logic.enableFastAttack();
 
-        logic.setAttackerDice(List.of(6, 6));
+        logic.setAttackerDice(List.of(SIX, SIX));
         logic.setDefencerDice(List.of(1, 1));
 
         // When
-        boolean result = logic.attack(attacker, defender, src, dst, 2);
+        final boolean result = logic.attack(attacker, defender, src, dst, 2);
 
         // Then
         assertTrue(result, "Fast attack capture should return true");
-        AttackResult res = logic.showAttackResults().orElseThrow();
-        assertEquals(List.of(6, 6), res.getAttackerDiceRolls());
+        final AttackResult res = logic.showAttackResults().orElseThrow();
+        assertEquals(List.of(SIX, SIX), res.getAttackerDiceRolls());
         assertEquals(List.of(1, 1), res.getDefenderDiceRolls());
 
         assertEquals(attacker, dst.getOwner());

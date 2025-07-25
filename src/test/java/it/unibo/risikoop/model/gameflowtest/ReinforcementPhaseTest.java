@@ -1,8 +1,6 @@
 package it.unibo.risikoop.model.gameflowtest;
 
-// package it.unibo.risikoop.model.gamephase.test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +15,8 @@ import it.unibo.risikoop.model.interfaces.Territory;
 @DisplayName("Reinforcement Phase")
 class ReinforcementPhaseTest extends AbstractGamePhaseTest {
 
+    private static final String CURRENT_PLAYER_SHOULD_REMAIN_UNCHANGED = "Current player should remain unchanged";
+
     @Override
     protected PhaseKey startPhase() {
         return PhaseKey.REINFORCEMENT;
@@ -26,68 +26,68 @@ class ReinforcementPhaseTest extends AbstractGamePhaseTest {
     @DisplayName("1) Selecting enemy territory does nothing")
     void selectingEnemyTerritoryDoesNothing() {
         // Arrange
-        Player current = tm.getCurrentPlayer();
-        Territory enemyTerr = gm.getTerritory("T3").get();
-        int beforeToPlace = current.getUnitsToPlace();
-        int beforeUnits = enemyTerr.getUnits();
+        final Player current = getTm().getCurrentPlayer();
+        final Territory enemyTerr = getGm().getTerritory("T3").get();
+        final int beforeToPlace = current.getUnitsToPlace();
+        final int beforeUnits = enemyTerr.getUnits();
 
         // Act
-        gpc.selectTerritory(enemyTerr);
+        getGpc().selectTerritory(enemyTerr);
 
         // Assert
         assertEquals(beforeToPlace, current.getUnitsToPlace(),
                 "Units to place should remain unchanged");
         assertEquals(beforeUnits, enemyTerr.getUnits(),
                 "Enemy territory units should remain unchanged");
-        assertEquals(REINFORCEMENT, gpc.getStateDescription(),
+        assertEquals(REINFORCEMENT, getGpc().getStateDescription(),
                 "State should remain Reinforcement");
-        assertEquals(current, tm.getCurrentPlayer(),
-                "Current player should remain unchanged");
+        assertEquals(current, getTm().getCurrentPlayer(),
+                CURRENT_PLAYER_SHOULD_REMAIN_UNCHANGED);
     }
 
     @Test
     @DisplayName("2) Selecting own territory places one unit")
     void selectingOwnTerritoryPlacesOneUnit() {
         // Arrange
-        Player current = tm.getCurrentPlayer();
-        Territory ownTerr = gm.getTerritory("T1").get();
-        int beforeToPlace = current.getUnitsToPlace();
-        int beforeTerrUnits = ownTerr.getUnits();
+        final Player current = getTm().getCurrentPlayer();
+        final Territory ownTerr = getGm().getTerritory("T1").get();
+        final int beforeToPlace = current.getUnitsToPlace();
+        final int beforeTerrUnits = ownTerr.getUnits();
 
         // Act
-        gpc.selectTerritory(ownTerr);
+        getGpc().selectTerritory(ownTerr);
 
         // Assert
         assertEquals(beforeToPlace - 1, current.getUnitsToPlace(),
                 "Units to place should decrement by one");
         assertEquals(beforeTerrUnits + 1, ownTerr.getUnits(),
                 "Own territory units should increment by one");
-        assertEquals(REINFORCEMENT, gpc.getStateDescription(),
+        assertEquals(REINFORCEMENT, getGpc().getStateDescription(),
                 "State should remain Reinforcement");
-        assertEquals(current, tm.getCurrentPlayer(),
-                "Current player should remain unchanged");
+        assertEquals(current, getTm().getCurrentPlayer(),
+                CURRENT_PLAYER_SHOULD_REMAIN_UNCHANGED);
     }
 
     @Test
     @DisplayName("3) After full placement, clicks do nothing")
     void afterFullPlacementClicksDoNothing() {
         // Arrange
-        Player current = tm.getCurrentPlayer();
-        Territory mine = gm.getTerritory("T1").get();
-        Territory enemy = gm.getTerritory("T3").get();
+        final Player current = getTm().getCurrentPlayer();
+        final Territory mine = getGm().getTerritory("T1").get();
+        final Territory enemy = getGm().getTerritory("T3").get();
 
         // Place all units on own territory
         while (current.getUnitsToPlace() > 0) {
-            gpc.selectTerritory(mine);
+            getGpc().selectTerritory(mine);
         }
-        int mineUnits = mine.getUnits();
-        int enemyUnits = enemy.getUnits();
+        final int mineUnits = mine.getUnits();
+        final int enemyUnits = enemy.getUnits();
 
         // Act & Assert: clicks post-placement
-        gpc.selectTerritory(mine);
+        getGpc().selectTerritory(mine);
         assertEquals(mineUnits, mine.getUnits(),
                 "Own territory units should not change after full placement");
-        gpc.selectTerritory(enemy);
+        getGpc().selectTerritory(enemy);
         assertEquals(enemyUnits, enemy.getUnits(),
                 "Enemy territory units should not change after full placement");
         assertEquals(0, current.getUnitsToPlace(),
@@ -98,37 +98,37 @@ class ReinforcementPhaseTest extends AbstractGamePhaseTest {
     @DisplayName("4) nextPhase before full placement does nothing")
     void nextPhaseBeforeFullPlacementDoesNothing() {
         // Arrange
-        Player current = tm.getCurrentPlayer();
+        final Player current = getTm().getCurrentPlayer();
 
         // Act
-        gpc.nextPhase();
+        getGpc().nextPhase();
 
         // Assert
-        assertEquals(REINFORCEMENT, gpc.getStateDescription(),
+        assertEquals(REINFORCEMENT, getGpc().getStateDescription(),
                 "State should remain Reinforcement");
-        assertEquals(current, tm.getCurrentPlayer(),
-                "Current player should remain unchanged");
+        assertEquals(current, getTm().getCurrentPlayer(),
+                CURRENT_PLAYER_SHOULD_REMAIN_UNCHANGED);
     }
 
     @Test
     @DisplayName("5) nextPhase after full placement advances to Attack phase")
     void nextPhaseAfterFullPlacementAdvancesToAttack() {
         // Arrange
-        Player current = tm.getCurrentPlayer();
-        Territory mine = gm.getTerritory("T1").get();
+        final Player current = getTm().getCurrentPlayer();
+        final Territory mine = getGm().getTerritory("T1").get();
 
         // Place all units
         while (current.getUnitsToPlace() > 0) {
-            gpc.selectTerritory(mine);
+            getGpc().selectTerritory(mine);
         }
 
         // Act
-        gpc.nextPhase();
+        getGpc().nextPhase();
 
         // Assert
-        assertEquals(ATTACK, gpc.getStateDescription(),
+        assertEquals(ATTACK, getGpc().getStateDescription(),
                 "State should advance to Attack");
-        assertEquals(current, tm.getCurrentPlayer(),
-                "Current player should remain unchanged");
+        assertEquals(current, getTm().getCurrentPlayer(),
+                CURRENT_PLAYER_SHOULD_REMAIN_UNCHANGED);
     }
 }

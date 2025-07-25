@@ -1,6 +1,6 @@
 package it.unibo.risikoop.model.gameflowtest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,19 +22,19 @@ class ComboPhaseTest extends AbstractGamePhaseTest {
      */
     private void reachComboPhase() {
         // For each player: place all initial units then performAction to advance
-        for (Player player : gm.getPlayers()) {
+        for (final Player player : getGm().getPlayers()) {
             // calculate units to place: initialLogic - territories owned
-            int unitsToPlace = initialLogic.calcPlayerUnits() -
-                    player.getTerritories().size();
-            Territory t = player.getTerritories().iterator().next();
+            final int unitsToPlace = getInitialLogic().calcPlayerUnits()
+                    - player.getTerritories().size();
+            final Territory t = player.getTerritories().iterator().next();
             for (int i = 0; i < unitsToPlace; i++) {
-                gpc.selectTerritory(t);
+                getGpc().selectTerritory(t);
             }
             // after placing all, performAction moves to next player's placement
-            gpc.performAction();
+            getGpc().performAction();
         }
         // After both players, controller should be in Combo phase
-        assertEquals(COMBO, gpc.getStateDescription(),
+        assertEquals(COMBO, getGpc().getStateDescription(),
                 "Should be in combo phase after initial reinforcement");
     }
 
@@ -43,21 +43,21 @@ class ComboPhaseTest extends AbstractGamePhaseTest {
     void noActionsAllowedExceptNextPhase() {
         // Arrange: reach Combo phase
         reachComboPhase();
-        Player current = tm.getCurrentPlayer();
+        final Player current = getTm().getCurrentPlayer();
 
         // Act & Assert: selectTerritory does nothing
-        Territory any = gm.getTerritory("T1").get();
-        gpc.selectTerritory(any);
-        assertEquals(COMBO, gpc.getStateDescription(),
+        final Territory any = getGm().getTerritory("T1").get();
+        getGpc().selectTerritory(any);
+        assertEquals(COMBO, getGpc().getStateDescription(),
                 "State should remain Combo after selectTerritory");
-        assertEquals(current, tm.getCurrentPlayer(),
+        assertEquals(current, getTm().getCurrentPlayer(),
                 "Current player should not change after selectTerritory");
 
         // Act & Assert: performAction does nothing
-        gpc.performAction();
-        assertEquals(COMBO, gpc.getStateDescription(),
+        getGpc().performAction();
+        assertEquals(COMBO, getGpc().getStateDescription(),
                 "State should remain Combo after performAction");
-        assertEquals(current, tm.getCurrentPlayer(),
+        assertEquals(current, getTm().getCurrentPlayer(),
                 "Current player should not change after performAction");
     }
 
@@ -66,15 +66,15 @@ class ComboPhaseTest extends AbstractGamePhaseTest {
     void nextPhaseAdvancesToReinforcement() {
         // Arrange: reach Combo phase
         reachComboPhase();
-        Player current = tm.getCurrentPlayer();
+        final Player current = getTm().getCurrentPlayer();
 
         // Act: advance to next phase
-        gpc.nextPhase();
+        getGpc().nextPhase();
 
         // Assert: state is Reinforcement, same player
-        assertEquals(REINFORCEMENT, gpc.getStateDescription(),
+        assertEquals(REINFORCEMENT, getGpc().getStateDescription(),
                 "State should become Reinforcement after nextPhase");
-        assertEquals(current, tm.getCurrentPlayer(),
+        assertEquals(current, getTm().getCurrentPlayer(),
                 "Current player should remain the same after nextPhase");
     }
 

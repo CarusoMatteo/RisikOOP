@@ -1,6 +1,8 @@
 package it.unibo.risikoop.model.gameflowtest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,7 @@ import it.unibo.risikoop.model.interfaces.Territory;
  */
 @DisplayName("Movement Phase")
 class MovementPhaseTest extends AbstractGamePhaseTest {
+    private static final String SELECTING_UNITS_QUANTITY = "Selecting units quantity";
 
     @Override
     protected PhaseKey startPhase() {
@@ -23,111 +26,114 @@ class MovementPhaseTest extends AbstractGamePhaseTest {
     @Test
     @DisplayName("1) Cannot select enemy territory as source")
     void cannotSelectEnemyAsSource() {
-        Player current = tm.getCurrentPlayer();
-        Territory enemy = gm.getTerritory("T3").get(); // Bob's territory
+        final Player current = getTm().getCurrentPlayer();
+        final Territory enemy = getGm().getTerritory("T3").get(); // Bob's territory
         // Attempt to select
-        assertFalse(gpc.selectTerritory(enemy), "Should not allow selecting enemy as source");
+        assertFalse(getGpc().selectTerritory(enemy), "Should not allow selecting enemy as source");
         // State remains Selecting the moving from territory
-        assertEquals("Selecting the moving from territory", gpc.getInnerStatePhaseDescription());
-        assertEquals(current, tm.getCurrentPlayer());
+        assertEquals("Selecting the moving from territory", getGpc().getInnerStatePhaseDescription());
+        assertEquals(current, getTm().getCurrentPlayer());
     }
 
     @Test
     @DisplayName("2) Selecting own territory advances to destination selection")
     void selectingOwnTerritoryAdvancesToDestination() {
-        Territory src = gm.getTerritory("T1").get(); // Alice's territory
+        final Territory src = getGm().getTerritory("T1").get(); // Alice's territory
         // Give some units so movement is possible
         src.addUnits(3);
 
-        assertTrue(gpc.selectTerritory(src), "Should allow selecting own territory as source");
-        gpc.performAction();
-        assertEquals("Selecting the moving to territory", gpc.getInnerStatePhaseDescription());
+        assertTrue(getGpc().selectTerritory(src), "Should allow selecting own territory as source");
+        getGpc().performAction();
+        assertEquals("Selecting the moving to territory", getGpc().getInnerStatePhaseDescription());
     }
 
     @Test
     @DisplayName("3) Cannot select invalid destination")
     void cannotSelectInvalidDestination() {
-        Territory src = gm.getTerritory("T1").get();
+        final Territory src = getGm().getTerritory("T1").get();
         src.addUnits(3);
-        gpc.selectTerritory(src);
-        gpc.performAction(); // now in SELECT_DESTINATION
+        getGpc().selectTerritory(src);
+        getGpc().performAction(); // now in SELECT_DESTINATION
 
-        Territory invalid = gm.getTerritory("T3").get(); // enemy, even though neighbor
-        assertFalse(gpc.selectTerritory(invalid), "Should not allow selecting enemy as destination");
+        final Territory invalid = getGm().getTerritory("T3").get(); // enemy, even though neighbor
+        assertFalse(getGpc().selectTerritory(invalid), "Should not allow selecting enemy as destination");
         // State remains
-        assertEquals("Selecting the moving to territory", gpc.getInnerStatePhaseDescription());
+        assertEquals("Selecting the moving to territory", getGpc().getInnerStatePhaseDescription());
     }
 
     @Test
     @DisplayName("4) Selecting valid destination advances to units selection")
     void selectingValidDestinationAdvancesToUnits() {
-        Territory src = gm.getTerritory("T1").get();
-        Territory dest = gm.getTerritory("T2").get(); // also Alice's and neighbor
+        final Territory src = getGm().getTerritory("T1").get();
+        final Territory dest = getGm().getTerritory("T2").get(); // also Alice's and neighbor
         src.addUnits(3);
 
-        gpc.selectTerritory(src);
-        gpc.performAction();
-        assertTrue(gpc.selectTerritory(dest), "Should allow selecting own neighbor as destination");
-        gpc.performAction();
-        assertEquals("Selecting units quantity", gpc.getInnerStatePhaseDescription());
+        getGpc().selectTerritory(src);
+        getGpc().performAction();
+        assertTrue(getGpc().selectTerritory(dest), "Should allow selecting own neighbor as destination");
+        getGpc().performAction();
+        assertEquals(SELECTING_UNITS_QUANTITY, getGpc().getInnerStatePhaseDescription());
     }
 
     @Test
     @DisplayName("5) Units selection enforces positive and <= sourceUnits-1")
     void unitsSelectionEnforced() {
-        Territory src = gm.getTerritory("T1").get();
-        Territory dest = gm.getTerritory("T2").get();
+        final Territory src = getGm().getTerritory("T1").get();
+        final Territory dest = getGm().getTerritory("T2").get();
         src.addUnits(3);
 
         // reach units selection
-        gpc.selectTerritory(src);
-        gpc.performAction();
-        gpc.selectTerritory(dest);
-        gpc.performAction();
-        assertEquals("Selecting units quantity", gpc.getInnerStatePhaseDescription());
+        getGpc().selectTerritory(src);
+        getGpc().performAction();
+        getGpc().selectTerritory(dest);
+        getGpc().performAction();
+        assertEquals(SELECTING_UNITS_QUANTITY, getGpc().getInnerStatePhaseDescription());
 
         // invalid: zero
-        gpc.setUnitsToUse(0);
-        gpc.performAction();
-        assertEquals("Selecting units quantity", gpc.getInnerStatePhaseDescription());
+        getGpc().setUnitsToUse(0);
+        getGpc().performAction();
+        assertEquals(SELECTING_UNITS_QUANTITY, getGpc().getInnerStatePhaseDescription());
 
         // invalid: >= srcUnits
-        gpc.setUnitsToUse(src.getUnits());
-        gpc.performAction();
-        assertEquals("Selecting units quantity", gpc.getInnerStatePhaseDescription());
+        getGpc().setUnitsToUse(src.getUnits());
+        getGpc().performAction();
+        assertEquals(SELECTING_UNITS_QUANTITY, getGpc().getInnerStatePhaseDescription());
 
         // valid
-        gpc.setUnitsToUse(2);
-        gpc.performAction();
-        assertEquals("Executing the movement", gpc.getInnerStatePhaseDescription());
+        getGpc().setUnitsToUse(2);
+        getGpc().performAction();
+        assertEquals("Executing the movement", getGpc().getInnerStatePhaseDescription());
     }
 
     @Test
     @DisplayName("6) Executing movement transfers units and allows loop or end phase")
     void executingMovementTransfersUnitsAndAllowsLoop() {
-        Territory src = gm.getTerritory("T1").get();
-        Territory dest = gm.getTerritory("T2").get();
+        final Territory src = getGm().getTerritory("T1").get();
+        final Territory dest = getGm().getTerritory("T2").get();
         src.addUnits(3);
 
         // reach execute
-        gpc.selectTerritory(src); gpc.performAction();
-        gpc.selectTerritory(dest); gpc.performAction();
-        gpc.setUnitsToUse(2); gpc.performAction();
-        assertEquals("Executing the movement", gpc.getInnerStatePhaseDescription());
+        getGpc().selectTerritory(src);
+        getGpc().performAction();
+        getGpc().selectTerritory(dest);
+        getGpc().performAction();
+        getGpc().setUnitsToUse(2);
+        getGpc().performAction();
+        assertEquals("Executing the movement", getGpc().getInnerStatePhaseDescription());
 
-        int srcBefore = src.getUnits();
-        int destBefore = dest.getUnits();
+        final int srcBefore = src.getUnits();
+        final int destBefore = dest.getUnits();
 
         // performAction should execute movement
-        gpc.performAction();
+        getGpc().performAction();
         assertEquals(srcBefore - 2, src.getUnits());
         assertEquals(destBefore + 2, dest.getUnits());
 
         // After movement, still in Executing the movement (allow more moves)
-        assertEquals("Executing the movement", gpc.getInnerStatePhaseDescription());
+        assertEquals("Executing the movement", getGpc().getInnerStatePhaseDescription());
 
         // Next overall phase should be advanced via nextPhase()
-        gpc.nextPhase();
-        assertEquals(COMBO, gpc.getStateDescription());
+        getGpc().nextPhase();
+        assertEquals(COMBO, getGpc().getStateDescription());
     }
 }

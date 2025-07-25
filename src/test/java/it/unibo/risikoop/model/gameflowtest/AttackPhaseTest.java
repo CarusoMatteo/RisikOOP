@@ -1,6 +1,8 @@
 package it.unibo.risikoop.model.gameflowtest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -17,6 +19,8 @@ import it.unibo.risikoop.model.interfaces.Territory;
  */
 @DisplayName("Attack Phase")
 class AttackPhaseTest extends AbstractGamePhaseTest {
+    private static final String SELECTING_UNITS_QUANTITY = "Selecting units quantity";
+    private static final int ATTACKER_DICE_VALUE = 6;
 
     @Override
     protected PhaseKey startPhase() {
@@ -27,101 +31,102 @@ class AttackPhaseTest extends AbstractGamePhaseTest {
     @DisplayName("1) Only valid attacker territories can be selected")
     void onlyValidAttackerCanBeSelected() {
         // default: all territories units=0
-        Territory t1 = gm.getTerritory("T1").get(); // Alice's
+        final Territory t1 = getGm().getTerritory("T1").get(); // Alice's
         // invalid because units<2
-        assertFalse(gpc.selectTerritory(t1));
-        assertEquals("Selecting attacker", gpc.getInnerStatePhaseDescription());
+        assertFalse(getGpc().selectTerritory(t1));
+        assertEquals("Selecting attacker", getGpc().getInnerStatePhaseDescription());
 
         // give enough units but no enemy neighbor? map fully connected => ok
-        Territory valid = t1;
+        final Territory valid = t1;
         t1.addUnits(1); // total units=2
-        assertTrue(gpc.selectTerritory(valid), "Should allow selecting attacker with >=2 units and enemy neighbor");
+        assertTrue(getGpc().selectTerritory(valid),
+                "Should allow selecting attacker with >=2 units and enemy neighbor");
 
         // performAction without selection does nothing? internalState SELECT_SRC
         // but since selected, performAction should advance
-        gpc.performAction();
-        assertEquals("Selecting defender", gpc.getInnerStatePhaseDescription());
+        getGpc().performAction();
+        assertEquals("Selecting defender", getGpc().getInnerStatePhaseDescription());
     }
 
     @Test
     @DisplayName("2) Only valid defender territories can be selected after attacker")
     void onlyValidDefenderCanBeSelected() {
         // prepare valid attacker
-        Territory att = gm.getTerritory("T1").get();
+        final Territory att = getGm().getTerritory("T1").get();
         att.addUnits(2);
-        assertTrue(gpc.selectTerritory(att));
-        gpc.performAction(); // to SELECT_DST
-        assertEquals("Selecting defender", gpc.getInnerStatePhaseDescription());
+        assertTrue(getGpc().selectTerritory(att));
+        getGpc().performAction(); // to SELECT_DST
+        assertEquals("Selecting defender", getGpc().getInnerStatePhaseDescription());
 
         // invalid: select own territory
-        Territory own = gm.getTerritory("T2").get();
+        final Territory own = getGm().getTerritory("T2").get();
         own.addUnits(2);
-        assertFalse(gpc.selectTerritory(own));
-        gpc.performAction();
-        assertEquals("Selecting defender", gpc.getInnerStatePhaseDescription());
+        assertFalse(getGpc().selectTerritory(own));
+        getGpc().performAction();
+        assertEquals("Selecting defender", getGpc().getInnerStatePhaseDescription());
 
         // valid: select enemy neighbor
-        Territory def = gm.getTerritory("T3").get();
-        assertTrue(gpc.selectTerritory(def));
-        gpc.performAction();
-        assertEquals("Selecting units quantity", gpc.getInnerStatePhaseDescription());
+        final Territory def = getGm().getTerritory("T3").get();
+        assertTrue(getGpc().selectTerritory(def));
+        getGpc().performAction();
+        assertEquals(SELECTING_UNITS_QUANTITY, getGpc().getInnerStatePhaseDescription());
     }
 
     @Test
     @DisplayName("3) Units selection conditions enforced")
     void unitsSelectionEnforced() {
         // reach SELECT_UNITS_QUANTITY
-        Territory att = gm.getTerritory("T1").get();
+        final Territory att = getGm().getTerritory("T1").get();
         att.addUnits(3);
-        assertTrue(gpc.selectTerritory(att));
-        gpc.performAction();
-        Territory def = gm.getTerritory("T3").get();
-        assertTrue(gpc.selectTerritory(def));
-        gpc.performAction();
-        assertEquals("Selecting units quantity", gpc.getInnerStatePhaseDescription());
+        assertTrue(getGpc().selectTerritory(att));
+        getGpc().performAction();
+        final Territory def = getGm().getTerritory("T3").get();
+        assertTrue(getGpc().selectTerritory(def));
+        getGpc().performAction();
+        assertEquals(SELECTING_UNITS_QUANTITY, getGpc().getInnerStatePhaseDescription());
 
         // invalid: zero
-        gpc.setUnitsToUse(0);
-        gpc.performAction();
-        assertEquals("Selecting units quantity", gpc.getInnerStatePhaseDescription());
+        getGpc().setUnitsToUse(0);
+        getGpc().performAction();
+        assertEquals(SELECTING_UNITS_QUANTITY, getGpc().getInnerStatePhaseDescription());
 
         // invalid: >= attackerUnits
-        gpc.setUnitsToUse(att.getUnits());
-        gpc.performAction();
-        assertEquals("Selecting units quantity", gpc.getInnerStatePhaseDescription());
+        getGpc().setUnitsToUse(att.getUnits());
+        getGpc().performAction();
+        assertEquals(SELECTING_UNITS_QUANTITY, getGpc().getInnerStatePhaseDescription());
 
         // valid
-        gpc.setUnitsToUse(2);
-        gpc.performAction();
-        assertEquals("Executing the attack", gpc.getInnerStatePhaseDescription());
+        getGpc().setUnitsToUse(2);
+        getGpc().performAction();
+        assertEquals("Executing the attack", getGpc().getInnerStatePhaseDescription());
     }
 
     @Test
     @DisplayName("4) After execution, can loop back to attacker selection")
     void afterExecutionCanLoopBack() {
         // prepare phase until EXECUTE
-        Territory att = gm.getTerritory("T1").get();
+        final Territory att = getGm().getTerritory("T1").get();
         att.addUnits(3);
-        assertTrue(gpc.selectTerritory(att));
-        gpc.performAction();
-        Territory def = gm.getTerritory("T3").get();
-        assertTrue(gpc.selectTerritory(def));
-        gpc.performAction();
-        gpc.setUnitsToUse(1);
-        gpc.performAction();
-        assertEquals("Executing the attack", gpc.getInnerStatePhaseDescription());
+        assertTrue(getGpc().selectTerritory(att));
+        getGpc().performAction();
+        final Territory def = getGm().getTerritory("T3").get();
+        assertTrue(getGpc().selectTerritory(def));
+        getGpc().performAction();
+        getGpc().setUnitsToUse(1);
+        getGpc().performAction();
+        assertEquals("Executing the attack", getGpc().getInnerStatePhaseDescription());
 
         // stub dice results for deterministic attack
-        AttackPhase phase = (AttackPhase) ((GamePhaseControllerImpl) gpc).getCurrentPhase();
-        phase.setAttackerDice(List.of(6));
+        final AttackPhase phase = (AttackPhase) ((GamePhaseControllerImpl) getGpc()).getCurrentPhase();
+        phase.setAttackerDice(List.of(ATTACKER_DICE_VALUE));
         phase.setDefencerDice(List.of(1));
 
         // performAction executes attack and should reset to SELECT_SRC
-        gpc.performAction();
-        assertEquals("Selecting attacker", gpc.getInnerStatePhaseDescription());
+        getGpc().performAction();
+        assertEquals("Selecting attacker", getGpc().getInnerStatePhaseDescription());
 
         // chack tah can skip attack state
-        gpc.nextPhase();
-        assertEquals("Fase di gestione spostamenti", gpc.getStateDescription());
+        getGpc().nextPhase();
+        assertEquals("Fase di gestione spostamenti", getGpc().getStateDescription());
     }
 }

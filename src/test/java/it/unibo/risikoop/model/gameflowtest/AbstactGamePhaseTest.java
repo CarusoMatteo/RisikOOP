@@ -35,12 +35,36 @@ abstract class AbstractGamePhaseTest {
     protected static final String ATTACK = "Fase di gestione attacchi";
     protected static final String MOVEMENT = "Fase di gestione spostamenti";
 
-    protected GameManager gm;
-    protected TurnManager tm;
-    protected GamePhaseController gpc;
-    protected LogicCalcInitialUnitsImpl initialLogic;
-    protected LogicReinforcementCalculatorImpl reinforcementLogic;
-    protected ObjectiveCardFactory objectiveCardFactory;
+    private GameManager gm;
+    private TurnManager tm;
+    private GamePhaseController gpc;
+    private LogicCalcInitialUnitsImpl initialLogic;
+    private LogicReinforcementCalculatorImpl reinforcementLogic;
+    private ObjectiveCardFactory objectiveCardFactory;
+
+    protected GameManager getGm() {
+        return this.gm;
+    }
+
+    protected TurnManager getTm() {
+        return this.tm;
+    }
+
+    protected GamePhaseController getGpc() {
+        return this.gpc;
+    }
+
+    protected LogicCalcInitialUnitsImpl getInitialLogic() {
+        return this.initialLogic;
+    }
+
+    protected LogicReinforcementCalculatorImpl getReinforcementLogic() {
+        return this.reinforcementLogic;
+    }
+
+    protected ObjectiveCardFactory getObjectiveCardFactory() {
+        return this.objectiveCardFactory;
+    }
 
     /**
      * Template method: subclasses override to specify starting phase.
@@ -59,24 +83,24 @@ abstract class AbstractGamePhaseTest {
         // assegno le carte obbiettivo
 
         gm.getPlayers().forEach(player -> player.setObjectiveCard(
-            new KillPlayerOrConquer24Builder(gm, player).createCard()
-        ));
+                new KillPlayerOrConquer24Builder(gm, player).createCard()));
 
         // 2) Build a fully-connected map of four territories
-        Graph map = new MultiGraph("testMap", false, true);
+        final Graph map = new MultiGraph("testMap", false, true);
         TERRITORY_NAMES.forEach(map::addNode);
         int edgeId = 0;
         for (int i = 0; i < TERRITORY_NAMES.size(); i++) {
             for (int j = 0; j < TERRITORY_NAMES.size(); j++) {
-                if (i == j)
+                if (i == j) {
                     continue;
+                }
                 map.addEdge("e" + (edgeId++), TERRITORY_NAMES.get(i), TERRITORY_NAMES.get(j), true);
             }
         }
         gm.setWorldMap(map);
 
         // 3) Assign two territories to each player and set ownership
-        var players = gm.getPlayers();
+        final var players = gm.getPlayers();
         players.get(0).addTerritory(gm.getTerritory("T1").get());
         players.get(0).addTerritory(gm.getTerritory("T2").get());
         players.get(1).addTerritory(gm.getTerritory("T3").get());
@@ -85,7 +109,6 @@ abstract class AbstractGamePhaseTest {
         gm.getTerritory("T2").get().setOwner(players.get(0));
         gm.getTerritory("T3").get().setOwner(players.get(1));
         gm.getTerritory("T4").get().setOwner(players.get(1));
-        
 
         // 4) Initialize TurnManager
         tm = new TurnManagerImpl(players);
@@ -95,7 +118,8 @@ abstract class AbstractGamePhaseTest {
                 List.of(), // no views needed for unit tests
                 tm,
                 gm,
-                () -> {}, 
+                () -> {
+                },
                 startPhase());
 
         // 6) Prepare logic calculators for assertions

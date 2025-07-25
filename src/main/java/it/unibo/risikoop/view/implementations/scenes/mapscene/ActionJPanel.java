@@ -31,7 +31,7 @@ public final class ActionJPanel extends JPanel {
     private final JLabel stateLabel;
     private final JTextField unitsTextField = new JTextField();
     private final JPanel statePanel = labelButton();
-    private final Controller controller;
+    private final transient Controller controller;
 
     /**
      * constructor.

@@ -26,7 +26,7 @@ public final class MapPreviewPanel extends JPanel {
             """;
     private final transient Controller controller;
     private JPanel panel;
-    private SwingViewer viewer;
+    private transient SwingViewer viewer;
 
     /**
      * 

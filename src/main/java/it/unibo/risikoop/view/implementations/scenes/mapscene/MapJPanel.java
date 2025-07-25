@@ -95,11 +95,13 @@ public final class MapJPanel extends JPanel implements ViewerListener {
 
     // Thread.sleep is used to control the loop timing,
     // we have no logger in this project.
-    @SuppressWarnings({"PMD.EmptyCatchBlock", "checkstyle:EmptyCatchBlock"})
+    @SuppressWarnings({ "PMD.EmptyCatchBlock", "checkstyle:EmptyCatchBlock" })
     private void sleep(final int millis) {
         try {
             Thread.sleep(millis);
         } catch (final InterruptedException e) {
+            // Thread.sleep is used to control the loop timing,
+            // we have no logger in this project.
         }
     }
 
