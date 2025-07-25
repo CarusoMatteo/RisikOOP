@@ -3,6 +3,8 @@ package it.unibo.risikoop.model.cards;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +40,7 @@ final class TerritoryCardTest {
     void testTerritoryCard() {
         final TerritoryCard territoryCard = new TerritoryCardImpl(type, territory);
         assertEquals(type, territoryCard.getType());
-        assertEquals(owner, territoryCard.getOwner());
+        assertEquals(Optional.of(owner), territoryCard.getOwner());
         assertEquals(territory, territoryCard.getAssociatedTerritory());
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -50,7 +52,7 @@ final class TerritoryCardTest {
     void testWildCard() {
         final WildCard territoryCard = new WildCardImpl();
         assertEquals(UnitType.WILD, territoryCard.getType());
-        assertEquals(owner, territoryCard.getOwner());
+        assertEquals(Optional.of(owner), territoryCard.getOwner());
     }
 
 }

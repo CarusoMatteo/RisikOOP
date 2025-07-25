@@ -26,7 +26,7 @@ class LogicAttackImplTest {
     private static final int FIVE = 5;
     private static final int SIX = 6;
     private static final int NINE = 9;
-    private GameManager gm;
+    // private GameManager gm;
     private Player attacker;
     private Player defender;
     private Territory src;
@@ -36,7 +36,7 @@ class LogicAttackImplTest {
     @BeforeEach
     void setUp() {
         // Create a minimal world with two connected territories
-        gm = new GameManagerImpl();
+        final GameManager gm = new GameManagerImpl();
         gm.addPlayer("Alice", new Color(0, 0, 0));
         gm.addPlayer("Bob", new Color(1, 0, 0));
         attacker = gm.getPlayers().get(0);
