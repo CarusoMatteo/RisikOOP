@@ -7,18 +7,18 @@ import org.graphstream.graph.implementations.MultiGraph;
 import org.junit.jupiter.api.BeforeEach;
 
 import it.unibo.risikoop.controller.implementations.GamePhaseControllerImpl;
-import it.unibo.risikoop.controller.interfaces.GamePhaseController;
-import it.unibo.risikoop.controller.interfaces.GamePhaseController.PhaseKey;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicCalcInitialUnitsImpl;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController;
+import it.unibo.risikoop.controller.interfaces.GamePhaseController.PhaseKey;
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.implementations.GameManagerImpl;
 import it.unibo.risikoop.model.implementations.ObjectiveCardFactoryImpl;
+import it.unibo.risikoop.model.implementations.TurnManagerImpl;
+import it.unibo.risikoop.model.implementations.gamecards.objectivecards.KillPlayerOrConquer24Builder;
 import it.unibo.risikoop.model.interfaces.GameManager;
 import it.unibo.risikoop.model.interfaces.ObjectiveCardFactory;
 import it.unibo.risikoop.model.interfaces.TurnManager;
-import it.unibo.risikoop.model.implementations.TurnManagerImpl;
-import it.unibo.risikoop.model.implementations.gamecards.objectivecards.KillPlayerOrConquer24Builder;
 
 /**
  * Base test fixture for all GameFlow (GamePhaseController) tests.
@@ -68,6 +68,8 @@ abstract class AbstractGamePhaseTest {
 
     /**
      * Template method: subclasses override to specify starting phase.
+     * 
+     * @return the PhaseKey for the start phase
      */
     protected abstract PhaseKey startPhase();
 

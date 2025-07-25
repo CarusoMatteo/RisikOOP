@@ -11,9 +11,17 @@ import it.unibo.risikoop.model.interfaces.Territory;
  * 
  */
 public final class AttackTest implements LogicAttack {
-
+    /**
+     * enum for the states of the player.
+     */
     public enum PlayerType {
+        /**
+         * enum for the attacker states of the player.
+         */
         ATTACKER,
+        /**
+         * enum for the defender state of the player.
+         */
         DEFENDER
     }
 
@@ -48,6 +56,10 @@ public final class AttackTest implements LogicAttack {
         return Optional.empty();
     }
 
+    /**
+     * 
+     * @param type
+     */
     public void selectWin(final PlayerType type) {
         playerType = type;
     }

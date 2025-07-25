@@ -134,7 +134,12 @@ class WorldTest {
         controller.setDefaultMap();
         final Optional<Continent> africa = gameManager.getContinent("Africa");
         assertTrue(africa.isPresent());
-        assertEquals(Set.of("North-Africa", "Egypt", "Congo", "South-Africa", "Est-Africa"),
+        assertEquals(Set.of("North Africa",
+                        "East Africa",
+                        "Egypt",
+                        "Congo",
+                        "South Africa",
+                        "Madagascar"),
                 africa.get().getTerritories().stream().map(Territory::getName)
                         .collect(Collectors.toSet()));
 

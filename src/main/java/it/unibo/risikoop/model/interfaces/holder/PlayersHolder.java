@@ -5,6 +5,9 @@ import java.util.List;
 import it.unibo.risikoop.model.implementations.Color;
 import it.unibo.risikoop.model.interfaces.Player;
 
+/**
+ * An interface for holding a list of players.
+ */
 public interface PlayersHolder {
     /**
      * Add a new player if not already present.

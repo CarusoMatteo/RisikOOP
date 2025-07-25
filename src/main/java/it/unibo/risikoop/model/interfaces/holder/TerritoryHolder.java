@@ -4,6 +4,10 @@ import java.util.Collection;
 
 import it.unibo.risikoop.model.interfaces.Territory;
 
+/**
+ * * An interface for holding a list of territory.
+ * 
+ */
 public interface TerritoryHolder {
     /**
      * Gives a territory to the player.
