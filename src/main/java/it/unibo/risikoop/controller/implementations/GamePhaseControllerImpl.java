@@ -1,10 +1,12 @@
 package it.unibo.risikoop.controller.implementations;
 
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.implementations.gamephase.AttackPhase;
 import it.unibo.risikoop.model.implementations.gamephase.ComboPhaseImpl;
@@ -60,12 +62,13 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
      * @param onGameOver the {@link Runnable} descriving the method to call when
      *                   some player wins
      */
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public GamePhaseControllerImpl(final List<RisikoView> viewList, final TurnManager tm, final GameManager gm,
             final Runnable onGameOver) {
         this.turnManager = tm;
         this.gm = gm;
         this.phases = new EnumMap<>(PhaseKey.class);
-        this.viewList = viewList;
+        this.viewList = Collections.unmodifiableList(viewList);
         this.onGameOver = onGameOver;
 
         phases.put(PhaseKey.INITIAL_REINFORCEMENT, new InitialReinforcementPhase(this, gm));
@@ -136,7 +139,8 @@ public final class GamePhaseControllerImpl implements GamePhaseController {
 
     private void checkWin() {
         if (turnManager.getCurrentPlayer().getObjectiveCard().isAchieved()) {
-            // System.out.println(turnManager.getCurrentPlayer().getName() + " has won the game!");
+            // System.out.println(turnManager.getCurrentPlayer().getName() + " has won the
+            // game!");
             onGameOver.run();
         }
     }

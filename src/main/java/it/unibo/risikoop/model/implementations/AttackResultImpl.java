@@ -1,5 +1,6 @@
 package it.unibo.risikoop.model.implementations;
 
+import java.util.Collections;
 import java.util.List;
 
 import it.unibo.risikoop.model.interfaces.AttackResult;
@@ -21,18 +22,18 @@ public final class AttackResultImpl implements AttackResult {
      * @param defenderDiceRolls
      */
     public AttackResultImpl(final List<Integer> attackerDiceRolls, final List<Integer> defenderDiceRolls) {
-        this.attackerDiceRolls = attackerDiceRolls;
-        this.defenderDiceRolls = defenderDiceRolls;
+        this.attackerDiceRolls = Collections.unmodifiableList(attackerDiceRolls);
+        this.defenderDiceRolls = Collections.unmodifiableList(defenderDiceRolls);
     }
 
     @Override
     public List<Integer> getAttackerDiceRolls() {
-        return attackerDiceRolls;
+        return List.copyOf(attackerDiceRolls);
     }
 
     @Override
     public List<Integer> getDefenderDiceRolls() {
-        return defenderDiceRolls;
+        return List.copyOf(defenderDiceRolls);
     }
 
     @Override

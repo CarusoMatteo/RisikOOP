@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.Controller;
 
 /**
@@ -28,7 +29,7 @@ public final class GameOverPanel extends JPanel {
         add(new WinnerButtonsPanel(controller), BorderLayout.PAGE_END);
     }
 
-    private final class WinnerButtonsPanel extends JPanel {
+    private static final class WinnerButtonsPanel extends JPanel {
         private static final long serialVersionUID = 1L;
 
         private final JButton playAgainButton = new JButton("Play Again");
@@ -41,7 +42,7 @@ public final class GameOverPanel extends JPanel {
             playAgainButton.addActionListener(i -> controller.start());
             closeButton.addActionListener(new ActionListener() {
                 @Override
-                @SuppressWarnings("DM_EXIT")
+                @SuppressFBWarnings("DM_EXIT")
                 public void actionPerformed(final ActionEvent i) {
                     System.exit(0);
                 }

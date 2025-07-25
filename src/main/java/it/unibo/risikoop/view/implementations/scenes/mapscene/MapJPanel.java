@@ -12,6 +12,7 @@ import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.model.implementations.Color;
 
@@ -45,6 +46,7 @@ public final class MapJPanel extends JPanel implements ViewerListener {
      *                   territory for updating the state labels
      * @param controller The controller to retrieve graph data and unit count.
      */
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public MapJPanel(final ActionJPanel actonPanel, final Controller controller) {
         this.ap = actonPanel;
         this.controller = controller;

@@ -65,7 +65,7 @@ public final class AttackPhase
      * @param gm  the {@link GameManager}
      * @param gpc the {@link GamePhaseController}
      */
-
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public AttackPhase(final GamePhaseController gpc, final GameManager gm) {
         this.gamePhaseController = gpc;
         this.gameManager = gm;
@@ -178,6 +178,7 @@ public final class AttackPhase
      * 
      * @return a {@link LogicAttack} instance
      */
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     public LogicAttack getAttackLogic() {
         return logic;
     }

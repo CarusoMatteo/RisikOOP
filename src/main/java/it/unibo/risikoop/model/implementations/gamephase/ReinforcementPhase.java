@@ -1,5 +1,6 @@
 package it.unibo.risikoop.model.implementations.gamephase;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.implementations.logicgame.LogicReinforcementCalculatorImpl;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.controller.interfaces.logicgame.LogicReinforcementCalculator;
@@ -33,6 +34,7 @@ public final class ReinforcementPhase implements GamePhase, PhaseDescribable, Ph
      * @param gm  the game manager
      * @param gpc the game phase manager
      */
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public ReinforcementPhase(final GameManager gm, final GamePhaseController gpc) {
         this.gpc = gpc;
         this.turnManager = gpc.getTurnManager();

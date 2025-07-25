@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.controller.interfaces.GamePhaseController;
 import it.unibo.risikoop.model.interfaces.cards.GameCard;
@@ -33,7 +34,8 @@ public final class CardsListJPanel extends JPanel {
     private final JButton playComboButton;
     private final JScrollPane scrollPane;
     private final CardEntryListJPanel cardEntryListPanel;
-    private final Set<GameCard> selectedCards = new HashSet<>();
+    @SuppressFBWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private final transient Set<GameCard> selectedCards = new HashSet<>();
 
     /**
      * Constructor for CardsListJPanel.
@@ -45,7 +47,7 @@ public final class CardsListJPanel extends JPanel {
      *                        selected cards.
      *                        Suppressed because the comboButton is not changed.
      */
-    @SuppressWarnings("EI_EXPOSE_REP")
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     public CardsListJPanel(final List<GameCard> cards,
             final Controller controller,
             final JButton playComboButton) {

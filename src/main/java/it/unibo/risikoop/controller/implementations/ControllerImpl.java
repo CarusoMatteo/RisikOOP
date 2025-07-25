@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.risikoop.controller.interfaces.CardGameController;
 import it.unibo.risikoop.controller.interfaces.Controller;
 import it.unibo.risikoop.controller.interfaces.DataAddingController;
@@ -54,6 +55,10 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void beginToPlay() {
+        if (gameManager == null) {
+            throw new IllegalStateException("GameManager is not initialized.");
+        }
+
         assignTerritory();
         turnManager = new TurnManagerImpl(gameManager.getPlayers());
         gamePhaseController = new GamePhaseControllerImpl(viewList, turnManager, gameManager, this::gameOver);
@@ -72,6 +77,10 @@ public final class ControllerImpl implements Controller {
     }
 
     private void assignTerritory() {
+        if (gameManager == null) {
+            throw new IllegalStateException("GameManager is not initialized.");
+        }
+
         final var players = gameManager.getPlayers();
         final List<Territory> territories = new ArrayList<>(gameManager.getTerritories().stream().toList());
         Collections.shuffle(territories);
@@ -87,6 +96,7 @@ public final class ControllerImpl implements Controller {
     }
 
     @Override
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     public GamePhaseController getGamePhaseController() {
         return gamePhaseController;
     }

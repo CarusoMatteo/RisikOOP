@@ -28,7 +28,7 @@ public final class GuidePanel extends JPanel {
         });
     }
 
-    private final class ContinentDisplaying extends JPanel {
+    private static final class ContinentDisplaying extends JPanel {
         private static final long serialVersionUID = 1L;
 
         private ContinentDisplaying(final Continent continent) {
