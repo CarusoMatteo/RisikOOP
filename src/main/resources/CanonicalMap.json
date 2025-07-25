@@ -119,7 +119,7 @@
         ["Siberia", "Chita"],
         ["Siberia", "Mongolia"],
         ["Siberia", "China"],
-        ["Siberia", "Urlas"],
+        ["Siberia", "Urals"],
         ["Urals", "Siberia"],
         ["Urals", "China"],
         ["Urals", "Afghanistan"],
@@ -176,7 +176,7 @@
         "Africa": 3,
         "Asia": 7,
         "Europe": 5,
-        "Australia": 2
+        "Oceania": 2
     },
     "appartenenze": {
         "North America": [
