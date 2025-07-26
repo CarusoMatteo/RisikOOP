@@ -87,10 +87,12 @@ Ora inizia il game-loop del gioco, che si ripete fino a quando un giocatore non 
 \section{Architetura}
 
 L'architettura del software è basata su un pattern Model-View-Controller (MVC).
-L'entry point dell'applicazione è il \texttt{Controller}, che si occupa di avviare il model, che eredita da \texttt{GameManager}, e le view registrate, che ereditano da \texttt{RisikoView}.
-Siccome questo gioco è un gioco abbastanza modulare, si è ritenuta utile la realizzazione di una macchina a stati finiti.
-Una macchina a stati è una macchina che suddivide la logica del gioco in tante piccole logiche dette stati. In un determinato istante del gioco, solo uno stato può essere eseguito alla volta, se si vuole eseguire un'altro stato si deve per forza cambiare e rimpiazzare lo stato vecchio con uno nuovo.
-Il vantaggio di questo approccio è che ogni stato è appunto una logica diversa scollegata dalle altre e quindi molto più maneggiabie, inoltre da uno stato si può passare solo ad una cerchia ristretta di altri stati.
+L'entry point dell'applicazione è il \texttt{Controller}, che si occupa di avviare il model, che implementa \texttt{GameManager}, e le view registrate, che implementano \texttt{RisikoView}.
+La separazione permette di aggiungere facilmente altre \texttt{RisikoView} se necessario.
+
+Le fasi di gioco sono state modellate con una \begin{itshape}State Machine\end{itshape}, un paradigma di programmazione che permette di dividere il sistema in varie sotto-fasi, detti anche \begin{itshape}stati\end{itshape}. Ogni fase ha la prporia logica diversa da quella di tutte le altre. Nel programma si risconoscono perché implementano \texttt{GamePhase}.
+Questo paradigma favorisce il \begin{itshape}Single Responsibility Principle\end{itshape}, siccome ogni fase è responabile internamente della propria gestione.
+Un'altro vantaggio risiede nella chiarezza con qui descrive in che punto dell'esecuzione si trova l'applicazione, siccome può essere in una sola fase.
 % TODO: UML delle interfacce per tutti i controller, il game manager e la risiko view.
 
 \section{Design dettagliato}
