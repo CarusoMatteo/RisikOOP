@@ -88,7 +88,7 @@ Ora inizia il game-loop del gioco, che si ripete fino a quando un giocatore non 
 
 L'architettura del software è basata su un pattern Model-View-Controller (MVC).
 L'entry point dell'applicazione è il \texttt{Controller}, che si occupa di avviare il model, che implementa \texttt{GameManager}, e le view registrate, che implementano \texttt{RisikoView}.
-La separazione permette di aggiungere facilmente altre \texttt{RisikoView} se necessario.
+La separazione permette di aggiungere facilmente altre \texttt{RisikoView} se necessario, senza compromettere la logica del model e del controller.
 
 Le fasi di gioco sono state modellate con una \begin{itshape}State Machine\end{itshape}, un paradigma di programmazione che permette di dividere il sistema in varie sotto-fasi, detti anche \begin{itshape}stati\end{itshape}. Ogni fase ha la prporia logica diversa da quella di tutte le altre. Nel programma si risconoscono perché implementano \texttt{GamePhase}.
 Questo paradigma favorisce il \begin{itshape}Single Responsibility Principle\end{itshape}, siccome ogni fase è responabile internamente della propria gestione.

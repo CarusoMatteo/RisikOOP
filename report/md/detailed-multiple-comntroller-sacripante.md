@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
 direction TB
     class Controller {
@@ -27,4 +28,4 @@ direction TB
 
     Controller --* DataRetrieveController
     Controller --* DataAddingController
-
+```
