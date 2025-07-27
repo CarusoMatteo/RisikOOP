@@ -123,7 +123,44 @@ Qui è possibile usare il pattern \begin{itshape}Template Method\end{itshape}, d
 Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}. Le classi che estendono questa classe astratta sono \texttt{AllCannonEqualCombo}, \texttt{AllJackEqualCombo} e \texttt{AllKnightEqualCombo}, che implementano l'operazione primitiva sopracitata.
 
 \subsection{Matteo Ceccarelli}
-% TODO: Design individuale da fare.
+\subsubsection{Gestione del mazzo di carte obiettivo}
+\paragraph{Problema}
+Non essendo la mappa fissa, è necessario realizzare delle carte obbiettivo che si adattassero dinamicamente alla configurazione della mappa selezioanta.
+\paragraph{Soluzione}
+Ho usato il pattern \textit{Template method}.
+Creo una classe astratta \texttt{AbstractObjectiveCardBuilder} che incorpora la logica di creazione delle carte espondo i metodo astratti primitivi \texttt{buildDescription} e \texttt{buildSpecification}, che genera la carta mediante il metodo template \texttt{createCard}. Ho preferito l'utilizzo del \textit{template method} rispetto al \textit{pattern startegi} perchè mi permetteva meglio di isolare nelle classi che ereditano la \texttt{AbstractObjectiveCardBuilder} unicamente gli elementi che differiscono tra i le varie tipologie, incorparando gli aspetti comuni legati alla loro creazione.
+
+\subsubsection{Composizione delle condizioni di vittoria con Specification Pattern}
+\paragraph{Problema}
+Avere un modo semplice, espressiovo e componibile per definire e controllare la condizzione di vittoria delle carte obbiettivo, che spesso condividono aspetti di logiche comuni, come ad esempio conquinsta X territorio, o conquista almeno N territori con almeno M truppe.
+\paragraph{Soluzione}
+Lo specification pattern mi permette di rispondere a questa esegenza e, mediante la combinazione logica di tante piccole condizioni atomiche, mi consente di realizzare espressioni logiche più o meno complesse. La parte centrale del pattern risiede nell'interfaccia funzionale \texttt{Specification} che espone i metodi \texttt{and}, \texttt{or}, \texttt{not} repsonsabile della composizione delle varie specifiche.
+%```java
+%@FunctionalInterface
+%public interface Specification<T> {
+%    boolean isSatisfiedBy(T candidate);
+%
+%    default Specification<T> and(Specification<T> other) { … }
+%    default Specification<T> or(Specification<T> other) { … }
+%    default Specification<T> not() { … }
+%}
+%```
+%
+I vantaggi introdotti da questo pattern mi hanno portato a preferire questa soluzione, all' alternative di Strategy che non si presatava al riutilizzo di logiche comuni, come ad esempio conquista N territori.
+La scelta dello Specification Pattern si è rivelata dunque la più adatta per astrarre la logica di verifica dell'obiettivo dalla costruzione della carta, massimizzando il riuso e mantenendo il design pulito e modulare.
+
+\subsubsection{Gestione delle fasi di gioco}
+\paragraph{Problema}
+RisikOOP è un gioco a turni in cui, in base alla fase corrente, gli stessi eventi della GUI (ad es. \texttt{selectTerritory} o \texttt{performAction}) devono produrre comportamenti diversi.
+\paragraph{Soluzione}
+Si è adottato il pattern \textit{Strategy}, modellando ogni fase di gioco come una strategia indipendente, aderente all'interfaccia base \texttt{GamePhase}.
+%```java
+%   public interface GamePhase {
+%     boolean selectTerritory(Territory t);
+%     boolean isComplete();
+%   }
+%```
+In Più dato che non tutti gli eventi interessano ogni fase del gioco si è scelto di creare tante piccole interfacce ogniuna responsabile di incapsulare la logica di un'azione specifica, così facendo ogni fase implentava unicamnete le interfacce delle azzioni corrispondenti.
 \subsection{Francesco Sacripante}
 \subsubsection{Creazione della logica delle prime due fasi}
 \paragraph{Problema}
