@@ -10,17 +10,7 @@ Avere un modo semplice, espressiovo e componibile per definire e controllare la 
 
 #### Soluzione 
 ##### Specification Pattern
-Lo specification pattern mi permette di rispondere a questa esegenza e, mediante la combinazione logica di tante piccole condizioni atomiche, mi consente di realizzare espressioni logiche più o meno complesse. La parte centrale del pattern risiede nell'interfaccia funzionale
-```java
-@FunctionalInterface
-public interface Specification<T> {
-    boolean isSatisfiedBy(T candidate);
-
-    default Specification<T> and(Specification<T> other) { … }
-    default Specification<T> or(Specification<T> other) { … }
-    default Specification<T> not() { … }
-}
-```
+Lo specification pattern mi permette di rispondere a questa esegenza e, mediante la combinazione logica di tante piccole condizioni atomiche, mi consente di realizzare espressioni logiche più o meno complesse. La parte centrale del pattern risiede nell'interfaccia funzionale `Specification<T>`
 che espone i metodi and, or, not repsonsabile della composizione delle varie specifiche.
 I vantaggi introdotti da questo pattern mi hanno portato a preferire questa soluzione, all' alternative di Strategy che non si presatava al riutilizzo di logiche comuni, come ad esempio conquista N territori.  
 La scelta dello Specification Pattern si è rivelata dunque la più adatta per astrarre la logica di verifica dell’obiettivo dalla costruzione della carta, massimizzando il riuso e mantenendo il design pulito e modulare. 
@@ -32,13 +22,7 @@ RisikOOP è un gioco a turni in cui, in base alla fase corrente, gli stessi even
 
 #### Soluzione  
 ##### Strategy Pattern  
-Si è adottato il **pattern Strategy**, modellando ogni fase di gioco come una strategia indipendente, aderente all'interfaccia base
-```java
-   public interface GamePhase {
-     boolean selectTerritory(Territory t);
-     boolean isComplete();
-   }
-```
+Si è adottato il **pattern Strategy**, modellando ogni fase di gioco come una strategia indipendente, aderente all'interfaccia base `GamePhase`
 In Più dato che non tutti gli eventi interessano ogni fase del gioco si è scelto di creare tante piccole interfacce ogniuna responsabile di incapsulare la logica di un'azione specifica, così facendo ogni fase implentava unicamnete le interfacce delle azzioni corrispondenti.
 
 

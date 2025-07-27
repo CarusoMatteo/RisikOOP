@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <defs>
+    <style>
+      .interface { fill: #E6F3FF; stroke: #0066CC; stroke-width: 2; }
+      .class { fill: #F0F8FF; stroke: #4A90E2; stroke-width: 2; }
+      .composite { fill: #FFF8E6; stroke: #CC8800; stroke-width: 2; }
+      .text { font-family: Arial, sans-serif; font-size: 11px; fill: #333; }
+      .title { font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #333; }
+      .interface-title { font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #0066CC; font-style: italic; }
+      .arrow { stroke: #666; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .dashed { stroke-dasharray: 5,5; }
+      .composition { stroke: #333; stroke-width: 2; fill: none; marker-end: url(#diamond); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+    </marker>
+    <marker id="diamond" markerWidth="12" markerHeight="8" refX="12" refY="4" orient="auto">
+      <polygon points="0 4, 6 0, 12 4, 6 8" fill="#333" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="25" text-anchor="middle" class="title" font-size="16">Specification Pattern - UML Class Diagram</text>
+  
+  <!-- Specification Interface -->
+  <rect x="450" y="50" width="300" height="150" class="interface" />
+  <text x="600" y="70" text-anchor="middle" class="interface-title">&lt;&lt;interface&gt;&gt;</text>
+  <text x="600" y="85" text-anchor="middle" class="interface-title">Specification&lt;T&gt;</text>
+  <line x1="460" y1="95" x2="740" y2="95" stroke="#0066CC" stroke-width="1"/>
+  <text x="460" y="115" class="text">+ isSatisfiedBy(candidate: T): boolean</text>
+  <text x="460" y="130" class="text">+ and(other: Specification&lt;T&gt;): Specification&lt;T&gt;</text>
+  <text x="460" y="145" class="text">+ or(other: Specification&lt;T&gt;): Specification&lt;T&gt;</text>
+  <text x="460" y="160" class="text">+ not(): Specification&lt;T&gt;</text>
+  <text x="460" y="175" class="text">+ (default methods)</text>
+  
+  <!-- PlayerGameContext -->
+  <rect x="50" y="250" width="200" height="80" class="class" />
+  <text x="150" y="270" text-anchor="middle" class="title">PlayerGameContext</text>
+  <line x1="60" y1="280" x2="240" y2="280" stroke="#4A90E2" stroke-width="1"/>
+  <text x="60" y="300" class="text">+ player(): Player</text>
+  <text x="60" y="315" class="text">+ gameManager(): GameManager</text>
+  
+  <!-- KillPlayerSpec -->
+  <rect x="300" y="250" width="220" height="100" class="class" />
+  <text x="410" y="270" text-anchor="middle" class="title">KillPlayerSpec</text>
+  <line x1="310" y1="280" x2="510" y2="280" stroke="#4A90E2" stroke-width="1"/>
+  <text x="310" y="300" class="text">- target: Player</text>
+  <line x1="310" y1="310" x2="510" y2="310" stroke="#4A90E2" stroke-width="1"/>
+  <text x="310" y="330" class="text">+ KillPlayerSpec(target: Player)</text>
+  <text x="310" y="345" class="text">+ isSatisfiedBy(ctx: PlayerGameContext): boolean</text>
+  
+  <!-- ConquerTerritoriesSpec -->
+  <rect x="550" y="250" width="250" height="100" class="class" />
+  <text x="675" y="270" text-anchor="middle" class="title">ConquerTerritoriesSpec</text>
+  <line x1="560" y1="280" x2="790" y2="280" stroke="#4A90E2" stroke-width="1"/>
+  <text x="560" y="300" class="text">- requiredTerritories: int</text>
+  <line x1="560" y1="310" x2="790" y2="310" stroke="#4A90E2" stroke-width="1"/>
+  <text x="560" y="330" class="text">+ ConquerTerritoriesSpec(required: int)</text>
+  <text x="560" y="345" class="text">+ isSatisfiedBy(ctx: PlayerGameContext): boolean</text>
+  
+  <!-- ConquerContinentsSpec -->
+  <rect x="830" y="250" width="250" height="100" class="class" />
+  <text x="955" y="270" text-anchor="middle" class="title">ConquerContinentsSpec</text>
+  <line x1="840" y1="280" x2="1070" y2="280" stroke="#4A90E2" stroke-width="1"/>
+  <text x="840" y="300" class="text">- continents: Set&lt;Continent&gt;</text>
+  <line x1="840" y1="310" x2="1070" y2="310" stroke="#4A90E2" stroke-width="1"/>
+  <text x="840" y="330" class="text">+ ConquerContinentsSpec(continents: Set)</text>
+  <text x="840" y="345" class="text">+ isSatisfiedBy(ctx: PlayerGameContext): boolean</text>
+  
+  <!-- ConquerTerritoriesWithMinArmiesSpec -->
+  <rect x="300" y="380" width="280" height="120" class="class" />
+  <text x="440" y="400" text-anchor="middle" class="title">ConquerTerritoriesWithMinArmiesSpec</text>
+  <line x1="310" y1="410" x2="570" y2="410" stroke="#4A90E2" stroke-width="1"/>
+  <text x="310" y="430" class="text">- minArmies: int</text>
+  <text x="310" y="445" class="text">- minTerritories: int</text>
+  <line x1="310" y1="455" x2="570" y2="455" stroke="#4A90E2" stroke-width="1"/>
+  <text x="310" y="475" class="text">+ ConquerTerritoriesWithMinArmiesSpec(...)</text>
+  <text x="310" y="490" class="text">+ isSatisfiedBy(ctx: PlayerGameContext): boolean</text>
+  
+  <!-- KillPlayerOrConquer24TerritoriesSpec (Composite) -->
+  <rect x="650" y="420" width="300" height="150" class="composite" />
+  <text x="800" y="440" text-anchor="middle" class="title">KillPlayerOrConquer24TerritoriesSpec</text>
+  <line x1="660" y1="450" x2="940" y2="450" stroke="#CC8800" stroke-width="1"/>
+  <text x="660" y="470" class="text">- target: Player</text>
+  <text x="660" y="485" class="text">- requiredTerritories: int = 24</text>
+  <line x1="660" y1="495" x2="940" y2="495" stroke="#CC8800" stroke-width="1"/>
+  <text x="660" y="515" class="text">+ KillPlayerOrConquer24TerritoriesSpec(...)</text>
+  <text x="660" y="530" class="text">+ isSatisfiedBy(candidate: PlayerGameContext):</text>
+  <text x="670" y="545" class="text">boolean</text>
+  <text x="660" y="560" class="text" font-style="italic">// Uses: killPlayer.or(conquerTerritories)</text>
+  
+  <!-- Implementation arrows -->
+  <line x1="410" y1="250" x2="580" y2="200" class="arrow dashed" />
+  <line x1="675" y1="250" x2="610" y2="200" class="arrow dashed" />
+  <line x1="955" y1="250" x2="620" y2="200" class="arrow dashed" />
+  <line x1="440" y1="380" x2="590" y2="200" class="arrow dashed" />
+  <line x1="800" y1="420" x2="630" y2="200" class="arrow dashed" />
+  
+  <!-- Composition arrows -->
+  <line x1="750" y1="480" x2="520" y2="320" class="composition" />
+  <line x1="750" y1="500" x2="675" y2="350" class="composition" />
+  
+  <!-- Legend -->
+  <rect x="50" y="600" width="300" height="200" fill="none" stroke="#666" stroke-width="1"/>
+  <text x="200" y="620" text-anchor="middle" class="title">Pattern Structure</text>
+  
+  <line x1="60" y1="640" x2="90" y2="640" class="arrow dashed" />
+  <text x="100" y="645" class="text">implements</text>
+  
+  <line x1="60" y1="660" x2="90" y2="660" class="composition" />
+  <text x="100" y="665" class="text">uses/composes</text>
+  
+  <rect x="60" y="680" width="60" height="20" class="interface" />
+  <text x="130" y="695" class="text">Interface</text>
+  
+  <rect x="60" y="710" width="60" height="20" class="class" />
+  <text x="130" y="725" class="text">Concrete Specification</text>
+  
+  <rect x="60" y="740" width="60" height="20" class="composite" />
+  <text x="130" y="755" class="text">Composite Specification</text>
+  
+  <!-- Usage Example -->
+  <rect x="400" y="600" width="750" height="250" fill="none" stroke="#666" stroke-width="1"/>
+  <text x="775" y="620" text-anchor="middle" class="title">Usage Example in KillPlayerOrConquer24TerritoriesSpec</text>
+  
+  <text x="410" y="645" class="text" font-family="monospace" font-size="10">@Override</text>
+  <text x="410" y="660" class="text" font-family="monospace" font-size="10">public boolean isSatisfiedBy(final PlayerGameContext candidate) {</text>
+  <text x="420" y="675" class="text" font-family="monospace" font-size="10">final Specification&lt;PlayerGameContext&gt; killPlayer = </text>
+  <text x="430" y="690" class="text" font-family="monospace" font-size="10">new KillPlayerSpec(target);</text>
+  <text x="420" y="705" class="text" font-family="monospace" font-size="10">final Specification&lt;PlayerGameContext&gt; conquerTerritories = </text>
+  <text x="430" y="720" class="text" font-family="monospace" font-size="10">new ConquerTerritoriesSpec(requiredTerritories);</text>
+  <text x="420" y="740" class="text" font-family="monospace" font-size="10">return killPlayer.or(conquerTerritories).isSatisfiedBy(candidate);</text>
+  <text x="410" y="755" class="text" font-family="monospace" font-size="10">}</text>
+  
+  <text x="410" y="780" class="text" font-weight="bold">Key Benefits:</text>
+  <text x="410" y="795" class="text">• Composable conditions using and(), or(), not()</text>
+  <text x="410" y="810" class="text">• Reusable atomic specifications</text>
+  <text x="410" y="825" class="text">• Clean separation of business rules</text>
+  <text x="410" y="840" class="text">• Easy to test and maintain</text>
+  
+</svg>
