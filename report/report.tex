@@ -67,8 +67,9 @@ Le combo sono sempre tris di carte territorio, ognuna ricompensa un certo numero
 \section{Modello del Dominio}
 
 Il gioco inizia con la selezione dei giocatori, del loro colore e della mappa.
-Successivamente vengono assegnati i territori, ed è chiesto ai giocatori di posizionare le loro unità rimanenti in quei territori.
-Ora inizia il game-loop del gioco, che si ripete fino a quando un giocatore non vince:
+La mappa contiene vari territori e i collegamenti tra di essi. Ogni territorio, a cui è associato una Carta Territorio, fa parte di un continente.
+Vengono assegnati i territori ad ogni giocatore, ed è chiesto ai giocatori di posizionare le loro unità rimanenti in quei territori.
+Ora inizia il game-loop del gioco, che si ripete fino a quando un giocatore non vince, completando il compito descritto dalla sua Carta Obiettivo:
 \begin{itemize}
 	\item Fase di rinforzo.
 	\item Fase di attacco.
@@ -206,15 +207,32 @@ Il testing automatizzato è stato realizzato tramite JUnit, focalizzato principa
 L'interfaccia grafica è stata testata manualmente durante lo sviluppo del software.
 
 \section{Note di sviluppo}
+\subsection{Matteo Caruso}
+\subsubsection{Utilizzo della libreria GraphStream}
+Permalink \url{https://github.com/CarusoMatteo/RisikOOP/blob/ef7453b6b504f2af3d8dbcf8706244942db86c6f/src/main/java/it/unibo/risikoop/view/implementations/scenes/mapscene/MapJPanel.java#L57-L59}
+\subsubsection{Utilizzo di Stream e Method References}
+Utilizzata in vari punti. Un esempio è: \url{https://github.com/CarusoMatteo/RisikOOP/blob/ef7453b6b504f2af3d8dbcf8706244942db86c6f/src/main/java/it/unibo/risikoop/model/implementations/gamecards/combos/WildAllEqualCombo.java#L47-L54}
+
+\subsection{Matteo Ceccarelli}
+% TODO: Note di sviluppo individuale da fare con permalink a github su feature di linguaggio di cui vai fiero.
+
+\subsection{Francesco Sacripante}
 % TODO: Note di sviluppo individuale da fare con permalink a github su feature di linguaggio di cui vai fiero.
 
 \chapter{Commenti finali}
 
 \section{Autovalutazione e lavori futuri}
-% Obbligatorio individuale.
+\subsection{Matteo Caruso}
+\subsection{Matteo Ceccarelli}
+\subsection{Francesco Sacripante}
+% TODo: Obbligatorio individuale.
 
 \section{Difficoltà incontrate e commenti per i docenti}
-% Opzionale individuale.
+\subsection{Matteo Caruso}
+\subsection{Matteo Ceccarelli}
+\subsection{Francesco Sacripante}
+
+% TODO: Opzionale individuale.
 
 \appendix
 \chapter{Guida utente}
