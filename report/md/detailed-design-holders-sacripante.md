@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
 direction LR
     class GameManager {
@@ -37,3 +38,4 @@ direction LR
     PlayersHolder --* Player
     Player --|> TerritoryHolder
     TerritoryHolder --* Territory
+```
