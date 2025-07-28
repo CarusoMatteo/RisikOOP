@@ -13,7 +13,7 @@
 \usepackage[italian]{cleveref}
 
 \title{
-RisiKOOP \\
+RisikOOP \\
 \begin{large}
 Il gioco strategico per la conquista del mondo
 \end{large}
@@ -35,10 +35,10 @@ Il gioco strategico per la conquista del mondo
 
 Il software mira a replicare il gioco Risiko, un gioco da tavolo di strategia a turni dove ogni giocatore controlla una squadra di unità allo scopo di completare un obiettivo determinato da una Carta Obiettivo pescata a inizio partita.
 Questa richiederà di conquistare dei continenti, annientare un'altra armata oppure conquistare un certo numero di territori.
-Il gioco inizia spartendo tutti i territori tra i giocatori e dà dei territori iniziali con cui rinforzarli.
-Ogni turno turno, il giocatore otterrà vari carri armati da posizionare sui suoi territori.
+Il gioco inizia spartendo tutti i territori tra i giocatori e dà delle unità con cui rinforzarli.
+Ogni turno, il giocatore otterrà varie unità da posizionare sui suoi territori.
 Potrà poi attaccare territori adiacenti ai propri.
-Se riesce a conquistare almeno uno stato otterrà una Carta Territorio, utilizzabile per giocare combo al fine di ottenere ulteriori unità nei successivi turni.
+Se riesce a conquistare almeno un territorio otterrà una Carta Territorio, utilizzabile per giocare combo al fine di ottenere ulteriori unità nei successivi turni.
 Infine avrà l'opportunità di spostare delle unità fra i suoi territori.
 
 \subsubsection{Tipi di Combo}
@@ -83,15 +83,15 @@ Ora inizia il game-loop del gioco, che si ripete fino a quando un giocatore non 
 
 \chapter{Design}
 
-\section{Architetura}
+\section{Architettura}
 
 L'architettura del software è basata su un pattern Model-View-Controller (MVC).
 L'entry point dell'applicazione è il \texttt{Controller}, che si occupa di avviare il model, che implementa \texttt{GameManager}, e le view registrate, che implementano \texttt{RisikoView}.
 La separazione permette di aggiungere facilmente altre \texttt{RisikoView} se necessario, senza compromettere la logica del model e del controller.
 
-Le fasi di gioco sono state modellate con una \begin{itshape}State Machine\end{itshape}, un paradigma di programmazione che permette di dividere il sistema in varie sotto-fasi, detti anche \begin{itshape}stati\end{itshape}. Ogni fase ha la prporia logica diversa da quella di tutte le altre. Nel programma si risconoscono perché implementano \texttt{GamePhase}.
-Questo paradigma favorisce il \begin{itshape}Single Responsibility Principle\end{itshape}, siccome ogni fase è responabile internamente della propria gestione.
-Un'altro vantaggio risiede nella chiarezza con qui descrive in che punto dell'esecuzione si trova l'applicazione, siccome può essere in una sola fase.
+Le fasi di gioco sono state modellate con una \begin{itshape}State Machine\end{itshape}, un paradigma di programmazione che permette di dividere il sistema in varie sotto-fasi, detti anche \begin{itshape}stati\end{itshape}. Ogni fase ha la propria logica diversa da quella di tutte le altre. Nel programma si riconoscono perché implementano \texttt{GamePhase}.
+Questo paradigma favorisce il \begin{itshape}Single Responsibility Principle\end{itshape}, siccome ogni fase è responsabile internamente della propria gestione.
+Un'altro vantaggio risiede nella chiarezza con cui descrive in che punto dell'esecuzione si trova l'applicazione, siccome può essere in una sola fase alla volta.
 % TODO: UML delle interfacce per tutti i controller, il game manager e la risiko view.
 
 \section{Design dettagliato}
@@ -125,16 +125,20 @@ Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}
 \subsection{Matteo Ceccarelli}
 \subsubsection{Gestione del mazzo di carte obiettivo}
 \paragraph{Problema}
-Non essendo la mappa fissa, è necessario realizzare delle carte obbiettivo che si adattassero dinamicamente alla configurazione della mappa selezioanta.
+Non essendo la mappa fissa, è necessario realizzare delle carte obbiettivo che si adattassero dinamicamente alla configurazione della mappa selezionata.
 \paragraph{Soluzione}
 Ho usato il pattern \textit{Template method}.
-Creo una classe astratta \texttt{AbstractObjectiveCardBuilder} che incorpora la logica di creazione delle carte espondo i metodo astratti primitivi \texttt{buildDescription} e \texttt{buildSpecification}, che genera la carta mediante il metodo template \texttt{createCard}. Ho preferito l'utilizzo del \textit{template method} rispetto al \textit{pattern startegi} perchè mi permetteva meglio di isolare nelle classi che ereditano la \texttt{AbstractObjectiveCardBuilder} unicamente gli elementi che differiscono tra i le varie tipologie, incorparando gli aspetti comuni legati alla loro creazione.
+
+
+Creo una classe astratta \texttt{AbstractObjectiveCardBuilder} che incorpora la logica di creazione delle carte esponendo i metodo astratti primitivi \texttt{buildDescription} e \texttt{buildSpecification}, che genera la carta mediante il metodo template \texttt{createCard}.
+
+Ho preferito l'utilizzo del \textit{template method} rispetto al \textit{pattern strategy} perché mi permetteva meglio di isolare nelle classi che ereditano la \\\texttt{AbstractObjectiveCardBuilder} unicamente gli elementi che differiscono tra i le varie tipologie, incorporando gli aspetti comuni legati alla loro creazione.
 % TODO: Missing UML
 \subsubsection{Composizione delle condizioni di vittoria con Specification Pattern}
 \paragraph{Problema}
-Avere un modo semplice, espressiovo e componibile per definire e controllare la condizzione di vittoria delle carte obbiettivo, che spesso condividono aspetti di logiche comuni, come ad esempio conquinsta X territorio, o conquista almeno N territori con almeno M truppe.
+Avere un modo semplice, espressivo e componibile per definire e controllare la condizione di vittoria delle carte obbiettivo, che spesso condividono aspetti di logiche comuni, come ad esempio conquista X territorio, o conquista almeno N territori con almeno M truppe.
 \paragraph{Soluzione}
-Lo specification pattern mi permette di rispondere a questa esegenza e, mediante la combinazione logica di tante piccole condizioni atomiche, mi consente di realizzare espressioni logiche più o meno complesse. La parte centrale del pattern risiede nell'interfaccia funzionale \texttt{Specification} che espone i metodi \texttt{and}, \texttt{or}, \texttt{not} repsonsabile della composizione delle varie specifiche.
+Lo specification pattern mi permette di rispondere a questa esigenza e, mediante la combinazione logica di tante piccole condizioni atomiche, mi consente di realizzare espressioni logiche più o meno complesse. La parte centrale del pattern risiede nell'interfaccia funzionale \texttt{Specification} che espone i metodi \texttt{and}, \texttt{or}, \texttt{not} responsabile della composizione delle varie specifiche.
 %@FunctionalInterface
 %public interface Specification<T> {
 %    boolean isSatisfiedBy(T candidate);
@@ -143,7 +147,7 @@ Lo specification pattern mi permette di rispondere a questa esegenza e, mediante
 %    default Specification<T> or(Specification<T> other) { … }
 %    default Specification<T> not() { … }
 %}
-I vantaggi introdotti da questo pattern mi hanno portato a preferire questa soluzione, all' alternative di Strategy che non si presatava al riutilizzo di logiche comuni, come ad esempio conquista N territori.
+I vantaggi introdotti da questo pattern mi hanno portato a preferire questa soluzione, all' alternative di Strategy che non si prestava al riutilizzo di logiche comuni, come ad esempio conquista N territori.
 La scelta dello Specification Pattern si è rivelata dunque la più adatta per astrarre la logica di verifica dell'obiettivo dalla costruzione della carta, massimizzando il riuso e mantenendo il design pulito e modulare.
 % TODO: Missing UML
 
@@ -156,20 +160,20 @@ Si è adottato il pattern \textit{Strategy}, modellando ogni fase di gioco come 
 %     boolean selectTerritory(Territory t);
 %     boolean isComplete();
 %   }
-In Più dato che non tutti gli eventi interessano ogni fase del gioco si è scelto di creare tante piccole interfacce ogniuna responsabile di incapsulare la logica di un'azione specifica, così facendo ogni fase implentava unicamnete le interfacce delle azzioni corrispondenti.
+In Più dato che non tutti gli eventi interessano ogni fase del gioco si è scelto di creare tante piccole interfacce ognuna responsabile di incapsulare la logica di un'azione specifica, così facendo ogni fase implementava unicamente le interfacce delle azioni corrispondenti.
 % TODO: Missing UML
 \subsection{Francesco Sacripante}
 \subsubsection{Creazione della logica delle prime due fasi}
 \paragraph{Problema}
 Le prime due fasi hanno due logiche diverse tra loro e tra il resto del gioco
 \paragraph{Soluzione}
-Scomporre il controller in diversi dipi di controller.
+Scomporre il controller in diversi tipi di controller.
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/detailed-design-multiple-cont-sacripante.svg}
 	\caption{UML dei vari controller per le prime due fasi di gioco.}
 \end{figure}
-Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingContrller} permette di impostare giocatori e la mappa, mentre \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente. Infine \texttt{TurnManager} permette di gestire le fasi del gioco.
+Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingController} permette di impostare giocatori e la mappa, mentre \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente. Infine \texttt{TurnManager} permette di gestire le fasi del gioco.
 \subsubsection{Aggiornamento dei colori dei territori della view}
 \paragraph{Problema}
 Durante il gioco, se un giocatore conquista un territorio, questo deve istantaneamente cambiare colore nel colore del nuovo proprietario.
@@ -186,19 +190,19 @@ Il patter usato quì è una sorta di observer pattern, dove l'observer è la vie
 \subsubsection{Accorpamento di detentori di oggetti}
 \paragraph{Problema}
 Alcuni oggetti condividono la detenzione ed alcuni tipi di operazioni su alcuni tipi di oggetti posseduti.
-Ci sono ogetti che detengono più territori o più giocatori.
+Ci sono oggetti che detengono più territori o più giocatori.
 \paragraph{Soluzione}
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/detailed-design-holders-sacripante.svg}
 	\caption{UML degli holders del gioco.}
 \end{figure}
-Si creano delle interfaccie in cui si accorpano tutte le operazione in comune riguardante un certo insieme di oggetti.
+Si creano delle interfacce in cui si accorpano tutte le operazione in comune riguardante un certo insieme di oggetti.
 
 \chapter{Sviluppo}
 
 \section{Testing automatizzato}
-Il testing automatizzato è stato realizzato tramite JUnit, focalizzato principalmente sul model, come l'insermineto della mappa, la gestione dei giocatori, la validazione delle combo di carte, e sulla gestione delle fasi di gioco.
+Il testing automatizzato è stato realizzato tramite JUnit, focalizzato principalmente sul model, come l'inserimento della mappa, la gestione dei giocatori, la validazione delle combo di carte, e la gestione delle fasi di gioco.
 L'interfaccia grafica è stata testata manualmente durante lo sviluppo del software.
 
 \section{Note di sviluppo}
@@ -237,7 +241,7 @@ In caso di successo, verrà visualizzata l'anteprima della mappa selezionata.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{user_guide/3_select_map_after.png}
-	\caption{Anteprima della mappa selezionata.}
+	\caption{Anteprima della mappa di default selezionata.}
 \end{figure}
 Una volta completata la scelta, cliccare sul pulsante \textbf{Begin to Play} per iniziare la partita.
 
@@ -252,17 +256,12 @@ Ora a turno i giocatori posizionano le unità a loro rimaste. Il contatore è mo
 
 \subsubsection{Spostare e selezionare i nodi del grafo}
 È possibile trascinare i nodi del grafo per spostare i nodi in caso si sovrappongano.
-Se non è possibile spostare o cliccare i nodi del grafo, impostare il ridimensionamento dello schermo a 100\%. È un bug noto con la libreria Graphstream che stiamo utilizzando.
-\begin{itemize}
-	\item Stackoverflow: \url{https://
-		      stackoverflow.com/questions/74860061/graphstream-2-0-mouse-pointer-offset-when-dragging-nodes-not-solved}
-	\item Github: \url{https://github.com/graphstream/gs-core/issues/301}
-\end{itemize}
+Se non è possibile spostare o cliccare i nodi del grafo, impostare il ridimensionamento dello schermo a 100\%. È un bug noto con la libreria GraphStream che stiamo utilizzando (Fonti: \href{https://stackoverflow.com/questions/74860061/graphstream-2-0-mouse-pointer-offset-when-dragging-nodes-not-solved}{StackOverflow}, \href{https://github.com/graphstream/gs-core/issues/301}{Github}).
 \section{Schermata di gioco}
 La fase di preparazione è stata completata. D'ora in avanti si svolgerà il turno di gioco normale fino alla vittoria di un giocatore.
 La mappa è mostrata in alto a destra, dove il colore del territorio rappresenta il giocatore che lo possiede.
 Il pannello a sinistra mostra informazioni relative al giocatore corrente.
-È possibile visualizzare o nascondere la visibilità di dati privati, ovvero le carte e l'obiettivo, cliccando sul pulsante \textbf{Show Cards}.
+È possibile visualizzare o nascondere la visibilità di dati privati, ovvero le carte e l'obiettivo, cliccando sul pulsante \textbf{Show Cards} o \textbf{Hide Cards}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{user_guide/5_game_screen_show.png}
@@ -278,10 +277,10 @@ Il pannello a sinistra mostra informazioni relative al giocatore corrente.
 \begin{itemize}
 	\item Sconfiggere un determinato giocatore o conquistare 24 territori.
 	\item Conquistare 18 territori e occuparli tutti con almeno 2 unità.
-	\item Conquista $n$ continenti, tali che la somma dei territori in quei continenti sia maggiore di 16.
+	\item Conquista certi continenti, scelti in modo che la somma dei territori in quei continenti sia maggiore di 16.
 \end{itemize}
 
-\section{Fase dei rinforzi}
+\section{Fase di rinforzi}
 La fase di rinforzi permette di rinforzare i territori all'inizio di ogni turno.
 Il giocatore ottiene tante unità quanti sono i territori da lui occupati diviso tre, arrotondato per difetto.
 Inoltre, se il giocatore possiede tutti i territori di un continente, ottiene un bonus specifico per quel continente, visibile nella Guida.
@@ -319,11 +318,11 @@ Una volta posizionate tutte le unità, cliccare sul pulsante \textbf{Esegui azio
 \section{Fase di attacco}
 La fase di attacco permette a un giocatore di utilizzare le unità posizionate su un suo territorio per attaccare e conquistare un territorio adiacente di un altro giocatore.
 
-Occorre pianificare l'attacco in vari passaggi, dopo ognuno bisonga cliccare il pulsante \textbf{Esegui azione} per passare al passaggio successivo:
+Occorre pianificare l'attacco in vari passaggi, dopo ognuno bisogna cliccare il pulsante \textbf{Esegui azione} per passare allo stato successivo:
 \begin{enumerate}
 	\item Cliccare il territorio con cui attaccare, facendo attenzione che abbia un territorio nemico adiacente e che sia occupato da almeno due unità.
-	\item Cliccare il territorio da attaccare. Dev'essere adiacente al territorio con cui si sta attaccando.
-	\item Scegliere con quante untià bisogna svolgere l'attacco. Un massimo di 3 untià possono essere usate per attaccare, ma in caso di conquista del territorio tutte le unità definite qui saranno spostate nel territorio conquistato. Il numero di unità con cui attaccare deve essere compreso tra uno e il numero di unità del territorio con cui si sta attaccando meno uno.
+	\item Cliccare il territorio da attaccare. Dev'essere adiacente al territorio con cui si sta attaccando e deve appartenere a un giocatore avversario.
+	\item Scegliere con quante unità bisogna svolgere l'attacco. Un massimo di 3 unità possono essere usate per attaccare, ma in caso di conquista del territorio tutte le unità definite qui saranno spostate nel territorio conquistato. Il numero di unità con cui attaccare deve essere compreso tra uno e il numero di unità del territorio con cui si sta attaccando meno uno.
 \end{enumerate}
 
 \begin{figure}[H]
@@ -332,8 +331,8 @@ Occorre pianificare l'attacco in vari passaggi, dopo ognuno bisonga cliccare il 
 	\caption{Fase di attacco tra Indonesia e Australia Occidentale.}
 \end{figure}
 
-Per eseguire l'attacco tirando i dadi bisogna cliccare sul pulsante \textbf{Esegui azione}.
-A seconda dell'esito dell'attacco, le unità perdenti saranno rimosse dai territori.
+Per eseguire l'attacco tirando i dadi bisogna cliccare un'ultima volta sul pulsante \textbf{Esegui azione}.
+A seconda dell'esito dell'attacco, le unità sconfitte saranno rimosse dai territori.
 Nel caso in cui le unità difensori sconfitte siano state le ultime unità presenti su quel territorio, esso sarà conquistato dal giocatore attaccante, e tutte le unità attaccanti rimaste saranno spostate nel territorio conquistato.
 
 
@@ -358,7 +357,7 @@ Per ogni coppia di risultati, il dado attaccante deve essere strettamente maggio
 \end{figure}
 
 \section{Fase di spostamento strategico}
-La fase di spostamento strategico permette di spostare delle unità da un territorio a un altro territorio adiacente, entrambi di proprietà del giocatore, corrente in un solo senso.
+La fase di spostamento strategico permette di spostare delle unità da un territorio a un altro territorio adiacente, entrambi di proprietà del giocatore corrente, in un solo senso.
 
 \begin{figure}[H]
 	\centering
@@ -366,18 +365,25 @@ La fase di spostamento strategico permette di spostare delle unità da un territ
 	\caption{Spostamento di un'unità dalla Nuova Guinea all'Australia Occidentale.}
 \end{figure}
 
-Come nella fase di attacco, bisogna pianificare lo spostamento in vari passaggi, dopo ognuno bisogna cliccare il pulsante \textbf{Esegui azione} per passare al passaggio successivo:
+Come nella fase di attacco, bisogna pianificare lo spostamento, dove per passare allo stato successivo bisogna cliccare il pulsante \textbf{Esegui azione}:
 \begin{enumerate}
 	\item Cliccare il territorio da cui spostare le unità, facendo attenzione che abbia almeno due unità e che sia adiacente a un territorio dello stesso giocatore.
 	\item Cliccare il territorio dove le unità verranno spostate. Dev'essere adiacente al territorio da cui si sta spostando e di proprietà del giocatore.
 	\item Scegliere quante unità spostare, dev'essere un numero compreso tra uno e il numero massimo di unità in quello di partenza meno uno.
 \end{enumerate}
 
-Per confermare lo spostamento, cliccare sul pulsante \textbf{Esegui azione}.
+Per confermare lo spostamento, cliccare un'ultima volta il pulsante \textbf{Esegui azione}.
 Il turno del giocatore attuale è concluso, tocca quindi al giocatore successivo.
 
 \section{Vittoria}
 Un giocatore vince se riesce a completare il suo obiettivo.
+Il controllo avviene alla conclusione di ogni fase e di ogni attacco.
+Verrà mostrato il vincitore e sarà possibile giocare una nuova partita cliccando il pulsante \textbf{Play Again} o chiudere l'applicazione cliccando il pulsante \textbf{Close}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{user_guide/14_victory.png}
+	\caption{Messaggio di vittoria.}
+\end{figure}
 
 \chapter{Esercitazioni di laboratorio}
 
