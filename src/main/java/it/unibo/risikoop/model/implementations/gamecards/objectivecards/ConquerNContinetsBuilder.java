@@ -20,7 +20,7 @@ import it.unibo.risikoop.model.interfaces.Specification;
  */
 public final class ConquerNContinetsBuilder extends AbstractObjectiveCardBuilder {
 
-    private static final int MIN_TERRITORIES = 2;
+    private static final int MIN_TERRITORIES = 16;
     private final Set<Continent> continents;
 
     /**
@@ -55,7 +55,9 @@ public final class ConquerNContinetsBuilder extends AbstractObjectiveCardBuilder
     private Set<Continent> createBalanceObjective() {
         int territories = 0;
         final Set<Continent> selectedContinents = new HashSet<>();
-        while (territories < MIN_TERRITORIES) {
+        while (
+            territories < MIN_TERRITORIES && !selectedContinents.equals(super.getGameManager().getContinents())
+        ) {
             final Optional<Continent> continent = getRandomContinent(selectedContinents);
             if (continent.isPresent()) {
                 selectedContinents.add(continent.get());
