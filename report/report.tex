@@ -179,6 +179,7 @@ Scomporre il controller in diversi tipi di controller.
 	\caption{UML dei vari controller per le prime due fasi di gioco.}
 \end{figure}
 Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingController} permette di impostare giocatori e la mappa, mentre \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente.
+In questo caso è stato usato il delegate pattern, dope si creano delle classi per i dati da ottenere e per aggiungere i dati nelle prime due fasi del gioco.
 \subsubsection{Aggiornamento dei colori dei territori della view}
 \paragraph{Problema}
 Durante il gioco, se un giocatore conquista un territorio, questo deve istantaneamente cambiare colore nel colore del nuovo proprietario.
