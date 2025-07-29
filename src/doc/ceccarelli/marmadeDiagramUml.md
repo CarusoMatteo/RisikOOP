@@ -106,42 +106,103 @@ direction TB
 ---
 
 **2.2.2 Composizione delle condizioni di vittoria con Specification Pattern**
+---
+config:
+  layout: elk
+---
 classDiagram
+direction TB
     class Specification~T~ {
-        <<interface>>
-        +isSatisfiedBy(candidate T) boolean
-        +and(other Specification~T~) Specification~T~
-        +or(other Specification~T~) Specification~T~
-        +not() Specification~T~
+	    +isSatisfiedBy(T candidate) boolean
+	    +and(Specification~T~ other) Specification~T~
+	    +or(Specification~T~ other) Specification~T~
+	    +not() Specification~T~
     }
-
-    class KillPlayerSpec {
-        +isSatisfiedBy(ctx PlayerGameContext) boolean
+    class PlayerGameContext {
+	    +player() Player
+	    +gameManager() GameManager
     }
-
-    class ConquerTerritoriesSpec {
-        +isSatisfiedBy(ctx PlayerGameContext) boolean
-    }
-
-    class ConquerContinentsSpec {
-        +isSatisfiedBy(ctx PlayerGameContext) boolean
-    }
-
     class ConquerTerritoriesWithMinArmiesSpec {
-        +isSatisfiedBy(ctx PlayerGameContext) boolean
+	    +isSatisfiedBy(PlayerGameContext ctx) boolean
     }
-
+    class ConquerContinentsSpec {
+	    +isSatisfiedBy(PlayerGameContext ctx) boolean
+    }
+    class KillPlayerSpec {
+	    +isSatisfiedBy(PlayerGameContext ctx) boolean
+    }
     class KillPlayerOrConquer24TerritoriesSpec {
-        +isSatisfiedBy(candidate PlayerGameContext) boolean
+	    +isSatisfiedBy(PlayerGameContext ctx) boolean
+    }
+    class ObjectiveCardImpl {
+	    -winCond: Specification~PlayerGameContext~
+	    +isAchieved() boolean
     }
 
-    %% Inheritance from Specification
-    Specification~T~ <|.. KillPlayerSpec
-    Specification~T~ <|.. ConquerTerritoriesSpec
-    Specification~T~ <|.. ConquerContinentsSpec
-    Specification~T~ <|.. ConquerTerritoriesWithMinArmiesSpec
-    Specification~T~ <|.. KillPlayerOrConquer24TerritoriesSpec
+	<<interface>> Specification
 
-    %% Usage relationships
-    KillPlayerOrConquer24TerritoriesSpec ..> KillPlayerSpec
-    KillPlayerOrConquer24TerritoriesSpec ..> ConquerTerritoriesSpec
+    Specification <|.. ConquerTerritoriesWithMinArmiesSpec
+    Specification <|.. ConquerContinentsSpec
+    Specification <|.. KillPlayerSpec
+    Specification <|.. KillPlayerOrConquer24TerritoriesSpec
+    ObjectiveCardImpl --* Specification : uses
+    ConquerTerritoriesWithMinArmiesSpec --* PlayerGameContext : evaluates
+    ConquerContinentsSpec --* PlayerGameContext : evaluates
+    KillPlayerSpec --* PlayerGameContext : evaluates
+    KillPlayerOrConquer24TerritoriesSpec --* PlayerGameContext : evaluates
+    KillPlayerOrConquer24TerritoriesSpec ..> KillPlayerSpec : creates
+    KillPlayerOrConquer24TerritoriesSpec ..> ConquerTerritoriesWithMinArmiesSpec : creates
+
+
+<!-- VERSIONE 2 -->
+
+---
+config:
+  layout: elk
+---
+classDiagram
+direction TB
+
+class Specification~T~ {
+    +isSatisfiedBy(T candidate) boolean
+    +and(Specification~T~ other) Specification~T~
+    +or(Specification~T~ other) Specification~T~
+    +not() Specification~T~
+}
+
+class ConquerTerritoriesWithMinArmiesSpec {
+    +isSatisfiedBy(PlayerGameContext ctx) boolean
+}
+class ConquerContinentsSpec {
+    +isSatisfiedBy(PlayerGameContext ctx) boolean
+}
+class KillPlayerSpec {
+    +isSatisfiedBy(PlayerGameContext ctx) boolean
+}
+class KillPlayerOrConquer24TerritoriesSpec {
+    +isSatisfiedBy(PlayerGameContext ctx) boolean
+}
+
+class ObjectiveCard {
+    <<interface>>
+    +isAchieved() boolean
+    +getDescription() String
+}
+
+class ObjectiveCardImpl {
+    -winCond Specification~PlayerGameContext~
+    +isAchieved() boolean
+    +getDescription() String
+}
+
+<<interface>> Specification
+
+%% IMPLEMENTAZIONI DI SPECIFICHE
+Specification~PlayerGameContext~ <|.. ConquerTerritoriesWithMinArmiesSpec
+Specification~PlayerGameContext~ <|.. ConquerContinentsSpec
+Specification~PlayerGameContext~ <|.. KillPlayerSpec
+Specification~PlayerGameContext~ <|.. KillPlayerOrConquer24TerritoriesSpec
+
+%% RELAZIONI REALE DI USO
+ObjectiveCard <|.. ObjectiveCardImpl
+ObjectiveCardImpl --> Specification~PlayerGameContext~ : uses

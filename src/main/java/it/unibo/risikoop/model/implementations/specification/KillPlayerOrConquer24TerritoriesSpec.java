@@ -30,7 +30,9 @@ public final class KillPlayerOrConquer24TerritoriesSpec implements Specification
     @Override
     public boolean isSatisfiedBy(final PlayerGameContext candidate) {
         final Specification<PlayerGameContext> killPlayer = new KillPlayerSpec(target);
-        final Specification<PlayerGameContext> conquerTerritories = new ConquerTerritoriesSpec(requiredTerritories);
+        // final Specification<PlayerGameContext> conquerTerritories = new ConquerTerritoriesSpec(requiredTerritories);
+        final Specification<PlayerGameContext> conquerTerritories = new ConquerTerritoriesWithMinArmiesSpec(requiredTerritories, 1);
+
 
         return killPlayer.or(conquerTerritories).isSatisfiedBy(candidate);
     }

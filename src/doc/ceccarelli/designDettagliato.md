@@ -1,10 +1,10 @@
 ### 2.2.1 Gestione del “mazzo” di carte obiettivo
-**Problema** Non essendo la mappa fissa, è necessario realizzare delle carte obbiettivo che si adattassero dinamicamente alla configurazione della mappa selezioanta.
+**Problema** Non essendo la mappa fissa, era necessario realizzare delle carte obbiettivo che si adattassero dinamicamente alla configurazione della mappa selezioanta.
 
 **Soluzione**
 **Template method** creo una classe astratta `AbstractObjectiveCardBuilder` che incorpora la logica di creazione delle carte espondo i metodo astratti primitivi `buildDescription` e `buildSpecification`,  che genera la carta mediante il metodo template `createCard`. Ho preferito l'utilizzo del **template method** rispetto al **pattern startegi** perchè mi permetteva meglio di isolare nelle classi che ereditano la `AbstractObjectiveCardBuilder` unicamente gli elementi che differiscono tra i le varie tipologie, incorparando gli aspetti comuni legati alla loro creazione.
 
-### 2.2.2 Composizione delle condizioni di vittoria con Specification Pattern
+### 2.2.2 Composizione delle condizioni di vittoria 
 #### Problema
 Avere un modo semplice, espressiovo e componibile per definire e controllare la condizzione di vittoria delle carte obbiettivo, che spesso condividono aspetti di logiche comuni, come ad esempio conquinsta X territorio, o conquista almeno N territori con almeno M truppe.
 
