@@ -33,16 +33,16 @@ Il gioco strategico per la conquista del mondo
 
 \section{Descrizione e requisiti}
 
-Il software mira a replicare il gioco Risiko, un gioco da tavolo di strategia a turni dove ogni giocatore controlla una squadra di unità allo scopo di completare un obiettivo determinato da una Carta Obiettivo pescata a inizio partita.
+Il software mira a replicare il gioco Risiko, un gioco da tavolo di strategia a turni dove ogni giocatore controlla una squadra di unità allo scopo di completare un obiettivo determinato da una Carta Obiettivo pescata ad inizio partita.
 Questa richiederà di conquistare dei continenti, annientare un'altra armata oppure conquistare un certo numero di territori.
 Il gioco inizia spartendo tutti i territori tra i giocatori e dà delle unità con cui rinforzarli.
-Ogni turno, il giocatore otterrà varie unità da posizionare sui suoi territori.
+All'inizio di ogni turno, il giocatore otterrà varie unità da posizionare sui suoi territori.
 Potrà poi attaccare territori adiacenti ai propri.
 Se riesce a conquistare almeno un territorio otterrà una Carta Territorio, utilizzabile per giocare combo al fine di ottenere ulteriori unità nei successivi turni.
 Infine avrà l'opportunità di spostare delle unità fra i suoi territori.
 
 \subsubsection{Tipi di Combo}
-Le combo sono sempre tris di carte territorio, ognuna ricompensa un certo numero di unità:
+Le combo sono sempre tris di Carte Territorio, ognuna ricompensa un certo numero di unità:
 \begin{itemize}
 	\item 3 cannoni: 4 unità.
 	\item 3 fanti: 6 unità.
@@ -64,12 +64,12 @@ Le combo sono sempre tris di carte territorio, ognuna ricompensa un certo numero
 	\item I giocatori dovranno poter nascondere le proprie Carte Obiettivo e Territorio agli altri giocatori.
 \end{itemize}
 
-\section{Modello del Dominio}
+\section{Modello del dominio}
 
 Il gioco inizia con la selezione dei giocatori, del loro colore e della mappa.
 La mappa contiene vari territori e i collegamenti tra di essi. Ogni territorio, a cui è associato una Carta Territorio, fa parte di un continente.
 Vengono assegnati i territori ad ogni giocatore, ed è chiesto ai giocatori di posizionare le loro unità rimanenti in quei territori.
-Ora inizia il game-loop del gioco, che si ripete fino a quando un giocatore non vince, completando il compito descritto dalla sua Carta Obiettivo:
+Ora inizia il \textit{game-loop} del gioco, che si ripete fino a quando un giocatore non vince, completando il compito descritto dalla sua Carta Obiettivo:
 \begin{itemize}
 	\item Fase di rinforzo.
 	\item Fase di attacco.
@@ -91,13 +91,13 @@ L'entry point dell'applicazione è il \texttt{Controller}, che si occupa di avvi
 La separazione permette di aggiungere facilmente altre \texttt{RisikoView} se necessario, senza compromettere la logica del model e del controller.
 
 Le fasi di gioco sono state modellate con una \begin{itshape}State Machine\end{itshape}, un paradigma di programmazione che permette di dividere il sistema in varie sotto-fasi, detti anche \begin{itshape}stati\end{itshape}. Ogni fase ha la propria logica diversa da quella di tutte le altre. Nel programma si riconoscono perché implementano \texttt{GamePhase}.
-Questo paradigma favorisce il \begin{itshape}Single Responsibility Principle\end{itshape}, siccome ogni fase è responsabile internamente della propria gestione.
-Un'altro vantaggio risiede nella chiarezza con cui descrive in che punto dell'esecuzione si trova l'applicazione, siccome può essere in una sola fase alla volta.
+Questo paradigma favorisce il \begin{itshape}Single Responsibility Principle\end{itshape}, siccome ogni fase è responsabile della propria gestione.
+Un'altro vantaggio risiede nella chiarezza con cui descrive in che momento dell'esecuzione si trova l'applicazione, in quanto può esservi una sola fase alla volta.
 \pagebreak
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/mvc-entry-point-completed.svg}
-	\caption{UML degli entry point dell'architettura MVC.}
+	\caption{UML degli entry-point dell'architettura MVC.}
 \end{figure}
 \pagebreak
 
@@ -114,11 +114,11 @@ Bisogna validare vari tipi di combo di carte, ognuna con requisiti diversi. Inol
 \end{figure}
 La validazione delle combo usa il pattern \begin{itshape}Strategy\end{itshape}, in cui ogni validatore di combo è una strategia diversa.
 \\
-Il pattern \begin{itshape}Strategy\end{itshape} è più adatto rispetto al pattern \begin{itshape}Template Method\end{itshape}, siccome ogni validatore di combo differisce molto dagli altri, fatta eccezione dei validatori \texttt{AllEqualCombo}.
+Il pattern \begin{itshape}Strategy\end{itshape} è più adatto rispetto al pattern \begin{itshape}Template Method\end{itshape}, poiché ogni validatore di combo differisce molto dagli altri, fatta eccezione dei validatori \texttt{AllEqualCombo}.
 
 \subsubsection{Validare le \texttt{AllEqualCombo}}
 \paragraph{Problema}
-Bisogna validare le combo di carte dove hanno tutte lo stesso tipo.
+Bisogna validare le combo di carte con stesso seme.
 \paragraph{Soluzione}
 \begin{figure}[H]
 	\centering
@@ -132,26 +132,27 @@ Gli lascia anche la responsabilità di implementare \texttt{getUnitRewardAmount}
 \subsection{Matteo Ceccarelli}
 \subsubsection{Gestione del mazzo di carte obiettivo}
 \paragraph{Problema}
-Non essendo la mappa fissa, è necessario realizzare delle carte obbiettivo che si adattassero dinamicamente alla configurazione della mappa selezionata.
+Non essendo la mappa fissa, è necessario realizzare delle carte obiettivo che si adattassero dinamicamente alla configurazione della mappa selezionata.
 \paragraph{Soluzione}
 Ho usato il pattern \textit{Template method}.
 
 
-Creo una classe astratta \texttt{AbstractObjectiveCardBuilder} che incorpora la logica di creazione delle carte esponendo i metodo astratti primitivi \texttt{buildDescription} e \texttt{buildSpecification}, che genera la carta mediante il metodo template \texttt{createCard}.
+Creo una classe astratta \texttt{AbstractObjectiveCardBuilder} che incorpora la logica di creazione delle carte esponendo i metodi astratti primitivi \texttt{buildDescription} e \texttt{buildSpecification}, che generano le carte mediante il metodo template \texttt{createCard}.
 
-Ho preferito l'utilizzo del \textit{template method} rispetto al \textit{pattern strategy} perché mi permetteva meglio di isolare nelle classi che ereditano la \\\texttt{AbstractObjectiveCardBuilder} unicamente gli elementi che differiscono tra i le varie tipologie, incorporando gli aspetti comuni legati alla loro creazione.
+Ho preferito l'utilizzo del \textit{Template Method} rispetto al \textit{Pattern Strategy} perché mi permetteva di isolare meglio gli elementi che differiscono tra le varie tipologie, isolando meglio le classi che ereditano da
+\\\texttt{AbstractObjectiveCardBuilder}.
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/detailed_design_deck_managment_ceccarelli.svg}
 	\caption{UML del pattern Template Method per la gestione delle carte obiettivo.}
 \end{figure}
-\subsubsection{Composizione delle condizioni di vittoria con Specification Pattern}
+\subsubsection{Composizione delle condizioni di vittoria}
 \paragraph{Problema}
-Avere un modo semplice, espressivo e componibile per definire e controllare la condizione di vittoria delle carte obbiettivo, che spesso condividono aspetti di logiche comuni, come ad esempio conquista X territorio, o conquista almeno N territori con almeno M truppe.
+Avere un modo semplice, espressivo e componibile per definire e controllare la condizione di vittoria delle Carte Obiettivo, che spesso condividono aspetti di logiche comuni, come ad esempio conquista $x$ territori o conquista almeno $n$ territori con almeno $m$ truppe.
 \paragraph{Soluzione}
-Lo specification pattern mi permette di rispondere a questa esigenza e, mediante la combinazione logica di tante piccole condizioni atomiche, mi consente di realizzare espressioni logiche più o meno complesse. La parte centrale del pattern risiede nell'interfaccia funzionale \texttt{Specification} che espone i metodi \texttt{and}, \texttt{or}, \texttt{not} responsabile della composizione delle varie specifiche.
-I vantaggi introdotti da questo pattern mi hanno portato a preferire questa soluzione, all' alternative di Strategy che non si prestava al riutilizzo di logiche comuni, come ad esempio conquista N territori.
-La scelta dello Specification Pattern si è rivelata dunque la più adatta per astrarre la logica di verifica dell'obiettivo dalla costruzione della carta, massimizzando il riuso e mantenendo il design pulito e modulare.
+Lo \textit{Specification Pattern} mi permette di rispondere a questa esigenza e, mediante la combinazione logica di tante piccole condizioni atomiche, posso realizzare espressioni logiche più o meno complesse. La parte centrale del pattern risiede nell'interfaccia funzionale \texttt{Specification} che espone i metodi \texttt{and}, \texttt{or}, \texttt{not} responsabili della composizione delle varie specifiche.
+I vantaggi introdotti da questo pattern mi hanno portato a preferire questa soluzione, all'alternative di \textit{Strategy} che non si prestava al riutilizzo di logiche comuni, come ad esempio conquista $n$ territori.
+La scelta dello \textit{Specification Pattern} si è rivelata dunque la più adatta per astrarre la logica di verifica dell'obiettivo dalla costruzione della carta, massimizzando il riuso e mantenendo il design pulito e modulare.
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/detailed_design_victory_condition_ceccarelli.svg}
@@ -163,7 +164,7 @@ La scelta dello Specification Pattern si è rivelata dunque la più adatta per a
 RisikOOP è un gioco a turni in cui, in base alla fase corrente, gli stessi eventi della GUI (ad es. \texttt{selectTerritory} o \texttt{performAction}) devono produrre comportamenti diversi.
 \paragraph{Soluzione}
 Si è adottato il pattern \textit{Strategy}, modellando ogni fase di gioco come una strategia indipendente, aderente all'interfaccia base \texttt{GamePhase}.
-In Più dato che non tutti gli eventi interessano ogni fase del gioco si è scelto di creare tante piccole interfacce ognuna responsabile di incapsulare la logica di un'azione specifica, così facendo ogni fase implementava unicamente le interfacce delle azioni corrispondenti.
+In più, dato che non tutti gli eventi interessano ogni fase del gioco, si è scelto di creare tante piccole interfacce ognuna responsabile di incapsulare la logica di un'azione specifica. Così facendo ogni fase implementa unicamente le interfacce delle azioni corrispondenti.
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/detailed_design_game_phase_ceccarelli_1.svg}
@@ -172,7 +173,7 @@ In Più dato che non tutti gli eventi interessano ogni fase del gioco si è scel
 \subsection{Francesco Sacripante}
 \subsubsection{Creazione della logica delle prime due fasi}
 \paragraph{Problema}
-Le prime due fasi hanno due logiche diverse tra loro e tra il resto del gioco
+Le prime due fasi hanno logiche diverse tra loro e dal resto del gioco.
 \paragraph{Soluzione}
 Scomporre il controller in diversi tipi di controller.
 \begin{figure}[H]
@@ -180,21 +181,21 @@ Scomporre il controller in diversi tipi di controller.
 	\includesvg[width=1\textwidth]{svg/detailed-design-multiple-cont-sacripante.svg}
 	\caption{UML dei vari controller per le prime due fasi di gioco.}
 \end{figure}
-Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingController} permette di impostare giocatori e la mappa, mentre \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente.
-In questo caso è stato usato il delegate pattern, dope si creano delle classi per i dati da ottenere e per aggiungere i dati nelle prime due fasi del gioco.
-\subsubsection{Aggiornamento dei colori dei territori della view}
+Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingController} permette di impostare i giocatori e la mappa, mentre \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente.
+In questo caso è stato usato il \textit{Delegate Pattern}, dove si creano delle classi per ottenere e aggiungere dati nelle prime due fasi del gioco.
+\subsubsection{Aggiornamento dei colori dei territori della View}
 \paragraph{Problema}
-Durante il gioco, se un giocatore conquista un territorio, questo deve istantaneamente cambiare colore nel colore del nuovo proprietario.
+Durante il gioco, se un giocatore conquista un territorio, questo deve istantaneamente cambiare colore, mostrando quello del nuovo proprietario.
 \paragraph{Soluzione}
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/Observer-view-Sacripante.svg}
 	\caption{UML del observer pattern usato per aggiornare gli elementi delle view.}
 \end{figure}
-Usare un'interfaccia dedicata agli aggiornamenti della view.
+Usare un'interfaccia dedicata agli aggiornamenti della View.
 \\
-Ogni volta che al model succede una cosa, il controller chiama i metodi dell'interfaccia per aggiornare la view.
-Il patter usato quì è una sorta di observer pattern, dove l'observer è la view che viene "notificata" quando un territorio cambia proprietà e il soggetto è il territorio.
+Ogni volta che c'è una variazione al model, il controller chiama i metodi dell'interfaccia per aggiornare la View.
+Il patter usato quì è una sorta di \textit{Observer}, dove l'observer è la view che viene "notificata" quando un territorio cambia proprietà e il soggetto è il territorio.
 \subsubsection{Accorpamento di detentori di oggetti}
 \paragraph{Problema}
 Alcuni oggetti condividono la detenzione ed alcuni tipi di operazioni su alcuni tipi di oggetti posseduti.
@@ -205,12 +206,12 @@ Ci sono oggetti che detengono più territori o più giocatori.
 	\includesvg[width=1\textwidth]{svg/detailed-design-holders-sacripante.svg}
 	\caption{UML degli holders del gioco.}
 \end{figure}
-Si creano delle interfacce in cui si accorpano tutte le operazione in comune riguardante un certo insieme di oggetti.
+Si creano delle interfacce in cui si accorpano tutte le operazioni in comune riguardanti un certo insieme di oggetti.
 
 \chapter{Sviluppo}
 
 \section{Testing automatizzato}
-Il testing automatizzato è stato realizzato tramite JUnit, focalizzato principalmente sul model, come l'inserimento della mappa, la gestione dei giocatori, la validazione delle combo di carte, e la gestione delle fasi di gioco.
+Il testing automatizzato è stato realizzato tramite JUnit, focalizzato principalmente sul model, come l'inserimento della mappa, la gestione dei giocatori, la validazione delle combo di carte e la gestione delle fasi di gioco.
 L'interfaccia grafica è stata testata manualmente durante lo sviluppo del software.
 
 \section{Note di sviluppo}
@@ -247,35 +248,39 @@ Per il caricamento della mappa da file: \url{https://github.com/CarusoMatteo/Ris
 
 \section{Autovalutazione e lavori futuri}
 \subsection{Matteo Caruso}
-% TODO: Autovalutazione individuale
+Malgrado l'avvio stentato dello sviluppo del progetto, grazie alla collaborazione dei miei compagni, sono riuscito a trovare la giusta motivazione per portarlo a termine con buon risultato.
+Sono fiero di come ho gestito la validazione delle combo, riuscendo a comporre due pattern.
+La costruzione della schermata principale è stata appagante da ideare per l'adattamento alle proporzioni dello schermo, nonostante non aspiri a lavorare con le interfacce grafiche.
+È stata interessante la condivisione del lavoro, anche se è stato talvolta difficile sincronizzare la collaborazione a causa dei periodi di maggior attività diversi dei membri del gruppo.
+La divisione del lavoro è stata equa, nonostante Risiko sia molto incentrato sulla visualizzazione del gioco.
+Questo progetto è stata un'esperienza di apprendimento proficua, nonché la mia prima esperienza di un grande lavoro in gruppo. Credo che questa esperienza tornerà utile in futuro.
 \subsection{Matteo Ceccarelli}
-Credo che la parte meglio riuscita del progetto sia stata l’implementazione delle carte obiettivo.
+Credo che la parte meglio riuscita del progetto sia stata l'implementazione delle carte obiettivo.
 È stata infatti la sezione in cui ho potuto maggiormente cimentarmi nel design, sperimentando soluzioni che ritengo valide, facilmente estendibili e manutenibili.
 Ho trovato estremamente interessante osservare concretamente come i diversi pattern architetturali possano essere combinati tra loro in modo armonico.
 
 La parte che mi ha coinvolto di meno è stata invece la gestione delle fasi di gioco tramite macchina a stati.
 Pur ritenendo questa scelta la più adatta in termini di chiarezza, leggibilità, logica e mantenibilità del codice
-- e rappresentando un approccio tipico del mondo industriale nel quale lavoro da anni -
-l’ho trovata meno stimolante, nonostante in questo progetto l’abbia rielaborata in un’ottica orientata agli oggetti.
+-- e rappresentando un approccio tipico del mondo industriale nel quale lavoro da anni --
+l'ho trovata meno stimolante, nonostante in questo progetto l'abbia rielaborata in un'ottica orientata agli oggetti.
 
-Per quanto riguarda il lavoro in gruppo, lo considero l’esperienza più formativa.
+Per quanto riguarda il lavoro in gruppo, lo considero l'esperienza più formativa.
 Sebbene programmi da diversi anni, raramente mi era capitato di affrontare lo sviluppo collaborativo e simultaneo del codice.
 Il coordinamento con i colleghi è stato senza dubbio uno degli aspetti più arricchenti del progetto.
 
-Un altro elemento di grande utilità è stato l’approccio a Git e GitHub: strumenti che non avevo mai utilizzato prima e che ho trovato estremamente pratici ed efficaci nella gestione condivisa del codice.
+Un altro elemento di grande utilità è stato l'approccio a Git e GitHub: strumenti che non avevo mai utilizzato prima e che ho trovato estremamente pratici ed efficaci nella gestione condivisa del codice.
 
-Ritengo che il mio contributo all’interno del gruppo sia stato equilibrato. Sono consapevole che avrei potuto dare di più,
+Ritengo che il mio contributo all'interno del gruppo sia stato equilibrato. Sono consapevole che avrei potuto dare di più,
 ma per esigenze lavorative non sempre mi è stato possibile partecipare al progetto con continuità.
 
 \subsection{Francesco Sacripante}
-Purtroppo vi è stata una più lunga del previsto fase di pre-progetto, in cui cercavamo di strutturare almeno lo scheletro del progetto
-affinchè tutti potessero lavorare in parallelo senza pestare i piedi agli altri.
-E' stata forse una fase troppo lunga, cosa che ci è costata l'iniziare tardi il progetto in sé, però questo ci ha permesso di finire il progetto in sole due/tre settimane.
-Purtroppo non mi sento di aver usato codice avananzato come gli altri componenti, però vado fiero di essere la prima persona ad aver pensato al concetto di macchina a stati( anche se poi l'idea non è stata sviluppata e implementata da me).
+Purtroppo vi è stata una fase di pre-progetto più lunga del previsto, in cui cercavamo di strutturare almeno lo scheletro del progetto affinché tutti potessero lavorare in parallelo senza pestare i piedi agli altri.
+E' stata forse una fase troppo lunga, cosa che ci è costata l'iniziare tardi il progetto in sé, però questo ci ha permesso di finire il progetto in sole tre settimane.
+Purtroppo non mi sento di aver usato codice avanzato come gli altri componenti, però vado fiero di essere la prima persona ad aver pensato al concetto di macchina a stati (anche se poi l'idea non è stata sviluppata e implementata da me).
 Un'altra cosa che mi è piaciuta è l'essere riuscito a coordinare l'avanzamento del progetto ed anche il come sia il prodotto finito, migliorabile ma molto meglio rispetto alle aspettative iniziali.
-E' stato anche molto soddisfacente l'essere riuscito ad implementare la lettura da file json delle varie custom map, siccome l'idea iniziale era di usare un plain text file.
-E sono comunque soddisfatto di aver strutturato il progetto in modo tale da rendere più facile una possibile futura implementazione di file di salvataggio di una partita, siccome basterebbe serializzare il game manager ed il turn manager nel loro stato.
-In generale, contando che all'inizio la realizzazione del progetto sembrava lontanissima, essere arrivato alla fine con questo risultato mi rassicura e rallegra decisamente, inoltre sono contento di come si è lavorato in gruppo ed anche delle cose che ho fatto a livello di codice(lo scheeltro).
+È stato anche molto soddisfacente l'essere riuscito ad implementare la lettura da file json delle varie custom map, siccome l'idea iniziale era di usare un file di testo normale.
+E sono comunque soddisfatto di aver strutturato il progetto in modo tale da rendere più facile una possibile futura implementazione di file di salvataggio di una partita, in quanto basterebbe serializzare il game manager ed il turn manager nel loro stato.
+In generale, contando che all'inizio la realizzazione del progetto sembrava lontanissima, essere arrivato alla fine con questo risultato mi rassicura e rallegra decisamente, inoltre sono contento di come si è lavorato in gruppo ed anche delle cose che ho fatto a livello di codice (lo scheletro).
 
 \appendix
 \chapter{Guida utente}
@@ -316,13 +321,13 @@ I territori sono assegnati randomicamente ad ogni giocatore e viene posizionata 
 Ora a turno i giocatori posizionano le unità a loro rimaste. Il contatore è mostrato nel pannello inferiore. Cliccare su un territorio in possesso a quel giocatore per rinforzarlo fino a quando sono state posizionate tutte le unità. Infine cliccare sul pulsante \textbf{Esegui azione} per permettere al giocatore successivo di rinforzare i propri territori.
 
 \subsubsection{Spostare e selezionare i nodi del grafo}
-È possibile trascinare i nodi del grafo per spostare i nodi in caso si sovrappongano.
+È possibile trascinare i nodi del grafo per spostarli in caso di sovrapposizione.
 Se non è possibile spostare o cliccare i nodi del grafo, impostare il ridimensionamento dello schermo a 100\%. È un bug noto con la libreria GraphStream che stiamo utilizzando (Fonti: \href{https://stackoverflow.com/questions/74860061/graphstream-2-0-mouse-pointer-offset-when-dragging-nodes-not-solved}{StackOverflow}, \href{https://github.com/graphstream/gs-core/issues/301}{Github}).
 \section{Schermata di gioco}
 La fase di preparazione è stata completata. D'ora in avanti si svolgerà il turno di gioco normale fino alla vittoria di un giocatore.
 La mappa è mostrata in alto a destra, dove il colore del territorio rappresenta il giocatore che lo possiede.
 Il pannello a sinistra mostra informazioni relative al giocatore corrente.
-È possibile visualizzare o nascondere la visibilità di dati privati, ovvero le carte e l'obiettivo, cliccando sul pulsante \textbf{Show Cards} o \textbf{Hide Cards}.
+È possibile visualizzare o nascondere i dati privati, ovvero le carte e l'obiettivo, cliccando sul pulsante \textbf{Show Cards} o \textbf{Hide Cards}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{user_guide/5_game_screen_show.png}
@@ -338,7 +343,7 @@ Il pannello a sinistra mostra informazioni relative al giocatore corrente.
 \begin{itemize}
 	\item Sconfiggere un determinato giocatore o conquistare 24 territori.
 	\item Conquistare 18 territori e occuparli tutti con almeno 2 unità.
-	\item Conquista certi continenti, scelti in modo che la somma dei territori in quei continenti sia maggiore di 16.
+	\item Conquistare dei continenti, scelti in modo che la somma dei territori sia maggiore di 16.
 \end{itemize}
 
 \section{Fase di rinforzi}
@@ -353,9 +358,9 @@ Inoltre, se il giocatore possiede tutti i territori di un continente, ottiene un
 \end{figure}
 
 Prima di posizionare le unità, il giocatore può giocare una o più combo di carte. Per ottenere una carta, un giocatore deve conquistare almeno un territorio durante la fase di attacco del suo turno.
-Ogni carta ha un seme (\textbf{Canone}, \textbf{Fante}, \textbf{Cavaliere}) e un territorio.
+Ogni carta ha un seme (\textbf{Cannone}, \textbf{Fante}, \textbf{Cavaliere}) e un territorio.
 Nel mazzo sono presenti anche due carte \textbf{Jolly}.
-\\
+
 Le combo utilizzabili sono le seguenti:
 \begin{itemize}
 	\item 3 cannoni: 4 unità.
@@ -377,25 +382,23 @@ L'aggiunta di unità sui territori del giocatore avviene come nella fase di rinf
 Una volta posizionate tutte le unità, cliccare sul pulsante \textbf{Esegui azione} per passare alla fase di attacco.
 
 \section{Fase di attacco}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{user_guide/9_excecuting attack.png}
+	\caption{Fase di attacco tra Indonesia e Australia Occidentale.}
+\end{figure}
 La fase di attacco permette a un giocatore di utilizzare le unità posizionate su un suo territorio per attaccare e conquistare un territorio adiacente di un altro giocatore.
 
-Occorre pianificare l'attacco in vari passaggi, dopo ognuno bisogna cliccare il pulsante \textbf{Esegui azione} per passare allo stato successivo:
+Occorre pianificare l'attacco in vari passaggi, dopo i quali bisogna cliccare il pulsante \textbf{Esegui azione} per passare allo stato successivo:
 \begin{enumerate}
 	\item Cliccare il territorio con cui attaccare, facendo attenzione che abbia un territorio nemico adiacente e che sia occupato da almeno due unità.
 	\item Cliccare il territorio da attaccare. Dev'essere adiacente al territorio con cui si sta attaccando e deve appartenere a un giocatore avversario.
 	\item Scegliere con quante unità bisogna svolgere l'attacco. Un massimo di 3 unità possono essere usate per attaccare, ma in caso di conquista del territorio tutte le unità definite qui saranno spostate nel territorio conquistato. Il numero di unità con cui attaccare deve essere compreso tra uno e il numero di unità del territorio con cui si sta attaccando meno uno.
 \end{enumerate}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{user_guide/9_excecuting attack.png}
-	\caption{Fase di attacco tra Indonesia e Australia Occidentale.}
-\end{figure}
-
 Per eseguire l'attacco tirando i dadi bisogna cliccare un'ultima volta sul pulsante \textbf{Esegui azione}.
 A seconda dell'esito dell'attacco, le unità sconfitte saranno rimosse dai territori.
-Nel caso in cui le unità difensori sconfitte siano state le ultime unità presenti su quel territorio, esso sarà conquistato dal giocatore attaccante, e tutte le unità attaccanti rimaste saranno spostate nel territorio conquistato.
-
+Nel caso in cui le unità difensori sconfitte siano state le ultime unità presenti su quel territorio, esso sarà conquistato dal giocatore attaccante e tutte le unità attaccanti rimaste saranno spostate nel territorio conquistato.
 
 Se durante la fase di attacco il giocatore ha conquistato almeno un territorio, otterrà una Carta Territorio, che sarà utilizzabile per giocare combo nei turni successivi.
 Il giocatore corrente potrà decidere di effettuare altri attacchi o passare alla fase di spostamento strategico cliccando sul pulsante \textbf{Cambia stato}.
@@ -418,7 +421,7 @@ Per ogni coppia di risultati, il dado attaccante deve essere strettamente maggio
 \end{figure}
 
 \section{Fase di spostamento strategico}
-La fase di spostamento strategico permette di spostare delle unità da un territorio a un altro territorio adiacente, entrambi di proprietà del giocatore corrente, in un solo senso.
+La fase di spostamento strategico permette di spostare delle unità da un territorio ad un territorio adiacente, entrambi di proprietà del giocatore corrente, in un solo senso.
 
 \begin{figure}[H]
 	\centering
@@ -426,11 +429,11 @@ La fase di spostamento strategico permette di spostare delle unità da un territ
 	\caption{Spostamento di un'unità dalla Nuova Guinea all'Australia Occidentale.}
 \end{figure}
 
-Come nella fase di attacco, bisogna pianificare lo spostamento, dove per passare allo stato successivo bisogna cliccare il pulsante \textbf{Esegui azione}:
+Come nella fase di attacco, bisogna pianificare lo spostamento. Per passare allo stato successivo bisogna cliccare il pulsante \textbf{Esegui azione}:
 \begin{enumerate}
 	\item Cliccare il territorio da cui spostare le unità, facendo attenzione che abbia almeno due unità e che sia adiacente a un territorio dello stesso giocatore.
-	\item Cliccare il territorio dove le unità verranno spostate. Dev'essere adiacente al territorio da cui si sta spostando e di proprietà del giocatore.
-	\item Scegliere quante unità spostare, dev'essere un numero compreso tra uno e il numero massimo di unità in quello di partenza meno uno.
+	\item Cliccare il territorio dove le unità verranno spostate. Dev'essere adiacente al territorio scelto nel passaggio precedente e di proprietà del giocatore.
+	\item Scegliere quante unità spostare. Dev'essere un numero compreso tra uno e il numero massimo di unità del territorio di partenza meno uno.
 \end{enumerate}
 
 Per confermare lo spostamento, cliccare un'ultima volta il pulsante \textbf{Esegui azione}.
