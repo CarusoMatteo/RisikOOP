@@ -2,6 +2,7 @@ package it.unibo.risikoop.controller.implementations;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,12 +44,12 @@ public final class DataAddingControllerImpl implements DataAddingController {
         return gameManager.addPlayer(nome, new Color(r, g, b));
     }
 
-    private boolean loadFromJson(final File file) {
+    private boolean loadFromJson(final InputStream stream, final String fileName) {
         final ObjectMapper mapper = new ObjectMapper();
-        final Graph newMap = new MultiGraph(file.getName(), false, true);
+        final Graph newMap = new MultiGraph(fileName, false, true);
         final Map<String, Continent> cm = new HashMap<>();
         try {
-            final JsonResult data = mapper.readValue(file, JsonResult.class);
+            final JsonResult data = mapper.readValue(stream, JsonResult.class);
             for (final var edge : data.edges) {
                 final String edge1 = edge.get(0);
                 final String edge2 = edge.get(1);
@@ -76,12 +77,22 @@ public final class DataAddingControllerImpl implements DataAddingController {
 
     @Override
     public boolean loadWorldFromFile(final File file) {
-        return loadFromJson(file);
+        try (InputStream stream = new java.io.FileInputStream(file)) {
+            return loadFromJson(stream, file.getName());
+        } catch (final IOException e) {
+            return false;
+        }
     }
 
     @Override
     public void setDefaultMap() {
-        this.loadFromJson(new File(getClass().getResource("/CanonicalMap.json").getPath()));
+        try (InputStream stream = getClass().getResourceAsStream("/CanonicalMap.json")) {
+            if (stream == null || !loadFromJson(stream, "default")) {
+                throw new IllegalStateException("Could not load default map");
+            }
+        } catch (final IOException e) {
+            throw new IllegalStateException("Failed to load default map", e);
+        }
     }
 
     private record JsonResult(List<List<String>> edges, Map<String, Integer> continents,

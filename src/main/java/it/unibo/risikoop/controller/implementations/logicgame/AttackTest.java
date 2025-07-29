@@ -46,13 +46,10 @@ public final class AttackTest implements LogicAttack {
 
     @Override
     public void enableFastAttack() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public Optional<AttackResult> showAttackResults() {
-        // TODO Auto-generated method stub
         return Optional.empty();
     }
 
