@@ -31,7 +31,6 @@ public final class ConquerContinentsSpec implements Specification<PlayerGameCont
 
     @Override
     public boolean isSatisfiedBy(final PlayerGameContext ctx) {
-        // nice
         return ctx.player().getTerritories().containsAll(
                 continents.stream()
                         .flatMap(continent -> continent.getTerritories().stream())

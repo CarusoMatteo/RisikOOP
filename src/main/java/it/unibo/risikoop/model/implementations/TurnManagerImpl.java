@@ -45,7 +45,6 @@ public final class TurnManagerImpl implements TurnManager {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         } while (players.get(currentPlayerIndex).isEliminated());
 
-        // nice
         isLast = players.stream().filter(p -> !p.isEliminated()).toList().getLast()
                 .equals(players.get(currentPlayerIndex));
 
