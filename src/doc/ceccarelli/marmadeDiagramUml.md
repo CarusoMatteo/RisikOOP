@@ -96,7 +96,6 @@ direction TB
     PhaseWithUnits <|-- MovementPhase
 ```
 ## 2.2.2 Composizione delle condizioni di vittoria con Specification Pattern
-```mermaid
 classDiagram
 direction TB
 
@@ -120,12 +119,6 @@ class KillPlayerOrConquer24TerritoriesSpec {
     +isSatisfiedBy(PlayerGameContext ctx) boolean
 }
 
-class ObjectiveCard {
-    <<interface>>
-    +isAchieved() boolean
-    +getDescription() String
-}
-
 class ObjectiveCardImpl {
     -winCond Specification~PlayerGameContext~
     +isAchieved() boolean
@@ -141,6 +134,4 @@ Specification~PlayerGameContext~ <|-- KillPlayerSpec
 Specification~PlayerGameContext~ <|-- KillPlayerOrConquer24TerritoriesSpec
 
 %% RELAZIONI REALE DI USO
-ObjectiveCard <|-- ObjectiveCardImpl
 ObjectiveCardImpl --> Specification~PlayerGameContext~ : uses
-```
