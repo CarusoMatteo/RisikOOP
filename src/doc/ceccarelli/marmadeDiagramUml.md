@@ -1,4 +1,5 @@
-**2.2.1 Gestione del “mazzo” di carte obiettivo**
+## 2.2.1 Gestione del “mazzo” di carte obiettivo
+```mermaid
 classDiagram
     class ObjectiveCardFactory{
         <<interface>>
@@ -6,13 +7,13 @@ classDiagram
     }
 
     class AbstractObjectiveCardBuilder {
-        <<abstarct>>
+        <<abstract>>
         +createCard() ObjectiveCard
         #buildDescription() String
         #buildSpecification() Specification
     }
 
-    class ConquerNContinetsBuilder {
+    class ConquerNContinentsBuilder {
 
     }
 
@@ -22,23 +23,13 @@ classDiagram
     class KillPlayerOrConquer24Builder {
     }
 
-    AbstractObjectiveCardBuilder <|-- ConquerNContinetsBuilder
+    AbstractObjectiveCardBuilder <|-- ConquerNContinentsBuilder
     AbstractObjectiveCardBuilder <|-- ConquerNTerritoriesWithXArmiesBuilder
     AbstractObjectiveCardBuilder <|-- KillPlayerOrConquer24Builder
     ObjectiveCardFactory <|-- AbstractObjectiveCardBuilder
----
-
-**2.2.3 Gestione delle fasi di gioco**
----
-
----
-config:
-  class:
-    hideEmptyMembersBox: false
-  layout: elk
-  look: classic
-  theme: mc
----
+```
+## 2.2.3 Gestione delle fasi di gioco
+```mermaid
 classDiagram
 direction TB
     class GamePhase {
@@ -50,7 +41,7 @@ direction TB
         <<interface>>
 	    + String getInnerStatePhaseDescription()
     }
-    class PhaseWithActionToPerforme {
+    class PhaseWithActionToPerform {
         <<interface>>
 	    + void performAction()
     }
@@ -91,9 +82,9 @@ direction TB
     PhaseDescribable <|-- InitialReinforcementPhase
     PhaseDescribable <|-- MovementPhase
     PhaseDescribable <|-- ReinforcementPhase
-    PhaseWithActionToPerforme <|-- AttackPhase
-    PhaseWithActionToPerforme <|-- InitialReinforcementPhase
-    PhaseWithActionToPerforme <|-- MovementPhase
+    PhaseWithActionToPerform <|-- AttackPhase
+    PhaseWithActionToPerform <|-- InitialReinforcementPhase
+    PhaseWithActionToPerform <|-- MovementPhase
     PhaseWithAttack <|-- AttackPhase
     PhaseWithInitialization <|-- AttackPhase
     PhaseWithInitialization <|-- InitialReinforcementPhase
@@ -103,45 +94,72 @@ direction TB
     PhaseWithTransaction <|-- MovementPhase
     PhaseWithUnits <|-- AttackPhase
     PhaseWithUnits <|-- MovementPhase
----
+```
 
-**2.2.2 Composizione delle condizioni di vittoria con Specification Pattern**
+```mermaid
 classDiagram
-    class Specification~T~ {
+direction TB
+    class GamePhase {
         <<interface>>
-        +isSatisfiedBy(candidate T) boolean
-        +and(other Specification~T~) Specification~T~
-        +or(other Specification~T~) Specification~T~
-        +not() Specification~T~
+	    +boolean selectTerritory(Territory t)
+	    +boolean isComplete()
     }
-
-    class KillPlayerSpec {
-        +isSatisfiedBy(ctx PlayerGameContext) boolean
+    class AttackPhase {
     }
-
-    class ConquerTerritoriesSpec {
-        +isSatisfiedBy(ctx PlayerGameContext) boolean
+    class ComboPhaseImpl {
     }
-
-    class ConquerContinentsSpec {
-        +isSatisfiedBy(ctx PlayerGameContext) boolean
+    class InitialReinforcementPhase {
     }
-
-    class ConquerTerritoriesWithMinArmiesSpec {
-        +isSatisfiedBy(ctx PlayerGameContext) boolean
+    class MovementPhase {
     }
-
-    class KillPlayerOrConquer24TerritoriesSpec {
-        +isSatisfiedBy(candidate PlayerGameContext) boolean
+    class ReinforcementPhase {
     }
+    GamePhase <|-- AttackPhase
+    GamePhase <|-- ComboPhaseImpl
+    GamePhase <|-- InitialReinforcementPhase
+    GamePhase <|-- MovementPhase
+    GamePhase <|-- ReinforcementPhase
+    
+```
+## 2.2.2 Composizione delle condizioni di vittoria con Specification Pattern
+```mermaid
+classDiagram
+direction TB
 
-    %% Inheritance from Specification
-    Specification~T~ <|.. KillPlayerSpec
-    Specification~T~ <|.. ConquerTerritoriesSpec
-    Specification~T~ <|.. ConquerContinentsSpec
-    Specification~T~ <|.. ConquerTerritoriesWithMinArmiesSpec
-    Specification~T~ <|.. KillPlayerOrConquer24TerritoriesSpec
+class Specification~T~ {
+    +isSatisfiedBy(T candidate) boolean
+    +and(Specification~T~ other) Specification~T~
+    +or(Specification~T~ other) Specification~T~
+    +not() Specification~T~
+}
 
-    %% Usage relationships
-    KillPlayerOrConquer24TerritoriesSpec ..> KillPlayerSpec
-    KillPlayerOrConquer24TerritoriesSpec ..> ConquerTerritoriesSpec
+class ConquerTerritoriesWithMinArmiesSpec {
+    +isSatisfiedBy(PlayerGameContext ctx) boolean
+}
+class ConquerContinentsSpec {
+    +isSatisfiedBy(PlayerGameContext ctx) boolean
+}
+class KillPlayerSpec {
+    +isSatisfiedBy(PlayerGameContext ctx) boolean
+}
+class KillPlayerOrConquer24TerritoriesSpec {
+    +isSatisfiedBy(PlayerGameContext ctx) boolean
+}
+
+class ObjectiveCardImpl {
+    -winCond Specification~PlayerGameContext~
+    +isAchieved() boolean
+    +getDescription() String
+}
+
+<<interface>> Specification
+
+%% IMPLEMENTAZIONI DI SPECIFICHE
+Specification~PlayerGameContext~ <|-- ConquerTerritoriesWithMinArmiesSpec
+Specification~PlayerGameContext~ <|-- ConquerContinentsSpec
+Specification~PlayerGameContext~ <|-- KillPlayerSpec
+Specification~PlayerGameContext~ <|-- KillPlayerOrConquer24TerritoriesSpec
+
+%% RELAZIONI REALE DI USO
+ObjectiveCardImpl --> Specification~PlayerGameContext~ : uses
+```
