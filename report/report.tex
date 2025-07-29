@@ -133,35 +133,35 @@ Ho usato il pattern \textit{Template method}.
 Creo una classe astratta \texttt{AbstractObjectiveCardBuilder} che incorpora la logica di creazione delle carte esponendo i metodo astratti primitivi \texttt{buildDescription} e \texttt{buildSpecification}, che genera la carta mediante il metodo template \texttt{createCard}.
 
 Ho preferito l'utilizzo del \textit{template method} rispetto al \textit{pattern strategy} perché mi permetteva meglio di isolare nelle classi che ereditano la \\\texttt{AbstractObjectiveCardBuilder} unicamente gli elementi che differiscono tra i le varie tipologie, incorporando gli aspetti comuni legati alla loro creazione.
-% TODO: Missing UML
+\begin{figure}[H]
+	\centering
+	\includesvg[width=1\textwidth]{svg/detailed_design_deck_managment_ceccarelli.svg}
+	\caption{TODO}
+\end{figure}
 \subsubsection{Composizione delle condizioni di vittoria con Specification Pattern}
 \paragraph{Problema}
 Avere un modo semplice, espressivo e componibile per definire e controllare la condizione di vittoria delle carte obbiettivo, che spesso condividono aspetti di logiche comuni, come ad esempio conquista X territorio, o conquista almeno N territori con almeno M truppe.
 \paragraph{Soluzione}
 Lo specification pattern mi permette di rispondere a questa esigenza e, mediante la combinazione logica di tante piccole condizioni atomiche, mi consente di realizzare espressioni logiche più o meno complesse. La parte centrale del pattern risiede nell'interfaccia funzionale \texttt{Specification} che espone i metodi \texttt{and}, \texttt{or}, \texttt{not} responsabile della composizione delle varie specifiche.
-%@FunctionalInterface
-%public interface Specification<T> {
-%    boolean isSatisfiedBy(T candidate);
-%
-%    default Specification<T> and(Specification<T> other) { … }
-%    default Specification<T> or(Specification<T> other) { … }
-%    default Specification<T> not() { … }
-%}
 I vantaggi introdotti da questo pattern mi hanno portato a preferire questa soluzione, all' alternative di Strategy che non si prestava al riutilizzo di logiche comuni, come ad esempio conquista N territori.
 La scelta dello Specification Pattern si è rivelata dunque la più adatta per astrarre la logica di verifica dell'obiettivo dalla costruzione della carta, massimizzando il riuso e mantenendo il design pulito e modulare.
-% TODO: Missing UML
+\begin{figure}[H]
+	\centering
+	\includesvg[width=1\textwidth]{svg/detailed_design_victory_condition_ceccarelli.svg}
+	\caption{TODO}
+\end{figure}
 
 \subsubsection{Gestione delle fasi di gioco}
 \paragraph{Problema}
 RisikOOP è un gioco a turni in cui, in base alla fase corrente, gli stessi eventi della GUI (ad es. \texttt{selectTerritory} o \texttt{performAction}) devono produrre comportamenti diversi.
 \paragraph{Soluzione}
 Si è adottato il pattern \textit{Strategy}, modellando ogni fase di gioco come una strategia indipendente, aderente all'interfaccia base \texttt{GamePhase}.
-%   public interface GamePhase {
-%     boolean selectTerritory(Territory t);
-%     boolean isComplete();
-%   }
 In Più dato che non tutti gli eventi interessano ogni fase del gioco si è scelto di creare tante piccole interfacce ognuna responsabile di incapsulare la logica di un'azione specifica, così facendo ogni fase implementava unicamente le interfacce delle azioni corrispondenti.
-% TODO: Missing UML
+\begin{figure}[H]
+	\centering
+	\includesvg[width=1\textwidth]{svg/detailed_design_game_phase_ceccarelli.svg}
+	\caption{TODO}
+\end{figure}
 \subsection{Francesco Sacripante}
 \subsubsection{Creazione della logica delle prime due fasi}
 \paragraph{Problema}
