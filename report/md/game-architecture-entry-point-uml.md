@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
 direction TB
     class ControllerImpl {
@@ -54,7 +55,7 @@ direction TB
 	    +getInnerStatePhaseDescription() String
 	    +getTurnManager() TurnManager
 	    +nextPlayer()
-	    +getCurrentPhase() GaemPhase
+	    +getCurrentPhase() GamePhase
     }
 
 	<<interface>> RisikoView
@@ -69,4 +70,4 @@ direction TB
     DataRetrieveController --* ControllerImpl
     CardGameController --* ControllerImpl
     GamePhaseController --* ControllerImpl
-
+```

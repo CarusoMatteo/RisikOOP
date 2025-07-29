@@ -93,11 +93,13 @@ La separazione permette di aggiungere facilmente altre \texttt{RisikoView} se ne
 Le fasi di gioco sono state modellate con una \begin{itshape}State Machine\end{itshape}, un paradigma di programmazione che permette di dividere il sistema in varie sotto-fasi, detti anche \begin{itshape}stati\end{itshape}. Ogni fase ha la propria logica diversa da quella di tutte le altre. Nel programma si riconoscono perché implementano \texttt{GamePhase}.
 Questo paradigma favorisce il \begin{itshape}Single Responsibility Principle\end{itshape}, siccome ogni fase è responsabile internamente della propria gestione.
 Un'altro vantaggio risiede nella chiarezza con cui descrive in che punto dell'esecuzione si trova l'applicazione, siccome può essere in una sola fase alla volta.
+\pagebreak
 \begin{figure}[H]
 	\centering
 	\includesvg[width=1\textwidth]{svg/mvc-entry-point-completed.svg}
 	\caption{UML degli entry point dell'architettura MVC.}
 \end{figure}
+\pagebreak
 
 \section{Design dettagliato}
 \subsection{Matteo Caruso}
