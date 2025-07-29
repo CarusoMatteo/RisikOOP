@@ -174,7 +174,7 @@ Scomporre il controller in diversi tipi di controller.
 	\includesvg[width=1\textwidth]{svg/detailed-design-multiple-cont-sacripante.svg}
 	\caption{UML dei vari controller per le prime due fasi di gioco.}
 \end{figure}
-Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingController} permette di impostare giocatori e la mappa, mentre \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente. Infine \texttt{TurnManager} permette di gestire le fasi del gioco.
+Risiko è un software molto legato alla visualizzazione del gioco, quindi per favorire il \begin{itshape}Separation of Concerns\end{itshape}, il controller è diviso in sotto-controller: \texttt{DataAddingController} permette di impostare giocatori e la mappa, mentre \texttt{DataRetrieveController} favorisce l'ottenimento di informazioni quali il giocatore corrente.
 \subsubsection{Aggiornamento dei colori dei territori della view}
 \paragraph{Problema}
 Durante il gioco, se un giocatore conquista un territorio, questo deve istantaneamente cambiare colore nel colore del nuovo proprietario.
