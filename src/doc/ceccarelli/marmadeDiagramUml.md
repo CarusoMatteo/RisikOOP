@@ -119,8 +119,38 @@ direction TB
     GamePhase <|-- InitialReinforcementPhase
     GamePhase <|-- MovementPhase
     GamePhase <|-- ReinforcementPhase
-    
 ```
+```mermaid
+classDiagram
+direction TB
+    class PhaseWithAttack {
+        <<interface>>
+	    + Optional showAttackResults()
+	    + void enableFastAttack()
+    }
+    class PhaseWithTransaction {
+        <<interface>>
+	    + void nextState()
+	    + InternalState getInternalState()
+    }
+    class PhaseWithUnits {
+        <<interface>>
+	    + void setUnitsToUse(int units)
+    }
+
+    class AttackPhase {
+    }
+    class MovementPhase {
+    }
+
+
+    PhaseWithAttack <|-- AttackPhase
+    PhaseWithTransaction <|-- AttackPhase
+    PhaseWithTransaction <|-- MovementPhase
+    PhaseWithUnits <|-- AttackPhase
+    PhaseWithUnits <|-- MovementPhase
+```
+
 ## 2.2.2 Composizione delle condizioni di vittoria con Specification Pattern
 ```mermaid
 classDiagram
