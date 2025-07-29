@@ -96,6 +96,7 @@ direction TB
     PhaseWithUnits <|-- MovementPhase
 ```
 ## 2.2.2 Composizione delle condizioni di vittoria con Specification Pattern
+```mermaid
 classDiagram
 direction TB
 
@@ -135,3 +136,4 @@ Specification~PlayerGameContext~ <|-- KillPlayerOrConquer24TerritoriesSpec
 
 %% RELAZIONI REALE DI USO
 ObjectiveCardImpl --> Specification~PlayerGameContext~ : uses
+```
