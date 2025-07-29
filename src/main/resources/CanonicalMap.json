@@ -1,19 +1,19 @@
 {
     "edges": [
-        ["Alaska", "Norht-West Terriotries"],
+        ["Alaska", "North-West Territories"],
         ["Alaska", "Alberta"],
         ["Alaska", "Kamchatka"],
-        ["Alberta", "Norht-West Terriotries"],
+        ["Alberta", "North-West Territories"],
         ["Alberta", "Ontario"],
         ["Alberta", "Western United States"],
         ["Central America", "Western United States"],
         ["Central America", "Eastern United States"],
         ["Central America", "Venezuela"],
-        ["Greenland", "Norht-West Terriotries"],
+        ["Greenland", "North-West Territories"],
         ["Greenland", "Ontario"],
         ["Greenland", "Quebec"],
         ["Greenland", "Iceland"],
-        ["Ontario", "Norht-West Terriotries"],
+        ["Ontario", "North-West Territories"],
         ["Ontario", "Quebec"],
         ["Ontario", "Eastern United States"],
         ["Ontario", "Western United States"],
@@ -101,7 +101,7 @@
             "Quebec",
             "Western United States",
             "Eastern United States",
-            "Norht-West Terriotries"
+            "North-West Territories"
         ],
         "South America": [
             "Argentina",
