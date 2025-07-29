@@ -1,0 +1,19 @@
+Credo che la parte meglio riuscita del progetto sia stata l’implementazione delle carte obiettivo. 
+È stata infatti la sezione in cui ho potuto maggiormente cimentarmi nel design, sperimentando soluzioni che ritengo valide, 
+facilmente estendibili e manutenibili. Ho trovato estremamente interessante osservare concretamente come i diversi pattern 
+architetturali possano essere combinati tra loro in modo armonico.
+
+La parte che mi ha coinvolto di meno è stata invece la gestione delle fasi di gioco tramite macchina a stati. 
+Pur ritenendo questa scelta la più adatta in termini di chiarezza, leggibilità, logica e mantenibilità del codice 
+- e rappresentando un approccio tipico del mondo industriale nel quale lavoro da anni - 
+l’ho trovata meno stimolante, nonostante in questo progetto l’abbia rielaborata in un’ottica orientata agli oggetti.
+
+Per quanto riguarda il lavoro in gruppo, lo considero l’esperienza più formativa. 
+Sebbene programmi da diversi anni, raramente mi era capitato di affrontare lo sviluppo collaborativo e simultaneo del codice. 
+Il coordinamento con i colleghi è stato senza dubbio uno degli aspetti più arricchenti del progetto.
+
+Un altro elemento di grande utilità è stato l’approccio a Git e GitHub: strumenti che non avevo mai utilizzato prima e che ho trovato 
+estremamente pratici ed efficaci nella gestione condivisa del codice.
+
+Ritengo che il mio contributo all’interno del gruppo sia stato equilibrato. Sono consapevole che avrei potuto dare di più, 
+ma per esigenze lavorative non sempre mi è stato possibile partecipare al progetto con continuità.
