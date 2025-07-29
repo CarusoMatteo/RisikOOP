@@ -81,7 +81,7 @@ public final class SwingView implements RisikoView {
     public void beginPlay() {
         final MapSceneImpl mapSceneImpl = new MapSceneImpl(this.controller);
         mapScene = Optional.of(mapSceneImpl);
-        changePanel(frame, new GameOverPanel(controller));
+        changePanel(frame, mapSceneImpl);
     }
 
     @Override
