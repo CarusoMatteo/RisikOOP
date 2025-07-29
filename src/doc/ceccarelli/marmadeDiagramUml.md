@@ -95,6 +95,32 @@ direction TB
     PhaseWithUnits <|-- AttackPhase
     PhaseWithUnits <|-- MovementPhase
 ```
+
+```mermaid
+classDiagram
+direction TB
+    class GamePhase {
+        <<interface>>
+	    +boolean selectTerritory(Territory t)
+	    +boolean isComplete()
+    }
+    class AttackPhase {
+    }
+    class ComboPhaseImpl {
+    }
+    class InitialReinforcementPhase {
+    }
+    class MovementPhase {
+    }
+    class ReinforcementPhase {
+    }
+    GamePhase <|-- AttackPhase
+    GamePhase <|-- ComboPhaseImpl
+    GamePhase <|-- InitialReinforcementPhase
+    GamePhase <|-- MovementPhase
+    GamePhase <|-- ReinforcementPhase
+    
+```
 ## 2.2.2 Composizione delle condizioni di vittoria con Specification Pattern
 classDiagram
 direction TB
